@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# This script ensures the main nokkvi repository is available.
+# In local development (Docker), we mount the sibling directory.
+# In CI/Production, we clone the repository.
+
+# Fix for dubious ownership in Docker
+git config --global --add safe.directory /app/nokkvi
+
+if [ -d "nokkvi/.git" ]; then
+    echo "Detected local/mounted nokkvi repository. Skipping network pull."
+    exit 0
+fi
+
+if [ -d "nokkvi" ]; then
+    echo "Updating local nokkvi copy..."
+    cd nokkvi && git pull && cd ..
+else
+    echo "Cloning nokkvi repository..."
+    git clone https://github.com/f-o-o-g-s/nokkvi.git nokkvi
+fi

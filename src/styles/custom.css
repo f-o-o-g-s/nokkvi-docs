@@ -1,0 +1,39 @@
+:root {
+  /* Everforest Light (from nokkvi everforest.toml) */
+  --sl-color-accent-low: #e6e2cc;
+  --sl-color-accent: #8da101;
+  --sl-color-accent-high: #5c6a72;
+  --sl-color-white: #5c6a72;
+  --sl-color-gray-1: #5c6a72;
+  --sl-color-gray-2: #829181;
+  --sl-color-gray-3: #a6b0a0;
+  --sl-color-gray-4: #bdc3af;
+  --sl-color-gray-5: #e6e2cc;
+  --sl-color-gray-6: #efe6d4;
+  --sl-color-black: #fdf6e3;
+}
+
+:root[data-theme='dark'] {
+  /* Everforest Dark (from nokkvi everforest.toml) */
+  --sl-color-accent-low: #3d484d;
+  --sl-color-accent: #8da101;
+  --sl-color-accent-high: #a7c080;
+  --sl-color-white: #d3c6aa;
+  --sl-color-gray-1: #d3c6aa;
+  --sl-color-gray-2: #9da9a0;
+  --sl-color-gray-3: #859289;
+  --sl-color-gray-4: #4f585e;
+  --sl-color-gray-5: #3d484d;
+  --sl-color-gray-6: #343f44;
+  --sl-color-black: #2d353b;
+}
+
+/* Custom spacing and code block styles to match rmpc feel */
+:root {
+    --sl-content-width: 62rem;
+    --sl-sidebar-width: 19rem;
+}
+
+.starlight-aside {
+    border-radius: 8px;
+}

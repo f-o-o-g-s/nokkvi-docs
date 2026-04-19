@@ -6,13 +6,14 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'My Docs',
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+			title: 'Nokkvi',
+			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/f-o-o-g-s/nokkvi' }],
+			customCss: ['./src/styles/custom.css'],
 			sidebar: [
 				{
 					label: 'Guides',
 					items: [
-						// Each item here is one entry in the navigation menu.
+						{ label: 'Installation', slug: 'guides/installation' },
 						{ label: 'Example Guide', slug: 'guides/example' },
 					],
 				},
