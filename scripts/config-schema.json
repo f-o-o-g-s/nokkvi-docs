@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-26T21:19:14.909Z",
+  "generated_at": "2026-04-26T21:28:25.630Z",
   "nokkvi_path": "/home/foogs/nokkvi",
   "settings": [
     {
@@ -528,7 +528,7 @@
         "replay_gain_track",
         "replay_gain_album"
       ],
-      "doc": "Volume normalization mode (default: Off).  On-disk key is `volume_normalization_mode`; the legacy boolean `volume_normalization` is read into `volume_normalization_legacy` for one-shot migration.",
+      "doc": "Volume normalization mode (default: Off). On-disk key is `volume_normalization_mode`.",
       "sourceFile": "data/src/types/toml_settings.rs"
     },
     {

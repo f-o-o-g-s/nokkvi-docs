@@ -334,11 +334,7 @@ function buildSetting(field, defaultExpr, opts = {}) {
 // or read by users in `config.toml`. The drift checker would otherwise flag
 // them forever as "added but undocumented". Keep this list tight — anything
 // here is a deliberate decision to hide an implementation detail.
-const HIDDEN_KEYS = new Set([
-  // Migration shim for the legacy `volume_normalization: bool` shape; cleared
-  // after the first save once `volume_normalization_mode` is canonical.
-  'volume_normalization_legacy',
-]);
+const HIDDEN_KEYS = new Set();
 
 const settings = [];
 
