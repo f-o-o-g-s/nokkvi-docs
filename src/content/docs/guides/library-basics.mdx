@@ -1,0 +1,81 @@
+---
+title: Library Basics
+description: Navigation, search, multi-select, and ratings — conventions shared by every library view.
+sidebar:
+  order: 1
+---
+
+The Albums, Artists, Songs, Genres, Playlists, and Radio views share a common interaction model. This page documents the conventions once so the per-view guides only have to cover what's unique to each.
+
+For an exhaustive list of every shortcut and how to rebind it, see [Keyboard Shortcuts](/reference/hotkeys/).
+
+## Navigation
+
+| Key | Action |
+| :-- | :----- |
+| `Backspace` | Move the focused row up |
+| `Tab` | Move the focused row down |
+| `Enter` | Activate the focused item — usually plays it |
+| `Shift + Enter` | Expand / collapse the focused item *(views that support inline expansion)* |
+| `Shift + C` | Center the list on the currently playing track |
+| `R` | Refresh the view from the server |
+
+A **slot list** is the scrollable list at the center of each view. The "focused" or "centered" row is the one selected for keyboard actions. Mouse clicks normally focus and play in one step.
+
+## Search
+
+`/` focuses the search bar. `Escape` clears it.
+
+Search is case-insensitive in every view. The fields each view's search hits vary — see the per-view page when in doubt. Most views use Navidrome's full-text index, which matches across title/album/artist; a few (Genres, Radio, Playlists) match a more limited set.
+
+## Sorting
+
+| Key | Action |
+| :-- | :----- |
+| `Left` | Previous sort mode |
+| `Right` | Next sort mode |
+| `Page Up` | Toggle ascending / descending |
+
+Each view exposes its own set of sort modes — see the per-view guide. The dynamic column on the right side of the row often adapts to the current sort (e.g. showing release year, play count, or genre).
+
+## Multi-select
+
+| Modifier | Behavior |
+| :------- | :------- |
+| `Ctrl + Click` | Toggle the clicked row in the selection |
+| `Shift + Click` | Range-select from the anchor to the clicked row |
+| `Escape` | Clear the selection |
+
+When a selection is active, **Enter** plays everything selected and **Shift + A** queues everything selected. Right-clicking a selected row applies the chosen context-menu action to the whole selection. Changing search, sort, or refreshing usually clears the selection.
+
+## Stars and ratings
+
+Two distinct concepts:
+
+- **Love / star** is a boolean — a track, album, or artist is either favorited or not. Toggle it with `Shift + L`, or click the heart icon in the **Love** column.
+- **Rating** is 0–5 stars. Click a star to set it directly; click the same star again to clear. Or use `=` and `-` to step the focused item's rating up or down.
+
+Sorting by **Favorited** puts starred items first; sorting by **Rating** orders by star count. Both columns auto-show when you sort by them, even if you've toggled them off.
+
+## Click-through filters
+
+Many views render the artist, album, or genre as clickable text on each row. Clicking those values jumps you to the corresponding view filtered to just that artist / album / genre. For example, clicking an artist name on a song row takes you to the Artists view filtered to that artist.
+
+Click-through is permanent — there's no transient "show only" mode. Use the search bar or refresh (`R`) to clear the filter.
+
+## Common context menu actions
+
+Most library views share these right-click actions, with the per-view guide listing any extras:
+
+| Action | What it does |
+| :----- | :----------- |
+| **Add to Queue** | Append the focused item (or selection) to the queue |
+| **Add to Playlist** | Open a dialog to append to an existing playlist or create a new one |
+| **Get Info** | Open a modal with full metadata |
+| **Show in File Manager** | Open the OS file manager at the item's folder |
+
+**Show in File Manager** requires `local_music_path` to be set in your config (the directory where Nokkvi can find your music files locally) — see [Configuration](/reference/config/).
+
+## Columns
+
+Most views expose a gear icon in the header that toggles optional columns (Stars, Plays, Album, Love, etc.). Toggles persist per-view.

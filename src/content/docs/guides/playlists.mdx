@@ -7,41 +7,23 @@ import { Aside } from '@astrojs/starlight/components';
 
 The Playlists view shows every playlist on your Navidrome server. Click a playlist to expand its tracks inline, or right-click for the full set of actions.
 
+For navigation, search, multi-select, ratings, and shared right-click actions, see [Library Basics](/guides/library-basics/).
+
 ## Browsing
 
-Playlists are shown with cover art (a 3×3 collage if the playlist spans multiple albums), name, owner, song count, and duration. Use `/` to focus the search bar — it filters by name and comment. Press `R` to refresh from the server.
+Playlists are shown with cover art (a 3×3 collage if the playlist spans multiple albums), name, owner, song count, and duration. Search matches playlist name and comment.
 
-### Sorting
+## Sort modes
 
-| Key | Action |
-| :-- | :----- |
-| `Left` / `Right` | Cycle sort mode |
-| `Page Up` | Toggle ascending / descending |
+- **Name** *(default)*, **Song Count**, **Duration**, **Updated At**, **Random**
 
-Available sort modes: **Name**, **Song Count**, **Duration**, **Updated At**, and **Random** (client-side shuffle).
+## Expanding a playlist
 
-### Expanding a playlist
+`Shift + Enter` expands the focused playlist and loads its tracks inline below it. Only one playlist can be expanded at a time.
 
-`Shift + Enter` expands the focused playlist and loads its tracks inline below it. `Escape` collapses. Only one playlist can be expanded at a time.
+## Creating playlists
 
-## Hotkeys
-
-| Key | Action |
-| :-- | :----- |
-| `6` | Switch to Playlists view |
-| `Enter` | Play the focused playlist (replaces queue) |
-| `Shift + Enter` | Expand / collapse the focused playlist |
-| `Shift + A` | Append the focused playlist (or selection) to the queue |
-| `Shift + L` | Star / unstar the focused track (when expanded) |
-| `Escape` | Collapse expansion |
-| `/` | Focus the search bar |
-| `R` | Refresh |
-
-Multi-select with `Ctrl + Click` and `Shift + Click` works the same way as in other library views — `Shift + A` then queues every selected playlist's tracks.
-
-## Creating Playlists
-
-There are two ways to create a playlist:
+Two ways:
 
 1. **Save the queue** — from the Queue view, press `Ctrl + S`. A dialog prompts for a name and lets you create a new playlist or append to an existing one.
 2. **Add to Playlist** — right-click any track, album, or artist in any view → **Add to Playlist**. The dialog can create a new playlist or pick one to append to.
@@ -50,18 +32,18 @@ There are two ways to create a playlist:
 
 Right-click a playlist → **Set as Default Playlist** to mark it as the quick-add target. The next time you use **Add to Playlist**, that playlist is pre-selected so you can append in one keystroke.
 
-## Editing Playlists
+## Editing playlists
 
-Right-click a playlist for these actions:
+Right-click a playlist for the playlist-specific actions:
 
 | Action | What it does |
 | :----- | :----------- |
-| **Add to Queue** | Appends every song in the playlist to the queue |
 | **Edit Playlist** | Enters split-view edit mode (see below) |
 | **Rename Playlist** | Opens a dialog to change the name |
 | **Delete Playlist** | Deletes after confirmation |
 | **Set as Default Playlist** | Marks as the quick-add target |
-| **Get Info** | Shows a modal with song count, duration, owner, public flag, and dates |
+
+Plus the standard **Add to Queue / Add to Playlist / Get Info** actions from [Library Basics](/guides/library-basics/#common-context-menu-actions).
 
 ### Split-view edit mode
 

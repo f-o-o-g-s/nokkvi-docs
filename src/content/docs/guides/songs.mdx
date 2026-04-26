@@ -5,9 +5,11 @@ description: Browse every track in your library.
 
 The Songs view is a flat list of every track in your library. Each row shows the album artwork, title, artist (clickable), album (clickable), duration, and an optional rating / love column.
 
-## Sorting
+For navigation, search, multi-select, ratings, and shared right-click actions, see [Library Basics](/guides/library-basics/).
 
-`Left` / `Right` cycle the sort mode; `Page Up` toggles direction. Songs has the most sort modes of any view:
+## Sort modes
+
+Songs has the most sort modes of any view:
 
 - **Recently Added** *(default)*, **Recently Played**, **Most Played**, **Favorited**, **Random**
 - **Title**, **Album**, **Artist**, **Album Artist**
@@ -17,40 +19,17 @@ The dynamic column on the right adapts to the current sort — showing year, dur
 
 ## Columns
 
-The gear icon toggles **Album**, **Stars**, **Plays**, **Duration**, and **Love**. As with other views, Stars auto-show when sorted by Rating and Plays auto-show when sorted by Most Played.
-
-## Hotkeys
-
-| Key | Action |
-| :-- | :----- |
-| `4` | Switch to Songs view |
-| `Enter` | Play from the focused song forward (replaces queue) |
-| `Shift + A` | Append the focused song (or selection) to the queue |
-| `Shift + L` | Star / unstar the focused song |
-| `Shift + C` | Center on the currently playing song |
-| `Shift + I` | Open the info modal |
-| `=` / `-` | Increase / decrease rating |
-| `/` | Focus the search bar |
-| `R` | Refresh from server |
-
-Multi-select with `Ctrl + Click` and `Shift + Click`. `Enter` plays every selected song; `Shift + A` queues them.
+Toggle via the gear icon: **Album**, **Stars**, **Plays**, **Duration**, and **Love**. Stars and Plays auto-show when you sort by them.
 
 ## Search
 
-`/` focuses the search bar. Search hits the Navidrome backend's full-text index and matches across **title, album, artist, and album artist** — typing `radiohead` finds tracks where Radiohead is the artist as well as anything titled "Radiohead".
+Search hits the Navidrome backend's full-text index and matches across **title, album, artist, and album artist** — typing `radiohead` finds tracks where Radiohead is the artist as well as anything titled "Radiohead".
 
 ## Click-through filters
 
 - **Artist** name on a row → Artists view filtered to that artist
 - **Album** name on a row → Albums view filtered to that album
-- **Genre** in the dynamic column (when sorted by Genre) → Genres view filtered to that genre
-
-## Right-click menu
-
-- **Add to Queue**
-- **Add to Playlist**
-- **Get Info** — full metadata: title, artist, album, duration, bitrate, sample rate, BPM, format, etc.
-- **Show in File Manager** — requires `local_music_path` in config
+- **Genre** in the dynamic column when sorted by Genre → Genres view filtered to that genre
 
 ## Performance with large libraries
 

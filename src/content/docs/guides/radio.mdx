@@ -7,21 +7,11 @@ import { Aside } from '@astrojs/starlight/components';
 
 The Radio view manages internet radio stations on your Navidrome server. Stations are HTTP streams (Icecast/Shoutcast) that play directly — not through the queue.
 
-## Hotkeys
+For navigation, search, and multi-select, see [Library Basics](/guides/library-basics/). Radio has no expansion, no ratings, and no Add-to-Queue / Add-to-Playlist actions.
 
-| Key | Action |
-| :-- | :----- |
-| `7` | Switch to Radio view |
-| `Enter` | Play the focused station |
-| `/` | Focus the search bar |
-| `Page Up` | Toggle ascending / descending |
-| `R` | Refresh from server |
+## Sort and search
 
-Multi-select with `Ctrl + Click` and `Shift + Click`. There's only one sort mode (Name), so `Left` / `Right` are no-ops here.
-
-## Search
-
-`/` focuses search. It matches both station **name** and **stream URL** (case-insensitive substring).
+Stations only sort by **Name** (`Page Up` toggles direction). Search matches both station name and stream URL.
 
 ## Adding, editing, and removing stations
 
