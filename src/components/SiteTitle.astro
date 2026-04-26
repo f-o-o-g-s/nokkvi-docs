@@ -1,0 +1,40 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/SiteTitle.astro';
+
+// We fetch the SVG content to inline it
+import logoSvg from '../assets/logo.svg?raw';
+---
+
+<div class="site-title-wrapper">
+  <div class="logo-inline" set:html={logoSvg} />
+  <Default {...Astro.props} />
+</div>
+
+<style>
+  .site-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .logo-inline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+  }
+  /* Ensure the inlined SVG fills the container */
+  .logo-inline :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* 
+     Hide the default Starlight logo since we are inlining our own 
+     next to the text. 
+  */
+  .site-title-wrapper :global(.site-title img) {
+    display: none;
+  }
+</style>

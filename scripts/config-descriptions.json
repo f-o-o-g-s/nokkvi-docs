@@ -1,0 +1,296 @@
+{
+  "albums_artwork_overlay": {
+    "description": "Show a text overlay on artwork thumbnails in the Albums view."
+  },
+  "albums_show_love": {
+    "description": "Show the loved/heart column in the albums view."
+  },
+  "albums_show_plays": {
+    "description": "Show the play count column in the albums view."
+  },
+  "albums_show_songcount": {
+    "description": "Show the song count column in the albums view."
+  },
+  "albums_show_stars": {
+    "description": "Show the star rating column in the albums view."
+  },
+  "artists_artwork_overlay": {
+    "description": "Show a text overlay on artwork thumbnails in the Artists view."
+  },
+  "artists_show_albumcount": {
+    "description": "Show the album count column in the artists view."
+  },
+  "artists_show_love": {
+    "description": "Show the loved/heart column in the artists view."
+  },
+  "artists_show_plays": {
+    "description": "Show the play count column in the artists view."
+  },
+  "artists_show_songcount": {
+    "description": "Show the song count column in the artists view."
+  },
+  "artists_show_stars": {
+    "description": "Show the star rating column in the artists view."
+  },
+  "artwork_resolution": {
+    "description": "Quality for large panel artwork. Options: `default` (1000px), `high` (1500px), `ultra` (2000px), `original`."
+  },
+  "auto_follow_playing": {
+    "description": "The Queue view auto-scrolls to keep the currently playing track visible as it changes."
+  },
+  "crossfade_duration_secs": {
+    "description": "Duration of the crossfade in seconds (1 to 12)."
+  },
+  "crossfade_enabled": {
+    "description": "Enable smooth transitions between tracks."
+  },
+  "custom_eq_presets": {
+    "description": "User-saved EQ presets. Each preset is a `{ name, gains }` object; managed through the in-app EQ panel."
+  },
+  "enter_behavior": {
+    "description": "Action when pressing `Enter` on a song. Options: `play_all` (replace queue with the current view), `play_single` (replace queue with just this track), `append_and_play` (add to queue and play)."
+  },
+  "eq_enabled": {
+    "description": "Global bypass for the 10-band equalizer."
+  },
+  "eq_gains": {
+    "description": "List of 10 gain values in dB (one per band: 32, 64, 125, 250, 500, 1k, 2k, 4k, 8k, 16k Hz). Range −12.0 to +12.0 per band."
+  },
+  "font_family": {
+    "description": "Font family override. Leave empty to use system default sans-serif."
+  },
+  "horizontal_volume": {
+    "description": "Stack volume sliders horizontally instead of vertically in the player bar."
+  },
+  "library_page_size": {
+    "description": "How many items to fetch per request. Options: `small` (100), `default` (500), `large` (1000), `massive` (5000)."
+  },
+  "light_mode": {
+    "description": "Use the light variant of the active theme."
+  },
+  "local_music_path": {
+    "description": "Absolute path to your local music library. If set, Nokkvi will try to open files directly (for things like \"Show in File Manager\")."
+  },
+  "nav_display_mode": {
+    "description": "Content of tabs. Options: `text_only`, `text_and_icons`, `icons_only`."
+  },
+  "nav_layout": {
+    "description": "Placement of view tabs. Options: `top` (horizontal bar), `side` (vertical sidebar), `none` (hidden — only the active view and player bar render)."
+  },
+  "normalization_level": {
+    "description": "Target loudness. Options: `quiet` (-23 LUFS), `normal` (-14 LUFS), `loud` (-9 LUFS)."
+  },
+  "opacity_gradient": {
+    "description": "Apply a subtle opacity fade to items that are not in the center of the list."
+  },
+  "playlists_artwork_overlay": {
+    "description": "Show a text overlay on artwork thumbnails in the Playlists view."
+  },
+  "queue_show_album": {
+    "description": "Show the album column in the queue."
+  },
+  "queue_show_duration": {
+    "description": "Show the duration column in the queue."
+  },
+  "queue_show_love": {
+    "description": "Show the loved/heart column in the queue."
+  },
+  "queue_show_plays": {
+    "description": "Show the play count column in the queue."
+  },
+  "queue_show_stars": {
+    "description": "Show the star rating column in the queue."
+  },
+  "quick_add_to_playlist": {
+    "description": "Skip the \"Add to Playlist\" dialog and add directly to a remembered default playlist."
+  },
+  "rounded_mode": {
+    "description": "Apply rounded corners to all UI elements."
+  },
+  "scrobble_threshold": {
+    "description": "Percentage of track duration (0.25 to 0.90) needed to trigger a scrobble."
+  },
+  "scrobbling_enabled": {
+    "description": "Report listening activity back to the server."
+  },
+  "server_url": {
+    "description": "The full URL of your Navidrome server (e.g., `https://music.example.com`)."
+  },
+  "sfx_volume": {
+    "description": "Volume for UI sound effects (0.0 to 1.0)."
+  },
+  "show_album_artists_only": {
+    "description": "If true, the Artists view shows only album artists and excludes track-level featured artists."
+  },
+  "slot_row_height": {
+    "description": "Row density in lists. Options: `compact` (50px), `default` (70px), `comfortable` (90px), `spacious` (110px)."
+  },
+  "slot_text_links": {
+    "description": "Make artist and album names inside list rows clickable links to their respective views."
+  },
+  "songs_artwork_overlay": {
+    "description": "Show a text overlay on artwork thumbnails in the Songs view."
+  },
+  "songs_show_album": {
+    "description": "Show the album column in the songs view."
+  },
+  "songs_show_duration": {
+    "description": "Show the duration column in the songs view."
+  },
+  "songs_show_love": {
+    "description": "Show the loved/heart column in the songs view."
+  },
+  "songs_show_plays": {
+    "description": "Show the play count column in the songs view."
+  },
+  "songs_show_stars": {
+    "description": "Show the star rating column in the songs view."
+  },
+  "sound_effects_enabled": {
+    "description": "Global toggle for UI sound effects."
+  },
+  "stable_viewport": {
+    "description": "Clicking an item highlights it in place; the list does not auto-scroll on playback changes."
+  },
+  "start_view": {
+    "description": "The view to show on startup. Options: `Queue`, `Albums`, `Artists`, `Songs`, `Genres`, `Playlists`, `Radios`."
+  },
+  "strip_click_action": {
+    "description": "Action on click. Options: `go_to_queue`, `go_to_album`, `go_to_artist`, `copy_track_info`, `do_nothing`."
+  },
+  "strip_merged_mode": {
+    "description": "Apply strip patterns to the merged artist/album display string rather than individual fields."
+  },
+  "strip_show_album": {
+    "description": "Show the album name in the metadata strip."
+  },
+  "strip_show_artist": {
+    "description": "Show the artist name in the metadata strip."
+  },
+  "strip_show_format_info": {
+    "description": "Show technical info (codec/sample rate) in the strip."
+  },
+  "strip_show_title": {
+    "description": "Show the song title in the metadata strip."
+  },
+  "suppress_library_refresh_toasts": {
+    "description": "Hide the toast notification that appears when Navidrome reports a library refresh."
+  },
+  "track_info_display": {
+    "description": "Placement of the metadata strip. Options: `off`, `player_bar`, `top_bar`, `progress_track`."
+  },
+  "username": {
+    "description": "Your Navidrome username."
+  },
+  "verbose_config": {
+    "description": "If true, all settings (even defaults) are written to the TOML file."
+  },
+  "visualization_mode": {
+    "description": "Active visualizer mode. Options: `off`, `bars`, `lines`. Cycle live with the `V` hotkey — see [Visualizer Reference](/reference/visualizer/)."
+  },
+  "visualizer.auto_sensitivity": {
+    "description": "Automatically scale gain to fill the available height."
+  },
+  "visualizer.bars.bar_depth_3d": {
+    "description": "3D isometric depth in pixels (0.0 disables; up to 20.0)."
+  },
+  "visualizer.bars.bar_spacing": {
+    "description": "Gap between bars in pixels."
+  },
+  "visualizer.bars.bar_width_max": {
+    "description": "Maximum bar width in pixels for large windows. Must be ≥ `bar_width_min` (up to 20.0). Equal min/max gives uniform bar widths regardless of window size."
+  },
+  "visualizer.bars.bar_width_min": {
+    "description": "Minimum bar width in pixels for small windows (1.0 to 10.0)."
+  },
+  "visualizer.bars.border_width": {
+    "description": "Border thickness in pixels. Also controls LED segment gaps when `led_bars` is on (0.0 to 5.0)."
+  },
+  "visualizer.bars.gradient_mode": {
+    "description": "Color mapping mode. [Learn more &rarr;](/reference/visualizer/#gradient-modes)"
+  },
+  "visualizer.bars.gradient_orientation": {
+    "description": "Axis for color mapping (`vertical` or `horizontal`)."
+  },
+  "visualizer.bars.led_bars": {
+    "description": "Render bars as discrete LED segments (VU meter style)."
+  },
+  "visualizer.bars.led_segment_height": {
+    "description": "Height of each LED segment in pixels (LED mode only; 2.0 to 20.0)."
+  },
+  "visualizer.bars.max_bars": {
+    "description": "Maximum number of bars the dynamic layout will try to fit (16 to 2048)."
+  },
+  "visualizer.bars.peak_fade_time": {
+    "description": "Fade-out duration in milliseconds (`fade` and `fall_fade` modes only)."
+  },
+  "visualizer.bars.peak_fall_speed": {
+    "description": "Peak fall velocity scale (1 = slow, 5 = default, 20 = fast; does not affect `fade` mode)."
+  },
+  "visualizer.bars.peak_gradient_mode": {
+    "description": "Color mode for peaks (`static`, `cycle`, `height`, `match`)."
+  },
+  "visualizer.bars.peak_height_ratio": {
+    "description": "Peak indicator height as a percentage of bar width (10 to 100; ignored in LED mode)."
+  },
+  "visualizer.bars.peak_hold_time": {
+    "description": "Duration in milliseconds peaks stay at maximum before falling/fading."
+  },
+  "visualizer.bars.peak_mode": {
+    "description": "Behavior of peak indicators. [Learn more &rarr;](/reference/visualizer/#peak-behavior)"
+  },
+  "visualizer.height_percent": {
+    "description": "Percentage of window height occupied by the visualizer (0.1 to 0.6)."
+  },
+  "visualizer.higher_cutoff_freq": {
+    "description": "Treble ceiling in Hz. Capped at the Nyquist limit (22050)."
+  },
+  "visualizer.lines.animation_speed": {
+    "description": "Color cycle speed for the `breathing` gradient mode (0.05 = very slow, 1.0 = very fast)."
+  },
+  "visualizer.lines.fill_opacity": {
+    "description": "Transparency of the area under the line (0.0 to 1.0)."
+  },
+  "visualizer.lines.gradient_mode": {
+    "description": "Color mapping mode. [Learn more &rarr;](/reference/visualizer/#gradient-modes-1)"
+  },
+  "visualizer.lines.line_thickness": {
+    "description": "Thickness of the line as a fraction of visualizer height (0.01 to 0.10)."
+  },
+  "visualizer.lines.mirror": {
+    "description": "Symmetric oscilloscope mode (extends from center)."
+  },
+  "visualizer.lines.outline_opacity": {
+    "description": "Outline opacity (0.0 to 1.0)."
+  },
+  "visualizer.lines.outline_thickness": {
+    "description": "Outline border thickness in pixels (0.0 disables; up to 5.0)."
+  },
+  "visualizer.lines.point_count": {
+    "description": "Number of points used to draw the line (8 to 512)."
+  },
+  "visualizer.lines.style": {
+    "description": "Interpolation style (`smooth` or `angular`)."
+  },
+  "visualizer.lower_cutoff_freq": {
+    "description": "Bass floor in Hz. Frequencies below this are excluded from the spectrum (minimum `20`)."
+  },
+  "visualizer.monstercat": {
+    "description": "Monstercat-style energy spread to neighbouring bars. Values below `0.7` snap to `0.0` (disabled); effective range is `0.7` to `1.0`."
+  },
+  "visualizer.noise_reduction": {
+    "description": "Smoothing of the raw FFT data (0.0 to 1.0)."
+  },
+  "visualizer.opacity": {
+    "description": "Transparency of the visualizer (0.0 to 1.0)."
+  },
+  "visualizer.waves": {
+    "description": "Enable spline smoothing between bars."
+  },
+  "visualizer.waves_smoothing": {
+    "description": "Spline control-point density when `waves` is on (2 to 16; higher = smoother curves)."
+  },
+  "volume_normalization": {
+    "description": "Enable EBU R128 loudness normalization."
+  }
+}

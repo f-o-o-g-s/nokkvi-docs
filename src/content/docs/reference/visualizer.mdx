@@ -1,0 +1,90 @@
+---
+title: Visualizer Reference
+description: Deep dive into Nokkvi's high-performance visualizer modes and gradients.
+sidebar:
+  order: 3
+---
+
+import { Tabs, TabItem, Card, CardGrid, Aside } from '@astrojs/starlight/components';
+
+Nokkvi features a custom-built, hardware-accelerated visualizer powered by PipeWire and WGSL shaders. This reference explains the various modes and color mapping strategies available in `config.toml`.
+
+## Bars Mode
+
+The `bars` mode renders frequency data as vertical columns. It is highly configurable with various gradient and peak behaviors.
+
+### Gradient Modes
+Controls how colors from your theme's palette are mapped onto the bars.
+
+| Mode | Description |
+| :--- | :--- |
+| `static` | **Static Height.** The gradient is fixed to the background. Bars "reveal" higher colors as they rise. |
+| `wave` | **Stretched Gradient.** The full gradient is compressed/stretched to fit the current height of each bar. |
+| `shimmer` | **Animated Solid.** Each bar is a single color, but the entire visualizer cycles through colors over time and music energy. |
+| `energy` | **Loudness Offset.** The gradient position shifts rapidly based on the instantaneous volume of the track. |
+| `alternate` | **Two-Tone.** Bars oscillate between the first two colors of the palette in a rhythmic pattern. |
+
+### Orientation
+Determines the axis along which gradient colors are applied.
+
+- **`vertical`**: Colors map from the bottom of the visualizer to the top.
+- **`horizontal`**: Colors map from the low frequencies (left) to high frequencies (right).
+
+<Aside type="note">
+  Orientation works with `static`, `wave`, `shimmer`, and `energy` modes. It is ignored by `alternate`.
+</Aside>
+
+### Peak Behavior
+Peaks are small indicators that mark the highest point reached by a bar.
+
+| Mode | Description |
+| :--- | :--- |
+| `none` | Peaks are disabled. |
+| `fade` | Peaks hold for a duration, then fade out in their current position. |
+| `fall` | Peaks hold, then drop at a constant velocity. |
+| `fall_accel` | Peaks hold, then fall with simulated gravity (acceleration). |
+| `fall_fade` | Peaks fall at a constant velocity while simultaneously fading out. |
+
+### Peak Gradient Modes
+Controls the coloring of the peak indicators.
+
+- **`static`**: Uses only the first color defined in `peak_gradient_colors`.
+- **`cycle`**: Smoothly cycles through all peak colors over time (breathing effect).
+- **`height`**: Color is determined by the peak's vertical position.
+- **`match`**: The peak always matches the color of the bar at that specific height.
+
+---
+
+## Lines Mode
+
+The `lines` mode renders frequency data as a continuous path (oscilloscope style).
+
+### Style
+- **`smooth`**: Uses Catmull-Rom spline interpolation for a liquid, organic look.
+- **`angular`**: Uses direct point-to-point lines for a sharper, technical look.
+
+### Gradient Modes
+| Mode | Description |
+| :--- | :--- |
+| `breathing` | The entire line cycles through the palette over time. |
+| `static` | The line stays a single solid color (the first in the palette). |
+| `position` | Colors are mapped from left (bass) to right (treble). |
+| `height` | Colors are mapped based on amplitude (quiet = bottom colors, loud = top colors). |
+| `gradient` | A vertical gradient is applied to the line path. |
+
+---
+
+## Advanced Smoothing
+
+Nokkvi provides two mutually exclusive smoothing algorithms to tailor the visualizer's response.
+
+### Monstercat Smoothing
+An exponential falloff effect that spreads energy to neighboring bars, creating a "bouncy" and connected look.
+- **Key**: [`visualizer.monstercat`](/reference/config/#general-visualizer)
+- **Value**: `0.7` to `1.0` (higher = more spread). Values below `0.7` snap to `0.0` (disabled).
+
+### Waves Smoothing
+Applies spline interpolation between bars to create a smooth, wave-like silhouette.
+- **Key**: [`visualizer.waves`](/reference/config/#general-visualizer)
+- **Value**: `true` / `false`.
+- **Intensity**: [`visualizer.waves_smoothing`](/reference/config/#general-visualizer) (`2` to `16`).

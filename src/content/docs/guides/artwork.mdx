@@ -1,0 +1,55 @@
+---
+title: Artwork & Performance
+description: How Nokkvi fetches and caches album artwork from your Navidrome server.
+---
+
+Nokkvi uses a **server-only artwork pipeline** — images are fetched directly from Navidrome on demand and kept in an in-memory GPU texture cache. There is no local disk cache.
+
+## How Artwork Works
+
+When an album comes into view, Nokkvi fetches the image directly from your Navidrome server and decodes it into a GPU texture handle. Up to **512** album images are kept in memory at once (LRU eviction), so browsing a section of your library you visited recently has zero network overhead.
+
+Thumbnails in list views are populated around the visible viewport — items well outside the visible area aren't pre-loaded.
+
+## Artwork Quality
+
+The [`artwork_resolution`](/reference/config/#general-settings) setting controls the size requested for large panel artwork (the full-size view when an album is focused):
+
+| Option | Requested Size |
+| :----- | :------------- |
+| [`default`](/reference/config/#general-settings) | 1000 px |
+| [`high`](/reference/config/#general-settings) | 1500 px |
+| [`ultra`](/reference/config/#general-settings) | 2000 px |
+| [`original`](/reference/config/#general-settings) | Full resolution |
+
+Thumbnails in list views always use a smaller size regardless of this setting.
+
+## Navidrome Server Settings
+
+Because Nokkvi no longer maintains its own disk cache, your Navidrome server does the heavy lifting of serving and resizing artwork. Two settings in `navidrome.toml` are worth tuning:
+
+### ImageCacheSize
+
+The default `100MB` cache is too small for large libraries and will cause the server to re-process images on every fetch. Set it to at least `1500MB`:
+
+```toml
+ImageCacheSize = "1500MB"
+```
+
+### CoverArtQuality
+
+Navidrome encodes artwork at quality `75` by default. The format depends on your setup: standalone binaries use JPEG, while Docker builds use WebP (native libwebp is bundled). Either way the quality value applies to both formats, and `75` is visibly lossy at the large panel sizes Nokkvi requests (up to 2000px):
+
+```toml
+CoverArtQuality = 90
+```
+
+If you want to explicitly control the format, Navidrome exposes `EnableWebPEncoding`. On non-Docker installs it defaults to `false` (JPEG/PNG); set it to `true` to opt in to WebP:
+
+```toml
+EnableWebPEncoding = true
+```
+
+## Updating Artwork
+
+If you update a cover in Navidrome and want Nokkvi to reflect the change, right-click the artwork panel in the Albums, Songs, or Queue view and select **Refresh Artwork**. This evicts the cached image and fetches the latest version from the server.

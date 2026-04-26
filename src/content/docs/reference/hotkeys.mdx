@@ -1,0 +1,185 @@
+---
+title: Keyboard Shortcuts
+description: A complete reference of default hotkeys in Nokkvi, plus how to customize them in config.toml.
+sidebar:
+  order: 2
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Nokkvi is designed to be fully navigable via keyboard. Every action below can be rebound — see [Customizing Shortcuts](#customizing-shortcuts) at the bottom of this page.
+
+## Views
+
+Switch between the different screens of the application.
+
+| Action | Shortcut | Description |
+| :--- | :--- | :--- |
+| Queue | `1` | Active playback queue |
+| Albums | `2` | Browse library by album |
+| Artists | `3` | Browse by artist |
+| Songs | `4` | Flat, searchable track list |
+| Genres | `5` | Browse by genre |
+| Playlists | `6` | Navidrome playlists |
+| Internet Radios | `7` | Radio stations |
+| Settings | `` ` `` (Backtick) | Open the settings panel |
+
+## Playback
+
+| Action | Shortcut | Description |
+| :--- | :--- | :--- |
+| Play / Pause | `Space` | Play or pause the current track |
+| Toggle Random | `X` | Toggle random/shuffle mode |
+| Toggle Repeat | `Z` | Cycle repeat mode: off → one → queue |
+| Toggle Consume | `C` | Consume mode removes each track from the queue after it plays |
+| Toggle SFX | `S` | Enable or disable UI sound effects |
+| Cycle Visualizer | `V` | Cycle through visualizer modes: off → bars → lines |
+| Toggle Equalizer | `Q` | Open or close the 10-band graphic equalizer |
+| Toggle Crossfade | `F` | Enable or disable gapless crossfading between tracks |
+
+## Navigation
+
+The slot list is the scrollable item list in the center of each view.
+
+| Action | Shortcut | Description |
+| :--- | :--- | :--- |
+| Slot List Up | `Backspace` | Move the centered slot up in the list |
+| Slot List Down | `Tab` | Move the centered slot down in the list |
+| Activate / Enter | `Enter` | Play or open the focused item |
+| Expand / Collapse | `Shift + Enter` | Expand the focused item into a browse panel (albums, artists, playlists, genres) |
+| Search | `/` | Focus the search bar in the current view |
+| Center on Playing | `Shift + C` | Scroll the list to the currently playing track |
+| Library Browser | `Ctrl + E` | Toggle the library browser panel alongside the Queue |
+
+## Item Actions
+
+| Action | Shortcut | Description |
+| :--- | :--- | :--- |
+| Add to Queue | `Shift + A` | Append the focused album or song to the playback queue |
+| Remove from Queue | `Ctrl + D` | Remove the focused item from the queue |
+| Clear Queue | `Shift + D` | Remove all tracks from the queue |
+| Love / Unlove | `Shift + L` | Toggle the Navidrome star ("love") flag on the focused track |
+| Increase Rating | `=` | Increase the star rating by one |
+| Decrease Rating | `-` | Decrease the star rating by one |
+| Show Info | `Shift + I` | Open the info panel for the focused item |
+| Find Similar | `Shift + S` | Find songs similar to the currently playing track |
+| Find Top Songs | `Shift + T` | Show top songs for the playing track's artist |
+| Move Track Up | `Shift + Up` | Move the focused queue track up by one position |
+| Move Track Down | `Shift + Down` | Move the focused queue track down by one position |
+| Save Queue as Playlist | `Ctrl + S` | Open the save-as-playlist dialog for the current queue |
+
+## Sort & View
+
+| Action | Shortcut | Description |
+| :--- | :--- | :--- |
+| Previous Sort Mode | `Left` | Cycle the sort mode backward |
+| Next Sort Mode | `Right` | Cycle the sort mode forward |
+| Toggle Sort Order | `Page Up` | Toggle ascending / descending sort |
+| Refresh View | `R` | Reload the current view's data from the server |
+
+## Global
+
+| Action | Shortcut | Notes |
+| :--- | :--- | :--- |
+| Escape / Back | `Escape` | Close overlays, clear search, or go back — **not rebindable** |
+| Reset to Default | `Delete` | Reset the focused setting to its default value (Settings view only) — **not rebindable** |
+
+## Settings Navigation
+
+These shortcuts only apply while in the Settings view.
+
+| Action | Shortcut | Description |
+| :--- | :--- | :--- |
+| Edit Value Up | `Up` | Toggle a setting on, or increment a value |
+| Edit Value Down | `Down` | Toggle a setting off, or decrement a value |
+
+---
+
+## Customizing Shortcuts
+
+All shortcuts except `Escape` and `Delete` can be rebound in `config.toml` under the `[hotkeys]` section. Nokkvi only writes non-default bindings to the file, so you only need to list the ones you want to change.
+
+### Key combo syntax
+
+A binding is a string in the form `"Modifiers + Key"`. Modifiers are optional; the key name is required.
+
+| Part | Values |
+| :--- | :--- |
+| Modifier | `Shift`, `Ctrl` (or `Control`), `Alt` |
+| Key | Any single character (`a`–`z`, `0`–`9`, `/`, `-`, `=`, `` ` ``, etc.) |
+| Named key | `Space`, `Enter`, `Escape`, `Backspace`, `Tab`, `Up`, `Down`, `Left`, `Right`, `Page Up`, `Page Down`, `Home`, `End`, `Delete`, `Insert`, `F1`–`F12` |
+
+Multiple modifiers are combined with `+`: `"Ctrl + Shift + S"`.
+
+Key names are case-insensitive. `"shift + l"` and `"Shift + L"` are the same.
+
+### TOML action keys
+
+Each action maps to a `snake_case` key under `[hotkeys]`:
+
+| Action | TOML key |
+| :--- | :--- |
+| Queue view | `switch_to_queue` |
+| Albums view | `switch_to_albums` |
+| Artists view | `switch_to_artists` |
+| Songs view | `switch_to_songs` |
+| Genres view | `switch_to_genres` |
+| Playlists view | `switch_to_playlists` |
+| Radios view | `switch_to_radios` |
+| Settings | `switch_to_settings` |
+| Play / Pause | `toggle_play` |
+| Toggle Random | `toggle_random` |
+| Toggle Repeat | `toggle_repeat` |
+| Toggle Consume | `toggle_consume` |
+| Toggle SFX | `toggle_sound_effects` |
+| Cycle Visualizer | `cycle_visualization` |
+| Toggle Equalizer | `toggle_eq_modal` |
+| Toggle Crossfade | `toggle_crossfade` |
+| Slot List Up | `slot_list_up` |
+| Slot List Down | `slot_list_down` |
+| Activate | `activate` |
+| Expand / Collapse | `expand_center` |
+| Library Browser | `toggle_browsing_panel` |
+| Center on Playing | `center_on_playing` |
+| Love / Unlove | `toggle_star` |
+| Add to Queue | `add_to_queue` |
+| Remove from Queue | `remove_from_queue` |
+| Clear Queue | `clear_queue` |
+| Search | `focus_search` |
+| Increase Rating | `increase_rating` |
+| Decrease Rating | `decrease_rating` |
+| Show Info | `get_info` |
+| Find Similar | `find_similar` |
+| Find Top Songs | `find_top_songs` |
+| Move Track Up | `move_track_up` |
+| Move Track Down | `move_track_down` |
+| Save Queue as Playlist | `save_queue_as_playlist` |
+| Previous Sort Mode | `prev_sort_mode` |
+| Next Sort Mode | `next_sort_mode` |
+| Toggle Sort Order | `toggle_sort_order` |
+| Refresh View | `refresh_view` |
+| Edit Value Up | `edit_up` |
+| Edit Value Down | `edit_down` |
+
+### Example
+
+```toml
+[hotkeys]
+# Rebind slot navigation to J/K (vim style)
+slot_list_down = "J"
+slot_list_up   = "K"
+
+# Move the visualizer cycle to a function key
+cycle_visualization = "F2"
+
+# Use Ctrl+Shift+S to save queue as playlist
+save_queue_as_playlist = "Ctrl + Shift + S"
+```
+
+<Aside type="tip">
+  Enable **Verbose Config** in Settings (or set `verbose_config = true` in `config.toml`) to write all default bindings to the file at once — useful as a starting point for customization.
+</Aside>
+
+<Aside type="caution">
+  Some keys may be captured by your window manager before Nokkvi sees them — common culprits are `Super`, `Alt + F4`, and certain `Ctrl + Alt` combinations. If a shortcut isn't working, check your compositor or WM keybindings first.
+</Aside>

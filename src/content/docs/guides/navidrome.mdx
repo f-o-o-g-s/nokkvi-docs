@@ -1,0 +1,56 @@
+---
+title: Connecting to Navidrome
+description: How to set up your Navidrome server connection in Nokkvi.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Nokkvi is a client for the [Navidrome](https://www.navidrome.org/) music server. To use it, you'll need a running Navidrome instance.
+
+## Server Connection
+
+When you first launch Nokkvi, you'll be greeted with a login screen.
+
+1. **Server URL**: Enter the full URL of your server, including the protocol and port (e.g., `https://music.yourdomain.com`).
+2. **Username**: Your Navidrome username.
+3. **Password**: Your Navidrome password.
+
+## Persistent Sessions
+
+Nokkvi uses Navidrome's native API (JWT tokens) for most operations. By default, Navidrome sessions expire after 48 hours, which may cause "API Error" messages in Nokkvi when the token becomes invalid.
+
+Add or update `SessionTimeout` in your `navidrome.toml`:
+
+```toml
+SessionTimeout = "8760h"
+```
+
+<Aside type="caution" title="Security Tradeoff">
+  A long session timeout means a compromised device stays authenticated longer. Use a duration that fits your security needs.
+</Aside>
+
+Nokkvi securely stores the session token after first login and resumes it automatically on subsequent launches. To switch servers or users, go to **Settings** and select **Logout**.
+
+## Recommended navidrome.toml for Nokkvi
+
+Below is a reference configuration tuned for use with Nokkvi. Artwork-specific settings (`ImageCacheSize`, `CoverArtQuality`) are covered in [Artwork & Performance](/guides/artwork/#navidrome-server-settings).
+
+### Scrobbling
+
+Nokkvi submits scrobbles through Navidrome's Subsonic API — Navidrome handles forwarding them to Last.fm and ListenBrainz. Both services need to be configured on the server side for scrobbling to work end-to-end. Client-side toggles live under [`scrobbling_enabled`](/reference/config/#scrobbling) and [`scrobble_threshold`](/reference/config/#scrobbling).
+
+To get Last.fm API credentials, create an API account at [last.fm/api](https://www.last.fm/api/account/create). For ListenBrainz, generate a token from your [profile settings](https://listenbrainz.org/profile/).
+
+```toml
+EnableExternalServices = true
+
+[LastFM]
+Enabled = true
+ApiKey = "your_lastfm_api_key"
+Secret = "your_lastfm_secret"
+
+[ListenBrainz]
+Enabled = true
+Token = "your_listenbrainz_token"
+```
+

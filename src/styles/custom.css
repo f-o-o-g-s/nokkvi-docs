@@ -28,12 +28,33 @@
   --sl-color-black: #2d353b;
 }
 
-/* Custom spacing and code block styles to match rmpc feel */
+/* Custom spacing and font settings to match rmpc feel */
 :root {
     --sl-content-width: 62rem;
     --sl-sidebar-width: 19rem;
+    
+    /* Monospace font stack */
+    --sl-font: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+/* Ensure headings and UI elements use the monospace stack */
+h1, h2, h3, h4, h5, h6, .site-title, .sidebar-content {
+    font-family: var(--sl-font) !important;
 }
 
 .starlight-aside {
     border-radius: 8px;
 }
+
+/* Header Logo Styling */
+.site-title img {
+    height: 1.75rem !important;
+    width: auto !important;
+    margin-right: 0.5rem;
+    /* Optional: drop-shadow to make it pop on dark backgrounds */
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.1));
+}
+
+
+
+

@@ -1,0 +1,279 @@
+---
+title: Customizing Themes
+description: A guide to creating and using custom themes in Nokkvi — full palette key reference included.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Nokkvi comes with 21 built-in themes, but you can easily create your own using simple TOML files.
+
+## Theme Location
+
+Custom themes are stored in:
+
+```
+~/.config/nokkvi/themes/
+```
+
+Any `.toml` file placed in this directory will automatically appear in the **Settings** menu (default: `` ` `` backtick). Built-in themes are seeded to this directory on first launch, so you can open any of them as a starting point.
+
+## Theme File Structure
+
+A theme file has a `name` field and two palette sections — `[dark]` and `[light]` — each containing the same color keys. This lets the same file drive both light and dark mode, toggled by the [`light_mode`](/reference/config/#interface-settings) setting.
+
+```toml
+name = "My Theme"
+
+[dark.background]
+hard    = "#1d2021"
+default = "#282828"
+# ...
+
+[dark.foreground]
+bright = "#fbf1c7"
+# ...
+
+[light.background]
+hard    = "#f9f5d7"
+default = "#fbf1c7"
+# ...
+```
+
+All keys have defaults — you only need to specify the ones you want to override. The defaults come from the built-in Adwaita theme.
+
+<Aside type="tip">
+  Nokkvi watches the `themes/` directory for changes. If you edit the active theme file while the app is open, colors update **instantly** — no restart needed.
+</Aside>
+
+---
+
+## Full Palette Reference
+
+All color values are 6-digit hex strings (`"#rrggbb"`).
+
+### `[dark.background]` / `[light.background]`
+
+The background scale runs from darkest (`hard`) to lightest (`level4`). The UI layers components on this scale to create depth.
+
+| Key | Dark default | Light default | Used for |
+| :--- | :--- | :--- | :--- |
+| `hard` | `#1d1d20` | `#ffffff` | Window chrome, outermost container |
+| `default` | `#222226` | `#fafafb` | Main view background |
+| `soft` | `#2e2e32` | `#ebebed` | Panel backgrounds, sidebar |
+| `level1` | `#2e2e32` | `#ebebed` | Slot row backgrounds |
+| `level2` | `#36363a` | `#deddda` | Hovered row, secondary surfaces |
+| `level3` | `#3d3846` | `#c0bfbc` | Dividers, input borders |
+| `level4` | `#5e5c64` | `#9a9996` | Disabled/muted surface fills |
+
+### `[dark.foreground]` / `[light.foreground]`
+
+The foreground scale runs from brightest text to near-invisible muted text.
+
+| Key | Dark default | Light default | Used for |
+| :--- | :--- | :--- | :--- |
+| `bright` | `#ffffff` | `#000000` | Primary text, titles |
+| `level1` | `#f6f5f4` | `#241f31` | Standard body text |
+| `level2` | `#deddda` | `#3d3846` | Secondary text, metadata |
+| `level3` | `#c0bfbc` | `#5e5c64` | Tertiary text, timestamps |
+| `level4` | `#9a9996` | `#77767b` | Placeholder text, hints |
+| `gray` | `#77767b` | `#9a9996` | Muted icons, decorative elements |
+
+### `[dark.accent]` / `[light.accent]`
+
+Accent colors drive interactive elements — the progress bar, focused item, playing indicator, and link color.
+
+| Key | Dark default | Light default | Used for |
+| :--- | :--- | :--- | :--- |
+| `primary` | `#3584e4` | `#3584e4` | Default accent: progress bar, toggles, links |
+| `bright` | `#62a0ea` | `#62a0ea` | Hover state, brighter highlight |
+| `border_dark` | `#000000` | `#1a5fb4` | Dark border around accent elements |
+| `border_light` | `#1c71d8` | `#99c1f1` | Light border / glow around accent elements |
+| `now_playing` | `#3584e4` | `#1c71d8` | Color of the now-playing row indicator; defaults to `primary` if empty |
+| `selected` | `#3584e4` | `#3584e4` | Color of the center/selected slot; defaults to `bright` if empty |
+
+### `[dark.danger]` / `[light.danger]`
+
+Used for error states, destructive action indicators, and conflict badges.
+
+| Key | Dark default | Light default |
+| :--- | :--- | :--- |
+| `base` | `#e01b24` | `#c01c28` |
+| `bright` | `#f66151` | `#ed333b` |
+
+### `[dark.success]` / `[light.success]`
+
+Used for enabled status indicators and success toasts.
+
+| Key | Dark default | Light default |
+| :--- | :--- | :--- |
+| `base` | `#26a269` | `#26a269` |
+| `bright` | `#33d17a` | `#33d17a` |
+
+### `[dark.warning]` / `[light.warning]`
+
+Used for warning toasts and capture prompts.
+
+| Key | Dark default | Light default |
+| :--- | :--- | :--- |
+| `base` | `#e5a50a` | `#e5a50a` |
+| `bright` | `#f6d32d` | `#f6d32d` |
+
+### `[dark.star]` / `[light.star]`
+
+Used for star rating fills.
+
+| Key | Dark default | Light default |
+| :--- | :--- | :--- |
+| `base` | `#e5a50a` | `#e5a50a` |
+| `bright` | `#f6d32d` | `#f6d32d` |
+
+---
+
+## Visualizer Colors
+
+Each mode (`[dark.visualizer]` / `[light.visualizer]`) has its own set of visualizer colors. See the [Visualizer Reference](/reference/visualizer/) for how `gradient_mode` maps these onto bars and lines.
+
+| Key | Dark default | Light default | Description |
+| :--- | :--- | :--- | :--- |
+| `border_color` | `#1d1d20` | `#ffffff` | Bar border / LED segment gap color |
+| `border_opacity` | `1.0` | `0.0` | Bar border opacity (0.0 to 1.0) |
+| `led_border_opacity` | `1.0` | `0.0` | Border opacity in LED bar mode |
+| `bar_gradient_colors` | `["#3584e4", "#1c71d8", "#62a0ea"]` | — | 1–8 hex colors used for the bar gradient |
+| `peak_gradient_colors` | `["#ed333b", "#ff7800", "#f6d32d"]` | — | 1–8 hex colors used for peak indicators |
+
+```toml
+[dark.visualizer]
+border_color         = "#1d2021"
+border_opacity       = 1.0
+led_border_opacity   = 0.8
+bar_gradient_colors  = ["#b8bb26", "#98971a", "#d8a657"]
+peak_gradient_colors = ["#fb4934", "#fabd2f"]
+```
+
+---
+
+## Minimal Example
+
+You don't need to specify every key. Any omitted key falls back to the built-in Adwaita defaults. Here's a theme that only changes the accent color:
+
+```toml
+name = "Cobalt Accent"
+
+[dark.accent]
+primary      = "#0088cc"
+bright       = "#33aaee"
+border_light = "#005f99"
+now_playing  = "#0077bb"
+selected     = "#0088cc"
+
+[light.accent]
+primary      = "#0077bb"
+bright       = "#0088cc"
+border_light = "#005f99"
+now_playing  = "#005f99"
+selected     = "#0077bb"
+```
+
+## Full Example
+
+A complete theme file with all sections filled out:
+
+```toml
+name = "Gruvbox Dark"
+
+[dark.background]
+hard    = "#1d2021"
+default = "#282828"
+soft    = "#32302f"
+level1  = "#3c3836"
+level2  = "#504945"
+level3  = "#665c54"
+level4  = "#7c6f64"
+
+[dark.foreground]
+bright = "#fbf1c7"
+level1 = "#ebdbb2"
+level2 = "#d5c4a1"
+level3 = "#bdae93"
+level4 = "#a89984"
+gray   = "#928374"
+
+[dark.accent]
+primary      = "#458588"
+bright       = "#83a598"
+border_dark  = "#076678"
+border_light = "#689d6a"
+now_playing  = "#458588"
+selected     = "#83a598"
+
+[dark.danger]
+base   = "#cc241d"
+bright = "#fb4934"
+
+[dark.success]
+base   = "#98971a"
+bright = "#b8bb26"
+
+[dark.warning]
+base   = "#d79921"
+bright = "#fabd2f"
+
+[dark.star]
+base   = "#d79921"
+bright = "#fabd2f"
+
+[dark.visualizer]
+border_color        = "#1d2021"
+border_opacity      = 1.0
+led_border_opacity  = 0.8
+bar_gradient_colors = ["#b8bb26", "#fabd2f", "#83a598"]
+peak_gradient_colors = ["#fb4934", "#fabd2f"]
+
+[light.background]
+hard    = "#f9f5d7"
+default = "#fbf1c7"
+soft    = "#f2e5bc"
+level1  = "#ebdbb2"
+level2  = "#d5c4a1"
+level3  = "#bdae93"
+level4  = "#a89984"
+
+[light.foreground]
+bright = "#282828"
+level1 = "#3c3836"
+level2 = "#504945"
+level3 = "#665c54"
+level4 = "#7c6f64"
+gray   = "#928374"
+
+[light.accent]
+primary      = "#076678"
+bright       = "#458588"
+border_dark  = "#076678"
+border_light = "#83a598"
+now_playing  = "#076678"
+selected     = "#458588"
+
+[light.danger]
+base   = "#9d0006"
+bright = "#cc241d"
+
+[light.success]
+base   = "#79740e"
+bright = "#98971a"
+
+[light.warning]
+base   = "#b57614"
+bright = "#d79921"
+
+[light.star]
+base   = "#b57614"
+bright = "#d79921"
+
+[light.visualizer]
+border_color        = "#fbf1c7"
+border_opacity      = 0.0
+led_border_opacity  = 0.0
+bar_gradient_colors = ["#458588", "#076678", "#83a598"]
+peak_gradient_colors = ["#cc241d", "#d79921"]
+```

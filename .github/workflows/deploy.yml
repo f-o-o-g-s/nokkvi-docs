@@ -1,0 +1,35 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  repository_dispatch:
+    types: [docs_update]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+      - name: Pull nokkvi
+        run: ./scripts/pull
+      - name: Install, build, and upload site
+        uses: withastro/action@v5
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

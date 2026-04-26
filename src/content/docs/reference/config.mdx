@@ -1,0 +1,222 @@
+---
+title: Configuration Reference
+description: A complete guide to every setting in Nokkvi's config.toml.
+sidebar:
+  order: 1
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Nokkvi stores your preferences in `~/.config/nokkvi/config.toml`. While most of these can be toggled in the in-app **Settings** menu (Default: `` ` `` backtick), this guide provides a complete technical reference for each key.
+
+:::tip[Verbose Config]
+By default, Nokkvi only writes settings that you have modified to the file. You can toggle **Verbose Config** in the Settings menu to force Nokkvi to write *every* default value into the file for easier manual editing.
+:::
+
+:::note[What lives elsewhere]
+A few values you might expect here are stored separately. **Volume** and **session tokens** live in Nokkvi's internal state database (`app.redb`) so they can update at high frequency without rewriting the config file. **Theme color overrides** live in `~/.config/nokkvi/themes/*.toml` — see the [Theming guide](/guides/theming/).
+:::
+
+## General Settings
+
+{/* config-table:start id="general" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `server_url` | `""` | The full URL of your Navidrome server (e.g., `https://music.example.com`). |
+| `username` | `""` | Your Navidrome username. |
+| `start_view` | `"Queue"` | The view to show on startup. Options: `Queue`, `Albums`, `Artists`, `Songs`, `Genres`, `Playlists`, `Radios`. |
+| `local_music_path` | `""` | Absolute path to your local music library. If set, Nokkvi will try to open files directly (for things like "Show in File Manager"). |
+| `library_page_size` | `"default"` | How many items to fetch per request. Options: `small` (100), `default` (500), `large` (1000), `massive` (5000). |
+| `artwork_resolution` | `"default"` | Quality for large panel artwork. Options: `default` (1000px), `high` (1500px), `ultra` (2000px), `original`. See note below. |
+| `show_album_artists_only` | `true` | If true, the Artists view shows only album artists and excludes track-level featured artists. |
+| `suppress_library_refresh_toasts` | `false` | Hide the toast notification that appears when Navidrome reports a library refresh. |
+| `verbose_config` | `false` | If true, all settings (even defaults) are written to the TOML file. |
+| `queue_show_stars` | `true` | Show the star rating column in the queue. |
+| `queue_show_album` | `true` | Show the album column in the queue. |
+| `queue_show_duration` | `true` | Show the duration column in the queue. |
+| `queue_show_love` | `true` | Show the loved/heart column in the queue. |
+| `queue_show_plays` | `false` | Show the play count column in the queue. |
+| `albums_show_stars` | `false` | Show the star rating column in the albums view. |
+| `albums_show_songcount` | `true` | Show the song count column in the albums view. |
+| `albums_show_plays` | `false` | Show the play count column in the albums view. |
+| `albums_show_love` | `true` | Show the loved/heart column in the albums view. |
+| `songs_show_stars` | `false` | Show the star rating column in the songs view. |
+| `songs_show_album` | `true` | Show the album column in the songs view. |
+| `songs_show_duration` | `true` | Show the duration column in the songs view. |
+| `songs_show_plays` | `false` | Show the play count column in the songs view. |
+| `songs_show_love` | `true` | Show the loved/heart column in the songs view. |
+| `artists_show_stars` | `true` | Show the star rating column in the artists view. |
+| `artists_show_albumcount` | `true` | Show the album count column in the artists view. |
+| `artists_show_songcount` | `true` | Show the song count column in the artists view. |
+| `artists_show_plays` | `true` | Show the play count column in the artists view. |
+| `artists_show_love` | `true` | Show the loved/heart column in the artists view. |
+{/* config-table:end */}
+
+<Aside type="caution" title="library_page_size: massive">
+  Setting `library_page_size` to `"massive"` fetches up to 5,000 items per request. On large libraries this can cause slow initial loads and put significant load on the Navidrome server. Start with `"large"` and only go higher if you need it.
+</Aside>
+
+<Aside type="note" title="artwork_resolution: original">
+  `"original"` disables server-side resizing and streams the raw embedded artwork from each file. On a large library or a slow connection this can cause noticeable delays when browsing albums. `"ultra"` (2000px) is the practical maximum for most displays.
+</Aside>
+
+### Artwork Overlay
+
+{/* config-table:start id="artwork-overlay" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `albums_artwork_overlay` | `true` | Show a text overlay on artwork thumbnails in the Albums view. |
+| `artists_artwork_overlay` | `true` | Show a text overlay on artwork thumbnails in the Artists view. |
+| `songs_artwork_overlay` | `true` | Show a text overlay on artwork thumbnails in the Songs view. |
+| `playlists_artwork_overlay` | `true` | Show a text overlay on artwork thumbnails in the Playlists view. |
+{/* config-table:end */}
+
+## Interface Settings
+
+{/* config-table:start id="interface" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `light_mode` | `false` | Use the light variant of the active theme. |
+| `nav_layout` | `"top"` | Placement of view tabs. Options: `top` (horizontal bar), `side` (vertical sidebar), `none` (hidden — only the active view and player bar render). |
+| `nav_display_mode` | `"text_only"` | Content of tabs. Options: `text_only`, `text_and_icons`, `icons_only`. |
+| `track_info_display` | `"off"` | Placement of the metadata strip. Options: `off`, `player_bar`, `top_bar`, `progress_track`. |
+| `slot_row_height` | `"default"` | Row density in lists. Options: `compact` (50px), `default` (70px), `comfortable` (90px), `spacious` (110px). |
+| `font_family` | `""` | Font family override. Leave empty to use system default sans-serif. |
+| `rounded_mode` | `false` | Apply rounded corners to all UI elements. |
+| `opacity_gradient` | `true` | Apply a subtle opacity fade to items that are not in the center of the list. |
+| `slot_text_links` | `true` | Make artist and album names inside list rows clickable links to their respective views. |
+| `horizontal_volume` | `false` | Stack volume sliders horizontally instead of vertically in the player bar. |
+{/* config-table:end */}
+
+### Metadata Strip Customization
+
+{/* config-table:start id="metadata-strip" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `strip_show_title` | `true` | Show the song title in the metadata strip. |
+| `strip_show_artist` | `true` | Show the artist name in the metadata strip. |
+| `strip_show_album` | `true` | Show the album name in the metadata strip. |
+| `strip_show_format_info` | `true` | Show technical info (codec/sample rate) in the strip. |
+| `strip_click_action` | `"go_to_queue"` | Action on click. Options: `go_to_queue`, `go_to_album`, `go_to_artist`, `copy_track_info`, `do_nothing`. |
+| `strip_merged_mode` | `false` | Apply strip patterns to the merged artist/album display string rather than individual fields. |
+{/* config-table:end */}
+
+## Behavior Settings
+
+{/* config-table:start id="behavior" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `stable_viewport` | `true` | Clicking an item highlights it in place; the list does not auto-scroll on playback changes. |
+| `auto_follow_playing` | `true` | The Queue view auto-scrolls to keep the currently playing track visible as it changes. |
+{/* config-table:end */}
+
+## Playback Settings
+
+{/* config-table:start id="playback" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `enter_behavior` | `"play_all"` | Action when pressing `Enter` on a song. Options: `play_all` (replace queue with the current view), `play_single` (replace queue with just this track), `append_and_play` (add to queue and play). |
+| `crossfade_enabled` | `false` | Enable smooth transitions between tracks. |
+| `crossfade_duration_secs` | `5` | Duration of the crossfade in seconds (1 to 12). |
+| `volume_normalization` | `false` | Enable EBU R128 loudness normalization. |
+| `normalization_level` | `"normal"` | Target loudness. Options: `quiet` (-23 LUFS), `normal` (-14 LUFS), `loud` (-9 LUFS). |
+| `visualization_mode` | `"bars"` | Active visualizer mode. Options: `off`, `bars`, `lines`. Cycle live with the `V` hotkey — see [Visualizer Reference](/reference/visualizer/). |
+{/* config-table:end */}
+
+<Aside type="note" title="Crossfade and normalization">
+  Crossfade and volume normalization can be used together. Normalization adjusts per-track gain; crossfade blends the transition between tracks. If a crossfade sounds uneven in volume, confirm both tracks have normalization metadata in Navidrome (this depends on how your library was tagged).
+</Aside>
+
+### Scrobbling
+
+{/* config-table:start id="scrobbling" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `scrobbling_enabled` | `true` | Report listening activity back to the server. |
+| `scrobble_threshold` | `0.50` | Percentage of track duration (0.25 to 0.90) needed to trigger a scrobble. |
+{/* config-table:end */}
+
+### Playlists
+
+{/* config-table:start id="playlists" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `quick_add_to_playlist` | `false` | Skip the "Add to Playlist" dialog and add directly to a remembered default playlist. |
+{/* config-table:end */}
+
+## Visualizer Settings
+
+Nokkvi features a high-performance PipeWire visualizer with two main modes: `bars` and `lines`. For a detailed breakdown of color mapping, peak behaviors, and animations, see the [Visualizer Reference](/reference/visualizer/).
+
+### General Visualizer
+
+{/* config-table:start id="visualizer-general" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `visualizer.auto_sensitivity` | `true` | Automatically scale gain to fill the available height. |
+| `visualizer.noise_reduction` | `0.77` | Smoothing of the raw FFT data (0.0 to 1.0). |
+| `visualizer.waves` | `false` | Enable spline smoothing between bars. |
+| `visualizer.waves_smoothing` | `4` | Spline control-point density when `waves` is on (2 to 16; higher = smoother curves). |
+| `visualizer.monstercat` | `0.0` | Monstercat-style energy spread to neighbouring bars. Values below `0.7` snap to `0.0` (disabled); effective range is `0.7` to `1.0`. |
+| `visualizer.lower_cutoff_freq` | `50` | Bass floor in Hz. Frequencies below this are excluded from the spectrum (minimum `20`). |
+| `visualizer.higher_cutoff_freq` | `10000` | Treble ceiling in Hz. Capped at the Nyquist limit (22050). |
+| `visualizer.height_percent` | `0.20` | Percentage of window height occupied by the visualizer (0.1 to 0.6). |
+| `visualizer.opacity` | `1.0` | Transparency of the visualizer (0.0 to 1.0). |
+{/* config-table:end */}
+
+### Bars Mode
+
+{/* config-table:start id="visualizer-bars" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `visualizer.bars.max_bars` | `2048` | Maximum number of bars the dynamic layout will try to fit (16 to 2048). |
+| `visualizer.bars.bar_width_min` | `4.0` | Minimum bar width in pixels for small windows (1.0 to 10.0). |
+| `visualizer.bars.bar_width_max` | `4.0` | Maximum bar width in pixels for large windows. Must be ≥ `bar_width_min` (up to 20.0). Equal min/max gives uniform bar widths regardless of window size. |
+| `visualizer.bars.bar_spacing` | `1.0` | Gap between bars in pixels. |
+| `visualizer.bars.border_width` | `2.0` | Border thickness in pixels. Also controls LED segment gaps when `led_bars` is on (0.0 to 5.0). |
+| `visualizer.bars.led_bars` | `false` | Render bars as discrete LED segments (VU meter style). |
+| `visualizer.bars.led_segment_height` | `2.0` | Height of each LED segment in pixels (LED mode only; 2.0 to 20.0). |
+| `visualizer.bars.gradient_mode` | `"wave"` | Color mapping mode. [Learn more &rarr;](/reference/visualizer/#gradient-modes) |
+| `visualizer.bars.gradient_orientation` | `"vertical"` | Axis for color mapping (`vertical` or `horizontal`). |
+| `visualizer.bars.peak_mode` | `"fade"` | Behavior of peak indicators. [Learn more &rarr;](/reference/visualizer/#peak-behavior) |
+| `visualizer.bars.peak_gradient_mode` | `"static"` | Color mode for peaks (`static`, `cycle`, `height`, `match`). |
+| `visualizer.bars.peak_hold_time` | `1000` | Duration in milliseconds peaks stay at maximum before falling/fading. |
+| `visualizer.bars.peak_fade_time` | `750` | Fade-out duration in milliseconds (`fade` and `fall_fade` modes only). |
+| `visualizer.bars.peak_height_ratio` | `50` | Peak indicator height as a percentage of bar width (10 to 100; ignored in LED mode). |
+| `visualizer.bars.peak_fall_speed` | `5` | Peak fall velocity scale (1 = slow, 5 = default, 20 = fast; does not affect `fade` mode). |
+| `visualizer.bars.bar_depth_3d` | `0.0` | 3D isometric depth in pixels (0.0 disables; up to 20.0). |
+{/* config-table:end */}
+
+### Lines Mode
+
+{/* config-table:start id="visualizer-lines" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `visualizer.lines.point_count` | `24` | Number of points used to draw the line (8 to 512). |
+| `visualizer.lines.line_thickness` | `0.05` | Thickness of the line as a fraction of visualizer height (0.01 to 0.10). |
+| `visualizer.lines.outline_thickness` | `2.0` | Outline border thickness in pixels (0.0 disables; up to 5.0). |
+| `visualizer.lines.outline_opacity` | `1.0` | Outline opacity (0.0 to 1.0). |
+| `visualizer.lines.animation_speed` | `0.25` | Color cycle speed for the `breathing` gradient mode (0.05 = very slow, 1.0 = very fast). |
+| `visualizer.lines.fill_opacity` | `0.0` | Transparency of the area under the line (0.0 to 1.0). |
+| `visualizer.lines.mirror` | `false` | Symmetric oscilloscope mode (extends from center). |
+| `visualizer.lines.style` | `"smooth"` | Interpolation style (`smooth` or `angular`). |
+| `visualizer.lines.gradient_mode` | `"breathing"` | Color mapping mode. [Learn more &rarr;](/reference/visualizer/#gradient-modes-1) |
+{/* config-table:end */}
+
+## Audio Engine (Internal)
+
+These settings drive the internal audio engine and the UI sound effects layer. They are also exposed in the Settings menu.
+
+{/* config-table:start id="audio-engine" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `eq_enabled` | `false` | Global bypass for the 10-band equalizer. |
+| `eq_gains` | `[0.0, ...]` | List of 10 gain values in dB (one per band: 32, 64, 125, 250, 500, 1k, 2k, 4k, 8k, 16k Hz). Range −12.0 to +12.0 per band. |
+| `custom_eq_presets` | `[]` | User-saved EQ presets. Each preset is a `{ name, gains }` object; managed through the in-app EQ panel. |
+| `sound_effects_enabled` | `true` | Global toggle for UI sound effects. |
+| `sfx_volume` | `0.68` | Volume for UI sound effects (0.0 to 1.0). |
+{/* config-table:end */}
+
+<Aside type="caution" title="eq_gains must have exactly 10 values">
+  `eq_gains` expects an array of **exactly 10** floats — one per band. If you edit this by hand and provide fewer or more values, the EQ will not load and will silently fall back to flat (all zeros). Use the in-app EQ panel to manage presets safely; it will write the correct array for you.
+</Aside>

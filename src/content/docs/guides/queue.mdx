@@ -1,0 +1,57 @@
+---
+title: Queue
+description: How to build and manage the Nokkvi playback queue.
+---
+
+The queue is Nokkvi's active playlist — everything you hear flows through it. You can build it on the fly while browsing, or replace it entirely when you want to listen to something specific.
+
+## Adding to the Queue
+
+### Enter behavior
+
+Pressing `Enter` on a focused album or track is the most common way to start playing. What it does depends on the [`enter_behavior`](/reference/config/#playback-settings) setting:
+
+| Value | Behavior |
+| :---- | :------- |
+| [`play_all`](/reference/config/#playback-settings) *(default)* | Replaces the queue with the full album (or all songs in the current view) and starts playing |
+| [`play_single`](/reference/config/#playback-settings) | Replaces the queue with just the focused track |
+| [`append_and_play`](/reference/config/#playback-settings) | Adds the item to the end of the queue and starts playing it |
+
+### Add without replacing
+
+`Shift + A` adds the focused item to the end of the queue without clearing what's already there. Works on individual tracks and on albums (which queues all their tracks).
+
+### Library Browser and drag and drop
+
+While on the Queue view, press `Ctrl + E` to open the **Library Browser** — a side panel with tabs for Songs, Albums, Artists, Genres, and Similar. You can drag tracks from the Library Browser and drop them into the queue at a specific position; a drop indicator shows where they'll land.
+
+## Similar Songs and Top Songs
+
+Nokkvi can ask your Navidrome server for recommendations powered by Last.fm. Triggering either feature automatically switches to the Queue view and opens the Library Browser on the **Similar** tab.
+
+| Key | Action |
+| :-- | :----- |
+| `Shift + S` | Find songs similar to the focused track, album, or artist |
+| `Shift + T` | Find the most-played songs by the focused artist |
+
+Results are **limited to songs already in your library** — Navidrome matches Last.fm's recommendations against your local collection, so tracks you don't own won't appear. The Similar tab header shows which result set is loaded (e.g. "Similar to: Radiohead" or "Top Songs: Radiohead").
+
+Both features require Last.fm or ListenBrainz to be configured on the server. See [Scrobbling](/guides/navidrome/#scrobbling) for setup.
+
+## Managing the Queue
+
+| Key | Action |
+| :-- | :----- |
+| `Shift + Up` / `Shift + Down` | Move the focused track up or down |
+| `Ctrl + D` | Remove the focused track |
+| `Shift + D` | Clear the entire queue |
+
+## Playback Modes
+
+Toggle these from the player bar or with [keyboard shortcuts](/reference/hotkeys/#playback).
+
+| Key | Mode | Behavior |
+| :-- | :--- | :------- |
+| `X` | Random | Plays tracks in random order |
+| `Z` | Repeat | Press once to repeat the current track; press again to repeat the whole queue; press a third time to turn off |
+| `C` | Consume | Tracks are removed from the queue as they finish playing — useful for a one-time listening session |

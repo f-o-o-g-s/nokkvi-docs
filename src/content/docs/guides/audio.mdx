@@ -1,0 +1,34 @@
+---
+title: Audio Engine
+description: Deep dive into Nokkvi's high-performance PipeWire audio engine.
+---
+
+Nokkvi is built for audiophiles who want a native, high-performance listening experience.
+
+## Native PipeWire Support
+
+Unlike many web-based clients, Nokkvi communicates directly with the PipeWire framework. This ensures:
+- **Low Latency**: Minimal delay between clicking play and hearing music.
+- **Bit-Perfect Playback**: Music is passed to the system with minimal processing.
+- **System Integration**: Nokkvi appears as a native audio stream in your system mixer.
+
+## Gapless Playback & Crossfade
+
+Nokkvi supports true gapless playback by pre-decoding the next track in the queue.
+
+### Configuring Crossfade
+Toggle [`crossfade_enabled`](/reference/config/#playback-settings) in the settings or with the [`F`](/reference/hotkeys/#playback) hotkey.
+- **Duration**: [`crossfade_duration_secs`](/reference/config/#playback-settings) — adjustable from 1 to 12 seconds.
+- **Behavior**: Smooth linear volume transition between tracks.
+
+## Normalization (EBU R128)
+
+Nokkvi includes a built-in loudness normalization engine based on the EBU R128 standard. Enable it with [`volume_normalization`](/reference/config/#playback-settings).
+- **How it works**: It analyzes the perceived loudness of a track and adjusts the gain so all songs sound consistently loud.
+- **Target Level**: Controlled by [`normalization_level`](/reference/config/#playback-settings). Default is `normal` (−14.0 LUFS), matching modern streaming standards. Use `quiet` (−23 LUFS) for broadcast-style loudness or `loud` (−9 LUFS) to push everything closer to digital max.
+
+## 10-Band Equalizer
+
+Toggle the equalizer with [`eq_enabled`](/reference/config/#audio-engine-internal) or the [`Q`](/reference/hotkeys/#playback) hotkey.
+- **Bands**: 32Hz, 64Hz, 125Hz, 250Hz, 500Hz, 1kHz, 2kHz, 4kHz, 8kHz, 16kHz — gains stored in [`eq_gains`](/reference/config/#audio-engine-internal).
+- **Presets**: You can save custom presets ([`custom_eq_presets`](/reference/config/#audio-engine-internal)) that are persisted in the state database.

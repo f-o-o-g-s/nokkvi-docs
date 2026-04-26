@@ -7,7 +7,9 @@
     "start": "./scripts/pull && astro dev",
     "build": "./scripts/pull && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "extract-config": "node scripts/extract-config.mjs",
+    "check-drift": "node scripts/extract-config.mjs && node scripts/check-drift.mjs"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.38.3",

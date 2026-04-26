@@ -1,0 +1,93 @@
+---
+title: Overview
+description: A tour of Nokkvi's interface — views, navigation, and the player bar.
+---
+
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Nokkvi is a desktop music client for [Navidrome](https://www.navidrome.org/). It's keyboard-driven and built around a persistent playback queue.
+
+## Interface Layout
+
+Every screen shares the same three-part layout:
+
+- **Nav bar** — switches between views. Can be positioned at the top (horizontal tabs) or left side (vertical), controlled by the [`nav_layout`](/reference/config/#interface-settings) setting.
+- **Main content area** — the active view.
+- **Player bar** — always visible at the bottom. Shows the current track, progress scrubber, playback controls, and volume.
+
+## Views
+
+Switch views with the number keys or by clicking the nav bar.
+
+| Key | View | What it's for |
+| :-- | :--- | :------------ |
+| `1` | Queue | Active playback queue — what's playing now and what's up next |
+| `2` | Albums | Browse your library by album |
+| `3` | Artists | Browse by artist |
+| `4` | Songs | Flat list of every track, searchable and sortable |
+| `5` | Genres | Browse by genre |
+| `6` | Playlists | Navidrome playlists |
+| `7` | Radios | Radio stations |
+| `` ` `` | Settings | App configuration |
+
+## Dual-Pane Layout
+
+Albums, Artists, Genres, and Playlists use a two-pane layout. The left pane is the scrollable list; the right pane shows the focused item's detail — artwork, track listing, or sub-items. Press `Shift + Enter` on a focused item to expand it, or `Escape` to close it.
+
+While on the Queue view, press `Ctrl + E` to open the **Library Browser** — a side panel for browsing and dragging tracks directly into the queue. See the [Queue guide](/guides/queue/) for details.
+
+## Navigation
+
+Nokkvi is fully keyboard-navigable. The core keys work the same in every view:
+
+| Key | Action |
+| :-- | :----- |
+| `Tab` / `Backspace` | Move down / up in the list |
+| `Enter` | Activate focused item |
+| `Shift + Enter` | Expand / collapse into browsing panel |
+| `/` | Open search in the current view |
+| `Escape` | Close search, collapse panel, or go back |
+| `Shift + C` | Scroll the list to the currently playing track |
+
+See the [Keyboard Shortcuts](/reference/hotkeys/) reference for the full list.
+
+## Search
+
+Press `/` in any browsable view to open the inline search bar. Nokkvi filters the list as you type, requesting matching results from the server. Press `Escape` to unfocus the search bar — the filter stays active. Use the clear button inside the search bar to reset it. In the Settings view, `Escape` clears the search and restores the full list.
+
+---
+
+## What's next?
+
+<CardGrid>
+  <LinkCard
+    title="Queue"
+    description="Learn the playback queue, Library Browser, and drag-to-queue workflow."
+    href="/guides/queue/"
+  />
+  <LinkCard
+    title="Audio"
+    description="Configure the equalizer, crossfade, and volume normalization."
+    href="/guides/audio/"
+  />
+  <LinkCard
+    title="Theming"
+    description="Create a custom color theme or tweak one of the 21 built-in themes."
+    href="/guides/theming/"
+  />
+  <LinkCard
+    title="Keyboard Shortcuts"
+    description="Full reference of every hotkey and how to remap them in config.toml."
+    href="/reference/hotkeys/"
+  />
+  <LinkCard
+    title="Configuration Reference"
+    description="Every setting in config.toml — defaults, options, and what each one does."
+    href="/reference/config/"
+  />
+  <LinkCard
+    title="Visualizer"
+    description="Understand gradient modes, peak behavior, and bars vs. lines options."
+    href="/reference/visualizer/"
+  />
+</CardGrid>
