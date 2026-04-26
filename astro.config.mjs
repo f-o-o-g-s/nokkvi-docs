@@ -57,6 +57,11 @@ export default defineConfig({
           label: "GitHub",
           href: "https://github.com/f-o-o-g-s/nokkvi",
         },
+        {
+          icon: "heart",
+          label: "Ko-fi",
+          href: "https://ko-fi.com/foogsnokkvi",
+        },
       ],
       customCss: ["./src/styles/custom.css"],
       plugins: [starlightLinksValidator()],
