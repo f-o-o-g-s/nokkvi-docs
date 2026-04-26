@@ -25,20 +25,47 @@ Toggle [`crossfade_enabled`](/reference/config/#playback-settings) in the settin
 
 ## Volume Normalization
 
-Nokkvi runs a real-time automatic gain control (AGC) on each playing stream, via rodio's `automatic_gain_control` source chained ahead of the mixer. Enable it with [`volume_normalization`](/reference/config/#playback-settings).
+Nokkvi exposes four [`volume_normalization`](/reference/config/#playback-settings) modes, picking how (or whether) to even out track-to-track loudness:
 
-- **How it works**: The AGC tracks the signal envelope frame-by-frame and adjusts gain to push it toward a configured target level. It reads no library metadata — nothing about how your Navidrome library is tagged affects it. ReplayGain tags, when present, are surfaced in the song info modal but are not applied to playback.
-- **Target Level**: Controlled by [`normalization_level`](/reference/config/#playback-settings). Maps to rodio's `target_level` — a linear amplitude target, not LUFS:
-  - `quiet` — `target_level = 0.6`. Reduced loudness, maximum headroom.
-  - `normal` (default) — `target_level = 1.0`. Maintain original perceived level.
-  - `loud` — `target_level = 1.4`. Boost quiet tracks more aggressively.
-- **Limiter**: A peak limiter (rodio `LimitSettings::dynamic_content()`) sits after the AGC so any boost is clamped before mixing.
+- **`off`** — decoded audio passes through untouched. The peak limiter is still in the chain to catch overshoot, but no gain is applied.
+- **`replay_gain_track`** — uses each song's `replayGain.trackGain` tag.
+- **`replay_gain_album`** — uses each song's `replayGain.albumGain` tag, preserving the loudness contrast within an album.
+- **`agc`** — rodio's real-time automatic gain control. No metadata required; tracks every signal envelope frame-by-frame and pushes it toward a target.
+
+A peak limiter (rodio `LimitSettings::dynamic_content()`) sits at the end of every chain, so any boost — from AGC, ReplayGain pre-amp, or both — is clamped before mixing.
+
+### ReplayGain modes
+
+ReplayGain values come from the file tags (`REPLAYGAIN_TRACK_GAIN`, `R128_TRACK_GAIN`, etc.), surfaced through the Subsonic API, and applied as a static `amplify()` factor to each stream. Because the gain is computed offline and constant per track, both sides of a crossfade are already at target — no convergence artifacts.
+
+If you tag with [`rsgain`](https://github.com/complexlogic/rsgain) or [`loudgain`](https://github.com/Moonbase59/loudgain) (modern, EBU R128–based), Navidrome reads the tags during scan and serves them to nokkvi. Older `replaygain_*` tag pairs work too. R.128–only tags are converted to ReplayGain dB by Navidrome before the API call, so nokkvi sees a single dB-format value regardless of what the tagger wrote.
+
+The four ReplayGain knobs:
+
+- **[`replay_gain_preamp_db`](/reference/config/#playback-settings)** — added to the resolved tag value before linearization. Default `0` matches the ReplayGain reference level. `+6` is typical for "modern loudness" listeners who find reference output too quiet.
+- **[`replay_gain_fallback_db`](/reference/config/#playback-settings)** — applied to tracks whose tag is missing entirely. Default `0` (unity).
+- **[`replay_gain_fallback_to_agc`](/reference/config/#playback-settings)** — when `true`, untagged tracks engage real-time AGC instead of `replay_gain_fallback_db`. Useful for libraries with mixed tagging coverage.
+- **[`replay_gain_prevent_clipping`](/reference/config/#playback-settings)** — clamps gain so `track_peak × gain ≤ 1.0` using the per-track peak tag. On by default. Disable only if you specifically want the limiter to handle peaks.
+
+Smart cross-fallback is always on: in track mode, a track without `track_gain` falls back to `album_gain` (and vice versa) silently. A track with neither uses the fallback dB or the AGC fallthrough.
+
+<Aside type="caution" title="ReplayGain track mode and gapless">
+  In `replay_gain_track` mode, the `amplify` factor is baked into the rodio chain at stream creation. nokkvi disables the gapless decoder-swap when adjacent tracks have different `track_gain` values, forcing a brief stream rebuild instead — without it, the second track would play at the first track's gain. `replay_gain_album` is unaffected (same album → same gain), as are `off` and `agc`.
+</Aside>
+
+### AGC mode
+
+Choose `agc` for libraries without ReplayGain tags. The [`normalization_level`](/reference/config/#playback-settings) target maps to rodio's `target_level` — a linear amplitude target, not LUFS:
+
+- `quiet` — `target_level = 0.6`. Reduced loudness, maximum headroom.
+- `normal` (default) — `target_level = 1.0`. Maintain original perceived level.
+- `loud` — `target_level = 1.4`. Boost quiet tracks more aggressively.
 
 ### Crossfade and normalization
 
-When crossfade and normalization are both on, you may hear a brief level mismatch at track boundaries if the two tracks differ much in loudness. Lowering [`normalization_level`](/reference/config/#playback-settings) from `normal` to `quiet` softens it.
+In **AGC** mode, you may hear a brief level mismatch at track boundaries if the two tracks differ much in loudness. Lowering [`normalization_level`](/reference/config/#playback-settings) from `normal` to `quiet` softens it. The two **ReplayGain** modes pre-level both streams at construction, so this artifact does not occur there — it's the cleanest way to combine crossfade with loudness normalization if your library is tagged.
 
-<Aside type="note" title="Why this happens (implementation detail)">
+<Aside type="note" title="Why AGC mode mismatches at boundaries (implementation detail)">
   Each stream gets its own [rodio `automatic_gain_control`](https://docs.rs/rodio/latest/rodio/source/trait.Source.html#method.automatic_gain_control) instance, and AGC has an attack/release time, so right at a track boundary the incoming stream's AGC hasn't converged on the target yet. The two instances don't share state. Nokkvi only overrides rodio's `target_level` (via `normalization_level`); attack/release stay at rodio's defaults.
 </Aside>
 

@@ -118,13 +118,17 @@ A few values you might expect here are stored separately. **Volume** and **sessi
 | `enter_behavior` | `"play_all"` | Action when pressing `Enter` on a song. Options: `play_all` (replace queue with the current view), `play_single` (replace queue with just this track), `append_and_play` (add to queue and play). |
 | `crossfade_enabled` | `false` | Enable smooth transitions between tracks. |
 | `crossfade_duration_secs` | `5` | Duration of the crossfade in seconds (1 to 12). |
-| `volume_normalization` | `false` | Enable rodio's real-time automatic gain control (AGC) on each stream. See the [Audio guide](/guides/audio/#volume-normalization). |
-| `normalization_level` | `"normal"` | AGC target level (linear amplitude, not LUFS). Options: `quiet` (0.6), `normal` (1.0), `loud` (1.4). |
+| `volume_normalization` | `"off"` | Volume-normalization mode. Options: `off`, `replay_gain_track`, `replay_gain_album`, `agc`. See the [Audio guide](/guides/audio/#volume-normalization). |
+| `normalization_level` | `"normal"` | AGC target level (linear amplitude, not LUFS). Options: `quiet` (0.6), `normal` (1.0), `loud` (1.4). Applies only when `volume_normalization = "agc"`. |
+| `replay_gain_preamp_db` | `0.0` | Pre-amp dB applied on top of the resolved ReplayGain value. Range −15 to +15. Typical values: `0` (reference), `+6` (modern-loudness target). |
+| `replay_gain_fallback_db` | `0.0` | dB applied to tracks with no ReplayGain tags. Range −15 to +15. Ignored when `replay_gain_fallback_to_agc` is `true`. |
+| `replay_gain_fallback_to_agc` | `false` | Untagged tracks fall through to real-time AGC instead of using `replay_gain_fallback_db`. |
+| `replay_gain_prevent_clipping` | `true` | Clamp the resolved gain so `track_peak × gain ≤ 1.0` using the per-track peak tag. |
 | `visualization_mode` | `"bars"` | Active visualizer mode. Options: `off`, `bars`, `lines`. Cycle live with the `V` hotkey — see [Visualizer Reference](/reference/visualizer/). |
 {/* config-table:end */}
 
 <Aside type="note" title="Crossfade and normalization">
-  With both enabled, tracks that differ much in loudness may show a brief level mismatch at the crossfade boundary. Lower `normalization_level` from `normal` to `quiet` to soften it. See [Crossfade and normalization](/guides/audio/#crossfade-and-normalization) in the audio guide.
+  In **AGC** mode, tracks that differ much in loudness may show a brief level mismatch at the crossfade boundary because each stream's AGC has not converged yet — see [Crossfade and normalization](/guides/audio/#crossfade-and-normalization). The two **ReplayGain** modes use static, pre-computed gains instead, so both sides of a crossfade are already at target level — no convergence delay, no mismatch.
 </Aside>
 
 ### Scrobbling
