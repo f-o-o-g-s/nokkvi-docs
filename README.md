@@ -1,49 +1,47 @@
-# Starlight Starter Kit: Basics
+# nokkvi-docs
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+Source for the [Nokkvi](https://github.com/f-o-o-g-s/nokkvi) documentation site, built with [Astro](https://astro.build) + [Starlight](https://starlight.astro.build).
 
-```
-npm create astro@latest -- --template starlight
-```
+**Live site:** https://f-o-o-g-s.github.io/nokkvi-docs/
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Local development
 
-## 🚀 Project Structure
-
-Inside of your Astro + Starlight project, you'll see the following folders and files:
-
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
+```bash
+npm install
+npm run dev
 ```
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+`npm run dev` pulls the latest [nokkvi](https://github.com/f-o-o-g-s/nokkvi) repo into `./nokkvi/` (so the docs can reference its config schema and source) and serves the site at <http://localhost:4321>.
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+There's also a Docker setup if you'd rather not install Node locally:
 
-Static assets, like favicons, can be placed in the `public/` directory.
+```bash
+docker compose up
+```
 
-## 🧞 Commands
+This mounts the sibling `../nokkvi/` directory into the container so the same workflow works.
 
-All commands are run from the root of the project, from a terminal:
+## Project layout
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+| Path | Purpose |
+| :--- | :------ |
+| `src/content/docs/` | Markdown / MDX page sources |
+| `src/components/` | Custom Astro components (Hero, SiteTitle) |
+| `src/styles/custom.css` | Everforest theme overrides |
+| `astro.config.mjs` | Sidebar structure and Starlight config |
+| `scripts/` | Config-schema extraction and drift-checking against nokkvi |
+| `.github/workflows/deploy.yml` | GitHub Pages deploy on push to `master` |
 
-## 👀 Want to learn more?
+## How deployment works
 
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+Every push to `master` triggers `.github/workflows/deploy.yml`, which:
+
+1. Checks out this repo and the [nokkvi](https://github.com/f-o-o-g-s/nokkvi) repo side-by-side
+2. Runs `astro build`
+3. Publishes the result to GitHub Pages
+
+Pushes to nokkvi that touch `assets/`, `CHANGELOG.md`, or `CONTRIBUTING.md` also trigger a rebuild via a `repository_dispatch` webhook — see `.github/workflows/docs_deploy.yml` in the nokkvi repo.
+
+## Contributing
+
+PRs welcome. Most pages are plain Markdown / MDX; the sidebar lives in `astro.config.mjs`.
