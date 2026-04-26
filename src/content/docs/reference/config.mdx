@@ -118,13 +118,13 @@ A few values you might expect here are stored separately. **Volume** and **sessi
 | `enter_behavior` | `"play_all"` | Action when pressing `Enter` on a song. Options: `play_all` (replace queue with the current view), `play_single` (replace queue with just this track), `append_and_play` (add to queue and play). |
 | `crossfade_enabled` | `false` | Enable smooth transitions between tracks. |
 | `crossfade_duration_secs` | `5` | Duration of the crossfade in seconds (1 to 12). |
-| `volume_normalization` | `false` | Enable EBU R128 loudness normalization. |
-| `normalization_level` | `"normal"` | Target loudness. Options: `quiet` (-23 LUFS), `normal` (-14 LUFS), `loud` (-9 LUFS). |
+| `volume_normalization` | `false` | Enable rodio's real-time automatic gain control (AGC) on each stream. See the [Audio guide](/guides/audio/#volume-normalization). |
+| `normalization_level` | `"normal"` | AGC target level (linear amplitude, not LUFS). Options: `quiet` (0.6), `normal` (1.0), `loud` (1.4). |
 | `visualization_mode` | `"bars"` | Active visualizer mode. Options: `off`, `bars`, `lines`. Cycle live with the `V` hotkey — see [Visualizer Reference](/reference/visualizer/). |
 {/* config-table:end */}
 
 <Aside type="note" title="Crossfade and normalization">
-  Crossfade and volume normalization can be used together. Normalization adjusts per-track gain; crossfade blends the transition between tracks. If a crossfade sounds uneven in volume, confirm both tracks have normalization metadata in Navidrome (this depends on how your library was tagged).
+  Crossfade and AGC can be used together but don't share state — each stream has its own AGC instance with its own attack/release. At a track boundary the incoming stream's AGC hasn't converged on the target yet, so if the two tracks differ in level you may hear a brief mismatch during the crossfade. See [Crossfade and normalization](/guides/audio/#crossfade-and-normalization) in the audio guide.
 </Aside>
 
 ### Scrobbling
