@@ -18,8 +18,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
-      - name: Pull nokkvi
-        run: ./scripts/pull
+      - name: Checkout nokkvi
+        uses: actions/checkout@v5
+        with:
+          repository: f-o-o-g-s/nokkvi
+          token: ${{ secrets.NOKKVI_READ_TOKEN }}
+          path: nokkvi
       - name: Install, build, and upload site
         uses: withastro/action@v5
 
