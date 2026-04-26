@@ -3,6 +3,8 @@ title: Audio Engine
 description: Deep dive into Nokkvi's high-performance PipeWire audio engine.
 ---
 
+import { Aside } from '@astrojs/starlight/components';
+
 Nokkvi is built for audiophiles who want a native, high-performance listening experience.
 
 ## Native PipeWire Support
@@ -34,7 +36,11 @@ Nokkvi runs a real-time automatic gain control (AGC) on each playing stream, via
 
 ### Crossfade and normalization
 
-Crossfade and AGC work together but don't share state. Each stream has its own independent AGC instance, and AGC has an attack/release time — so right at a track boundary the incoming stream's AGC hasn't converged on the target yet. If the incoming track is much louder or quieter than the outgoing one, you may hear a brief level mismatch during the crossfade. Lowering the target (`normal` → `quiet`) gives the AGC more headroom and softens this.
+When crossfade and normalization are both on, you may hear a brief level mismatch at track boundaries if the two tracks differ much in loudness. Lowering [`normalization_level`](/reference/config/#playback-settings) from `normal` to `quiet` softens it.
+
+<Aside type="note" title="Why this happens (implementation detail)">
+  Each stream gets its own [rodio `automatic_gain_control`](https://docs.rs/rodio/latest/rodio/source/trait.Source.html#method.automatic_gain_control) instance, and AGC has an attack/release time, so right at a track boundary the incoming stream's AGC hasn't converged on the target yet. The two instances don't share state. Nokkvi only overrides rodio's `target_level` (via `normalization_level`); attack/release stay at rodio's defaults.
+</Aside>
 
 ## 10-Band Equalizer
 

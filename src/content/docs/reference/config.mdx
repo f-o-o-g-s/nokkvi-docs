@@ -124,7 +124,7 @@ A few values you might expect here are stored separately. **Volume** and **sessi
 {/* config-table:end */}
 
 <Aside type="note" title="Crossfade and normalization">
-  Crossfade and AGC can be used together but don't share state — each stream has its own AGC instance with its own attack/release. At a track boundary the incoming stream's AGC hasn't converged on the target yet, so if the two tracks differ in level you may hear a brief mismatch during the crossfade. See [Crossfade and normalization](/guides/audio/#crossfade-and-normalization) in the audio guide.
+  With both enabled, tracks that differ much in loudness may show a brief level mismatch at the crossfade boundary. Lower `normalization_level` from `normal` to `quiet` to soften it. See [Crossfade and normalization](/guides/audio/#crossfade-and-normalization) in the audio guide.
 </Aside>
 
 ### Scrobbling
