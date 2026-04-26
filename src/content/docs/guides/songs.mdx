@@ -3,8 +3,6 @@ title: Songs
 description: Browse every track in your library.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
-
 The Songs view is a flat list of every track in your library. Each row shows the album artwork, title, artist (clickable), album (clickable), duration, and an optional rating / love column.
 
 ## Sorting
@@ -31,17 +29,15 @@ The gear icon toggles **Album**, **Stars**, **Plays**, **Duration**, and **Love*
 | `Shift + L` | Star / unstar the focused song |
 | `Shift + C` | Center on the currently playing song |
 | `Shift + I` | Open the info modal |
-| `Shift + S` | Find similar songs |
-| `Shift + T` | Top songs by the focused song's artist |
 | `=` / `-` | Increase / decrease rating |
 | `/` | Focus the search bar |
 | `R` | Refresh from server |
 
 Multi-select with `Ctrl + Click` and `Shift + Click`. `Enter` plays every selected song; `Shift + A` queues them.
 
-<Aside type="caution" title="Search matches title only">
-  The search bar in the Songs view searches the **title** field only. To narrow by artist, album, or genre, click those values on a row to filter through to the corresponding view.
-</Aside>
+## Search
+
+`/` focuses the search bar. Search hits the Navidrome backend's full-text index and matches across **title, album, artist, and album artist** — typing `radiohead` finds tracks where Radiohead is the artist as well as anything titled "Radiohead".
 
 ## Click-through filters
 
@@ -55,13 +51,10 @@ Multi-select with `Ctrl + Click` and `Shift + Click`. `Enter` plays every select
 - **Add to Playlist**
 - **Get Info** — full metadata: title, artist, album, duration, bitrate, sample rate, BPM, format, etc.
 - **Show in File Manager** — requires `local_music_path` in config
-- **Find Similar**
-- **Top Songs**
 
 ## Performance with large libraries
 
 Songs loads pages on demand as you scroll. For libraries over ~100k tracks:
 
 - **Random sort** re-samples on every reload, so "Center on Playing" may jump to offset 0 if the playing track isn't in the current sample.
-- Search is title-only and case-insensitive — narrow your terms.
 - Filtering through Artist or Album first is usually faster than scrolling Songs.

@@ -26,8 +26,6 @@ In **Settings → General**, the **Show Album Artists Only** toggle controls whe
 | `Shift + L` | Star / unstar the focused artist, album, or track |
 | `Shift + C` | Center on the currently playing artist |
 | `Shift + I` | Open the info modal |
-| `Shift + S` | Find similar artists |
-| `Shift + T` | Top songs by the focused artist |
 | `=` / `-` | Increase / decrease rating |
 | `/` | Focus the search bar |
 | `R` | Refresh from server |
@@ -43,16 +41,12 @@ The Artists view supports two levels of inline expansion:
 
 ## Right-click menu
 
-| On an artist | On an expanded album | On an expanded track |
-| :----------- | :------------------- | :------------------- |
-| Add to Queue | Add to Queue | Add to Queue |
-| Add to Playlist | Add to Playlist | Add to Playlist |
-| Get Info | Get Info | Get Info |
-| Show in File Manager | Show in File Manager | Show in File Manager |
-| Find Similar | Find Similar | Find Similar |
-| Top Songs |  |  |
+Artist, expanded album, and expanded track rows all offer the same core actions:
 
-**Find Similar** and **Top Songs** depend on Last.fm being configured on your Navidrome server — see [Scrobbling](/guides/navidrome/#scrobbling).
+- **Add to Queue**
+- **Add to Playlist**
+- **Get Info**
+- **Show in File Manager** (requires `local_music_path` in your config)
 
 ## Search and ratings
 

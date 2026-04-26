@@ -30,8 +30,6 @@ Click the gear icon in the header to toggle columns: **Song Count**, **Stars** (
 | `Shift + L` | Star / unstar the focused album or track |
 | `Shift + C` | Center on the currently playing album |
 | `Shift + I` | Open the info modal |
-| `Shift + S` | Find similar (by album artist) |
-| `Shift + T` | Top songs by the album artist |
 | `=` / `-` | Increase / decrease rating |
 | `/` | Focus the search bar |
 | `R` | Refresh from server |
@@ -49,20 +47,16 @@ The search bar (focused with `/`) matches album name and album artist. It's case
 
 ## Expanding to tracks
 
-`Shift + Enter` expands the focused album so its tracks appear indented below it. Clicking the "*N* songs" text does the same. Tracks have their own context menu with **Find Similar** (per song) and **Top Songs** (by track artist). Only one album can be expanded at a time; changing sort, search, or refreshing collapses the expansion.
+`Shift + Enter` expands the focused album so its tracks appear indented below it. Clicking the "*N* songs" text does the same. Only one album can be expanded at a time; changing sort, search, or refreshing collapses the expansion.
 
 ## Right-click menu
 
-| On an album row | On an expanded track |
-| :-------------- | :------------------- |
-| Add to Queue | Add to Queue |
-| Add to Playlist | Add to Playlist |
-| Get Info | Get Info |
-| Show in File Manager | Show in File Manager |
-|  | Find Similar |
-|  | Top Songs |
+Both album rows and expanded track rows offer:
 
-**Show in File Manager** requires `local_music_path` to be set in your config — see [Configuration](/reference/config/).
+- **Add to Queue**
+- **Add to Playlist**
+- **Get Info**
+- **Show in File Manager** (requires `local_music_path` in your config — see [Configuration](/reference/config/))
 
 ## Artwork refresh
 
