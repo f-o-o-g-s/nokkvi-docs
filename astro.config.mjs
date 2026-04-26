@@ -30,12 +30,19 @@ export default defineConfig({
         { label: "Installation", slug: "guides/installation" },
         { label: "Connecting to Navidrome", slug: "guides/navidrome" },
         {
-          label: "Guides",
+          label: "Library",
           items: [
             { label: "Queue", slug: "guides/queue" },
+            { label: "Playlists", slug: "guides/playlists" },
+          ],
+        },
+        {
+          label: "Guides",
+          items: [
             { label: "Artwork & Performance", slug: "guides/artwork" },
             { label: "Audio Engine", slug: "guides/audio" },
             { label: "Customizing Themes", slug: "guides/theming" },
+            { label: "Media Controls (MPRIS)", slug: "guides/mpris" },
           ],
         },
         {

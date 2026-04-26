@@ -17,9 +17,15 @@ When you first launch Nokkvi, you'll be greeted with a login screen.
 
 ## Persistent Sessions
 
-Nokkvi uses Navidrome's native API (JWT tokens) for most operations. By default, Navidrome sessions expire after 48 hours, which may cause "API Error" messages in Nokkvi when the token becomes invalid.
+Nokkvi uses Navidrome's native API (JWT tokens) for most operations. The session token is stored securely after first login and resumes automatically on subsequent launches. To switch servers or users, go to **Settings** and select **Logout**.
 
-Add or update `SessionTimeout` in your `navidrome.toml`:
+By default, Navidrome sessions expire after 48 hours, which may cause "API Error" messages in Nokkvi when the token becomes invalid. The `SessionTimeout` setting in the recommended config below extends this.
+
+## Recommended navidrome.toml for Nokkvi
+
+Below is a reference configuration tuned for use with Nokkvi. Artwork-specific settings (`ImageCacheSize`, `CoverArtQuality`) are covered in [Artwork & Performance](/guides/artwork/#navidrome-server-settings).
+
+### Session Timeout
 
 ```toml
 SessionTimeout = "8760h"
@@ -28,12 +34,6 @@ SessionTimeout = "8760h"
 <Aside type="caution" title="Security Tradeoff">
   A long session timeout means a compromised device stays authenticated longer. Use a duration that fits your security needs.
 </Aside>
-
-Nokkvi securely stores the session token after first login and resumes it automatically on subsequent launches. To switch servers or users, go to **Settings** and select **Logout**.
-
-## Recommended navidrome.toml for Nokkvi
-
-Below is a reference configuration tuned for use with Nokkvi. Artwork-specific settings (`ImageCacheSize`, `CoverArtQuality`) are covered in [Artwork & Performance](/guides/artwork/#navidrome-server-settings).
 
 ### Scrobbling
 

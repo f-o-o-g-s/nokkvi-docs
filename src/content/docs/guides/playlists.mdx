@@ -1,0 +1,84 @@
+---
+title: Playlists
+description: Browse, create, and edit Navidrome playlists in Nokkvi.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The Playlists view shows every playlist on your Navidrome server. Click a playlist to expand its tracks inline, or right-click for the full set of actions.
+
+## Browsing
+
+Playlists are shown with cover art (a 3×3 collage if the playlist spans multiple albums), name, owner, song count, and duration. Use `/` to focus the search bar — it filters by name and comment. Press `R` to refresh from the server.
+
+### Sorting
+
+| Key | Action |
+| :-- | :----- |
+| `Left` / `Right` | Cycle sort mode |
+| `Page Up` | Toggle ascending / descending |
+
+Available sort modes: **Name**, **Song Count**, **Duration**, **Updated At**, and **Random** (client-side shuffle).
+
+### Expanding a playlist
+
+`Shift + Enter` expands the focused playlist and loads its tracks inline below it. `Escape` collapses. Only one playlist can be expanded at a time.
+
+## Hotkeys
+
+| Key | Action |
+| :-- | :----- |
+| `6` | Switch to Playlists view |
+| `Enter` | Play the focused playlist (replaces queue) |
+| `Shift + Enter` | Expand / collapse the focused playlist |
+| `Shift + A` | Append the focused playlist (or selection) to the queue |
+| `Shift + L` | Star / unstar the focused track (when expanded) |
+| `Escape` | Collapse expansion |
+| `/` | Focus the search bar |
+| `R` | Refresh |
+
+Multi-select with `Ctrl + Click` and `Shift + Click` works the same way as in other library views — `Shift + A` then queues every selected playlist's tracks.
+
+## Creating Playlists
+
+There are two ways to create a playlist:
+
+1. **Save the queue** — from the Queue view, press `Ctrl + S`. A dialog prompts for a name and lets you create a new playlist or append to an existing one.
+2. **Add to Playlist** — right-click any track, album, or artist in any view → **Add to Playlist**. The dialog can create a new playlist or pick one to append to.
+
+### Default playlist
+
+Right-click a playlist → **Set as Default Playlist** to mark it as the quick-add target. The next time you use **Add to Playlist**, that playlist is pre-selected so you can append in one keystroke.
+
+## Editing Playlists
+
+Right-click a playlist for these actions:
+
+| Action | What it does |
+| :----- | :----------- |
+| **Add to Queue** | Appends every song in the playlist to the queue |
+| **Edit Playlist** | Enters split-view edit mode (see below) |
+| **Rename Playlist** | Opens a dialog to change the name |
+| **Delete Playlist** | Deletes after confirmation |
+| **Set as Default Playlist** | Marks as the quick-add target |
+| **Get Info** | Shows a modal with song count, duration, owner, public flag, and dates |
+
+### Split-view edit mode
+
+**Edit Playlist** opens a split layout: the queue (now containing the playlist's tracks) is on the left, and the Library Browser is on the right. From here you can:
+
+- Reorder tracks with drag-and-drop or `Shift + ↑/↓`
+- Add tracks by dragging from the Library Browser
+- Remove tracks the same way you'd remove them from the queue
+
+When you're done, press `Ctrl + S` to save the changes back to the playlist. Nokkvi tracks unsaved changes and warns before discarding them.
+
+## Limitations
+
+<Aside type="note" title="Server-side features not exposed">
+  A few Navidrome playlist features are intentionally not surfaced in Nokkvi.
+</Aside>
+
+- **Smart playlists** are not supported — Nokkvi only manages manual playlists.
+- **Public / private toggle** is read-only. The flag is shown in **Get Info** but must be changed in Navidrome's web UI.
+- **M3U / PLS export** is not supported — playlists live entirely on the server.

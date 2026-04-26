@@ -1,0 +1,31 @@
+---
+title: Media Controls (MPRIS)
+description: Control Nokkvi from your desktop, scripts, or window manager using MPRIS and playerctl.
+---
+
+Nokkvi registers as `nokkvi` on the MPRIS D-Bus interface. Any MPRIS-compatible controller — `playerctl`, your desktop's media keys, or a window manager keybind — will work.
+
+## CLI
+
+```bash
+playerctl -p nokkvi play-pause
+playerctl -p nokkvi next
+playerctl -p nokkvi previous
+playerctl -p nokkvi volume 0.05+
+playerctl -p nokkvi metadata
+```
+
+## Hyprland keybinds
+
+```conf
+# ~/.config/hypr/hyprland.conf
+bind  = $mainMod ALT, space, exec, playerctl -p nokkvi play-pause
+bind  = $mainMod ALT, right, exec, playerctl -p nokkvi next
+bind  = $mainMod ALT, left,  exec, playerctl -p nokkvi previous
+binde = $mainMod ALT, up,   exec, playerctl -p nokkvi volume 0.01+
+binde = $mainMod ALT, down, exec, playerctl -p nokkvi volume 0.01-
+```
+
+## Other window managers
+
+The `playerctl` commands above work the same in any WM. Bind them however your compositor handles exec keybinds (e.g. `sway`'s `bindsym`, `i3`'s `bindsym`, `dwm`'s config.h).
