@@ -1,0 +1,57 @@
+---
+title: Radio
+description: Manage and play internet radio stations through Navidrome.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The Radio view manages internet radio stations on your Navidrome server. Stations are HTTP streams (Icecast/Shoutcast) that play directly — not through the queue.
+
+## Hotkeys
+
+| Key | Action |
+| :-- | :----- |
+| `7` | Switch to Radio view |
+| `Enter` | Play the focused station |
+| `/` | Focus the search bar |
+| `Page Up` | Toggle ascending / descending |
+| `R` | Refresh from server |
+
+Multi-select with `Ctrl + Click` and `Shift + Click`. There's only one sort mode (Name), so `Left` / `Right` are no-ops here.
+
+## Search
+
+`/` focuses search. It matches both station **name** and **stream URL** (case-insensitive substring).
+
+## Adding, editing, and removing stations
+
+All radio CRUD lives in Nokkvi — you don't need to touch Navidrome's web UI.
+
+- **Add Station** button (header, top-right) opens a dialog for **name** and **stream URL**.
+- **Right-click → Edit Station** re-opens that dialog pre-populated.
+- **Right-click → Delete Station** removes the station after confirmation.
+- **Right-click → Copy Stream URL** copies the URL to your clipboard.
+
+Behind the scenes, Nokkvi calls Navidrome's `createInternetRadioStation`, `updateInternetRadioStation`, and `deleteInternetRadioStation` endpoints.
+
+## Now playing
+
+When a station is streaming, the track info strip shows:
+
+- The station name (with a 📻 icon)
+- The current track's **artist** and **title**, parsed from the stream's ICY metadata in real time
+- The stream URL as a fallback if no ICY metadata has been received yet
+
+Most public Icecast/Shoutcast streams advertise ICY metadata; if a station you've added shows only the URL with no track info, it likely doesn't.
+
+## Limitations
+
+<Aside type="note">
+  Radio playback is intentionally separate from the rest of Nokkvi.
+</Aside>
+
+- **No queue integration** — radio streams aren't queued. Switching from Radio to Queue stops the stream.
+- **No scrobbling** — radio playback isn't reported to Last.fm or ListenBrainz.
+- **No favorites or playlists** — you can't star a station or add it to a playlist.
+- **No artwork or expansion** — radio rows are flat; no cover art, no track listings.
+- **Session-only playback** — the stream stops when you close Nokkvi and doesn't auto-resume.

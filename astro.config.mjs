@@ -36,7 +36,9 @@ export default defineConfig({
             { label: "Albums", slug: "guides/albums" },
             { label: "Artists", slug: "guides/artists" },
             { label: "Songs", slug: "guides/songs" },
+            { label: "Genres", slug: "guides/genres" },
             { label: "Playlists", slug: "guides/playlists" },
+            { label: "Radio", slug: "guides/radio" },
           ],
         },
         {

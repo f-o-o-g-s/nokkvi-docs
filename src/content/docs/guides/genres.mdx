@@ -1,0 +1,55 @@
+---
+title: Genres
+description: Browse your library grouped by genre.
+---
+
+The Genres view lists every genre in your library with album and song counts. A 3×3 collage of album covers stands in for genre artwork.
+
+## Sorting
+
+`Left` / `Right` cycle the sort mode; `Page Up` toggles direction. Available modes:
+
+- **Name** *(default)*, **Album Count**, **Song Count**, **Random**
+
+## Hotkeys
+
+| Key | Action |
+| :-- | :----- |
+| `5` | Switch to Genres view |
+| `Enter` | Play every song in the focused genre (replaces queue) |
+| `Shift + Enter` | Expand / collapse the focused genre or album |
+| `Shift + A` | Append the focused genre (or selection) to the queue |
+| `Shift + L` | Star / unstar the focused track |
+| `Shift + C` | Center on the genre containing the playing track |
+| `/` | Focus the search bar |
+| `R` | Refresh from server |
+
+Multi-select with `Ctrl + Click` and `Shift + Click`.
+
+## Two-level expansion
+
+`Shift + Enter` on a genre expands its albums inline. `Shift + Enter` on an expanded album (or clicking the "*N* songs" text) expands that album's tracks. Only one genre and one album within it can be expanded at a time.
+
+You can also click the "*N* albums" text on a genre row to focus and expand it directly.
+
+## Search
+
+`/` focuses the search bar. Search matches genre name only.
+
+## Click-through filters
+
+From an expanded album or track row:
+
+- **Album** name → Albums view filtered to that album
+- **Artist** name → Artists view filtered to that artist
+
+## Right-click menu
+
+| On a genre | On an expanded album or track |
+| :--------- | :----------------------------- |
+| Add to Queue | Add to Queue |
+| Add to Playlist | Add to Playlist |
+| Get Info | Get Info |
+|  | Show in File Manager |
+
+**Show in File Manager** requires `local_music_path` in your config — see [Configuration](/reference/config/).
