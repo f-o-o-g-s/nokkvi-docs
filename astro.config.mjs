@@ -1,11 +1,45 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
+import starlightLinksValidator from "starlight-links-validator";
+
+const BASE = "/nokkvi-docs";
+
+/**
+ * Remark plugin: prefix BASE onto root-absolute markdown links so authors
+ * can write `/reference/foo` and have it resolve correctly under the
+ * deployed base path. Skips external URLs, mailto/tel, pure anchors, and
+ * links already prefixed with BASE.
+ */
+function remarkPrefixBase() {
+  const shouldSkip = (url) =>
+    !url ||
+    /^[a-z][a-z0-9+.-]*:/i.test(url) || // protocol (http:, mailto:, etc.)
+    url.startsWith("//") ||
+    url.startsWith("#") ||
+    !url.startsWith("/") ||
+    url === BASE ||
+    url.startsWith(`${BASE}/`) ||
+    url.startsWith(`${BASE}#`);
+
+  return (tree) => {
+    const visit = (node) => {
+      if (node.type === "link" && !shouldSkip(node.url)) {
+        node.url = `${BASE}${node.url}`;
+      }
+      if (node.children) node.children.forEach(visit);
+    };
+    visit(tree);
+  };
+}
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://f-o-o-g-s.github.io",
-  base: "/nokkvi-docs",
+  base: BASE,
+  markdown: {
+    remarkPlugins: [remarkPrefixBase],
+  },
   integrations: [
     starlight({
       title: "Nokkvi",
@@ -25,6 +59,7 @@ export default defineConfig({
         },
       ],
       customCss: ["./src/styles/custom.css"],
+      plugins: [starlightLinksValidator()],
       sidebar: [
         { label: "Overview", slug: "overview" },
         { label: "Installation", slug: "guides/installation" },

@@ -5,6 +5,8 @@ description: A tour of Nokkvi's interface — views, navigation, and the player 
 
 import { CardGrid, LinkCard } from '@astrojs/starlight/components';
 
+export const link = (path) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+
 Nokkvi is a desktop music client for [Navidrome](https://www.navidrome.org/). It's keyboard-driven and built around a persistent playback queue.
 
 ## Interface Layout
@@ -63,31 +65,31 @@ Press `/` in any browsable view to open the inline search bar. Nokkvi filters th
   <LinkCard
     title="Queue"
     description="Learn the playback queue, Library Browser, and drag-to-queue workflow."
-    href="/guides/queue/"
+    href={link("/guides/queue/")}
   />
   <LinkCard
     title="Audio"
     description="Configure the equalizer, crossfade, and volume normalization."
-    href="/guides/audio/"
+    href={link("/guides/audio/")}
   />
   <LinkCard
     title="Theming"
     description="Create a custom color theme or tweak one of the 21 built-in themes."
-    href="/guides/theming/"
+    href={link("/guides/theming/")}
   />
   <LinkCard
     title="Keyboard Shortcuts"
     description="Full reference of every hotkey and how to remap them in config.toml."
-    href="/reference/hotkeys/"
+    href={link("/reference/hotkeys/")}
   />
   <LinkCard
     title="Configuration Reference"
     description="Every setting in config.toml — defaults, options, and what each one does."
-    href="/reference/config/"
+    href={link("/reference/config/")}
   />
   <LinkCard
     title="Visualizer"
     description="Understand gradient modes, peak behavior, and bars vs. lines options."
-    href="/reference/visualizer/"
+    href={link("/reference/visualizer/")}
   />
 </CardGrid>
