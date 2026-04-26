@@ -330,6 +330,16 @@ function buildSetting(field, defaultExpr, opts = {}) {
   };
 }
 
+// Internal-only fields that exist in the Rust structs but are never written
+// or read by users in `config.toml`. The drift checker would otherwise flag
+// them forever as "added but undocumented". Keep this list tight — anything
+// here is a deliberate decision to hide an implementation detail.
+const HIDDEN_KEYS = new Set([
+  // Migration shim for the legacy `volume_normalization: bool` shape; cleared
+  // after the first save once `volume_normalization_mode` is canonical.
+  'volume_normalization_legacy',
+]);
+
 const settings = [];
 
 // Credentials (server_url, username) live in config.toml under General.
@@ -343,6 +353,7 @@ for (const f of credFields) {
 // TomlSettings — flat top-level fields. `visualization_mode` belongs to Playback;
 // the visualizer.* sub-tree lives in VisualizerConfig (loaded separately by nokkvi).
 for (const f of tomlFields) {
+  if (HIDDEN_KEYS.has(f.name)) continue;
   settings.push(buildSetting(f, tomlDefaults[f.name], { sourceFile: FILES.toml }));
 }
 

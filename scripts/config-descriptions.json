@@ -104,6 +104,18 @@
   "quick_add_to_playlist": {
     "description": "Skip the \"Add to Playlist\" dialog and add directly to a remembered default playlist."
   },
+  "replay_gain_fallback_db": {
+    "description": "dB applied to tracks with no ReplayGain tags. Range -15 to +15. Ignored when `replay_gain_fallback_to_agc` is `true`."
+  },
+  "replay_gain_fallback_to_agc": {
+    "description": "Untagged tracks fall through to real-time AGC instead of using `replay_gain_fallback_db`."
+  },
+  "replay_gain_preamp_db": {
+    "description": "Pre-amp dB applied on top of the resolved ReplayGain value. Range -15 to +15. Typical: `0` (reference), `+6` (modern-loudness target)."
+  },
+  "replay_gain_prevent_clipping": {
+    "description": "Clamp the resolved gain so `track_peak × gain ≤ 1.0` using the per-track peak tag."
+  },
   "rounded_mode": {
     "description": "Apply rounded corners to all UI elements."
   },
