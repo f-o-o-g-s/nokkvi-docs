@@ -1,0 +1,67 @@
+---
+title: Songs
+description: Browse every track in your library.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The Songs view is a flat list of every track in your library. Each row shows the album artwork, title, artist (clickable), album (clickable), duration, and an optional rating / love column.
+
+## Sorting
+
+`Left` / `Right` cycle the sort mode; `Page Up` toggles direction. Songs has the most sort modes of any view:
+
+- **Recently Added** *(default)*, **Recently Played**, **Most Played**, **Favorited**, **Random**
+- **Title**, **Album**, **Artist**, **Album Artist**
+- **Release Year**, **Duration**, **BPM**, **Channels**, **Genre**, **Rating**, **Comment**
+
+The dynamic column on the right adapts to the current sort — showing year, duration, plays, rating, or genre.
+
+## Columns
+
+The gear icon toggles **Album**, **Stars**, **Plays**, **Duration**, and **Love**. As with other views, Stars auto-show when sorted by Rating and Plays auto-show when sorted by Most Played.
+
+## Hotkeys
+
+| Key | Action |
+| :-- | :----- |
+| `4` | Switch to Songs view |
+| `Enter` | Play from the focused song forward (replaces queue) |
+| `Shift + A` | Append the focused song (or selection) to the queue |
+| `Shift + L` | Star / unstar the focused song |
+| `Shift + C` | Center on the currently playing song |
+| `Shift + I` | Open the info modal |
+| `Shift + S` | Find similar songs |
+| `Shift + T` | Top songs by the focused song's artist |
+| `=` / `-` | Increase / decrease rating |
+| `/` | Focus the search bar |
+| `R` | Refresh from server |
+
+Multi-select with `Ctrl + Click` and `Shift + Click`. `Enter` plays every selected song; `Shift + A` queues them.
+
+<Aside type="caution" title="Search matches title only">
+  The search bar in the Songs view searches the **title** field only. To narrow by artist, album, or genre, click those values on a row to filter through to the corresponding view.
+</Aside>
+
+## Click-through filters
+
+- **Artist** name on a row → Artists view filtered to that artist
+- **Album** name on a row → Albums view filtered to that album
+- **Genre** in the dynamic column (when sorted by Genre) → Genres view filtered to that genre
+
+## Right-click menu
+
+- **Add to Queue**
+- **Add to Playlist**
+- **Get Info** — full metadata: title, artist, album, duration, bitrate, sample rate, BPM, format, etc.
+- **Show in File Manager** — requires `local_music_path` in config
+- **Find Similar**
+- **Top Songs**
+
+## Performance with large libraries
+
+Songs loads pages on demand as you scroll. For libraries over ~100k tracks:
+
+- **Random sort** re-samples on every reload, so "Center on Playing" may jump to offset 0 if the playing track isn't in the current sample.
+- Search is title-only and case-insensitive — narrow your terms.
+- Filtering through Artist or Album first is usually faster than scrolling Songs.

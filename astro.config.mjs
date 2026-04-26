@@ -33,6 +33,9 @@ export default defineConfig({
           label: "Library",
           items: [
             { label: "Queue", slug: "guides/queue" },
+            { label: "Albums", slug: "guides/albums" },
+            { label: "Artists", slug: "guides/artists" },
+            { label: "Songs", slug: "guides/songs" },
             { label: "Playlists", slug: "guides/playlists" },
           ],
         },

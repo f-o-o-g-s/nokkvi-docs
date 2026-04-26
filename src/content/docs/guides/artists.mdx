@@ -1,0 +1,59 @@
+---
+title: Artists
+description: Browse artists, drill into their discography, and pull recommendations.
+---
+
+The Artists view shows every artist in your library. Each row shows artwork (or a fallback album cover), name, and stats. The right side shows a large artwork panel with the artist's biography pulled from Last.fm via Navidrome — when present, a "Read more on Last.fm" button opens the full bio in your browser.
+
+## Sorting
+
+Cycle with `Left` / `Right`; toggle direction with `Page Up`. Available modes:
+
+- **Name** *(default)*, **Favorited**, **Most Played**, **Album Count**, **Song Count**, **Rating**, **Random**
+
+## Album Artists vs. Track Artists
+
+In **Settings → General**, the **Show Album Artists Only** toggle controls whether collaborators / track-only artists show up in this view. With it on, only artists with explicit album-artist tags appear — keeping the list tighter for libraries with lots of features and one-off contributors.
+
+## Hotkeys
+
+| Key | Action |
+| :-- | :----- |
+| `3` | Switch to Artists view |
+| `Enter` | Play all songs by the focused artist (replaces queue) |
+| `Shift + Enter` | Expand / collapse the focused artist or album |
+| `Shift + A` | Append the focused artist (or selection) to the queue |
+| `Shift + L` | Star / unstar the focused artist, album, or track |
+| `Shift + C` | Center on the currently playing artist |
+| `Shift + I` | Open the info modal |
+| `Shift + S` | Find similar artists |
+| `Shift + T` | Top songs by the focused artist |
+| `=` / `-` | Increase / decrease rating |
+| `/` | Focus the search bar |
+| `R` | Refresh from server |
+
+## Three-tier expansion
+
+The Artists view supports two levels of inline expansion:
+
+1. `Shift + Enter` on an **artist** expands their albums below the row.
+2. `Shift + Enter` on an expanded **album** (or clicking its "*N* songs" text) expands that album's tracks below it.
+
+`Shift + Enter` again on any row collapses that level. Changing sort or search clears all expansion state.
+
+## Right-click menu
+
+| On an artist | On an expanded album | On an expanded track |
+| :----------- | :------------------- | :------------------- |
+| Add to Queue | Add to Queue | Add to Queue |
+| Add to Playlist | Add to Playlist | Add to Playlist |
+| Get Info | Get Info | Get Info |
+| Show in File Manager | Show in File Manager | Show in File Manager |
+| Find Similar | Find Similar | Find Similar |
+| Top Songs |  |  |
+
+**Find Similar** and **Top Songs** depend on Last.fm being configured on your Navidrome server — see [Scrobbling](/guides/navidrome/#scrobbling).
+
+## Search and ratings
+
+`/` focuses search; matches are case-insensitive substrings on artist name. Ratings are 0–5 stars; clicking the same star clears it, or use `=` / `-` to step.

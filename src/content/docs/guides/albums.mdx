@@ -1,0 +1,69 @@
+---
+title: Albums
+description: Browse your album library in Nokkvi.
+---
+
+The Albums view is Nokkvi's main library browser. Each row shows the cover, title, and album artist; the right side shows a large artwork panel for the focused album with metadata overlay.
+
+## Sorting
+
+`Left` and `Right` cycle the sort mode; `Page Up` toggles ascending / descending. Available modes:
+
+- **Recently Added** *(default)*, **Recently Played**, **Most Played**, **Favorited**, **Random**
+- **Name**, **Album Artist**, **Artist**, **Release Year**
+- **Song Count**, **Duration**, **Rating**, **Genre**
+
+The dynamic column on the right adapts to the current sort — release year, duration, last play date, or genre. When sorted by **Genre**, clicking the genre value jumps to the Genres view filtered to that genre.
+
+## Columns
+
+Click the gear icon in the header to toggle columns: **Song Count**, **Stars** (rating), **Plays**, and **Love** (heart). Stars auto-show when sorted by Rating; Plays auto-show when sorted by Most Played, even if toggled off.
+
+## Hotkeys
+
+| Key | Action |
+| :-- | :----- |
+| `2` | Switch to Albums view |
+| `Enter` | Play the focused album (replaces queue) |
+| `Shift + Enter` | Expand / collapse the focused album to show its tracks inline |
+| `Shift + A` | Append the focused album (or selection) to the queue |
+| `Shift + L` | Star / unstar the focused album or track |
+| `Shift + C` | Center on the currently playing album |
+| `Shift + I` | Open the info modal |
+| `Shift + S` | Find similar (by album artist) |
+| `Shift + T` | Top songs by the album artist |
+| `=` / `-` | Increase / decrease rating |
+| `/` | Focus the search bar |
+| `R` | Refresh from server |
+
+Multi-select with `Ctrl + Click` and `Shift + Click`. `Shift + A` then queues every selected album.
+
+## Search
+
+The search bar (focused with `/`) matches album name and album artist. It's case-insensitive; no field syntax.
+
+## Click-through filters
+
+- **Album artist** is clickable on every row — jumps to the Artists view filtered to that artist.
+- **Genre** is clickable in the dynamic column when sorted by Genre — jumps to the Genres view filtered to that genre.
+
+## Expanding to tracks
+
+`Shift + Enter` expands the focused album so its tracks appear indented below it. Clicking the "*N* songs" text does the same. Tracks have their own context menu with **Find Similar** (per song) and **Top Songs** (by track artist). Only one album can be expanded at a time; changing sort, search, or refreshing collapses the expansion.
+
+## Right-click menu
+
+| On an album row | On an expanded track |
+| :-------------- | :------------------- |
+| Add to Queue | Add to Queue |
+| Add to Playlist | Add to Playlist |
+| Get Info | Get Info |
+| Show in File Manager | Show in File Manager |
+|  | Find Similar |
+|  | Top Songs |
+
+**Show in File Manager** requires `local_music_path` to be set in your config — see [Configuration](/reference/config/).
+
+## Artwork refresh
+
+The right-side artwork panel has a refresh button that re-pulls cover art from the server, evicting the local cache. Useful when you've updated artwork in Navidrome and want to see it immediately.
