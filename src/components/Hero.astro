@@ -5,6 +5,10 @@ import { LinkButton } from "@astrojs/starlight/components";
 const { data } = Astro.locals.starlightRoute.entry;
 const { title = data.title, tagline, image, actions = [] } = data.hero || {};
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const withBase = (path: string) =>
+    path && path.startsWith("/") && !path.startsWith("//") ? `${base}${path}` : path;
+
 const imageAttrs = {
     loading: "eager" as const,
     decoding: "async" as const,
@@ -43,7 +47,7 @@ if (image) {
             actions.length > 0 && (
                 <div class="sl-flex actions">
                     {actions.map(({ attrs: { class: className, ...attrs } = {}, icon, link: href, text, variant }) => (
-                        <LinkButton {href} {variant} icon={icon?.name} class:list={[className]} {...attrs}>
+                        <LinkButton href={withBase(href)} {variant} icon={icon?.name} class:list={[className]} {...attrs}>
                             {text}
                             {icon?.html && <Fragment set:html={icon.html} />}
                         </LinkButton>

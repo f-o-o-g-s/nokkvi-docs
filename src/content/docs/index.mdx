@@ -19,26 +19,28 @@ hero:
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
+export const link = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+
 ## Next Steps
 
 <CardGrid stagger>
 	<Card title="Installation" icon="rocket">
-		<a href="/guides/installation/" style={{ textDecoration: "none" }}>
+		<a href={link("guides/installation/")} style={{ textDecoration: "none" }}>
 			Get Nokkvi running on your system with our installation guide.
 		</a>
 	</Card>
 	<Card title="Configuration" icon="setting">
-		<a href="/guides/navidrome/" style={{ textDecoration: "none" }}>
+		<a href={link("guides/navidrome/")} style={{ textDecoration: "none" }}>
 			Connect to your Navidrome server and set up your library.
 		</a>
 	</Card>
 	<Card title="Theming" icon="pencil">
-		<a href="/guides/theming/" style={{ textDecoration: "none" }}>
+		<a href={link("guides/theming/")} style={{ textDecoration: "none" }}>
 			Explore the 21 built-in themes or create your own custom look.
 		</a>
 	</Card>
 	<Card title="Artwork" icon="sun">
-		<a href="/guides/artwork/" style={{ textDecoration: "none" }}>
+		<a href={link("guides/artwork/")} style={{ textDecoration: "none" }}>
 			Learn how Nokkvi fetches and displays artwork from your Navidrome server.
 		</a>
 	</Card>
