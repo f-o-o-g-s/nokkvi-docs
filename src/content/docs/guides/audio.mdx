@@ -21,11 +21,20 @@ Toggle [`crossfade_enabled`](/reference/config/#playback-settings) in the settin
 - **Duration**: [`crossfade_duration_secs`](/reference/config/#playback-settings) — adjustable from 1 to 12 seconds.
 - **Behavior**: Smooth linear volume transition between tracks.
 
-## Normalization (EBU R128)
+## Volume Normalization
 
-Nokkvi includes a built-in loudness normalization engine based on the EBU R128 standard. Enable it with [`volume_normalization`](/reference/config/#playback-settings).
-- **How it works**: It analyzes the perceived loudness of a track and adjusts the gain so all songs sound consistently loud.
-- **Target Level**: Controlled by [`normalization_level`](/reference/config/#playback-settings). Default is `normal` (−14.0 LUFS), matching modern streaming standards. Use `quiet` (−23 LUFS) for broadcast-style loudness or `loud` (−9 LUFS) to push everything closer to digital max.
+Nokkvi runs a real-time automatic gain control (AGC) on each playing stream, via rodio's `automatic_gain_control` source chained ahead of the mixer. Enable it with [`volume_normalization`](/reference/config/#playback-settings).
+
+- **How it works**: The AGC tracks the signal envelope frame-by-frame and adjusts gain to push it toward a configured target level. It reads no library metadata — nothing about how your Navidrome library is tagged affects it. ReplayGain tags, when present, are surfaced in the song info modal but are not applied to playback.
+- **Target Level**: Controlled by [`normalization_level`](/reference/config/#playback-settings). Maps to rodio's `target_level` — a linear amplitude target, not LUFS:
+  - `quiet` — `target_level = 0.6`. Reduced loudness, maximum headroom.
+  - `normal` (default) — `target_level = 1.0`. Maintain original perceived level.
+  - `loud` — `target_level = 1.4`. Boost quiet tracks more aggressively.
+- **Limiter**: A peak limiter (rodio `LimitSettings::dynamic_content()`) sits after the AGC so any boost is clamped before mixing.
+
+### Crossfade and normalization
+
+Crossfade and AGC work together but don't share state. Each stream has its own independent AGC instance, and AGC has an attack/release time — so right at a track boundary the incoming stream's AGC hasn't converged on the target yet. If the incoming track is much louder or quieter than the outgoing one, you may hear a brief level mismatch during the crossfade. Lowering the target (`normal` → `quiet`) gives the AGC more headroom and softens this.
 
 ## 10-Band Equalizer
 
