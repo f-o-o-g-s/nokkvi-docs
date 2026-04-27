@@ -3,33 +3,76 @@ title: Installation
 description: How to install Nokkvi on your system.
 ---
 
-Nokkvi is currently designed and tested for **Linux only** (specifically Arch Linux).
+Nokkvi is **Linux only** and built/tested on Arch Linux (Wayland/Hyprland) with PipeWire. Three install paths:
 
-## Dependencies
+## Arch Linux (AUR) — recommended
 
-You will need `pipewire`, `fontconfig`, and `pkg-config` installed on your system.
+Two AUR packages are published. Install whichever fits — they conflict, so you can only have one at a time.
+
+| Package | Install | What it does |
+| :--- | :--- | :--- |
+| **[`nokkvi-bin`](https://aur.archlinux.org/packages/nokkvi-bin)** | `yay -S nokkvi-bin` | Downloads the prebuilt x86_64 binary from the latest GitHub release. Fastest install, recommended for most users. |
+| **[`nokkvi-git`](https://aur.archlinux.org/packages/nokkvi-git)** | `yay -S nokkvi-git` | Builds from the latest `main` HEAD. Picks up unreleased fixes between tagged releases. Slower install (cargo build), needs a Rust toolchain. |
+
+(Replace `yay` with `paru` or any other AUR helper if you prefer.)
+
+Runtime dependencies (`pipewire`, `fontconfig`, `alsa-lib`) are pulled in automatically by pacman.
+
+To uninstall: `yay -Rns nokkvi-bin` (or `nokkvi-git`). User config at `~/.config/nokkvi/` is left in place — remove it manually with `rm -rf ~/.config/nokkvi/` if you want a full wipe.
+
+## Other Linux distros — prebuilt binary
+
+Grab the latest tarball from [GitHub Releases](https://github.com/f-o-o-g-s/nokkvi/releases). Each release ships:
+
+- `nokkvi-vX.Y.Z-x86_64-unknown-linux-gnu.tar.gz`
+- `nokkvi-vX.Y.Z-x86_64-unknown-linux-gnu.tar.gz.sha256`
+
+Verify, extract, install:
 
 ```bash
-# Arch Linux
-sudo pacman -S pipewire fontconfig pkg-config
+curl -LO https://github.com/f-o-o-g-s/nokkvi/releases/download/vX.Y.Z/nokkvi-vX.Y.Z-x86_64-unknown-linux-gnu.tar.gz
+curl -LO https://github.com/f-o-o-g-s/nokkvi/releases/download/vX.Y.Z/nokkvi-vX.Y.Z-x86_64-unknown-linux-gnu.tar.gz.sha256
+sha256sum -c nokkvi-vX.Y.Z-x86_64-unknown-linux-gnu.tar.gz.sha256
+tar xzf nokkvi-vX.Y.Z-x86_64-unknown-linux-gnu.tar.gz
+cd nokkvi-vX.Y.Z-x86_64-unknown-linux-gnu
+./install.sh
 ```
 
-## Building from source
+`install.sh` places per-user files (no `sudo`):
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/f-o-o-g-s/nokkvi.git
-   cd nokkvi
-   ```
+- `~/.local/bin/nokkvi` — binary
+- `~/.local/share/applications/org.nokkvi.nokkvi.desktop` — launcher entry
+- `~/.local/share/icons/hicolor/scalable/apps/org.nokkvi.nokkvi.svg` — icon
 
-2. Build the release binary:
-   ```bash
-   cargo build --release
-   ```
+You'll need `pipewire` and `fontconfig` installed system-wide at runtime:
 
-3. Run the installer:
-   ```bash
-   ./install.sh
-   ```
+```bash
+# Debian / Ubuntu
+sudo apt install pipewire fontconfig
 
-This will copy the binary to `~/.local/bin/nokkvi` and set up the desktop entry and icons.
+# Fedora
+sudo dnf install pipewire fontconfig
+```
+
+The binary requires glibc roughly matching Ubuntu 24.04's (≥ 2.39) or newer. Modern rolling distros (Arch, Fedora, recent Ubuntu/Debian) work; very old enterprise distros may not.
+
+## Build from source
+
+For contributors, AUR maintainers, or users on architectures we don't ship binaries for.
+
+```bash
+# System dependencies (Arch)
+sudo pacman -S pipewire fontconfig pkg-config
+
+# Clone and build
+git clone https://github.com/f-o-o-g-s/nokkvi.git
+cd nokkvi
+cargo build --release
+./install.sh
+```
+
+The CI build pipeline produces what `nokkvi-bin` ships, so building locally from a tagged commit yields a functionally identical binary.
+
+`./install.sh` auto-detects whether it's running from an extracted release tarball or a source-tree build, and installs the binary from the right location either way.
+
+For development workflow details — including the **nightly** rustfmt requirement and the test/clippy/format gates — see [CONTRIBUTING.md](https://github.com/f-o-o-g-s/nokkvi/blob/main/CONTRIBUTING.md) in the repo.
