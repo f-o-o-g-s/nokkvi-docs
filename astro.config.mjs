@@ -33,12 +33,28 @@ function remarkPrefixBase() {
   };
 }
 
+/**
+ * Remark plugin: drop the leading top-level `# Changelog` heading from
+ * the upstream nokkvi/CHANGELOG.md when it's rendered through
+ * src/pages/changelog.astro. Starlight already prints the page title,
+ * so leaving the file's own h1 in produces a duplicate header.
+ */
+function remarkStripChangelogTitle() {
+  return (tree, file) => {
+    if (!file.path?.endsWith("CHANGELOG.md")) return;
+    const first = tree.children[0];
+    if (first?.type === "heading" && first.depth === 1) {
+      tree.children.shift();
+    }
+  };
+}
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://f-o-o-g-s.github.io",
   base: BASE,
   markdown: {
-    remarkPlugins: [remarkPrefixBase],
+    remarkPlugins: [remarkPrefixBase, remarkStripChangelogTitle],
   },
   integrations: [
     starlight({
