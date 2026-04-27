@@ -48,6 +48,7 @@ export default defineConfig({
         replacesTitle: false,
       },
       components: {
+        Header: "./src/components/Header.astro",
         SiteTitle: "./src/components/SiteTitle.astro",
         Hero: "./src/components/Hero.astro",
       },

@@ -1,0 +1,104 @@
+---
+import LanguageSelect from "@astrojs/starlight/components/LanguageSelect.astro";
+import Search from "@astrojs/starlight/components/Search.astro";
+import SiteTitle from "./SiteTitle.astro";
+import SocialIcons from "@astrojs/starlight/components/SocialIcons.astro";
+import ThemeSelect from "@astrojs/starlight/components/ThemeSelect.astro";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const path = Astro.url.pathname.startsWith(base + "/")
+  ? Astro.url.pathname.slice(base.length)
+  : Astro.url.pathname;
+const section = path.replace(/^\/+/, "").replace(/\/.*/, "");
+const isChangelog = section === "changelog";
+const isDocs = !isChangelog;
+
+const docsHref = `${base}/overview/`;
+const changelogHref = `${base}/changelog/`;
+---
+
+<div class="header sl-flex">
+  <div class="title-wrapper sl-flex">
+    <SiteTitle {...Astro.props} />
+    <div class="sl-flex link-group">
+      <a href={docsHref} class:list={["link", { "link-active": isDocs }]}>Docs</a>
+      <a href={changelogHref} class:list={["link", { "link-active": isChangelog }]}>Changelog</a>
+    </div>
+  </div>
+  <div class="sl-flex">
+    <Search {...Astro.props} />
+  </div>
+  <div class="sl-hidden md:sl-flex right-group">
+    <div class="sl-flex social-icons">
+      <SocialIcons {...Astro.props} />
+    </div>
+    <ThemeSelect {...Astro.props} />
+    <LanguageSelect {...Astro.props} />
+  </div>
+</div>
+
+<style>
+  .header {
+    gap: var(--sl-nav-gap);
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+
+  .link-group {
+    padding-left: 1rem;
+    align-items: center;
+  }
+  .link {
+    padding-left: 1rem;
+    text-decoration: none;
+    color: var(--sl-color-gray-3);
+  }
+  .link:hover {
+    color: var(--sl-color-text-accent);
+    transition: color 125ms linear;
+  }
+  .link-active {
+    color: var(--sl-color-text-accent);
+  }
+
+  .title-wrapper {
+    overflow: hidden;
+  }
+
+  .right-group,
+  .social-icons {
+    gap: 1rem;
+    align-items: center;
+  }
+  .social-icons::after {
+    content: "";
+    height: 2rem;
+    border-inline-end: 1px solid var(--sl-color-gray-5);
+  }
+
+  @media (min-width: 50rem) {
+    :global(:root[data-has-sidebar]) {
+      --__sidebar-pad: calc(2 * var(--sl-nav-pad-x));
+    }
+    :global(:root:not([data-has-toc])) {
+      --__toc-width: 0rem;
+    }
+    .header {
+      --__sidebar-width: max(0rem, var(--sl-content-inline-start, 0rem) - var(--sl-nav-pad-x));
+      --__main-column-fr: calc(
+        (
+            100% + var(--__sidebar-pad, 0rem) - var(--__toc-width, var(--sl-sidebar-width)) -
+              (2 * var(--__toc-width, var(--sl-nav-pad-x))) - var(--sl-content-inline-start, 0rem) -
+              var(--sl-content-width)
+          ) / 2
+      );
+      display: grid;
+      grid-template-columns:
+        minmax(calc(var(--__sidebar-width) + max(0rem, var(--__main-column-fr) - var(--sl-nav-gap))), auto)
+        1fr
+        auto;
+      align-content: center;
+    }
+  }
+</style>
