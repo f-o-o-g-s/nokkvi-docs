@@ -88,6 +88,25 @@ A few values you might expect here are stored separately. **Volume** and **sessi
 | `horizontal_volume` | `false` | Stack volume sliders horizontally instead of vertically in the player bar. |
 {/* config-table:end */}
 
+### Artwork Column
+
+{/* config-table:start id="artwork-column" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `artwork_column_mode` | `"auto"` | Visibility and sizing of the large artwork panel shown alongside list views. Options: `auto` (size derived from window width; auto-hides when the slot list would have less than 800px), `always_native` (user-defined width; image stays square and letterboxed vertically), `always_stretched` (user-defined width; image fills the column non-square per `artwork_column_stretch_fit`), `never` (column hidden everywhere). |
+| `artwork_column_stretch_fit` | `"cover"` | Fit mode used when `artwork_column_mode = "always_stretched"`. Options: `cover` (preserve aspect ratio, crop to fill), `fill` (true stretch — distorts album art). Ignored in other modes. |
+| `artwork_column_width_pct` | `0.40` | Artwork column width as a fraction of the window width (0.05 to 0.80). Only consulted in `always_native` and `always_stretched` modes. |
+{/* config-table:end */}
+
+### System Tray
+
+{/* config-table:start id="system-tray" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `show_tray_icon` | `false` | Register a StatusNotifierItem tray icon on the session bus. When off, no tray icon is shown. |
+| `close_to_tray` | `false` | When `show_tray_icon` is on, the window's close button hides Nokkvi into the tray instead of quitting. Ignored when the tray icon is disabled. |
+{/* config-table:end */}
+
 ### Metadata Strip Customization
 
 {/* config-table:start id="metadata-strip" */}

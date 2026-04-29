@@ -32,11 +32,23 @@
   "artists_show_stars": {
     "description": "Show the star rating column in the artists view."
   },
+  "artwork_column_mode": {
+    "description": "Visibility and sizing of the large artwork panel shown alongside list views. Options: `auto` (size derived from window width; auto-hides when the slot list would have less than 800px), `always_native` (user-defined width; image stays square and letterboxed vertically), `always_stretched` (user-defined width; image fills the column non-square per `artwork_column_stretch_fit`), `never` (column hidden everywhere)."
+  },
+  "artwork_column_stretch_fit": {
+    "description": "Fit mode used when `artwork_column_mode = \"always_stretched\"`. Options: `cover` (preserve aspect ratio, crop to fill), `fill` (true stretch — distorts album art). Ignored in other modes."
+  },
+  "artwork_column_width_pct": {
+    "description": "Artwork column width as a fraction of the window width (0.05 to 0.80). Only consulted in `always_native` and `always_stretched` modes."
+  },
   "artwork_resolution": {
     "description": "Quality for large panel artwork. Options: `default` (1000px), `high` (1500px), `ultra` (2000px), `original`."
   },
   "auto_follow_playing": {
     "description": "The Queue view auto-scrolls to keep the currently playing track visible as it changes."
+  },
+  "close_to_tray": {
+    "description": "When `show_tray_icon` is on, the window's close button hides Nokkvi into the tray instead of quitting. Ignored when the tray icon is disabled."
   },
   "crossfade_duration_secs": {
     "description": "Duration of the crossfade in seconds (1 to 12)."
@@ -133,6 +145,9 @@
   },
   "show_album_artists_only": {
     "description": "If true, the Artists view shows only album artists and excludes track-level featured artists."
+  },
+  "show_tray_icon": {
+    "description": "Register a StatusNotifierItem tray icon on the session bus. When off, no tray icon is shown."
   },
   "slot_row_height": {
     "description": "Row density in lists. Options: `compact` (50px), `default` (70px), `comfortable` (90px), `spacious` (110px)."
