@@ -101,6 +101,9 @@
   "queue_show_album": {
     "description": "Show the album column in the queue."
   },
+  "queue_show_default_playlist": {
+    "description": "Show a chip in the Queue view's header for the remembered default playlist (the one used by `quick_add_to_playlist`)."
+  },
   "queue_show_duration": {
     "description": "Show the duration column in the queue."
   },

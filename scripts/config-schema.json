@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-26T21:28:25.630Z",
+  "generated_at": "2026-04-30T02:55:51.700Z",
   "nokkvi_path": "/home/foogs/nokkvi",
   "settings": [
     {
@@ -309,6 +309,41 @@
       "section": "Per-view artwork text overlay toggles",
       "rustType": "bool",
       "default": true,
+      "enumVariants": null,
+      "doc": "",
+      "sourceFile": "data/src/types/toml_settings.rs"
+    },
+    {
+      "key": "artwork_column_mode",
+      "section": "Artwork column layout",
+      "rustType": "ArtworkColumnMode",
+      "default": "auto",
+      "enumVariants": [
+        "auto",
+        "always_native",
+        "always_stretched",
+        "never"
+      ],
+      "doc": "",
+      "sourceFile": "data/src/types/toml_settings.rs"
+    },
+    {
+      "key": "artwork_column_stretch_fit",
+      "section": "Artwork column layout",
+      "rustType": "ArtworkStretchFit",
+      "default": "cover",
+      "enumVariants": [
+        "cover",
+        "fill"
+      ],
+      "doc": "",
+      "sourceFile": "data/src/types/toml_settings.rs"
+    },
+    {
+      "key": "artwork_column_width_pct",
+      "section": "Artwork column layout",
+      "rustType": "f32",
+      "default": 0.4,
       "enumVariants": null,
       "doc": "",
       "sourceFile": "data/src/types/toml_settings.rs"
@@ -639,6 +674,15 @@
       "sourceFile": "data/src/types/toml_settings.rs"
     },
     {
+      "key": "queue_show_default_playlist",
+      "section": "Playlists",
+      "rustType": "bool",
+      "default": false,
+      "enumVariants": null,
+      "doc": "",
+      "sourceFile": "data/src/types/toml_settings.rs"
+    },
+    {
       "key": "eq_enabled",
       "section": "AudioEngine",
       "rustType": "bool",
@@ -672,6 +716,24 @@
       "section": "AudioEngine",
       "rustType": "Vec<CustomEqPreset>",
       "default": [],
+      "enumVariants": null,
+      "doc": "",
+      "sourceFile": "data/src/types/toml_settings.rs"
+    },
+    {
+      "key": "show_tray_icon",
+      "section": "System tray",
+      "rustType": "bool",
+      "default": false,
+      "enumVariants": null,
+      "doc": "",
+      "sourceFile": "data/src/types/toml_settings.rs"
+    },
+    {
+      "key": "close_to_tray",
+      "section": "System tray",
+      "rustType": "bool",
+      "default": false,
       "enumVariants": null,
       "doc": "",
       "sourceFile": "data/src/types/toml_settings.rs"
