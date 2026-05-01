@@ -216,7 +216,8 @@ function parseEnums(source) {
 // `nested` maps nested-struct type names to their field-default maps;
 // `fns` maps simple `fn name() -> T { value }` helpers to their return value.
 function resolveDefault(expr, enums, nested, fns = {}) {
-  const e = expr.trim();
+  // Strip module path prefixes like `crate::types::player_settings::Foo::bar` → `Foo::bar`.
+  const e = expr.trim().replace(/^(?:\w+::)+([A-Z]\w*::)/, '$1');
 
   // Inline standalone helper functions (e.g. default_auto_sensitivity()).
   let fnMatch = e.match(/^(\w+)\(\)$/);

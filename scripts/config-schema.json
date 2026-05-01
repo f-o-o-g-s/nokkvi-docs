@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-30T02:55:51.700Z",
+  "generated_at": "2026-05-01T00:34:11.946Z",
   "nokkvi_path": "/home/foogs/nokkvi",
   "settings": [
     {
@@ -535,6 +535,24 @@
       "sourceFile": "data/src/types/toml_settings.rs"
     },
     {
+      "key": "strip_show_labels",
+      "section": "MetadataStrip",
+      "rustType": "bool",
+      "default": true,
+      "enumVariants": null,
+      "doc": "",
+      "sourceFile": "data/src/types/toml_settings.rs"
+    },
+    {
+      "key": "strip_separator",
+      "section": "MetadataStrip",
+      "rustType": "crate::types::player_settings::StripSeparator",
+      "default": "dot",
+      "enumVariants": null,
+      "doc": "",
+      "sourceFile": "data/src/types/toml_settings.rs"
+    },
+    {
       "key": "crossfade_enabled",
       "section": "Playback",
       "rustType": "bool",
@@ -769,27 +787,27 @@
       "key": "visualizer.waves_smoothing",
       "section": "VisualizerGeneral",
       "rustType": "u32",
-      "default": 4,
+      "default": 5,
       "enumVariants": null,
-      "doc": "Waves smoothing intensity (2-16). Controls subsampling step for Catmull-Rom spline control points. Higher values = smoother (fewer control points, more interpolation). Default: 4",
+      "doc": "Waves smoothing intensity (2-16). Controls subsampling step for Catmull-Rom spline control points. Higher values = smoother (fewer control points, more interpolation). Default: 5",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
       "key": "visualizer.monstercat",
       "section": "VisualizerGeneral",
       "rustType": "f64",
-      "default": 0,
+      "default": 1,
       "enumVariants": null,
-      "doc": "Monstercat smoothing (0.0 = disabled, >= MONSTERCAT_MIN_EFFECTIVE = enabled). Creates exponential falloff spreading effect. Values below the minimum are snapped to 0.0 (off) during validation, because the math (`pow(monstercat * 1.5, distance)`) requires a base >= 1.0 to attenuate neighbors — below that threshold it amplifies instead. Mutually exclusive with waves. Default: 0.0",
+      "doc": "Monstercat smoothing (0.0 = disabled, >= MONSTERCAT_MIN_EFFECTIVE = enabled). Creates exponential falloff spreading effect. Values below the minimum are snapped to 0.0 (off) during validation, because the math (`pow(monstercat * 1.5, distance)`) requires a base >= 1.0 to attenuate neighbors — below that threshold it amplifies instead. Mutually exclusive with waves. Default: 1.0",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
       "key": "visualizer.lower_cutoff_freq",
       "section": "VisualizerGeneral",
       "rustType": "u32",
-      "default": 50,
+      "default": 20,
       "enumVariants": null,
-      "doc": "Lower cutoff frequency in Hz (bass floor). Frequencies below this are not visualized. Default: 50 Hz",
+      "doc": "Lower cutoff frequency in Hz (bass floor). Frequencies below this are not visualized. Default: 20 Hz",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
@@ -805,9 +823,9 @@
       "key": "visualizer.height_percent",
       "section": "VisualizerGeneral",
       "rustType": "f32",
-      "default": 0.2,
+      "default": 0.25,
       "enumVariants": null,
-      "doc": "Visualizer height as percentage of window height (0.1-1.0). Default: 0.30 (30%)",
+      "doc": "Visualizer height as percentage of window height (0.1-1.0). Default: 0.25 (25%)",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
@@ -823,27 +841,27 @@
       "key": "visualizer.bars.bar_width_min",
       "section": "VisualizerBars",
       "rustType": "f32",
-      "default": 4,
+      "default": 10,
       "enumVariants": null,
-      "doc": "Minimum bar width for small windows (used in dynamic scaling). When window is at 400px or smaller, bars will be this width. Default: 2.0 (thin bars for small windows)",
+      "doc": "Minimum bar width for small windows (used in dynamic scaling). When window is at 400px or smaller, bars will be this width. Default: 10.0",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
       "key": "visualizer.bars.bar_width_max",
       "section": "VisualizerBars",
       "rustType": "f32",
-      "default": 4,
+      "default": 20,
       "enumVariants": null,
-      "doc": "Maximum bar width for large windows (used in dynamic scaling). When window is at 2560px or larger, bars will be this width. Default: 14.0 (thick bars for large windows)",
+      "doc": "Maximum bar width for large windows (used in dynamic scaling). When window is at 2560px or larger, bars will be this width. Default: 20.0",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
       "key": "visualizer.bars.bar_spacing",
       "section": "VisualizerBars",
       "rustType": "f32",
-      "default": 1,
+      "default": 0,
       "enumVariants": null,
-      "doc": "Spacing between bars in pixels. Default: 2.0",
+      "doc": "Spacing between bars in pixels. Default: 0.0",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
@@ -852,7 +870,7 @@
       "rustType": "f32",
       "default": 2,
       "enumVariants": null,
-      "doc": "Border width around each bar in pixels. In LED mode, this also controls the gap between segments. Default: 1.0",
+      "doc": "Border width around each bar in pixels. In LED mode, this also controls the gap between segments. Default: 2.0",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
@@ -861,16 +879,16 @@
       "rustType": "bool",
       "default": false,
       "enumVariants": null,
-      "doc": "Enable LED-style segmented bars (like VU meters). When enabled, bars are rendered as stacked LED segments with gaps. Default: true",
+      "doc": "Enable LED-style segmented bars (like VU meters). When enabled, bars are rendered as stacked LED segments with gaps. Default: false",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
       "key": "visualizer.bars.led_segment_height",
       "section": "VisualizerBars",
       "rustType": "f32",
-      "default": 2,
+      "default": 5,
       "enumVariants": null,
-      "doc": "Height of each LED segment in pixels. Only used when led_bars is true. Default: 2.0",
+      "doc": "Height of each LED segment in pixels. Only used when led_bars is true. Default: 5.0",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
@@ -897,25 +915,25 @@
       "rustType": "String",
       "default": "static",
       "enumVariants": null,
-      "doc": "Peak gradient color mode: - \"static\": Uses first color in peak_gradient_colors only - \"cycle\": Time-based animation cycling through all peak colors - \"height\": Color based on peak height (taller peaks show higher gradient colors) - \"match\": Uses same color as bar gradient at that height position   Default: \"cycle\"",
+      "doc": "Peak gradient color mode: - \"static\": Uses first color in peak_gradient_colors only - \"cycle\": Time-based animation cycling through all peak colors - \"height\": Color based on peak height (taller peaks show higher gradient colors) - \"match\": Uses same color as bar gradient at that height position   Default: \"static\"",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
       "key": "visualizer.bars.peak_mode",
       "section": "VisualizerBars",
       "rustType": "String",
-      "default": "fade",
+      "default": "fall_fade",
       "enumVariants": null,
-      "doc": "Peak behavior mode (inspired by audioMotion-analyzer): - \"none\": Peak bars disabled - \"fade\": Hold, then fade out in place (opacity decreases) - \"fall\": Hold, then fall at constant speed - \"fall_accel\": Hold, then fall with gravity acceleration - \"fall_fade\": Hold, then fall at constant speed while simultaneously fading out   Default: \"fall\"",
+      "doc": "Peak behavior mode (inspired by audioMotion-analyzer): - \"none\": Peak bars disabled - \"fade\": Hold, then fade out in place (opacity decreases) - \"fall\": Hold, then fall at constant speed - \"fall_accel\": Hold, then fall with gravity acceleration - \"fall_fade\": Hold, then fall at constant speed while simultaneously fading out   Default: \"fall_fade\"",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
       "key": "visualizer.bars.peak_hold_time",
       "section": "VisualizerBars",
       "rustType": "u32",
-      "default": 1000,
+      "default": 1950,
       "enumVariants": null,
-      "doc": "Time in milliseconds for peaks to hold before falling/fading Default: 500",
+      "doc": "Time in milliseconds for peaks to hold before falling/fading Default: 1950",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
@@ -931,9 +949,9 @@
       "key": "visualizer.bars.peak_height_ratio",
       "section": "VisualizerBars",
       "rustType": "u32",
-      "default": 50,
+      "default": 35,
       "enumVariants": null,
-      "doc": "Peak bar height as percentage of bar_width (non-LED mode only). In LED mode, peak height always equals led_segment_height. Default: 66 (66%), range 10-100",
+      "doc": "Peak bar height as percentage of bar_width (non-LED mode only). In LED mode, peak height always equals led_segment_height. Default: 35 (35%), range 10-100",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
@@ -949,18 +967,18 @@
       "key": "visualizer.bars.bar_depth_3d",
       "section": "VisualizerBars",
       "rustType": "f32",
-      "default": 0,
+      "default": 1,
       "enumVariants": null,
-      "doc": "Isometric 3D depth in pixels. When > 0, bars are rendered with a top face and right side face for a 3D look. Default: 0.0 (flat / disabled)",
+      "doc": "Isometric 3D depth in pixels. When > 0, bars are rendered with a top face and right side face for a 3D look. Default: 1.0",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
       "key": "visualizer.bars.max_bars",
       "section": "VisualizerBars",
       "rustType": "usize",
-      "default": 2048,
+      "default": 512,
       "enumVariants": null,
-      "doc": "Maximum number of bars to display. The dynamic layout algorithm will try to fit up to this many bars in the window. Default: 256, range 16–2048",
+      "doc": "Maximum number of bars to display. The dynamic layout algorithm will try to fit up to this many bars in the window. Default: 512, range 16–2048",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
@@ -976,18 +994,18 @@
       "key": "visualizer.lines.line_thickness",
       "section": "VisualizerLines",
       "rustType": "f32",
-      "default": 0.05,
+      "default": 0.01,
       "enumVariants": null,
-      "doc": "Line thickness as fraction of visualizer height (0.01-0.10, default: 0.05 = 5%)",
+      "doc": "Line thickness as fraction of visualizer height (0.01-0.10, default: 0.01 = 1%)",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
       "key": "visualizer.lines.outline_thickness",
       "section": "VisualizerLines",
       "rustType": "f32",
-      "default": 2,
+      "default": 1,
       "enumVariants": null,
-      "doc": "Outline thickness in pixels (0.0 = disabled, up to 5.0). The outline is a darker border drawn behind the main line. Default: 2.0",
+      "doc": "Outline thickness in pixels (0.0 = disabled, up to 5.0). The outline is a darker border drawn behind the main line. Default: 1.0",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
@@ -1003,27 +1021,27 @@
       "key": "visualizer.lines.animation_speed",
       "section": "VisualizerLines",
       "rustType": "f32",
-      "default": 0.25,
+      "default": 0.1,
       "enumVariants": null,
-      "doc": "Color animation cycle speed (0.05 = very slow, 1.0 = very fast). Controls how quickly the line color cycles through the gradient palette. Default: 0.25",
+      "doc": "Color animation cycle speed (0.05 = very slow, 1.0 = very fast). Controls how quickly the line color cycles through the gradient palette. Default: 0.1",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
       "key": "visualizer.lines.gradient_mode",
       "section": "VisualizerLines",
       "rustType": "String",
-      "default": "breathing",
+      "default": "static",
       "enumVariants": null,
-      "doc": "Gradient color mode: - \"breathing\": Time-based cycling through all gradient colors (default) - \"static\": Uses first gradient color only (no animation) - \"position\": Color based on horizontal position (bass=left → treble=right) - \"height\": Color based on amplitude (quiet=bottom colors, loud=top colors)   Default: \"breathing\"",
+      "doc": "Gradient color mode: - \"breathing\": Time-based cycling through all gradient colors - \"static\": Uses first gradient color only (no animation) - \"position\": Color based on horizontal position (bass=left → treble=right) - \"height\": Color based on amplitude (quiet=bottom colors, loud=top colors)   Default: \"static\"",
       "sourceFile": "src/visualizer_config.rs"
     },
     {
       "key": "visualizer.lines.fill_opacity",
       "section": "VisualizerLines",
       "rustType": "f32",
-      "default": 0,
+      "default": 0.5,
       "enumVariants": null,
-      "doc": "Fill opacity under the curve (0.0 = disabled, 1.0 = fully opaque). Default: 0.0",
+      "doc": "Fill opacity under the curve (0.0 = disabled, 1.0 = fully opaque). Default: 0.5",
       "sourceFile": "src/visualizer_config.rs"
     },
     {

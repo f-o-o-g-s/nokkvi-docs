@@ -191,6 +191,9 @@
   "strip_merged_mode": {
     "description": "Apply strip patterns to the merged artist/album display string rather than individual fields."
   },
+  "strip_separator": {
+    "description": "Character used to join visible fields in the metadata strip. Options: `dot` (·), `bullet` (•), `pipe` (|), `em_dash` (—), `slash` (/), `bar` (│)."
+  },
   "strip_show_album": {
     "description": "Show the album name in the metadata strip."
   },
@@ -199,6 +202,9 @@
   },
   "strip_show_format_info": {
     "description": "Show technical info (codec/sample rate) in the strip."
+  },
+  "strip_show_labels": {
+    "description": "Show the field labels (`title:` / `artist:` / `album:`) before each value in the metadata strip."
   },
   "strip_show_title": {
     "description": "Show the song title in the metadata strip."
