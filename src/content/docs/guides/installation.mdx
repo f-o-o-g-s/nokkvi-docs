@@ -76,3 +76,14 @@ The CI build pipeline produces what `nokkvi-bin` ships, so building locally from
 `./install.sh` auto-detects whether it's running from an extracted release tarball or a source-tree build, and installs the binary from the right location either way.
 
 For development workflow details — including the **nightly** rustfmt requirement and the test/clippy/format gates — see [CONTRIBUTING.md](https://github.com/f-o-o-g-s/nokkvi/blob/main/CONTRIBUTING.md) in the repo.
+
+## Command-line flags
+
+Nokkvi is GUI-first; the CLI surface is intentionally tiny:
+
+```bash
+nokkvi -V, --version    # print version and exit
+nokkvi -h, --help       # print usage, env vars, and config/state file paths
+```
+
+Logging is controlled via `RUST_LOG` (e.g. `RUST_LOG=debug nokkvi`). Run `nokkvi --help` for the full list of recognized values.

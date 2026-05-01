@@ -15,7 +15,7 @@ Custom themes are stored in:
 ~/.config/nokkvi/themes/
 ```
 
-Any `.toml` file placed in this directory will automatically appear in the **Settings** menu (default: `` ` `` backtick). Built-in themes are seeded to this directory on first launch, so you can open any of them as a starting point.
+Any `.toml` file placed in this directory will automatically appear in the **Settings** menu (default: `` ` `` backtick). Built-in themes are seeded to this directory on first launch, so you can open any of them as a starting point. Fresh installs start on **Everforest**; switch from the Settings menu at any time.
 
 ## Theme File Structure
 
@@ -39,7 +39,7 @@ default = "#fbf1c7"
 # ...
 ```
 
-All keys have defaults — you only need to specify the ones you want to override. The defaults come from the built-in Adwaita theme.
+All keys have defaults — you only need to specify the ones you want to override. Omitted keys fall back to a built-in GNOME-blue palette (shown in the table below).
 
 <Aside type="tip">
   Nokkvi watches the `themes/` directory for changes. If you edit the active theme file while the app is open, colors update **instantly** — no restart needed.
@@ -154,7 +154,7 @@ peak_gradient_colors = ["#fb4934", "#fabd2f"]
 
 ## Minimal Example
 
-You don't need to specify every key. Any omitted key falls back to the built-in Adwaita defaults. Here's a theme that only changes the accent color:
+You don't need to specify every key. Any omitted key falls back to the built-in GNOME-blue defaults. Here's a theme that only changes the accent color:
 
 ```toml
 name = "Cobalt Accent"
