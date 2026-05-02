@@ -11,7 +11,7 @@ For navigation, search, multi-select, ratings, and shared right-click actions, s
 
 ## Browsing
 
-Playlists are shown with cover art (a 3×3 collage if the playlist spans multiple albums), name, owner, song count, and duration. Search matches playlist name and comment.
+Playlists are shown with cover art (a 3×3 collage if the playlist spans multiple albums), name, owner, song count, and duration. Search matches playlist name and comment. Private playlists carry a small lock icon next to the name; public ones render without it.
 
 ## Sort modes
 
@@ -23,10 +23,13 @@ Playlists are shown with cover art (a 3×3 collage if the playlist spans multipl
 
 ## Creating playlists
 
-Two ways:
+Three ways:
 
-1. **Save the queue** — from the Queue view, press `Ctrl + S`. A dialog prompts for a name and lets you create a new playlist or append to an existing one. `Ctrl + S` is not affected by [Quick Add](#quick-add) — it always opens the dialog so you can name or pick a destination.
-2. **Add to Playlist** — right-click any track, album, or artist in any view → **Add to Playlist**. The dialog can create a new playlist or pick one to append to. With [Quick Add](#quick-add) on and a [default playlist](#default-playlist) set, the dialog is skipped and the songs append straight to the default.
+1. **`+` button — Playlists view header** — opens a Create New Playlist dialog (name + Public toggle). On submit you're dropped straight into split-view edit mode for the new empty playlist; populate it from the Library Browser and save when ready.
+2. **Save the queue** — from the Queue view, press `Ctrl + S`. A dialog prompts for a name and lets you create a new playlist or append to an existing one. `Ctrl + S` is not affected by [Quick Add](#quick-add) — it always opens the dialog so you can name or pick a destination.
+3. **Add to Playlist** — right-click any track, album, or artist in any view → **Add to Playlist**. The dialog can create a new playlist or pick one to append to. With [Quick Add](#quick-add) on and a [default playlist](#default-playlist) set, the dialog is skipped and the songs append straight to the default.
+
+All three create-playlist dialogs include a **Public** toggle that defaults to on. Public playlists are visible to every Navidrome user; private ones are only visible to you (and admins). You can flip the flag later from the edit bar (see below).
 
 ## Default playlist
 
@@ -94,6 +97,8 @@ Plus the standard **Add to Queue / Add to Playlist / Get Info** actions from [Li
 - Reorder tracks with drag-and-drop or `Shift + ↑/↓`
 - Add tracks by dragging from the Library Browser
 - Remove tracks the same way you'd remove them from the queue
+- Edit the playlist name and comment inline
+- Toggle public/private with the lock button in the edit bar — open lock = public, closed lock = private
 
 When you're done, press `Ctrl + S` to save the changes back to the playlist. Nokkvi tracks unsaved changes and warns before discarding them.
 
@@ -104,5 +109,4 @@ When you're done, press `Ctrl + S` to save the changes back to the playlist. Nok
 </Aside>
 
 - **Smart playlists** are not supported — Nokkvi only manages manual playlists.
-- **Public / private toggle** is read-only. The flag is shown in **Get Info** but must be changed in Navidrome's web UI.
 - **M3U / PLS export** is not supported — playlists live entirely on the server.
