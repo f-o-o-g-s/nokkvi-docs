@@ -2,6 +2,9 @@
   "albums_artwork_overlay": {
     "description": "Show a text overlay on artwork thumbnails in the Albums view."
   },
+  "albums_show_index": {
+    "description": "Show the row index column in the albums view."
+  },
   "albums_show_love": {
     "description": "Show the loved/heart column in the albums view."
   },
@@ -14,11 +17,17 @@
   "albums_show_stars": {
     "description": "Show the star rating column in the albums view."
   },
+  "albums_show_thumbnail": {
+    "description": "Show the thumbnail column in the albums view."
+  },
   "artists_artwork_overlay": {
     "description": "Show a text overlay on artwork thumbnails in the Artists view."
   },
   "artists_show_albumcount": {
     "description": "Show the album count column in the artists view."
+  },
+  "artists_show_index": {
+    "description": "Show the row index column in the artists view."
   },
   "artists_show_love": {
     "description": "Show the loved/heart column in the artists view."
@@ -31,6 +40,9 @@
   },
   "artists_show_stars": {
     "description": "Show the star rating column in the artists view."
+  },
+  "artists_show_thumbnail": {
+    "description": "Show the thumbnail column in the artists view."
   },
   "artwork_column_mode": {
     "description": "Visibility and sizing of the large artwork panel shown alongside list views. Options: `auto` (size derived from window width; auto-hides when the slot list would have less than 800px), `always_native` (user-defined width; image stays square and letterboxed vertically), `always_stretched` (user-defined width; image fills the column non-square per `artwork_column_stretch_fit`), `never` (column hidden everywhere)."
@@ -71,6 +83,18 @@
   "font_family": {
     "description": "Font family override. Leave empty to use system default sans-serif."
   },
+  "genres_show_albumcount": {
+    "description": "Show the album count column in the genres view."
+  },
+  "genres_show_index": {
+    "description": "Show the row index column in the genres view."
+  },
+  "genres_show_songcount": {
+    "description": "Show the song count column in the genres view."
+  },
+  "genres_show_thumbnail": {
+    "description": "Show the thumbnail column in the genres view."
+  },
   "horizontal_volume": {
     "description": "Stack volume sliders horizontally instead of vertically in the player bar."
   },
@@ -98,6 +122,21 @@
   "playlists_artwork_overlay": {
     "description": "Show a text overlay on artwork thumbnails in the Playlists view."
   },
+  "playlists_show_duration": {
+    "description": "Show the total duration column in the playlists view."
+  },
+  "playlists_show_index": {
+    "description": "Show the row index column in the playlists view."
+  },
+  "playlists_show_songcount": {
+    "description": "Show the song count column in the playlists view."
+  },
+  "playlists_show_thumbnail": {
+    "description": "Show the thumbnail column in the playlists view."
+  },
+  "playlists_show_updatedat": {
+    "description": "Show the last updated column in the playlists view."
+  },
   "queue_show_album": {
     "description": "Show the album column in the queue."
   },
@@ -107,6 +146,9 @@
   "queue_show_duration": {
     "description": "Show the duration column in the queue."
   },
+  "queue_show_index": {
+    "description": "Show the row index column in the queue."
+  },
   "queue_show_love": {
     "description": "Show the loved/heart column in the queue."
   },
@@ -115,6 +157,9 @@
   },
   "queue_show_stars": {
     "description": "Show the star rating column in the queue."
+  },
+  "queue_show_thumbnail": {
+    "description": "Show the thumbnail column in the queue."
   },
   "quick_add_to_playlist": {
     "description": "Skip the \"Add to Playlist\" dialog and add directly to a remembered default playlist."
@@ -167,6 +212,9 @@
   "songs_show_duration": {
     "description": "Show the duration column in the songs view."
   },
+  "songs_show_index": {
+    "description": "Show the row index column in the songs view."
+  },
   "songs_show_love": {
     "description": "Show the loved/heart column in the songs view."
   },
@@ -175,6 +223,9 @@
   },
   "songs_show_stars": {
     "description": "Show the star rating column in the songs view."
+  },
+  "songs_show_thumbnail": {
+    "description": "Show the thumbnail column in the songs view."
   },
   "sound_effects_enabled": {
     "description": "Global toggle for UI sound effects."
@@ -283,6 +334,9 @@
   },
   "visualizer.lines.animation_speed": {
     "description": "Color cycle speed for the `breathing` gradient mode (0.05 = very slow, 1.0 = very fast)."
+  },
+  "visualizer.lines.boat": {
+    "description": "Render a small boat sprite that rides the waveform."
   },
   "visualizer.lines.fill_opacity": {
     "description": "Transparency of the area under the line (0.0 to 1.0)."

@@ -28,6 +28,8 @@ const SECTION_MAP = {
   'Scrobbling': 'Scrobbling',
   'Playlists': 'Playlists',
   'Equalizer': 'AudioEngine',
+  'Genres view column toggles': 'General',
+  'Playlists view column toggles': 'General',
 };
 
 // Per-key section overrides where the docs group differently than the source.

@@ -36,20 +36,37 @@ A few values you might expect here are stored separately. **Volume** and **sessi
 | `queue_show_duration` | `true` | Show the duration column in the queue. |
 | `queue_show_love` | `true` | Show the loved/heart column in the queue. |
 | `queue_show_plays` | `false` | Show the play count column in the queue. |
+| `queue_show_index` | `true` | Show the row index column in the queue. |
+| `queue_show_thumbnail` | `true` | Show the thumbnail column in the queue. |
 | `albums_show_stars` | `false` | Show the star rating column in the albums view. |
 | `albums_show_songcount` | `true` | Show the song count column in the albums view. |
 | `albums_show_plays` | `false` | Show the play count column in the albums view. |
 | `albums_show_love` | `true` | Show the loved/heart column in the albums view. |
+| `albums_show_index` | `true` | Show the row index column in the albums view. |
+| `albums_show_thumbnail` | `true` | Show the thumbnail column in the albums view. |
 | `songs_show_stars` | `false` | Show the star rating column in the songs view. |
 | `songs_show_album` | `true` | Show the album column in the songs view. |
 | `songs_show_duration` | `true` | Show the duration column in the songs view. |
 | `songs_show_plays` | `false` | Show the play count column in the songs view. |
 | `songs_show_love` | `true` | Show the loved/heart column in the songs view. |
+| `songs_show_index` | `true` | Show the row index column in the songs view. |
+| `songs_show_thumbnail` | `true` | Show the thumbnail column in the songs view. |
 | `artists_show_stars` | `true` | Show the star rating column in the artists view. |
 | `artists_show_albumcount` | `true` | Show the album count column in the artists view. |
 | `artists_show_songcount` | `true` | Show the song count column in the artists view. |
 | `artists_show_plays` | `true` | Show the play count column in the artists view. |
 | `artists_show_love` | `true` | Show the loved/heart column in the artists view. |
+| `artists_show_index` | `true` | Show the row index column in the artists view. |
+| `artists_show_thumbnail` | `true` | Show the thumbnail column in the artists view. |
+| `genres_show_index` | `true` | Show the row index column in the genres view. |
+| `genres_show_thumbnail` | `true` | Show the thumbnail column in the genres view. |
+| `genres_show_albumcount` | `true` | Show the album count column in the genres view. |
+| `genres_show_songcount` | `true` | Show the song count column in the genres view. |
+| `playlists_show_index` | `true` | Show the row index column in the playlists view. |
+| `playlists_show_thumbnail` | `true` | Show the thumbnail column in the playlists view. |
+| `playlists_show_songcount` | `false` | Show the song count column in the playlists view. |
+| `playlists_show_duration` | `false` | Show the total duration column in the playlists view. |
+| `playlists_show_updatedat` | `false` | Show the last updated column in the playlists view. |
 {/* config-table:end */}
 
 <Aside type="caution" title="library_page_size: massive">
@@ -227,6 +244,7 @@ Nokkvi features a high-performance PipeWire visualizer with two main modes: `bar
 | `visualizer.lines.mirror` | `false` | Symmetric oscilloscope mode (extends from center). |
 | `visualizer.lines.style` | `"smooth"` | Interpolation style (`smooth` or `angular`). |
 | `visualizer.lines.gradient_mode` | `"static"` | Color mapping mode. [Learn more &rarr;](/reference/visualizer/#gradient-modes-1) |
+| `visualizer.lines.boat` | `false` | Render a small boat sprite that rides the waveform. |
 {/* config-table:end */}
 
 ## Audio Engine (Internal)
