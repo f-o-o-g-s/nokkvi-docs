@@ -72,6 +72,18 @@ The `lines` mode renders frequency data as a continuous path (oscilloscope style
 | `height` | Colors are mapped based on amplitude (quiet = bottom colors, loud = top colors). |
 | `gradient` | A vertical gradient is applied to the line path. |
 
+### Surfing Boat
+
+Optional overlay for `lines` mode: a small boat rides the waveform across the visualizer. Toggle under **Settings → Visualizer → Lines** or set [`visualizer.lines.boat = true`](/reference/config/#general-visualizer) in `config.toml`.
+
+Behavior:
+
+- **Slope-tilt and heading flip.** The boat tilts to match the local wave slope (spring-damped, capped near 17°) and horizontally mirrors itself to face whichever direction it's traveling, so the sail catches wind from behind.
+- **Edge wrap.** When the boat reaches one side it keeps its momentum and emerges from the opposite side, drawn split across the seam during the crossing.
+- **Captain's charges.** The captain periodically rows toward the louder side of the waveform with a soft half-sine envelope, then settles into a drift.
+- **Theme-aware outline.** A thin outline tracks the lines-mode wave outline color (`border_color` / `border_opacity`), so it follows light/dark and theme changes automatically. In themes where the wave outline is hidden (e.g. some light themes), the boat outline is hidden too.
+- **Pause-aware.** Freezes when audio is paused; sinks to the bottom during silence.
+
 ---
 
 ## Advanced Smoothing

@@ -54,6 +54,10 @@ Each view exposes its own set of sort modes — see the per-view guide. The dyna
 
 When a selection is active, **Enter** plays everything selected and **Shift + A** queues everything selected. Right-clicking a selected row applies the chosen context-menu action to the whole selection. Changing search, sort, or refreshing usually clears the selection.
 
+### Optional checkbox column
+
+Each list view's columns gear (top-right of the view) has a **Multi-select** toggle that adds a leading checkbox column plus a tri-state header checkbox. The row checkboxes mirror the same selection set as `Ctrl + Click` / `Shift + Click`, and the header toggles between *select all*, *clear*, and *partial* depending on the current state. Available on Albums, Artists, Genres, Playlists, Queue, Songs, and the Similar tab in the Library Browser. Radio doesn't expose it.
+
 ## Stars and ratings
 
 Two distinct concepts:
@@ -63,11 +67,11 @@ Two distinct concepts:
 
 Sorting by **Favorited** puts starred items first; sorting by **Rating** orders by star count. Both columns auto-show when you sort by them, even if you've toggled them off.
 
-## Click-through filters
+## Click-through expansion
 
-Many views render the artist, album, or genre as clickable text on each row. Clicking those values jumps you to the corresponding view filtered to just that artist / album / genre. For example, clicking an artist name on a song row takes you to the Artists view filtered to that artist.
+Many views render the artist, album, or genre as clickable text on each row. Clicking those values jumps you to the corresponding view and expands the target inline at the top, so its contents are immediately visible — no follow-up `Shift + Enter` needed. For example, clicking an artist name on a song row takes you to the Artists view with that artist's albums already expanded below the row.
 
-Click-through is permanent — there's no transient "show only" mode. Use the search bar or refresh (`R`) to clear the filter.
+To return to a normal browse state, collapse the expansion (`Shift + Enter` on the focused row), refresh (`R`), or change sort.
 
 ## Common context menu actions
 

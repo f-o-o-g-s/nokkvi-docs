@@ -19,17 +19,17 @@ The dynamic column on the right adapts to the current sort — showing year, dur
 
 ## Columns
 
-Toggle via the gear icon: **Album**, **Stars**, **Plays**, **Duration**, and **Love**. Stars and Plays auto-show when you sort by them.
+Toggle via the gear icon: **Album**, **Genre**, **Stars**, **Plays**, **Duration**, and **Love**. Stars, Plays, and Genre auto-show when you sort by them. Genre stacks under the album when both are visible and takes over the album slot at album-size font when Album is hidden.
 
 ## Search
 
 Search hits the Navidrome backend's full-text index and matches across **title, album, artist, and album artist** — typing `radiohead` finds tracks where Radiohead is the artist as well as anything titled "Radiohead".
 
-## Click-through filters
+## Click-through expansion
 
-- **Artist** name on a row → Artists view filtered to that artist
-- **Album** name on a row → Albums view filtered to that album
-- **Genre** in the dynamic column when sorted by Genre → Genres view filtered to that genre
+- **Artist** name on a row → Artists view with that artist expanded inline at the top.
+- **Album** name on a row → Albums view with that album expanded inline at the top.
+- **Genre** in the dynamic column when sorted by Genre → Genres view with that genre expanded inline.
 
 ## Performance with large libraries
 
