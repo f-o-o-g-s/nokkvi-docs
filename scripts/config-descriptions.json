@@ -11,6 +11,9 @@
   "albums_show_plays": {
     "description": "Show the play count column in the albums view."
   },
+  "albums_show_select": {
+    "description": "Show the multi-select checkbox column in the albums view."
+  },
   "albums_show_songcount": {
     "description": "Show the song count column in the albums view."
   },
@@ -34,6 +37,9 @@
   },
   "artists_show_plays": {
     "description": "Show the play count column in the artists view."
+  },
+  "artists_show_select": {
+    "description": "Show the multi-select checkbox column in the artists view."
   },
   "artists_show_songcount": {
     "description": "Show the song count column in the artists view."
@@ -89,6 +95,9 @@
   "genres_show_index": {
     "description": "Show the row index column in the genres view."
   },
+  "genres_show_select": {
+    "description": "Show the multi-select checkbox column in the genres view."
+  },
   "genres_show_songcount": {
     "description": "Show the song count column in the genres view."
   },
@@ -128,6 +137,9 @@
   "playlists_show_index": {
     "description": "Show the row index column in the playlists view."
   },
+  "playlists_show_select": {
+    "description": "Show the multi-select checkbox column in the playlists view."
+  },
   "playlists_show_songcount": {
     "description": "Show the song count column in the playlists view."
   },
@@ -146,6 +158,9 @@
   "queue_show_duration": {
     "description": "Show the duration column in the queue."
   },
+  "queue_show_genre": {
+    "description": "Show the genre column in the queue."
+  },
   "queue_show_index": {
     "description": "Show the row index column in the queue."
   },
@@ -154,6 +169,9 @@
   },
   "queue_show_plays": {
     "description": "Show the play count column in the queue."
+  },
+  "queue_show_select": {
+    "description": "Show the multi-select checkbox column in the queue."
   },
   "queue_show_stars": {
     "description": "Show the star rating column in the queue."
@@ -197,6 +215,24 @@
   "show_tray_icon": {
     "description": "Register a StatusNotifierItem tray icon on the session bus. When off, no tray icon is shown."
   },
+  "similar_show_album": {
+    "description": "Show the album column in the similar songs view."
+  },
+  "similar_show_duration": {
+    "description": "Show the duration column in the similar songs view."
+  },
+  "similar_show_index": {
+    "description": "Show the row index column in the similar songs view (Find Similar / Top Songs results)."
+  },
+  "similar_show_love": {
+    "description": "Show the loved/heart column in the similar songs view."
+  },
+  "similar_show_select": {
+    "description": "Show the multi-select checkbox column in the similar songs view."
+  },
+  "similar_show_thumbnail": {
+    "description": "Show the thumbnail column in the similar songs view."
+  },
   "slot_row_height": {
     "description": "Row density in lists. Options: `compact` (50px), `default` (70px), `comfortable` (90px), `spacious` (110px)."
   },
@@ -212,6 +248,9 @@
   "songs_show_duration": {
     "description": "Show the duration column in the songs view."
   },
+  "songs_show_genre": {
+    "description": "Show the genre column in the songs view."
+  },
   "songs_show_index": {
     "description": "Show the row index column in the songs view."
   },
@@ -220,6 +259,9 @@
   },
   "songs_show_plays": {
     "description": "Show the play count column in the songs view."
+  },
+  "songs_show_select": {
+    "description": "Show the multi-select checkbox column in the songs view."
   },
   "songs_show_stars": {
     "description": "Show the star rating column in the songs view."
