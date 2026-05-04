@@ -18,6 +18,8 @@ Two AUR packages are published. Install whichever fits — they conflict, so you
 
 Runtime dependencies (`pipewire`, `fontconfig`, `alsa-lib`) are pulled in automatically by pacman.
 
+**Keeping `nokkvi-git` current:** a regular `yay -Syu` won't rebuild it between AUR pkgver bumps. Run `yay -Syu --devel` to have yay check `main` for new commits and rebuild if there are any.
+
 To uninstall: `yay -Rns nokkvi-bin` (or `nokkvi-git`). Per-user files are left in place — remove them manually with `rm -rf ~/.config/nokkvi/ ~/.local/state/nokkvi/` if you want a full wipe. Config (`config.toml`, `themes/`, `sfx/`) lives in `~/.config/nokkvi/`; runtime state (`app.redb`, `nokkvi.log`) lives in `~/.local/state/nokkvi/`.
 
 ## Other Linux distros — prebuilt binary
