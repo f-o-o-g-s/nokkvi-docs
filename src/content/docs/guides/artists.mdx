@@ -15,13 +15,15 @@ For navigation, search, multi-select, ratings, and shared right-click actions, s
 
 In **Settings → General**, the **Show Album Artists Only** toggle controls whether collaborators / track-only artists show up in this view. With it on, only artists with explicit album-artist tags appear — keeping the list tighter for libraries with lots of features and one-off contributors.
 
-## Three-tier expansion
+## Expansion
 
-The Artists view supports two levels of inline expansion:
+`Shift + Enter` on an artist (or clicking the "*N* albums" text) expands their albums inline below the row. Only one artist can be expanded at a time; changing sort or search clears the expansion. Both artist rows and expanded album rows offer the standard **Add to Queue / Add to Playlist / Get Info / Show in File Manager** context-menu actions.
 
-1. `Shift + Enter` on an **artist** expands their albums below the row.
-2. `Shift + Enter` on an expanded **album** (or clicking its "*N* songs" text) expands that album's tracks below it.
+## Click-through expansion
 
-`Shift + Enter` again on any row collapses that level. Changing sort or search clears all expansion state.
+From an expanded album row, drill into tracks via:
 
-Each level supports the standard **Add to Queue / Add to Playlist / Get Info / Show in File Manager** right-click actions.
+- "*N* songs" text or `Shift + Enter` on a centered child album → Albums view with that album expanded inline at the top.
+- **Album** name → Albums view with that album expanded inline at the top.
+
+Collapse with `Shift + Enter`, or refresh / change sort to clear the expansion state.
