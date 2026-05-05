@@ -22,7 +22,7 @@ For an exhaustive list of every shortcut and how to rebind it, see [Keyboard Sho
 
 ## The slot list
 
-The scrollable list at the center of each library view is a **slot list** — a center-anchored, whole-row viewport in the spirit of [rmpc](https://github.com/mierak/rmpc) and similar terminal music players. The viewport is built from a fixed odd number of equal-height slots (typically 9 — adapting between 3 and 15 based on window height), with one designated center slot. Because the viewport is a stack of whole-row containers rather than a pixel-scrolling region, there are no half-cropped items at the top or bottom — only whole rows are ever shown.
+The scrollable list at the center of each library view is a **slot list** — a center-anchored, whole-row viewport in the spirit of [rmpc](https://github.com/mierak/rmpc) and similar terminal music players. The viewport is built from a fixed odd number of equal-height slots (typically 9 — adapting up to 29 on tall windows, down to as few as 1 on short ones), with one designated center slot. Because the viewport is a stack of whole-row containers rather than a pixel-scrolling region, there are no half-cropped items at the top or bottom — only whole rows are ever shown.
 
 Everything *inside* a slot scales with the row height: title, subtitle, and metadata text sizes, album artwork thumbnails, and the star/heart icons (sized to roughly 30% of the row height). The view header above the list and the player bar at the bottom are fixed-height, so as the window grows taller the slots themselves are what stretches — you get more rows *and* each row gets bigger and more readable.
 
