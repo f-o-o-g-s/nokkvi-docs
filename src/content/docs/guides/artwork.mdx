@@ -13,7 +13,18 @@ Thumbnails in list views are populated around the visible viewport — items wel
 
 ## The Artwork Panel
 
-The large artwork panel shown alongside most library views (Albums, Songs, Queue, Artists, Genres, Playlists) auto-hides when the window narrows enough that the main list would get cramped. Resize wider — or taller on portrait-shaped windows — and it reappears.
+The large artwork panel sits alongside most library views — Albums, Songs, Queue, Artists, Genres, and Playlists. It shows the cover for whichever row is centered, falling back to a 3×3 collage in Genres or Playlists when the focused item spans multiple albums.
+
+How it sizes and whether it shows up is controlled by [`artwork_column_mode`](/reference/config/#artwork-column):
+
+| Mode | Behavior |
+| :--- | :------- |
+| `auto` *(default)* | Width is derived from the window — up to 40% of window width or 1000 px, whichever is smaller. The column hides automatically when the remaining slot-list width would drop below 800 px. Portrait-shaped windows scale up to 60% of width instead, capped by window height. |
+| `always_native` | Always visible at a fixed fraction of window width. The image stays square and letterboxes vertically if the column is taller than wide. |
+| `always_stretched` | Always visible at a fixed fraction of window width. The image fills the column non-square per [`artwork_column_stretch_fit`](/reference/config/#artwork-column) — `cover` crops to fit, `fill` distorts. |
+| `never` | Column is always hidden. |
+
+Both `always_*` modes show a thin drag handle between the slot list and the artwork column. Drag horizontally to resize; the new fraction is saved to [`artwork_column_width_pct`](/reference/config/#artwork-column) (clamped to 0.05–0.80). `auto` sizes itself, so there's no handle.
 
 ## Artwork Quality
 
@@ -30,7 +41,7 @@ Thumbnails in list views always use a smaller size regardless of this setting.
 
 ## Navidrome Server Settings
 
-Because Nokkvi no longer maintains its own disk cache, your Navidrome server does the heavy lifting of serving and resizing artwork. Two settings in `navidrome.toml` are worth tuning:
+Because Nokkvi no longer maintains its own disk cache, your Navidrome server does the heavy lifting of serving and resizing artwork. Two settings in `navidrome.toml` are worth tuning — both are documented in Navidrome's [available options reference](https://www.navidrome.org/docs/usage/configuration/options/#available-options):
 
 ### ImageCacheSize
 
