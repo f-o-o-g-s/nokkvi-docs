@@ -78,9 +78,13 @@ Optional overlay for `lines` mode: a small boat rides the waveform across the vi
 
 Behavior:
 
+- **Music-driven cruise.** Tagged BPM, onset energy, a slow energy-envelope, and a spectral-presence signal together drive both cruise speed and the velocity floor. Silence brings the boat to a stop; ambient and soundtrack tracks (sustained pads, drones, slow swells) keep it moving even when the spectrum barely changes. Top speed scales with the music's full energy stack — brick-walled or blast-beat material reads visibly faster than steady punchy tracks instead of every percussive song pinning the same ceiling.
+- **Eased direction changes.** Sail thrust drops to zero at the moment of a tack and ramps back to full over four seconds, so the boat decelerates through zero and accelerates smoothly onto the new heading instead of snapping. The slope force only resists motion now: going up a wave still slows the boat, going down it no longer accelerates.
 - **Slope-tilt and heading flip.** The boat tilts to match the local wave slope (spring-damped, capped near 17°) and horizontally mirrors itself to face whichever direction it's traveling, so the sail catches wind from behind.
 - **Edge wrap.** When the boat reaches one side it keeps its momentum and emerges from the opposite side, drawn split across the seam during the crossing.
-- **Captain's charges.** The captain periodically rows toward the louder side of the waveform with a soft half-sine envelope, then settles into a drift.
+- **Captain's charges.** The captain periodically rows with a soft half-sine envelope, then settles back into a drift.
+- **Drop anchor.** Every 45–120 s the boat anchors for 10–15 s, dropping a lucide-anchor icon to the bottom of the visualizer with a curved theme-colored rope back up to the boat. The rope sways with local wave amplitude, the anchor stays planted on the floor while the boat bobs above it, and tacks/wind shifts pause for the duration.
+- **Adaptive sprite size.** The boat sprite is clamped to a 48–160 px range, so it stays readable on small/short windows (where it used to shrink to ~14 px) and on 4K displays (where it used to balloon past 230 px). Rope thickness scales with the boat (1.5–3.5 px) and the anchor inherits the same bounds, so the trio reads as a unit at every window size.
 - **Theme-aware outline.** A thin outline tracks the lines-mode wave outline color (`border_color` / `border_opacity`), so it follows light/dark and theme changes automatically. In themes where the wave outline is hidden (e.g. some light themes), the boat outline is hidden too.
 - **Pause-aware.** Freezes when audio is paused; sinks to the bottom during silence.
 

@@ -20,6 +20,14 @@ For an exhaustive list of every shortcut and how to rebind it, see [Keyboard Sho
 | `Shift + C` | Center the list on the currently playing track |
 | `R` | Refresh the view from the server |
 
+**Center on Playing.** When the playing track is already visible in the current results, `Shift + C` just centers it and leaves your search query alone. When it isn't visible, the search clears and the library pages forward until the track appears, then centers it. There's also a Center on Playing button in the view header — hidden in the [Library Browser](/guides/queue/#library-browser-and-drag-and-drop) side panel (`Ctrl + E`) where the narrower 45% pane reclaims the space for sort, refresh, columns, and search; the keyboard shortcut still works there.
+
+## Inline expansion
+
+`Shift + Enter` (or clicking the count on the focused row, e.g. "*N* songs" / "*N* albums") expands the focused item so its contents render indented below it — albums under an artist, tracks under an album or playlist, albums under a genre. Only one parent can be expanded at a time; changing sort, search, or refreshing collapses it.
+
+Expanded child rows carry a **dotted-decimal sub-index** in the leading column — e.g. `236.1`, `236.2` for the first two children of the parent at row 236, with a slight indent so the parent's own number stays prominent. Enable the **Index** column from the gear icon to see them.
+
 ## The slot list
 
 The scrollable list at the center of each library view is a **slot list** — a center-anchored, whole-row viewport in the spirit of [rmpc](https://github.com/mierak/rmpc) and similar terminal music players. The viewport is built from a fixed odd number of equal-height slots (typically 9 — adapting up to 29 on tall windows, down to as few as 1 on short ones), with one designated center slot. Because the viewport is a stack of whole-row containers rather than a pixel-scrolling region, there are no half-cropped items at the top or bottom — only whole rows are ever shown.
@@ -43,6 +51,19 @@ Search is case-insensitive in every view. The fields each view's search hits var
 | `Page Up` | Toggle ascending / descending |
 
 Each view exposes its own set of sort modes — see the per-view guide. The dynamic column on the right side of the row often adapts to the current sort (e.g. showing release year, play count, or genre).
+
+The sort picker lives in the view header and sizes itself to its widest option — views with short sort lists (Radio's single Name, narrower picker sets) reclaim the spare space for the search field and the item count. The opened dropdown still spans the trigger so every option stays readable.
+
+## Roulette
+
+Every slot-list view's sort dropdown ends with a **Roulette** entry. Picking it spins the list like a slot machine for ~5 seconds — the wheel decelerates with an ease-out curve plus a small fake-out near the end, the per-frame Tab navigation SFX tracks the slowing wheel for the slot-machine click, and the run lands on a random item which is then auto-played. The fake-out shape and timing vary every spin — patterns include none, a single near-miss, a two-step walk, an overshoot bounce, and a zigzag — and roughly one in five spins skips the fake-out entirely.
+
+What "play" means depends on the view:
+
+- **Genres / Artists** — load every song in the picked entity and start playback at a random song.
+- **Queue / Songs / Albums / Playlists / Radio** — use the view's normal play-from-here action on the landing item.
+
+**Cancel** by pressing `Escape` during the spin or switching views — the original viewport is restored and nothing auto-plays. Roulette is disabled inside the [Library Browser](/guides/queue/#library-browser-and-drag-and-drop) side panel because play actions there route to add-to-queue instead.
 
 ## Multi-select
 
