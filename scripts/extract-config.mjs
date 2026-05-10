@@ -2,7 +2,7 @@
 // Parse nokkvi's Rust config structs into a canonical JSON schema.
 // Reads from $NOKKVI_PATH (default: ./nokkvi) and writes scripts/config-schema.json.
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -38,7 +38,23 @@ const SECTION_OVERRIDES = {
   sfx_volume: 'AudioEngine',
 };
 
-const read = (rel) => readFileSync(join(NOKKVI, rel), 'utf8');
+function read(rel) {
+  const abs = join(NOKKVI, rel);
+  // Check if a module directory exists in place of a .rs file
+  // (e.g. player_settings.rs → player_settings/).
+  const dirAlt = abs.endsWith('.rs') ? abs.slice(0, -3) : null;
+  try {
+    const s = statSync(dirAlt ?? abs);
+    if (s.isDirectory()) {
+      return readdirSync(dirAlt ?? abs)
+        .filter(f => f.endsWith('.rs'))
+        .sort()
+        .map(f => readFileSync(join(dirAlt ?? abs, f), 'utf8'))
+        .join('\n');
+    }
+  } catch { /* fall through */ }
+  return readFileSync(abs, 'utf8');
+}
 
 // ── Rust syntax helpers ─────────────────────────────────────────────────────
 
