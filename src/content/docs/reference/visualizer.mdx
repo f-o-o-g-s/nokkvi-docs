@@ -74,19 +74,18 @@ The `lines` mode renders frequency data as a continuous path (oscilloscope style
 
 ### Surfing Boat
 
-Optional overlay for `lines` mode: a small boat rides the waveform across the visualizer. Toggle under **Settings → Visualizer → Lines** or set [`visualizer.lines.boat = true`](/reference/config/#general-visualizer) in `config.toml`.
+Optional overlay for `lines` mode: a small boat rides the waveform. Toggle under **Settings → Visualizer → Lines** or set [`visualizer.lines.boat = true`](/reference/config/#general-visualizer) in `config.toml`.
 
-Behavior:
-
-- **Music-driven cruise.** Tagged BPM, onset energy, a slow energy-envelope, and a spectral-presence signal together drive both cruise speed and the velocity floor. Silence brings the boat to a stop; ambient and soundtrack tracks (sustained pads, drones, slow swells) keep it moving even when the spectrum barely changes. Top speed scales with the music's full energy stack — brick-walled or blast-beat material reads visibly faster than steady punchy tracks instead of every percussive song pinning the same ceiling.
-- **Eased direction changes.** Sail thrust drops to zero at the moment of a tack and ramps back to full over four seconds, so the boat decelerates through zero and accelerates smoothly onto the new heading instead of snapping. The slope force only resists motion now: going up a wave still slows the boat, going down it no longer accelerates.
-- **Slope-tilt and heading flip.** The boat tilts to match the local wave slope (spring-damped, capped near 17°) and horizontally mirrors itself to face whichever direction it's traveling, so the sail catches wind from behind.
-- **Edge wrap.** When the boat reaches one side it keeps its momentum and emerges from the opposite side, drawn split across the seam during the crossing.
-- **Captain's charges.** The captain periodically rows with a soft half-sine envelope, then settles back into a drift.
-- **Drop anchor.** Every 45–120 s the boat anchors for 10–15 s, dropping a lucide-anchor icon to the bottom of the visualizer with a curved theme-colored rope back up to the boat. The rope sways with local wave amplitude, the anchor stays planted on the floor while the boat bobs above it, and tacks/wind shifts pause for the duration.
-- **Adaptive sprite size.** The boat sprite is clamped to a 48–160 px range, so it stays readable on small/short windows (where it used to shrink to ~14 px) and on 4K displays (where it used to balloon past 230 px). Rope thickness scales with the boat (1.5–3.5 px) and the anchor inherits the same bounds, so the trio reads as a unit at every window size.
-- **Theme-aware outline.** A thin outline tracks the lines-mode wave outline color (`border_color` / `border_opacity`), so it follows light/dark and theme changes automatically. In themes where the wave outline is hidden (e.g. some light themes), the boat outline is hidden too.
-- **Pause-aware.** Freezes when audio is paused; sinks to the bottom during silence.
+- **Cruise speed** is driven by tagged BPM, onset energy, a slow energy envelope, and spectral presence. Top speed scales with the full energy stack, so denser tracks read faster; silence brings the boat to rest.
+- **Rowing.** A beat-locked half-sine envelope adds gentle thrust pulses when BPM is tagged.
+- **Tacks** ramp sail thrust from zero back to full over 4 seconds.
+- **Slope** tilts the boat to match the local wave (spring-damped, capped near 17°). Slope force only resists motion, never assists.
+- **Heading.** The sprite mirrors horizontally so the sail catches wind from behind.
+- **Edge wrap** preserves momentum; the boat draws split across the seam.
+- **Anchor.** Every 45–120 s the boat anchors for 10–15 s, dropping a lucide-anchor icon to the visualizer floor with a curved theme-colored rope back to the boat. The rope sways with the local wave; tacks pause for the duration.
+- **Sizing.** Boat sprite clamps to 48–160 px; rope stroke 1.5–3.5 px; the anchor scales with the boat.
+- **Outline** tracks the lines-mode wave outline (`border_color` / `border_opacity`) and hides when the wave outline is hidden.
+- **Pause vs silence.** Freezes when audio is paused; sinks to the floor during silence while playing.
 
 ---
 
