@@ -26,6 +26,10 @@ How it sizes and whether it shows up is controlled by [`artwork_column_mode`](/r
 | `always_vertical_stretched` | Always visible; artwork stacked above the slot list at a fixed fraction of window height. The image fills the rect per [`artwork_column_stretch_fit`](/reference/config/#artwork-column) — `cover` crops, `fill` distorts. |
 | `never` | Column is always hidden. |
 
+![Horizontal artwork layout — square cover beside the slot list (always_native)](../../../assets/artwork-panel-horizontal.webp)
+
+![Vertical artwork layout — square cover stacked above the slot list (always_vertical_native)](../../../assets/artwork-panel-vertical.webp)
+
 `always_native` and `always_stretched` show a drag handle between the artwork and the slot list — drag horizontally to resize; the new fraction is saved to [`artwork_column_width_pct`](/reference/config/#artwork-column) (clamped to 0.05–0.80). `always_vertical_native` and `always_vertical_stretched` show a drag handle below the artwork — drag vertically to resize; the new fraction is saved to [`artwork_vertical_height_pct`](/reference/config/#artwork-column) (clamped to 0.10–0.80). `auto` sizes itself, so there's no handle.
 
 ## Artwork Quality
