@@ -124,9 +124,11 @@ A few values you might expect here are stored separately. **Volume** and **sessi
 {/* config-table:start id="artwork-column" */}
 | Key | Default | Description |
 | :--- | :--- | :--- |
-| `artwork_column_mode` | `"auto"` | Visibility and sizing of the large artwork panel shown alongside list views. Options: `auto` (size derived from window width; auto-hides when the slot list would have less than 800px), `always_native` (user-defined width; image stays square and letterboxed vertically), `always_stretched` (user-defined width; image fills the column non-square per `artwork_column_stretch_fit`), `never` (column hidden everywhere). |
+| `artwork_auto_max_pct` | `0.40` | Max artwork size in `auto` mode, as a fraction of the window's short axis (0.30–0.70). |
+| `artwork_column_mode` | `"auto"` | Visibility and sizing of the large artwork panel shown alongside list views. Options: `auto` (size derived from window width; auto-hides when the slot list would have less than 800px), `always_native` (user-defined width; image stays square and letterboxed vertically), `always_stretched` (user-defined width; image fills the column non-square per `artwork_column_stretch_fit`), `always_vertical_native` (user-defined height; artwork stacked above the slot list, stays square), `always_vertical_stretched` (user-defined height; artwork stacked above the slot list, fills the rect via `artwork_column_stretch_fit`), `never` (column hidden everywhere). |
 | `artwork_column_stretch_fit` | `"cover"` | Fit mode used when `artwork_column_mode = "always_stretched"`. Options: `cover` (preserve aspect ratio, crop to fill), `fill` (true stretch — distorts album art). Ignored in other modes. |
 | `artwork_column_width_pct` | `0.40` | Artwork column width as a fraction of the window width (0.05 to 0.80). Only consulted in `always_native` and `always_stretched` modes. |
+| `artwork_vertical_height_pct` | `0.40` | Artwork height as a fraction of window height (0.10–0.80). Only consulted in `always_vertical_native` and `always_vertical_stretched` modes. |
 {/* config-table:end */}
 
 ### System Tray

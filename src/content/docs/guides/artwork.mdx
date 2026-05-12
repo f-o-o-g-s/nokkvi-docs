@@ -19,12 +19,14 @@ How it sizes and whether it shows up is controlled by [`artwork_column_mode`](/r
 
 | Mode | Behavior |
 | :--- | :------- |
-| `auto` *(default)* | Width is derived from the window — up to 40% of window width or 1000 px, whichever is smaller. The column hides automatically when the remaining slot-list width would drop below 800 px. Portrait-shaped windows scale up to 60% of width instead, capped by window height. |
+| `auto` *(default)* | Size is derived from window dimensions — up to [`artwork_auto_max_pct`](/reference/config/#artwork-column) × window width, capped at 1000 px. Hides when the remaining slot-list width would drop below 800 px. On tall windows, artwork stacks vertically above the slot list instead — up to `artwork_auto_max_pct` × window height, capped at 1000 px; hides when fewer than 400 px of height would remain below it. |
 | `always_native` | Always visible at a fixed fraction of window width. The image stays square and letterboxes vertically if the column is taller than wide. |
 | `always_stretched` | Always visible at a fixed fraction of window width. The image fills the column non-square per [`artwork_column_stretch_fit`](/reference/config/#artwork-column) — `cover` crops to fit, `fill` distorts. |
+| `always_vertical_native` | Always visible; artwork stacked above the slot list at a fixed fraction of window height. The image stays square, letterboxed horizontally as needed. |
+| `always_vertical_stretched` | Always visible; artwork stacked above the slot list at a fixed fraction of window height. The image fills the rect per [`artwork_column_stretch_fit`](/reference/config/#artwork-column) — `cover` crops, `fill` distorts. |
 | `never` | Column is always hidden. |
 
-Both `always_*` modes show a thin drag handle between the slot list and the artwork column. Drag horizontally to resize; the new fraction is saved to [`artwork_column_width_pct`](/reference/config/#artwork-column) (clamped to 0.05–0.80). `auto` sizes itself, so there's no handle.
+`always_native` and `always_stretched` show a drag handle between the artwork and the slot list — drag horizontally to resize; the new fraction is saved to [`artwork_column_width_pct`](/reference/config/#artwork-column) (clamped to 0.05–0.80). `always_vertical_native` and `always_vertical_stretched` show a drag handle below the artwork — drag vertically to resize; the new fraction is saved to [`artwork_vertical_height_pct`](/reference/config/#artwork-column) (clamped to 0.10–0.80). `auto` sizes itself, so there's no handle.
 
 ## Artwork Quality
 

@@ -50,8 +50,11 @@
   "artists_show_thumbnail": {
     "description": "Show the thumbnail column in the artists view."
   },
+  "artwork_auto_max_pct": {
+    "description": "Max artwork size in `auto` mode, as a fraction of the window's short axis (0.30–0.70)."
+  },
   "artwork_column_mode": {
-    "description": "Visibility and sizing of the large artwork panel shown alongside list views. Options: `auto` (size derived from window width; auto-hides when the slot list would have less than 800px), `always_native` (user-defined width; image stays square and letterboxed vertically), `always_stretched` (user-defined width; image fills the column non-square per `artwork_column_stretch_fit`), `never` (column hidden everywhere)."
+    "description": "Visibility and sizing of the large artwork panel shown alongside list views. Options: `auto` (size derived from window width; auto-hides when the slot list would have less than 800px), `always_native` (user-defined width; image stays square and letterboxed vertically), `always_stretched` (user-defined width; image fills the column non-square per `artwork_column_stretch_fit`), `always_vertical_native` (user-defined height; artwork stacked above the slot list, stays square), `always_vertical_stretched` (user-defined height; artwork stacked above the slot list, fills the rect via `artwork_column_stretch_fit`), `never` (column hidden everywhere)."
   },
   "artwork_column_stretch_fit": {
     "description": "Fit mode used when `artwork_column_mode = \"always_stretched\"`. Options: `cover` (preserve aspect ratio, crop to fill), `fill` (true stretch — distorts album art). Ignored in other modes."
@@ -61,6 +64,9 @@
   },
   "artwork_resolution": {
     "description": "Quality for large panel artwork. Options: `default` (1000px), `high` (1500px), `ultra` (2000px), `original`."
+  },
+  "artwork_vertical_height_pct": {
+    "description": "Artwork height as a fraction of window height (0.10–0.80). Only consulted in `always_vertical_native` and `always_vertical_stretched` modes."
   },
   "auto_follow_playing": {
     "description": "The Queue view auto-scrolls to keep the currently playing track visible as it changes."
