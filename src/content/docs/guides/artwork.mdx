@@ -17,17 +17,6 @@ Thumbnails in list views are populated around the visible viewport — items wel
 
 The large artwork panel sits alongside most library views — Albums, Songs, Queue, Artists, Genres, and Playlists. It shows the cover for whichever row is centered, falling back to a 3×3 collage in Genres or Playlists when the focused item spans multiple albums.
 
-How it sizes and whether it shows up is controlled by [`artwork_column_mode`](/reference/config/#artwork-column):
-
-| Mode | Behavior |
-| :--- | :------- |
-| `auto` *(default)* | Size is derived from window dimensions — up to [`artwork_auto_max_pct`](/reference/config/#artwork-column) × window width, capped at 1000 px. Hides when the remaining slot-list width would drop below 800 px. On tall windows, artwork stacks vertically above the slot list instead — up to `artwork_auto_max_pct` × window height, capped at 1000 px; hides when fewer than 400 px of height would remain below it. |
-| `always_native` | Always visible at a fixed fraction of window width. The image stays square and letterboxes vertically if the column is taller than wide. |
-| `always_stretched` | Always visible at a fixed fraction of window width. The image fills the column non-square per [`artwork_column_stretch_fit`](/reference/config/#artwork-column) — `cover` crops to fit, `fill` distorts. |
-| `always_vertical_native` | Always visible; artwork stacked above the slot list at a fixed fraction of window height. The image stays square, letterboxed horizontally as needed. |
-| `always_vertical_stretched` | Always visible; artwork stacked above the slot list at a fixed fraction of window height. The image fills the rect per [`artwork_column_stretch_fit`](/reference/config/#artwork-column) — `cover` crops, `fill` distorts. |
-| `never` | Column is always hidden. |
-
 <Tabs syncKey="artwork-layout">
   <TabItem label="Horizontal">
     Artwork sits beside the slot list. Used by `always_native`, `always_stretched`, and `auto` on wide windows.
@@ -40,6 +29,17 @@ How it sizes and whether it shows up is controlled by [`artwork_column_mode`](/r
     ![Vertical artwork layout: square cover stacked above the slot list](../../../assets/artwork-panel-vertical.webp)
   </TabItem>
 </Tabs>
+
+How it sizes and whether it shows up is controlled by [`artwork_column_mode`](/reference/config/#artwork-column):
+
+| Mode | Behavior |
+| :--- | :------- |
+| `auto` *(default)* | Size is derived from window dimensions — up to [`artwork_auto_max_pct`](/reference/config/#artwork-column) × window width, capped at 1000 px. Hides when the remaining slot-list width would drop below 800 px. On tall windows, artwork stacks vertically above the slot list instead — up to `artwork_auto_max_pct` × window height, capped at 1000 px; hides when fewer than 400 px of height would remain below it. |
+| `always_native` | Always visible at a fixed fraction of window width. The image stays square and letterboxes vertically if the column is taller than wide. |
+| `always_stretched` | Always visible at a fixed fraction of window width. The image fills the column non-square per [`artwork_column_stretch_fit`](/reference/config/#artwork-column) — `cover` crops to fit, `fill` distorts. |
+| `always_vertical_native` | Always visible; artwork stacked above the slot list at a fixed fraction of window height. The image stays square, letterboxed horizontally as needed. |
+| `always_vertical_stretched` | Always visible; artwork stacked above the slot list at a fixed fraction of window height. The image fills the rect per [`artwork_column_stretch_fit`](/reference/config/#artwork-column) — `cover` crops, `fill` distorts. |
+| `never` | Column is always hidden. |
 
 `always_native` and `always_stretched` show a drag handle between the artwork and the slot list — drag horizontally to resize; the new fraction is saved to [`artwork_column_width_pct`](/reference/config/#artwork-column) (clamped to 0.05–0.80). `always_vertical_native` and `always_vertical_stretched` show a drag handle below the artwork — drag vertically to resize; the new fraction is saved to [`artwork_vertical_height_pct`](/reference/config/#artwork-column) (clamped to 0.10–0.80). `auto` sizes itself, so there's no handle.
 
