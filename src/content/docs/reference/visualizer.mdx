@@ -9,6 +9,19 @@ import { Tabs, TabItem, Card, CardGrid, Aside } from '@astrojs/starlight/compone
 
 Nokkvi features a custom-built, hardware-accelerated visualizer powered by PipeWire and WGSL shaders. This reference explains the various modes and color mapping strategies available in `config.toml`.
 
+<Tabs syncKey="visualizer-mode">
+  <TabItem label="Bars">
+    Frequency data rendered as vertical columns with optional peak indicators.
+
+    ![Nokkvi visualizer in bars mode — vertical frequency columns across the player bar](../../../assets/visualizer-bars.webp)
+  </TabItem>
+  <TabItem label="Lines">
+    Frequency data rendered as a continuous path, oscilloscope-style. The surfing boat overlay is optional.
+
+    ![Nokkvi visualizer in lines mode — smooth waveform curve with the surfing boat riding it](../../../assets/visualizer-lines.webp)
+  </TabItem>
+</Tabs>
+
 ## Bars Mode
 
 The `bars` mode renders frequency data as vertical columns. It is highly configurable with various gradient and peak behaviors.
