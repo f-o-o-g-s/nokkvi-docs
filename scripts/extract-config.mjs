@@ -173,15 +173,28 @@ function parseDefaultExprs(body) {
 }
 
 // Find standalone helper functions like `fn name() -> T { value }` so we can
-// inline their return values when they appear as default expressions.
+// inline their return values when they appear as default expressions. The body
+// is allowed to span multiple lines as long as it contains no nested braces.
 function parseSimpleFns(source) {
   const fns = {};
-  const re = /fn\s+(\w+)\s*\(\)\s*->\s*\w+\s*\{\s*([^{}\n]+?)\s*\}/g;
+  const re = /fn\s+(\w+)\s*\(\)\s*->\s*\w+\s*\{\s*([^{}]+?)\s*\}/g;
   let m;
   while ((m = re.exec(source)) !== null) {
-    fns[m[1]] = m[2].trim();
+    fns[m[1]] = m[2].replace(/\s+/g, ' ').trim();
   }
   return fns;
+}
+
+// Find `pub const NAME: TYPE = LITERAL;` declarations so bare constant
+// references in default expressions can be inlined.
+function parseConsts(source) {
+  const consts = {};
+  const re = /pub const ([A-Z][A-Z0-9_]*)\s*:\s*[^=]+=\s*([^;]+);/g;
+  let m;
+  while ((m = re.exec(source)) !== null) {
+    consts[m[1]] = m[2].trim();
+  }
+  return consts;
 }
 
 // Parse `pub enum Name { ... }` blocks, capturing #[serde(rename_all)] and
@@ -232,15 +245,23 @@ function parseEnums(source) {
 
 // Resolve a Rust default expression into a JSON-friendly value.
 // `nested` maps nested-struct type names to their field-default maps;
-// `fns` maps simple `fn name() -> T { value }` helpers to their return value.
-function resolveDefault(expr, enums, nested, fns = {}) {
+// `fns` maps simple `fn name() -> T { value }` helpers to their return value;
+// `consts` maps SCREAMING_SNAKE_CASE constant names to their literal value.
+function resolveDefault(expr, enums, nested, fns = {}, consts = {}) {
   // Strip module path prefixes like `crate::types::player_settings::Foo::bar` → `Foo::bar`.
   const e = expr.trim().replace(/^(?:\w+::)+([A-Z]\w*::)/, '$1');
 
   // Inline standalone helper functions (e.g. default_auto_sensitivity()).
   let fnMatch = e.match(/^(\w+)\(\)$/);
   if (fnMatch && fns[fnMatch[1]]) {
-    return resolveDefault(fns[fnMatch[1]], enums, nested, fns);
+    return resolveDefault(fns[fnMatch[1]], enums, nested, fns, consts);
+  }
+
+  // Inline bare constants, including module-path-prefixed forms like
+  // `crate::types::player_settings::ARTWORK_COLUMN_WIDTH_PCT_DEFAULT`.
+  const constMatch = e.match(/^(?:\w+::)*([A-Z][A-Z0-9_]*)$/);
+  if (constMatch && consts[constMatch[1]]) {
+    return resolveDefault(consts[constMatch[1]], enums, nested, fns, consts);
   }
 
   let m;
@@ -255,7 +276,7 @@ function resolveDefault(expr, enums, nested, fns = {}) {
 
   // Array literal: [value; N]
   if ((m = e.match(/^\[(.+?);\s*(\d+)\s*\]$/))) {
-    const v = resolveDefault(m[1], enums, nested, fns);
+    const v = resolveDefault(m[1], enums, nested, fns, consts);
     return new Array(parseInt(m[2], 10)).fill(v);
   }
 
@@ -286,6 +307,7 @@ const credSrc = read(FILES.credentials);
 
 const enums = { ...parseEnums(enumSrc), ...parseEnums(vizSrc) };
 const fns = { ...parseSimpleFns(vizSrc), ...parseSimpleFns(tomlSrc) };
+const consts = { ...parseConsts(enumSrc), ...parseConsts(vizSrc), ...parseConsts(tomlSrc) };
 
 // Phase 1: collect field definitions from each struct.
 const tomlBody = extractBlock(tomlSrc, 'pub struct TomlSettings');
@@ -327,7 +349,7 @@ const nestedDefaults = {
 function buildSetting(field, defaultExpr, opts = {}) {
   const { keyPrefix = '', sectionOverride = null } = opts;
   const resolved = defaultExpr !== undefined
-    ? resolveDefault(defaultExpr, enums, nestedDefaults, fns)
+    ? resolveDefault(defaultExpr, enums, nestedDefaults, fns, consts)
     : null;
 
   // Strip Option<T> wrapper for type display only.
