@@ -58,14 +58,16 @@ The sort picker lives in the view header and sizes itself to its widest option �
 
 ## Roulette
 
-Every slot-list view's sort dropdown ends with a **Roulette** entry. Picking it spins the list like a slot machine for ~5 seconds — the wheel decelerates with an ease-out curve plus a small fake-out near the end, the per-frame Tab navigation SFX tracks the slowing wheel for the slot-machine click, and the run lands on a random item which is then auto-played. The fake-out shape and timing vary every spin — patterns include none, a single near-miss, a two-step walk, an overshoot bounce, and a zigzag — and roughly one in five spins skips the fake-out entirely.
+Every slot-list view's sort dropdown ends with a **Roulette** entry. Picking it sets the list cruising like a slot-machine wheel — the viewport scrolls at a constant rate and keeps cycling indefinitely, with the Tab navigation SFX firing in time with the visible clicks. The wheel runs until you press `Enter`, which rolls the landing item and arms the decel walk: the click cadence audibly slows from cruise speed down to a final ~1 Hz slot-machine click over a few seconds, then the wheel plays whatever it landed on. Pressing Enter is what "throws" the wheel — the landing target isn't committed until that moment.
+
+The decel ends in one of three fake-out shapes, picked randomly per spin: a clean settle (most common, lets the decel curve speak for itself), an overshoot bounce (one keyframe past the target, then back), or a false-settle two-step (a brief pause on target, an overshoot, then the real settle).
 
 What "play" means depends on the view:
 
 - **Genres / Artists** — load every song in the picked entity and start playback at a random song.
 - **Queue / Songs / Albums / Playlists / Radio** — use the view's normal play-from-here action on the landing item.
 
-**Cancel** by pressing `Escape` during the spin or switching views — the original viewport is restored and nothing auto-plays. Roulette is disabled inside the [Library Browser](/guides/queue/#library-browser-and-drag-and-drop) side panel because play actions there route to add-to-queue instead.
+**Cancel** by pressing `Escape` during the spin or switching views — the original viewport is restored and nothing plays. Roulette is disabled inside the [Library Browser](/guides/queue/#library-browser-and-drag-and-drop) side panel because play actions there route to add-to-queue instead.
 
 ## Multi-select
 
