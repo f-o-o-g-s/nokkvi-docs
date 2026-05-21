@@ -110,23 +110,28 @@ The CLI auto-discovers the live socket — you don't pass a path. If no instance
 
 ## Hyprland keybinds
 
-```conf
-# ~/.config/hypr/hyprland.conf
+Hyprland's [Lua config](https://wiki.hypr.land/Configuring/Lua-API/) is the current binding API. `hl.bind(keys, hl.dsp.exec_cmd(cmd), opts?)` is the canonical shape — the same one the upstream `example/hyprland.lua` uses for multimedia keys. The block below is the author's actual nokkvi binds.
 
-# Transport
-bind  = $mainMod ALT, space, exec, nokkvi play-pause
-bind  = $mainMod ALT, right, exec, nokkvi next
-bind  = $mainMod ALT, left,  exec, nokkvi previous
+```lua
+-- ~/.config/hypr/keybinds.lua
+local mod_alt = "SUPER + ALT"
 
-# Volume (binde repeats while held)
-binde = $mainMod ALT, up,   exec, nokkvi volume +0.02
-binde = $mainMod ALT, down, exec, nokkvi volume -0.02
+-- Transport
+hl.bind(mod_alt .. " + space", hl.dsp.exec_cmd("nokkvi play-pause"))
+hl.bind(mod_alt .. " + right", hl.dsp.exec_cmd("nokkvi next"))
+hl.bind(mod_alt .. " + left",  hl.dsp.exec_cmd("nokkvi previous"))
 
-# Rating + love from a hotkey while a track plays
-bind  = $mainMod ALT, l,    exec, nokkvi love
-bind  = $mainMod ALT, equal, exec, nokkvi rate +1
-bind  = $mainMod ALT, minus, exec, nokkvi rate -1
+-- Volume — { repeating = true } replaces the legacy `binde` repeat flag
+hl.bind(mod_alt .. " + up",    hl.dsp.exec_cmd("nokkvi volume +0.01"), { repeating = true })
+hl.bind(mod_alt .. " + down",  hl.dsp.exec_cmd("nokkvi volume -0.01"), { repeating = true })
+
+-- Rating + love on the currently playing track
+hl.bind(mod_alt .. " + L",     hl.dsp.exec_cmd("nokkvi love"))
+hl.bind(mod_alt .. " + equal", hl.dsp.exec_cmd("nokkvi rate +1"))
+hl.bind(mod_alt .. " + minus", hl.dsp.exec_cmd("nokkvi rate -1"))
 ```
+
+Add `{ locked = true }` to any bind you want to keep working while the session is locked (the upstream example sets this on `XF86Audio*` keys).
 
 ## Other window managers
 

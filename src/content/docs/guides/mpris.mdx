@@ -19,14 +19,20 @@ playerctl -p nokkvi metadata
 
 ## Hyprland keybinds
 
-```conf
-# ~/.config/hypr/hyprland.conf
-bind  = $mainMod ALT, space, exec, playerctl -p nokkvi play-pause
-bind  = $mainMod ALT, right, exec, playerctl -p nokkvi next
-bind  = $mainMod ALT, left,  exec, playerctl -p nokkvi previous
-binde = $mainMod ALT, up,   exec, playerctl -p nokkvi volume 0.01+
-binde = $mainMod ALT, down, exec, playerctl -p nokkvi volume 0.01-
+Hyprland's [Lua config](https://wiki.hypr.land/Configuring/Lua-API/) is the current binding API. `hl.bind(keys, hl.dsp.exec_cmd(cmd), opts?)` is the canonical shape — the same one the upstream `example/hyprland.lua` uses for multimedia keys.
+
+```lua
+-- ~/.config/hypr/keybinds.lua
+local mod_alt = "SUPER + ALT"
+
+hl.bind(mod_alt .. " + space", hl.dsp.exec_cmd("playerctl -p nokkvi play-pause"))
+hl.bind(mod_alt .. " + right", hl.dsp.exec_cmd("playerctl -p nokkvi next"))
+hl.bind(mod_alt .. " + left",  hl.dsp.exec_cmd("playerctl -p nokkvi previous"))
+hl.bind(mod_alt .. " + up",    hl.dsp.exec_cmd("playerctl -p nokkvi volume 0.01+"), { repeating = true })
+hl.bind(mod_alt .. " + down",  hl.dsp.exec_cmd("playerctl -p nokkvi volume 0.01-"), { repeating = true })
 ```
+
+`{ repeating = true }` replaces the old `binde` (`e` for "repeating") from the legacy `.conf` syntax. Drop the option for one-shot binds.
 
 ## Other window managers
 
