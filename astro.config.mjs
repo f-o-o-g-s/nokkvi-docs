@@ -143,6 +143,7 @@ export default defineConfig({
             { label: "Audio Engine", slug: "guides/audio" },
             { label: "Customizing Themes", slug: "guides/theming" },
             { label: "Media Controls (MPRIS)", slug: "guides/mpris" },
+            { label: "Command Line (nokkvi CLI)", slug: "guides/cli" },
           ],
         },
         {

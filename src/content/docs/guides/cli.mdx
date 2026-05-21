@@ -1,0 +1,133 @@
+---
+title: Command Line (nokkvi CLI)
+description: Drive a running Nokkvi instance from shell scripts and WM hotkeys via the nokkvi CLI.
+---
+
+`nokkvi <verb>` sends a single command to the running Nokkvi instance over a Unix socket and exits. Use it from shell scripts, window manager keybinds, or any external tool — there's no GUI startup cost because the CLI forks before iced initializes.
+
+The CLI is an alternative to [MPRIS](/guides/mpris/). MPRIS covers the standard transport surface and works with any MPRIS controller; the CLI adds verbs that MPRIS doesn't expose (`switch-view`, `love`, `rate`, `clear-queue`, `consume`).
+
+## Verbs
+
+### Transport
+
+| Verb | Arg | Action |
+| :--- | :--- | :--- |
+| `play` | — | Start playback |
+| `pause` | — | Pause playback |
+| `play-pause` | — | Toggle play / pause |
+| `stop` | — | Stop and reset the playhead |
+| `next` | — | Skip to the next track |
+| `previous` | — | Return to the previous track |
+| `seek` | `<seconds>` | Seek to absolute position (float, in seconds) |
+| `volume` | `<value>` | Set volume — see [Volume syntax](#volume-syntax) |
+
+### Queue and modes
+
+| Verb | Arg | Action |
+| :--- | :--- | :--- |
+| `shuffle` | — | Toggle random mode |
+| `repeat` | — | Cycle repeat: off → one → queue |
+| `consume` | — | Toggle consume mode |
+| `clear-queue` | — | Empty the queue |
+
+### View
+
+| Verb | Arg | Action |
+| :--- | :--- | :--- |
+| `switch-view` | `<view>` | Switch the top pane — see [View names](#view-names) |
+
+### Playing track
+
+These act on whatever's currently playing and exit `1` with a `no_playing_track` error if nothing is loaded.
+
+| Verb | Arg | Action |
+| :--- | :--- | :--- |
+| `love` | — | Toggle Navidrome star on the playing track |
+| `rate` | `<delta-or-abs>` | Adjust the playing track rating — see [Rating syntax](#rating-syntax) |
+
+### Misc
+
+| Verb | Arg | Action |
+| :--- | :--- | :--- |
+| `ping` | — | Probe the running instance. Prints `pong` and exits `0`. |
+
+## Argument syntax
+
+### Volume syntax
+
+The `<value>` arg accepts two shapes:
+
+- **Delta** — `+N` or `-N`, added to the current volume and clamped silently to `0.0..=1.0`. Repeated `volume +0.05` at the ceiling is a no-op.
+- **Absolute** — `N` in `0.0..=1.0`. Out-of-range values error rather than clamp.
+
+```bash
+nokkvi volume +0.05    # bump 5%
+nokkvi volume -0.1     # drop 10%
+nokkvi volume 0.5      # set to 50%
+```
+
+### Rating syntax
+
+The `<delta-or-abs>` arg accepts two shapes:
+
+- **Delta** — `+N` or `-N`, added to the current rating and clamped to `0..=5`.
+- **Absolute** — `0` through `5`. Out-of-range values error.
+
+```bash
+nokkvi rate +1    # bump by one star
+nokkvi rate -1    # drop by one star
+nokkvi rate 5     # set to five stars
+nokkvi rate 0     # clear the rating
+```
+
+### View names
+
+`switch-view` accepts one of: `albums`, `queue`, `songs`, `artists`, `genres`, `playlists`, `radios`, `settings`. Anything else errors with the full list in the message.
+
+```bash
+nokkvi switch-view albums
+nokkvi switch-view queue
+```
+
+## How it connects
+
+Each running Nokkvi daemon binds a per-PID socket so multiple instances can coexist:
+
+| Environment | Socket path |
+| :--- | :--- |
+| `$XDG_RUNTIME_DIR` set | `$XDG_RUNTIME_DIR/nokkvi-{pid}.sock` |
+| Unset (fallback) | `/tmp/nokkvi-{uid}-{pid}.sock` |
+
+The CLI auto-discovers the live socket — you don't pass a path. If no instance is running, the command exits `1` with a message listing the directory it searched.
+
+## Exit codes
+
+| Code | Meaning |
+| :--- | :--- |
+| `0` | Server accepted the verb. Any payload is printed to stdout (e.g. `ping` prints `pong`). |
+| `1` | No live instance found, or the server returned an error (`unknown_command`, `invalid_args`, `no_playing_track`). Error message goes to stderr. |
+
+## Hyprland keybinds
+
+```conf
+# ~/.config/hypr/hyprland.conf
+
+# Transport
+bind  = $mainMod ALT, space, exec, nokkvi play-pause
+bind  = $mainMod ALT, right, exec, nokkvi next
+bind  = $mainMod ALT, left,  exec, nokkvi previous
+
+# Volume (binde repeats while held)
+binde = $mainMod ALT, up,   exec, nokkvi volume +0.02
+binde = $mainMod ALT, down, exec, nokkvi volume -0.02
+
+# Rating + love from a hotkey while a track plays
+bind  = $mainMod ALT, l,    exec, nokkvi love
+bind  = $mainMod ALT, equal, exec, nokkvi rate +1
+bind  = $mainMod ALT, minus, exec, nokkvi rate -1
+```
+
+## Other window managers
+
+The CLI is a plain executable — use whatever your compositor's exec-keybind syntax is (`sway`'s `bindsym`, `i3`'s `bindsym`, `dwm`'s `config.h`, etc.) and call `nokkvi <verb>` from it.
