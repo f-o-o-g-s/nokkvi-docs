@@ -3,6 +3,8 @@ title: Command Line (nokkvi CLI)
 description: Drive a running Nokkvi instance from shell scripts and WM hotkeys via the nokkvi CLI.
 ---
 
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
 `nokkvi <verb>` sends a single command to the running Nokkvi instance over a Unix socket and exits. Use it from shell scripts, window manager keybinds, or any external tool — there's no GUI startup cost because the CLI forks before iced initializes.
 
 The CLI is an alternative to [MPRIS](/guides/mpris/). MPRIS covers the standard transport surface and works with any MPRIS controller; the CLI adds verbs that MPRIS doesn't expose (`switch-view`, `love`, `rate`, `clear-queue`, `consume`).
@@ -110,28 +112,51 @@ The CLI auto-discovers the live socket — you don't pass a path. If no instance
 
 ## Hyprland keybinds
 
-Hyprland's [Lua config](https://wiki.hypr.land/Configuring/Lua-API/) is the current binding API. `hl.bind(keys, hl.dsp.exec_cmd(cmd), opts?)` is the canonical shape — the same one the upstream `example/hyprland.lua` uses for multimedia keys. The block below is the author's actual nokkvi binds.
+Hyprland's [Lua config](https://wiki.hypr.land/Configuring/Lua-API/) is the current binding API — `hl.bind(keys, hl.dsp.exec_cmd(cmd), opts?)` matches the shape from the upstream `example/hyprland.lua`. The Lua block below is the author's actual `~/.config/hypr/keybinds.lua` for nokkvi; the legacy `.conf` tab is for stable distros still on the older Hyprland.
 
-```lua
--- ~/.config/hypr/keybinds.lua
-local mod_alt = "SUPER + ALT"
+<Tabs syncKey="hypr-config">
+  <TabItem label="Lua (current)">
+    ```lua
+    -- ~/.config/hypr/keybinds.lua
+    local mod_alt = "SUPER + ALT"
 
--- Transport
-hl.bind(mod_alt .. " + space", hl.dsp.exec_cmd("nokkvi play-pause"))
-hl.bind(mod_alt .. " + right", hl.dsp.exec_cmd("nokkvi next"))
-hl.bind(mod_alt .. " + left",  hl.dsp.exec_cmd("nokkvi previous"))
+    -- Transport
+    hl.bind(mod_alt .. " + space", hl.dsp.exec_cmd("nokkvi play-pause"))
+    hl.bind(mod_alt .. " + right", hl.dsp.exec_cmd("nokkvi next"))
+    hl.bind(mod_alt .. " + left",  hl.dsp.exec_cmd("nokkvi previous"))
 
--- Volume — { repeating = true } replaces the legacy `binde` repeat flag
-hl.bind(mod_alt .. " + up",    hl.dsp.exec_cmd("nokkvi volume +0.01"), { repeating = true })
-hl.bind(mod_alt .. " + down",  hl.dsp.exec_cmd("nokkvi volume -0.01"), { repeating = true })
+    -- Volume — { repeating = true } repeats while held
+    hl.bind(mod_alt .. " + up",    hl.dsp.exec_cmd("nokkvi volume +0.01"), { repeating = true })
+    hl.bind(mod_alt .. " + down",  hl.dsp.exec_cmd("nokkvi volume -0.01"), { repeating = true })
 
--- Rating + love on the currently playing track
-hl.bind(mod_alt .. " + L",     hl.dsp.exec_cmd("nokkvi love"))
-hl.bind(mod_alt .. " + equal", hl.dsp.exec_cmd("nokkvi rate +1"))
-hl.bind(mod_alt .. " + minus", hl.dsp.exec_cmd("nokkvi rate -1"))
-```
+    -- Rating + love on the currently playing track
+    hl.bind(mod_alt .. " + L",     hl.dsp.exec_cmd("nokkvi love"))
+    hl.bind(mod_alt .. " + equal", hl.dsp.exec_cmd("nokkvi rate +1"))
+    hl.bind(mod_alt .. " + minus", hl.dsp.exec_cmd("nokkvi rate -1"))
+    ```
+  </TabItem>
+  <TabItem label="Legacy .conf">
+    ```conf
+    # ~/.config/hypr/hyprland.conf
 
-Add `{ locked = true }` to any bind you want to keep working while the session is locked (the upstream example sets this on `XF86Audio*` keys).
+    # Transport
+    bind  = $mainMod ALT, space, exec, nokkvi play-pause
+    bind  = $mainMod ALT, right, exec, nokkvi next
+    bind  = $mainMod ALT, left,  exec, nokkvi previous
+
+    # Volume (binde repeats while held)
+    binde = $mainMod ALT, up,   exec, nokkvi volume +0.01
+    binde = $mainMod ALT, down, exec, nokkvi volume -0.01
+
+    # Rating + love on the currently playing track
+    bind  = $mainMod ALT, L,     exec, nokkvi love
+    bind  = $mainMod ALT, equal, exec, nokkvi rate +1
+    bind  = $mainMod ALT, minus, exec, nokkvi rate -1
+    ```
+  </TabItem>
+</Tabs>
+
+Add `{ locked = true }` (Lua) or use `bindl`/`bindle` (`.conf`) on any bind you want to keep working while the session is locked — the upstream example sets it on `XF86Audio*` keys.
 
 ## Other window managers
 
