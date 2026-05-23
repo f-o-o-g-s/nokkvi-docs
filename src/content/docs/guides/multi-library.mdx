@@ -1,0 +1,39 @@
+---
+title: Multi-library filter
+description: Scope Albums, Artists, Songs, and Genres to a subset of your Navidrome server's libraries.
+---
+
+Navidrome can host more than one "library" — separate music collections (typically distinct music folders) on the same server. When you're connected to a server with multiple libraries, Nokkvi can scope every browse view to a chosen subset of them.
+
+## Where it lives
+
+A small library icon sits at the left edge of the nav bar, next to the [hamburger menu](/guides/library-basics/). Clicking it opens the **Active Libraries** popover.
+
+- **Top-nav layout** — icon-only chassis; once you're filtering a strict subset, the trigger widens to show an `N/M` count and an accent-bright pip in the top-right corner.
+- **Side-nav layout** — compact 28 px icon; in the filtered state the count stacks below the icon and the pip rides the icon's corner.
+- **Single-library servers** — the trigger is hidden. There is nothing to filter, so you'll see no UI change.
+
+The popover header reads `Active Libraries — N / M`, and each row shows the library name plus its song count (when the server exposes one).
+
+## How to use
+
+- Click a row to toggle that library on or off.
+- Click the trigger again, or click outside the popover, to close it.
+- An empty selection is treated the same as "all libraries on" — the icon-only neutral chassis renders in both cases because they share the same semantics (no filter is applied).
+
+Switching libraries clears every paged browse buffer; the currently-visible view refetches immediately, the rest refetch the next time you visit them.
+
+## What it scopes
+
+The active set is applied to:
+
+- [Albums](/guides/albums/)
+- [Artists](/guides/artists/)
+- [Songs](/guides/songs/)
+- [Genres](/guides/genres/)
+
+[Playlists](/guides/playlists/) are **not** filtered. Navidrome's `/api/playlist` endpoint doesn't accept a `library_id` filter (the `playlist` table has no `library_id` column), and the server already scopes playlists per-user based on which libraries that account can access. Queue, Radios, and Settings have no library-scoped data and are unaffected.
+
+## Persistence
+
+The active set is stored in the local state database at `~/.local/state/nokkvi/app.redb` and restored on the next launch. If a library that was in your active set has been deleted on the server, it's pruned out the first time Nokkvi refreshes the library list — you don't need to do anything.
