@@ -17,14 +17,58 @@ By default, Nokkvi only writes settings that you have modified to the file. You 
 A few values you might expect here are stored separately. **Volume** and **session tokens** live in Nokkvi's internal state database at `~/.local/state/nokkvi/app.redb` so they can update at high frequency without rewriting the config file. **Theme color overrides** live in `~/.config/nokkvi/themes/*.toml` — see the [Theming guide](/guides/theming/).
 :::
 
-## General Settings
+## TOML layout
 
-{/* config-table:start id="general" */}
+`config.toml` is divided into a few sections. Keys must be written at the correct nesting level — keys placed in the wrong section deserialize as defaults and the change silently no-ops.
+
+| Section | Contents |
+| :--- | :--- |
+| Root (no header) | `server_url`, `username` |
+| `[settings]` | Everything in [General Settings](#general-settings), [Interface Settings](#interface-settings), [Behavior Settings](#behavior-settings), [Playback Settings](#playback-settings), and [Audio Engine](#audio-engine-internal) below |
+| `[hotkeys]` | Key rebindings — see [Keyboard Shortcuts](/reference/hotkeys/) |
+| `[views]` | Per-view sort preferences — see [View Sort Preferences](#view-sort-preferences) below |
+| `[visualizer]`, `[visualizer.bars]`, `[visualizer.lines]` | Visualizer settings — the dotted keys in the tables below (e.g. `visualizer.bars.led_bars`) reflect this nesting |
+
+A minimal file looks like:
+
+```toml
+server_url = "https://music.example.com"
+username   = "alice"
+
+[settings]
+start_view = "Albums"
+crossfade_enabled = true
+
+[hotkeys]
+slot_list_down = "J"
+
+[views]
+albums_sort = "name"
+
+[visualizer]
+auto_sensitivity = true
+
+[visualizer.bars]
+led_bars = true
+```
+
+## Top-level keys
+
+These live at the root of `config.toml`, *not* under `[settings]`.
+
 | Key | Default | Description |
 | :--- | :--- | :--- |
 | `server_url` | `""` | The full URL of your Navidrome server (e.g., `https://music.example.com`). |
 | `username` | `""` | Your Navidrome username. |
-| `start_view` | `"Queue"` | The view to show on startup. Options: `Queue`, `Albums`, `Artists`, `Songs`, `Genres`, `Playlists`, `Radios`. |
+
+## General Settings
+
+All keys in this section live under `[settings]`.
+
+{/* config-table:start id="general" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `start_view` | `"Queue"` | The view to show on startup. Options: `Albums`, `Artists`, `Songs`, `Genres`, `Playlists`. Any other value (including `Queue`, `Radios`, `Settings`) falls back to `Queue`. |
 | `local_music_path` | `""` | Absolute path to your local music library. If set, Nokkvi will try to open files directly (for things like "Show in File Manager"). |
 | `library_page_size` | `"default"` | How many items to fetch per request. Options: `small` (100), `default` (500), `large` (1000), `massive` (5000). |
 | `artwork_resolution` | `"default"` | Quality for large panel artwork. Options: `default` (1000px), `high` (1500px), `ultra` (2000px), `original`. See note below. |
@@ -172,8 +216,8 @@ A few values you might expect here are stored separately. **Volume** and **sessi
 | `enter_behavior` | `"play_all"` | Action when pressing `Enter` on a song. Options: `play_all` (replace queue with the current view), `play_single` (replace queue with just this track), `append_and_play` (add to queue and play). |
 | `crossfade_enabled` | `false` | Enable smooth transitions between tracks. |
 | `crossfade_duration_secs` | `5` | Duration of the crossfade in seconds (1 to 12). |
-| `volume_normalization` | `"off"` | Volume-normalization mode. Options: `off`, `replay_gain_track`, `replay_gain_album`, `agc`. See the [Audio guide](/guides/audio/#volume-normalization). |
-| `normalization_level` | `"normal"` | AGC target level (linear amplitude, not LUFS). Options: `quiet` (0.6), `normal` (1.0), `loud` (1.4). Applies only when `volume_normalization = "agc"`. |
+| `volume_normalization_mode` | `"off"` | Volume-normalization mode. Options: `off`, `replay_gain_track`, `replay_gain_album`, `agc`. See the [Audio guide](/guides/audio/#volume-normalization). |
+| `normalization_level` | `"normal"` | AGC target level (linear amplitude, not LUFS). Options: `quiet` (0.6), `normal` (1.0), `loud` (1.4). Applies only when `volume_normalization_mode = "agc"`. |
 | `replay_gain_preamp_db` | `0.0` | Pre-amp dB applied on top of the resolved ReplayGain value. Range −15 to +15. Typical values: `0` (reference), `+6` (modern-loudness target). |
 | `replay_gain_fallback_db` | `0.0` | dB applied to tracks with no ReplayGain tags. Range −15 to +15. Ignored when `replay_gain_fallback_to_agc` is `true`. |
 | `replay_gain_fallback_to_agc` | `false` | Untagged tracks fall through to real-time AGC instead of using `replay_gain_fallback_db`. |
@@ -202,6 +246,44 @@ A few values you might expect here are stored separately. **Volume** and **sessi
 | `queue_show_default_playlist` | `false` | Show a chip in the Queue view's header for the remembered default playlist (the one used by `quick_add_to_playlist`). |
 | `quick_add_to_playlist` | `false` | Skip the "Add to Playlist" dialog and add directly to a remembered default playlist. |
 {/* config-table:end */}
+
+## View Sort Preferences
+
+Per-view sort mode and direction live under `[views]` and persist across restarts. Each view has two keys: `<view>_sort` (string) and `<view>_ascending` (bool). The in-app sort cycle (`Left` / `Right` / `Page Up`) writes these for you; manual TOML edits work too.
+
+{/* config-table:start id="views" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `albums_sort` | `"recently_added"` | Sort mode for the Albums view. |
+| `albums_ascending` | `false` | Ascending order in the Albums view. |
+| `artists_sort` | `"name"` | Sort mode for the Artists view. |
+| `artists_ascending` | `true` | Ascending order in the Artists view. |
+| `songs_sort` | `"recently_added"` | Sort mode for the Songs view. |
+| `songs_ascending` | `false` | Ascending order in the Songs view. |
+| `genres_sort` | `"name"` | Sort mode for the Genres view. |
+| `genres_ascending` | `true` | Ascending order in the Genres view. |
+| `playlists_sort` | `"updated_at"` | Sort mode for the Playlists view. |
+| `playlists_ascending` | `false` | Ascending order in the Playlists view. |
+| `queue_sort` | `"album"` | Sort mode for the Queue view (last applied; manual reorder works from any mode). |
+| `queue_ascending` | `true` | Ascending order in the Queue view. |
+{/* config-table:end */}
+
+### Valid sort modes per view
+
+Unknown values fall back to `name` (or `title` for `queue_sort`). The displayed list and cycle order in-app match these tables.
+
+| View | Valid `<view>_sort` values |
+| :--- | :--- |
+| Albums | `recently_added`, `recently_played`, `most_played`, `favorited`, `random`, `name`, `album_artist`, `artist`, `release_year`, `song_count`, `duration`, `rating`, `genre` |
+| Artists | `name`, `favorited`, `most_played`, `album_count`, `song_count`, `rating`, `random` |
+| Songs | `recently_added`, `recently_played`, `most_played`, `favorited`, `random`, `title`, `album`, `artist`, `album_artist`, `release_year`, `duration`, `bpm`, `channels`, `genre`, `rating`, `comment` |
+| Genres | `name`, `album_count`, `song_count`, `random` |
+| Playlists | `name`, `song_count`, `duration`, `updated_at`, `random` |
+| Queue | `album`, `artist`, `title`, `duration`, `genre`, `rating`, `most_played`, `random` |
+
+<Aside type="note" title="Random in the Queue view">
+  Picking `random` for the queue re-shuffles on each apply (or order-toggle) and is not persisted to `config.toml` — the saved `queue_sort` only updates when you pick a deterministic mode again.
+</Aside>
 
 ## Visualizer Settings
 
@@ -271,12 +353,12 @@ These settings drive the internal audio engine and the UI sound effects layer. T
 | Key | Default | Description |
 | :--- | :--- | :--- |
 | `eq_enabled` | `false` | Global bypass for the 10-band equalizer. |
-| `eq_gains` | `[0.0, ...]` | List of 10 gain values in dB (one per band: 32, 64, 125, 250, 500, 1k, 2k, 4k, 8k, 16k Hz). Range −12.0 to +12.0 per band. |
+| `eq_gains` | `[0.0, ...]` | List of 10 gain values in dB (one per band: 31, 62, 125, 250, 500, 1k, 2k, 4k, 8k, 16k Hz). Range −12.0 to +12.0 per band. |
 | `custom_eq_presets` | `[]` | User-saved EQ presets. Each preset is a `{ name, gains }` object; managed through the in-app EQ panel. |
 | `sound_effects_enabled` | `true` | Global toggle for UI sound effects. |
 | `sfx_volume` | `0.68` | Volume for UI sound effects (0.0 to 1.0). |
 {/* config-table:end */}
 
 <Aside type="caution" title="eq_gains must have exactly 10 values">
-  `eq_gains` expects an array of **exactly 10** floats — one per band. If you edit this by hand and provide fewer or more values, the EQ will not load and will silently fall back to flat (all zeros). Use the in-app EQ panel to manage presets safely; it will write the correct array for you.
+  `eq_gains` is typed `[f32; 10]`. Providing fewer or more values is a deserialize hard error — the whole `[settings]` section fails to load and Nokkvi falls back to defaults for every field in it. Use the in-app EQ panel to manage presets safely; it will write the correct array for you.
 </Aside>
