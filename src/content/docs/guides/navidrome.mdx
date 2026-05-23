@@ -17,7 +17,7 @@ When you first launch Nokkvi, you'll be greeted with a login screen.
 
 ## Persistent Sessions
 
-Nokkvi uses Navidrome's native API (JWT tokens) for most operations. The session token is stored securely after first login and resumes automatically on subsequent launches. To switch servers or users, go to **Settings** and select **Logout**.
+Nokkvi uses Navidrome's native API (JWT tokens) for most operations. The session token is stored securely after first login and resumes automatically on subsequent launches. Navidrome rotates the JWT on every authenticated response (via the `X-ND-Authorization` header), so an active session keeps refreshing itself for as long as you're using the app. To switch servers or users, go to **Settings** and select **Logout**.
 
 If the `username` field in `config.toml` is blank when a stored session resumes, Nokkvi backfills it from the saved credential automatically — so the value populates on the first auto-login after upgrading from a build that left it empty.
 
@@ -57,4 +57,8 @@ Secret = "your_lastfm_secret"
 Enabled = true
 Token = "your_listenbrainz_token"
 ```
+
+---
+
+Next: [Library Basics](/guides/library-basics/) for the navigation and search conventions shared across every library view.
 
