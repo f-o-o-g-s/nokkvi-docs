@@ -35,14 +35,18 @@ function remarkPrefixBase() {
 
 /**
  * Remark plugin: rewrite the relative changelog-sibling links that
- * GitHub resolves to files in the repo (`./CHANGELOG.md`,
- * `./CHANGELOG-X.Y.md`) to the matching docs site routes
+ * GitHub resolves to files in the repo to the matching docs site routes
  * (`/changelog/`, `/changelog-archive-X-Y/`). Anchor fragments are
  * preserved. remarkPrefixBase runs after this and prefixes BASE.
+ *
+ * Recognises both the legacy sibling layout (root-level
+ * `./CHANGELOG-X.Y.md`) and the current foldered layout
+ * (root → `./changelog-archive/CHANGELOG-X.Y.md`; archive →
+ * `../CHANGELOG.md`).
  */
 function remarkRewriteChangelogLinks() {
-  const archive = /^\.\/CHANGELOG-(\d+)\.(\d+)\.md(#.*)?$/;
-  const live = /^\.\/CHANGELOG\.md(#.*)?$/;
+  const archive = /^\.\/(?:changelog-archive\/)?CHANGELOG-(\d+)\.(\d+)\.md(#.*)?$/;
+  const live = /^\.\.?\/CHANGELOG\.md(#.*)?$/;
   return (tree) => {
     const visit = (node) => {
       if (node.type === "link") {
