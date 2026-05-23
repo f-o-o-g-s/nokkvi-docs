@@ -11,8 +11,10 @@ Nokkvi is built for audiophiles who want a native, high-performance listening ex
 
 Unlike many web-based clients, Nokkvi communicates directly with the PipeWire framework. This ensures:
 - **Low Latency**: Minimal delay between clicking play and hearing music.
-- **Bit-Perfect Playback**: Music is passed to the system with minimal processing.
+- **Native output**: Stereo 48 kHz output is fed straight into PipeWire — other sample rates are resampled. A `dynamic_content` peak limiter is always in the chain to catch clipping from EQ, ReplayGain pre-amp, or AGC overshoot.
 - **System Integration**: Nokkvi appears as a native audio stream in your system mixer.
+
+Decoding goes through Symphonia. Native codecs: MP3, FLAC, Ogg Vorbis, WAV, AAC, MP4/ISO-BMFF, ALAC, AIFF — plus Opus via the `symphonia-adapter-libopus` shim.
 
 ## Gapless Playback & Crossfade
 
@@ -72,5 +74,5 @@ In **AGC** mode, you may hear a brief level mismatch at track boundaries if the 
 ## 10-Band Equalizer
 
 Toggle the equalizer with [`eq_enabled`](/reference/config/#audio-engine-internal) or the [`Q`](/reference/hotkeys/#playback) hotkey.
-- **Bands**: 32Hz, 64Hz, 125Hz, 250Hz, 500Hz, 1kHz, 2kHz, 4kHz, 8kHz, 16kHz — gains stored in [`eq_gains`](/reference/config/#audio-engine-internal).
-- **Presets**: You can save custom presets ([`custom_eq_presets`](/reference/config/#audio-engine-internal)) that are persisted in the state database.
+- **Bands**: 31Hz, 62Hz, 125Hz, 250Hz, 500Hz, 1kHz, 2kHz, 4kHz, 8kHz, 16kHz — gains stored in [`eq_gains`](/reference/config/#audio-engine-internal).
+- **Presets**: You can save custom presets ([`custom_eq_presets`](/reference/config/#audio-engine-internal)) that are persisted in `config.toml`.

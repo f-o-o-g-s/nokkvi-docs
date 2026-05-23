@@ -39,7 +39,7 @@ default = "#fbf1c7"
 # ...
 ```
 
-All keys have defaults — you only need to specify the ones you want to override. Omitted keys fall back to a built-in GNOME-blue palette (shown in the table below).
+All keys have defaults. Both `[dark]` and `[light]` use the same underlying `ThemePalette` struct, and omitted fields fall back to the **dark** defaults — not to the light defaults shown below. So a partial `[light]` section can look surprisingly dark. For a clean light theme, set every light-side key explicitly; the Light columns in the tables below are the recommended values for a complete light palette.
 
 <Aside type="tip">
   Nokkvi watches the `themes/` directory for changes. If you edit the active theme file while the app is open, colors update **instantly** — no restart needed.
@@ -106,8 +106,8 @@ Used for enabled status indicators and success toasts.
 
 | Key | Dark default | Light default |
 | :--- | :--- | :--- |
-| `base` | `#26a269` | `#26a269` |
-| `bright` | `#33d17a` | `#33d17a` |
+| `base` | `#33d17a` | `#26a269` |
+| `bright` | `#8ff0a4` | `#33d17a` |
 
 ### `[dark.warning]` / `[light.warning]`
 
@@ -115,8 +115,8 @@ Used for warning toasts and capture prompts.
 
 | Key | Dark default | Light default |
 | :--- | :--- | :--- |
-| `base` | `#e5a50a` | `#e5a50a` |
-| `bright` | `#f6d32d` | `#f6d32d` |
+| `base` | `#f6d32d` | `#e5a50a` |
+| `bright` | `#f9f06b` | `#f6d32d` |
 
 ### `[dark.star]` / `[light.star]`
 
@@ -124,8 +124,8 @@ Used for star rating fills.
 
 | Key | Dark default | Light default |
 | :--- | :--- | :--- |
-| `base` | `#e5a50a` | `#e5a50a` |
-| `bright` | `#f6d32d` | `#f6d32d` |
+| `base` | `#f6d32d` | `#e5a50a` |
+| `bright` | `#f9f06b` | `#f6d32d` |
 
 ---
 
@@ -154,7 +154,7 @@ peak_gradient_colors = ["#fb4934", "#fabd2f"]
 
 ## Minimal Example
 
-You don't need to specify every key. Any omitted key falls back to the built-in GNOME-blue defaults. Here's a theme that only changes the accent color:
+You don't need to specify every key — omitted fields use the dark defaults shown in the tables above. Here's a theme that only changes the accent color:
 
 ```toml
 name = "Cobalt Accent"
