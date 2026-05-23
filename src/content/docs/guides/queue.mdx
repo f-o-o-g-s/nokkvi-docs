@@ -31,8 +31,10 @@ Nokkvi can ask your Navidrome server for recommendations powered by Last.fm. Tri
 
 | Key | Action |
 | :-- | :----- |
-| `Shift + S` | Find songs similar to the focused track, album, or artist |
-| `Shift + T` | Find the most-played songs by the focused artist |
+| `Shift + S` | Find songs similar to the currently playing track |
+| `Shift + T` | Find the most-played songs by the currently playing track's artist |
+
+Both hotkeys operate on the *currently playing* track — if nothing's playing, a toast tells you so. To run either action against a different track, album, or artist, right-click it and pick **Find Similar** or **Top Songs** from the context menu; those entries act on the focused / right-clicked item.
 
 Results are **limited to songs already in your library** — Navidrome matches Last.fm's recommendations against your local collection, so tracks you don't own won't appear. The Similar tab header shows which result set is loaded (e.g. "Similar to: Radiohead" or "Top Songs: Radiohead").
 
