@@ -16,7 +16,7 @@ Two AUR packages are published. Install whichever fits — they conflict, so you
 
 (Replace `yay` with `paru` or any other AUR helper if you prefer.)
 
-Runtime dependencies (`pipewire`, `fontconfig`, `alsa-lib`) are pulled in automatically by pacman.
+Runtime dependencies are pulled in automatically by pacman.
 
 **Keeping `nokkvi-git` current:** a regular `yay -Syu` won't rebuild it between AUR pkgver bumps. Run `yay -Syu --devel` to have yay check `main` for new commits and rebuild if there are any.
 
@@ -58,13 +58,17 @@ sudo dnf install pipewire fontconfig
 
 The binary requires glibc roughly matching Ubuntu 24.04's (≥ 2.39) or newer. Modern rolling distros (Arch, Fedora, recent Ubuntu/Debian) work; very old enterprise distros may not.
 
+## Launching
+
+Launch Nokkvi from your application launcher, or run `nokkvi` from a terminal.
+
 ## Build from source
 
 For contributors, AUR maintainers, or users on architectures we don't ship binaries for.
 
 ```bash
 # System dependencies (Arch)
-sudo pacman -S pipewire fontconfig pkgconf
+sudo pacman -S pipewire fontconfig pkgconf cmake
 
 # Clone and build
 git clone https://github.com/f-o-o-g-s/nokkvi.git
@@ -81,11 +85,4 @@ For development workflow details — including the **nightly** rustfmt requireme
 
 ## Command-line flags
 
-Nokkvi is GUI-first; the CLI surface is intentionally tiny:
-
-```bash
-nokkvi -V, --version    # print version and exit
-nokkvi -h, --help       # print usage, env vars, and config/state file paths
-```
-
-Logging is controlled via `RUST_LOG` (e.g. `RUST_LOG=debug nokkvi`). Run `nokkvi --help` for the full list of recognized values.
+See [Command Line](/guides/cli/) for the full verb surface.

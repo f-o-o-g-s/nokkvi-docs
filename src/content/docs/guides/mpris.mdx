@@ -5,9 +5,23 @@ description: Control Nokkvi from your desktop, scripts, or window manager using 
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-Nokkvi registers as `nokkvi` on the MPRIS D-Bus interface. Any MPRIS-compatible controller — `playerctl`, your desktop's media keys, or a window manager keybind — will work.
+Nokkvi registers on the MPRIS D-Bus interface as `org.mpris.MediaPlayer2.nokkvi.instance<pid>` — the per-PID suffix is required by the MPRIS spec so concurrent launches don't fight over the same well-known name. `playerctl -p nokkvi` still matches both forms because `playerctl` resolves the `-p` argument as a name prefix. Any MPRIS-compatible controller — `playerctl`, your desktop's media keys, or a window manager keybind — will work.
 
 For verbs MPRIS doesn't expose (`switch-view`, `love`, `rate`, `clear-queue`, `consume`), see the [`nokkvi` CLI](/guides/cli/).
+
+## Supported MPRIS surface
+
+Beyond the basics, Nokkvi wires up the following MPRIS methods and properties:
+
+| Method / property | Notes | `playerctl` example |
+| :--- | :--- | :--- |
+| `PlayPause`, `Play`, `Pause`, `Next`, `Previous` | Standard transport. | `playerctl -p nokkvi play-pause` |
+| `Stop` | Stops playback. | `playerctl -p nokkvi stop` |
+| `Seek` (offset) | Relative seek in microseconds. | `playerctl -p nokkvi position 10+` |
+| `SetPosition` | Absolute seek. | `playerctl -p nokkvi position 90` |
+| `SetLoopStatus` | `None` / `Track` / `Playlist` — set directly, doesn't cycle. | `playerctl -p nokkvi loop Track` |
+| `SetShuffle` | Toggles random mode when the requested state differs. | `playerctl -p nokkvi shuffle On` |
+| `mpris:artUrl` | Published as a `file://` URI pointing to `$XDG_CACHE_HOME/nokkvi/mpris-art-<pid>.jpg`. Nokkvi rewrites this file on every track change. |  |
 
 ## CLI
 
