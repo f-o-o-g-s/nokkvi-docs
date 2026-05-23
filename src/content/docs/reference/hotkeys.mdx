@@ -21,7 +21,7 @@ Switch between the different screens of the application.
 | Songs | `4` | Flat, searchable track list |
 | Genres | `5` | Browse by genre |
 | Playlists | `6` | Navidrome playlists |
-| Internet Radios | `7` | Radio stations |
+| Radios | `7` | Radio stations |
 | Settings | `` ` `` (Backtick) | Open the settings panel |
 
 ## Playback
@@ -61,9 +61,9 @@ The slot list is the scrollable item list in the center of each view.
 | Love / Unlove | `Shift + L` | Toggle the Navidrome star ("love") flag on the focused track |
 | Increase Rating | `=` | Increase the star rating by one |
 | Decrease Rating | `-` | Decrease the star rating by one |
-| Show Info | `Shift + I` | Open the info panel for the focused item |
+| Get Info | `Shift + I` | Open the info panel for the focused item |
 | Find Similar | `Shift + S` | Find songs similar to the currently playing track |
-| Find Top Songs | `Shift + T` | Show top songs for the playing track's artist |
+| Top Songs | `Shift + T` | Show top songs for the playing track's artist |
 | Move Track Up | `Shift + Up` | Move the focused queue track up by one position |
 | Move Track Down | `Shift + Down` | Move the focused queue track down by one position |
 | Save Queue as Playlist | `Ctrl + S` | Open the save-as-playlist dialog for the current queue |
@@ -76,6 +76,7 @@ The slot list is the scrollable item list in the center of each view.
 | Next Sort Mode | `Right` | Cycle the sort mode forward |
 | Toggle Sort Order | `Page Up` | Toggle ascending / descending sort |
 | Refresh View | `R` | Reload the current view's data from the server |
+| Roulette | `Ctrl + R` | Spin the wheel and play a random item from the current view |
 
 ## Global
 
@@ -97,7 +98,9 @@ These shortcuts only apply while in the Settings view.
 
 ## Customizing Shortcuts
 
-All shortcuts except `Escape` and `Delete` can be rebound in `config.toml` under the `[hotkeys]` section. Nokkvi only writes non-default bindings to the file, so you only need to list the ones you want to change.
+All shortcuts except `Escape` and `Delete` can be rebound in the **Settings** UI. Nokkvi writes bindings under the `[hotkeys]` section of `config.toml`, and only non-default bindings are written, so you only need to list the ones you want to change.
+
+A direct edit to `config.toml` can also override `escape` or `delete` — the loader accepts those action keys — but the in-app editor refuses to rebind them so you keep a way out of every screen.
 
 ### Key combo syntax
 
@@ -148,9 +151,9 @@ Each action maps to a `snake_case` key under `[hotkeys]`:
 | Search | `focus_search` |
 | Increase Rating | `increase_rating` |
 | Decrease Rating | `decrease_rating` |
-| Show Info | `get_info` |
+| Get Info | `get_info` |
 | Find Similar | `find_similar` |
-| Find Top Songs | `find_top_songs` |
+| Top Songs | `find_top_songs` |
 | Move Track Up | `move_track_up` |
 | Move Track Down | `move_track_down` |
 | Save Queue as Playlist | `save_queue_as_playlist` |
@@ -158,6 +161,7 @@ Each action maps to a `snake_case` key under `[hotkeys]`:
 | Next Sort Mode | `next_sort_mode` |
 | Toggle Sort Order | `toggle_sort_order` |
 | Refresh View | `refresh_view` |
+| Roulette | `roulette` |
 | Edit Value Up | `edit_up` |
 | Edit Value Down | `edit_down` |
 
