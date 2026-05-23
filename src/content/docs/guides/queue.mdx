@@ -3,7 +3,7 @@ title: Queue
 description: How to build and manage the Nokkvi playback queue.
 ---
 
-The queue is Nokkvi's active playlist — everything you hear flows through it. You can build it on the fly while browsing, or replace it entirely when you want to listen to something specific.
+The queue is Nokkvi's active play queue — everything you hear flows through it. You can build it on the fly while browsing, or replace it entirely when you want to listen to something specific.
 
 ## Adding to the Queue
 
@@ -31,8 +31,10 @@ Nokkvi can ask your Navidrome server for recommendations powered by Last.fm. Tri
 
 | Key | Action |
 | :-- | :----- |
-| `Shift + S` | Find songs similar to the focused track, album, or artist |
-| `Shift + T` | Find the most-played songs by the focused artist |
+| `Shift + S` | Find songs similar to the currently playing track |
+| `Shift + T` | Find the most-played songs by the currently playing track's artist |
+
+Both hotkeys operate on the *currently playing* track — if nothing's playing, a toast tells you so. To run either action against a different track, album, or artist, right-click it and pick **Find Similar** or **Top Songs** from the context menu; those entries act on the focused / right-clicked item.
 
 Results are **limited to songs already in your library** — Navidrome matches Last.fm's recommendations against your local collection, so tracks you don't own won't appear. The Similar tab header shows which result set is loaded (e.g. "Similar to: Radiohead" or "Top Songs: Radiohead").
 
@@ -53,7 +55,7 @@ Each pick from the sort dropdown physically reorders the queue. Manual reorder (
 - **Album**, **Artist**, **Title**, **Duration**, **Genre**, **Rating**, **Most Played**
 - **Random** — one-shot shuffle. Re-select it (or toggle the order arrow while Random is active) to reshuffle. The mode itself isn't persisted to `config.toml`, so a relaunch restores whichever deterministic sort was active before.
 
-The dropdown also ends with a [Roulette](/guides/library-basics/#roulette) entry — same press-Enter-to-stop slot-machine pick as every other slot-list view.
+The dropdown also ends with a [Roulette](/guides/library-basics/#roulette) entry — same press-Enter-to-stop slot-machine pick as every other slot-list view. `Ctrl + R` triggers it from the keyboard.
 
 The `X` [playback mode](#playback-modes) is a different concept: it shuffles play *order* on the fly without rearranging the queue. Use Random sort when you want the visible queue order itself to be shuffled.
 
@@ -63,11 +65,15 @@ The gear icon in the queue header toggles optional columns. Toggles persist per-
 
 | Column | Notes |
 | :----- | :---- |
+| **Multi-select** | Adds a leading checkbox column and a tri-state header. See [Library Basics → Multi-select](/guides/library-basics/#multi-select). |
 | **Index** | Row number. |
 | **Thumbnail** | Per-track album cover. |
+| **Stars** | 0–5 star rating. |
 | **Album** | Album name (clickable — see [Click-through expansion](/guides/library-basics/#click-through-expansion)). |
+| **Duration** | Track length. |
+| **Love** | Heart icon for the favorited flag. |
+| **Plays** | Server-tracked play count. |
 | **Genre** | Stacks under Album when both are visible; takes over the Album slot at album-size font when Album is hidden; auto-shows when the queue is sorted by Genre. |
-| **Multi-select** | Adds a leading checkbox column and a tri-state header. See [Library Basics → Multi-select](/guides/library-basics/#multi-select). |
 
 ## Playback Modes
 

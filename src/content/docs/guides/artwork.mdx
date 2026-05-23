@@ -5,17 +5,17 @@ description: How Nokkvi fetches and caches album artwork from your Navidrome ser
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-Nokkvi uses a **server-only artwork pipeline** — images are fetched directly from Navidrome on demand and kept in an in-memory GPU texture cache. There is no local disk cache.
+Nokkvi uses a **server-only artwork pipeline** — images are fetched directly from Navidrome on demand and kept in an in-memory GPU texture cache. There is no local disk cache for browsing artwork. (The MPRIS integration writes a single `mpris-art-<pid>.jpg` to `$XDG_CACHE_HOME/nokkvi/` so D-Bus clients can read the now-playing cover via `file://` without leaking your Subsonic credential — that's the only file Nokkvi writes for artwork.)
 
 ## How Artwork Works
 
-When an album comes into view, Nokkvi fetches the image directly from your Navidrome server and decodes it into a GPU texture handle. Up to **512** album images are kept in memory at once (LRU eviction), so browsing a section of your library you visited recently has zero network overhead.
+When an album comes into view, Nokkvi fetches the image directly from your Navidrome server and decodes it into a GPU texture handle. Two in-memory LRU caches keep recent images warm: a **thumbnail cache** holds up to **512** slot-row thumbnails, and a **panel cache** holds up to **200** full-size images for the large artwork panel. Browsing a section of your library you visited recently has zero network overhead.
 
 Thumbnails in list views are populated around the visible viewport — items well outside the visible area aren't pre-loaded.
 
 ## The Artwork Panel
 
-The large artwork panel sits alongside most library views — Albums, Songs, Queue, Artists, Genres, and Playlists. It shows the cover for whichever row is centered, falling back to a 3×3 collage in Genres or Playlists when the focused item spans multiple albums.
+The large artwork panel sits alongside most library views — Albums, Songs, Queue, Artists, Genres, Playlists, and the Similar tab in the Library Browser. It shows the cover for whichever row is centered, falling back to a 3×3 collage in Genres or Playlists when the focused item spans multiple albums.
 
 <Tabs syncKey="artwork-layout">
   <TabItem label="Horizontal">

@@ -58,7 +58,7 @@ The sort picker lives in the view header and sizes itself to its widest option �
 
 ## Roulette
 
-Every slot-list view's sort dropdown ends with a **Roulette** entry. Picking it sets the list cruising like a slot-machine wheel — the viewport scrolls at a constant rate and keeps cycling indefinitely, with the Tab navigation SFX firing in time with the visible clicks. The wheel runs until you press `Enter`, which rolls the landing item and arms the decel walk: the click cadence audibly slows from cruise speed down to a final ~1 Hz slot-machine click over a few seconds, then the wheel plays whatever it landed on. Pressing Enter is what "throws" the wheel — the landing target isn't committed until that moment.
+Every slot-list view's sort dropdown ends with a **Roulette** entry, and `Ctrl + R` triggers the same spin from the keyboard. Picking it sets the list cruising like a slot-machine wheel — the viewport scrolls at a constant rate and keeps cycling indefinitely, with the Tab navigation SFX firing in time with the visible clicks. The wheel runs until you press `Enter`, which rolls the landing item and arms the decel walk: the click cadence audibly slows from cruise speed down to a final ~1 Hz slot-machine click over a few seconds, then the wheel plays whatever it landed on. Pressing Enter is what "throws" the wheel — the landing target isn't committed until that moment.
 
 The decel ends in one of three fake-out shapes, picked randomly per spin: a clean settle (most common, lets the decel curve speak for itself), an overshoot bounce (one keyframe past the target, then back), or a false-settle two-step (a brief pause on target, an overshoot, then the real settle).
 
@@ -96,6 +96,8 @@ Sorting by **Favorited** puts starred items first; sorting by **Rating** orders 
 
 Many views render the artist, album, or genre as clickable text on each row. Clicking those values jumps you to the corresponding view and expands the target inline at the top, so its contents are immediately visible — no follow-up `Shift + Enter` needed. For example, clicking an artist name on a song row takes you to the Artists view with that artist's albums already expanded below the row.
 
+The "*N* songs" / "*N* albums" count cells on Artists and Genres rows are a different click affordance: they jump to a *different view scoped to that entity* (e.g. clicking "391 songs" on a Black Metal row opens the Songs view filtered to that genre's full backing catalog), distinct from the parent-view inline expansion behavior the per-view guides describe.
+
 To return to a normal browse state, collapse the expansion (`Shift + Enter` on the focused row), refresh (`R`), or change sort.
 
 ## Common context menu actions
@@ -106,7 +108,7 @@ Most library views share these right-click actions, with the per-view guide list
 | :----- | :----------- |
 | **Add to Queue** | Append the focused item (or selection) to the queue |
 | **Add to Playlist** | Open a dialog to append to an existing playlist or create a new one |
-| **Get Info** | Open a modal with full metadata |
+| **Get Info** | Open a modal with full metadata. `Shift + I` is the keyboard equivalent |
 | **Show in File Manager** | Open the OS file manager at the item's folder |
 
 **Show in File Manager** requires `local_music_path` to be set in your config (the directory where Nokkvi can find your music files locally) — see [Configuration](/reference/config/).
