@@ -127,6 +127,7 @@ export default defineConfig({
           label: "Library",
           items: [
             { label: "Library Basics", slug: "guides/library-basics" },
+            { label: "Multi-library filter", slug: "guides/multi-library" },
             { label: "Queue", slug: "guides/queue" },
             { label: "Albums", slug: "guides/albums" },
             { label: "Artists", slug: "guides/artists" },
