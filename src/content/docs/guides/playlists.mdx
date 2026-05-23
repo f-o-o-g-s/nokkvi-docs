@@ -44,7 +44,7 @@ Four interchangeable entry points:
 | **Pin chip — Playlists header** | Always visible. Click to open the picker. |
 | **Pin chip — Queue header** | Hidden by default. Enable `queue_show_default_playlist` to show it. |
 | **Right-click a playlist** | **Set as Default Playlist** — sets directly, no picker. |
-| **Settings** | Settings → **Playlists → Default Playlist** opens the picker. |
+| **Settings** | Settings → **Playback → Default Playlist** opens the picker. |
 
 The chip is a small pin icon — dim when no default is set, lit when one is. Hover for a tooltip showing the current default's name (or *(none) — click to set*).
 
@@ -65,7 +65,7 @@ Unlike most preferences, the default playlist is stored in Nokkvi's state databa
 
 ## Quick add
 
-`quick_add_to_playlist` (Settings → Playlists → **Quick Add to Playlist**) makes the right-click **Add to Playlist** action skip its dialog. With it on and a default set, songs append straight to the default and a toast confirms how many were added. With it off, or with no default configured, the dialog opens as usual.
+`quick_add_to_playlist` (Settings → Playback → **Quick Add to Playlist**) makes the right-click **Add to Playlist** action skip its dialog. With it on and a default set, songs append straight to the default and a toast confirms how many were added. With it off, or with no default configured, the dialog opens as usual.
 
 This is the *only* feature the default playlist enables. Setting a default with Quick Add off is harmless — the chip just remembers your choice for later.
 
@@ -88,7 +88,7 @@ Right-click a playlist for the playlist-specific actions:
 | **Delete Playlist** | Deletes after confirmation |
 | **Set as Default Playlist** | Marks as the [default playlist](#default-playlist) target |
 
-Plus the standard **Add to Queue / Add to Playlist / Get Info** actions from [Library Basics](/guides/library-basics/#common-context-menu-actions).
+Plus the standard **Add to Queue / Get Info** actions from [Library Basics](/guides/library-basics/#common-context-menu-actions).
 
 ### Split-view edit mode
 
