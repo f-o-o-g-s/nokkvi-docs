@@ -7,10 +7,10 @@ Navidrome can host more than one "library" — separate music collections (typic
 
 ## Where it lives
 
-A small library icon sits at the left edge of the nav bar, next to the [hamburger menu](/guides/library-basics/). Clicking it opens the **Active Libraries** popover.
+In **top-nav layout** the library icon sits at the left edge of the nav bar, immediately after the hamburger menu and before the Queue tab. In **side-nav layout** it sits in the top cluster of the sidebar, directly below the hamburger menu and above the divider that separates the cluster from the view tabs. Clicking it opens the **Active Libraries** popover.
 
 - **Top-nav layout** — icon-only chassis; once you're filtering a strict subset, the trigger widens to show an `N/M` count and an accent-bright pip in the top-right corner.
-- **Side-nav layout** — compact 28 px icon; in the filtered state the count stacks below the icon and the pip rides the icon's corner.
+- **Side-nav layout** — 32 px square chassis matching the tab-cell width; in the filtered state the trigger keeps the same square footprint with the icon left and `N/M` count to its right, plus the accent-bright pip in the chassis top-right corner.
 - **Single-library servers** — the trigger is hidden. There is nothing to filter, so you'll see no UI change.
 
 The popover header reads `Active Libraries — N / M`, and each row shows the library name plus its song count (when the server exposes one).

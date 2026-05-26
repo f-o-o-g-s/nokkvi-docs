@@ -86,10 +86,27 @@ Accent colors drive interactive elements — the progress bar, focused item, pla
 | :--- | :--- | :--- | :--- |
 | `primary` | `#3584e4` | `#3584e4` | Default accent: progress bar, toggles, links |
 | `bright` | `#62a0ea` | `#62a0ea` | Hover state, brighter highlight |
-| `border_dark` | `#000000` | `#1a5fb4` | Dark border around accent elements |
 | `border_light` | `#1c71d8` | `#99c1f1` | Light border / glow around accent elements |
 | `now_playing` | `#3584e4` | `#1c71d8` | Color of the now-playing row indicator; defaults to `primary` if empty |
 | `selected` | `#3584e4` | `#3584e4` | Color of the center/selected slot; defaults to `bright` if empty |
+
+### `border` (top-level scalar)
+
+Unlike the other palette keys, `border` is a single hex string at the **top level** of each palette block — not a sub-table. It sets the color of chrome separators: the 1 px lines between nav-bar cells, list rows, header buttons, modal frames, and capsule outlines.
+
+```toml
+[dark]
+border = "#151515"
+
+[light]
+border = "#c4bc9b"
+```
+
+| Key | Dark default | Light default | Used for |
+| :--- | :--- | :--- | :--- |
+| `border` | derived | derived | Chrome separators throughout the UI. When empty, derives from `background.hard × 0.70`. |
+
+Editable in Settings → Theme → **Chrome Border**; the row has a one-click reset back to the derived default.
 
 ### `[dark.danger]` / `[light.danger]`
 
@@ -154,7 +171,7 @@ peak_gradient_colors = ["#fb4934", "#fabd2f"]
 
 ## Minimal Example
 
-You don't need to specify every key — omitted fields use the dark defaults shown in the tables above. Here's a theme that only changes the accent color:
+You don't need to specify every key — omitted fields use the dark defaults shown in the tables above (one exception: `border` derives from `background.hard × 0.70` rather than copying a hex default). Here's a theme that only changes the accent color:
 
 ```toml
 name = "Cobalt Accent"
@@ -181,6 +198,9 @@ A complete theme file with all sections filled out:
 ```toml
 name = "Gruvbox Dark"
 
+[dark]
+border = "#151515"
+
 [dark.background]
 hard    = "#1d2021"
 default = "#282828"
@@ -201,7 +221,6 @@ gray   = "#928374"
 [dark.accent]
 primary      = "#458588"
 bright       = "#83a598"
-border_dark  = "#076678"
 border_light = "#689d6a"
 now_playing  = "#458588"
 selected     = "#83a598"
@@ -229,6 +248,9 @@ led_border_opacity  = 0.8
 bar_gradient_colors = ["#b8bb26", "#fabd2f", "#83a598"]
 peak_gradient_colors = ["#fb4934", "#fabd2f"]
 
+[light]
+border = "#c4bc9b"
+
 [light.background]
 hard    = "#f9f5d7"
 default = "#fbf1c7"
@@ -249,7 +271,6 @@ gray   = "#928374"
 [light.accent]
 primary      = "#076678"
 bright       = "#458588"
-border_dark  = "#076678"
 border_light = "#83a598"
 now_playing  = "#076678"
 selected     = "#458588"

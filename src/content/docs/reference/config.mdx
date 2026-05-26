@@ -135,15 +135,13 @@ All keys in this section live under `[settings]`.
   `"original"` disables server-side resizing and streams the raw embedded artwork from each file. On a large library or a slow connection this can cause noticeable delays when browsing albums. `"ultra"` (2000px) is the practical maximum for most displays.
 </Aside>
 
-### Artwork Overlay
+### System Tray
 
-{/* config-table:start id="artwork-overlay" */}
+{/* config-table:start id="system-tray" */}
 | Key | Default | Description |
 | :--- | :--- | :--- |
-| `albums_artwork_overlay` | `true` | Show a text overlay on artwork thumbnails in the Albums view. |
-| `artists_artwork_overlay` | `true` | Show a text overlay on artwork thumbnails in the Artists view. |
-| `songs_artwork_overlay` | `true` | Show a text overlay on artwork thumbnails in the Songs view. |
-| `playlists_artwork_overlay` | `true` | Show a text overlay on artwork thumbnails in the Playlists view. |
+| `show_tray_icon` | `false` | Register a StatusNotifierItem tray icon on the session bus. When off, no tray icon is shown. |
+| `close_to_tray` | `false` | When `show_tray_icon` is on, the window's close button hides Nokkvi into the tray instead of quitting. Ignored when the tray icon is disabled. |
 {/* config-table:end */}
 
 ## Interface Settings
@@ -154,13 +152,24 @@ All keys in this section live under `[settings]`.
 | `light_mode` | `false` | Use the light variant of the active theme. |
 | `nav_layout` | `"top"` | Placement of view tabs. Options: `top` (horizontal bar), `side` (vertical sidebar), `none` (hidden — only the active view and player bar render). |
 | `nav_display_mode` | `"text_only"` | Content of tabs. Options: `text_only`, `text_and_icons`, `icons_only`. |
-| `track_info_display` | `"off"` | Placement of the metadata strip. Options: `off`, `player_bar`, `top_bar`, `progress_track`. |
+| `track_info_display` | `"off"` | Placement of the metadata strip. Options: `off`, `player_bar` (24 px strip below the player bar), `top_bar` (merged into the right side of the nav row in top-nav layout; sits as its own row above the slot list in side-nav / no-nav), `top_bar_under` (its own row directly below the top nav bar; falls back to `top_bar` in side-nav / no-nav layouts), `mini_player` (artwork + title/artist/album column inside the player bar; auto-hides at window widths below ~540 px). |
 | `slot_row_height` | `"default"` | Row density in lists. Options: `compact` (50px), `default` (70px), `comfortable` (90px), `spacious` (110px). |
 | `font_family` | `""` | Font family override. Leave empty to use system default sans-serif. |
 | `rounded_mode` | `false` | Apply rounded corners to all UI elements. |
 | `opacity_gradient` | `true` | Apply a subtle opacity fade to items that are not in the center of the list. |
 | `slot_text_links` | `true` | Make artist and album names inside list rows clickable links to their respective views. |
 | `horizontal_volume` | `false` | Stack volume sliders horizontally instead of vertically in the player bar. |
+{/* config-table:end */}
+
+### Views
+
+{/* config-table:start id="artwork-overlay" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `albums_artwork_overlay` | `true` | Show a text overlay on artwork thumbnails in the Albums view. |
+| `artists_artwork_overlay` | `true` | Show a text overlay on artwork thumbnails in the Artists view. |
+| `songs_artwork_overlay` | `true` | Show a text overlay on artwork thumbnails in the Songs view. |
+| `playlists_artwork_overlay` | `true` | Show a text overlay on artwork thumbnails in the Playlists view. |
 {/* config-table:end */}
 
 ### Artwork Column
@@ -173,15 +182,6 @@ All keys in this section live under `[settings]`.
 | `artwork_column_stretch_fit` | `"cover"` | Fit mode used when `artwork_column_mode = "always_stretched"`. Options: `cover` (preserve aspect ratio, crop to fill), `fill` (true stretch — distorts album art). Ignored in other modes. |
 | `artwork_column_width_pct` | `0.40` | Artwork column width as a fraction of the window width (0.05 to 0.80). Only consulted in `always_native` and `always_stretched` modes. |
 | `artwork_vertical_height_pct` | `0.40` | Artwork height as a fraction of window height (0.10–0.80). Only consulted in `always_vertical_native` and `always_vertical_stretched` modes. |
-{/* config-table:end */}
-
-### System Tray
-
-{/* config-table:start id="system-tray" */}
-| Key | Default | Description |
-| :--- | :--- | :--- |
-| `show_tray_icon` | `false` | Register a StatusNotifierItem tray icon on the session bus. When off, no tray icon is shown. |
-| `close_to_tray` | `false` | When `show_tray_icon` is on, the window's close button hides Nokkvi into the tray instead of quitting. Ignored when the tray icon is disabled. |
 {/* config-table:end */}
 
 ### Metadata Strip Customization

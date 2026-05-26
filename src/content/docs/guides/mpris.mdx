@@ -21,7 +21,7 @@ Beyond the basics, Nokkvi wires up the following MPRIS methods and properties:
 | `SetPosition` | Absolute seek. | `playerctl -p nokkvi position 90` |
 | `SetLoopStatus` | `None` / `Track` / `Playlist` — set directly, doesn't cycle. | `playerctl -p nokkvi loop Track` |
 | `SetShuffle` | Toggles random mode when the requested state differs. | `playerctl -p nokkvi shuffle On` |
-| `mpris:artUrl` | Published as a `file://` URI pointing to `$XDG_CACHE_HOME/nokkvi/mpris-art-<pid>.jpg`. Nokkvi rewrites this file on every track change. |  |
+| `mpris:artUrl` | Published as a `file://` URI pointing to `$XDG_CACHE_HOME/nokkvi/mpris-art-<pid>-<cover_id>.jpg`. Nokkvi writes a new file per cover so desktop notifications never reuse a stale image. |  |
 
 ## CLI
 
