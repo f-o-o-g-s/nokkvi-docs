@@ -30,13 +30,19 @@ Expanded child rows carry a **dotted-decimal sub-index** in the leading column �
 
 ## The slot list
 
-![Slot list in the Radio view — nine equal-height rows with the focused station highlighted at the centered slot](../../../assets/slot-list.webp)
+![Slot list in the Radio view — nine equal-height rows with the focused station highlighted](../../../assets/slot-list.webp)
 
 The scrollable list at the center of each library view is a **slot list** — a center-anchored, whole-row viewport in the spirit of [rmpc](https://github.com/mierak/rmpc) and similar terminal music players. The viewport is built from a fixed odd number of equal-height slots (typically 9 — adapting up to 29 on tall windows, down to as few as 1 on short ones), with one designated center slot. Because the viewport is a stack of whole-row containers rather than a pixel-scrolling region, there are no half-cropped items at the top or bottom — only whole rows are ever shown.
 
 Everything *inside* a slot scales with the row height: title, subtitle, and metadata text sizes, album artwork thumbnails, and the star/heart icons (sized to roughly 30% of the row height). The view header above the list and the player bar at the bottom are fixed-height, so as the window grows taller the slots themselves are what stretches — you get more rows *and* each row gets bigger and more readable.
 
 Navigation steps the focused item up or down by one (`Backspace` / `Tab`, or the mouse scroll wheel); there's no page-step key. The "focused" or "centered" row is the one selected for keyboard actions. By default (`stable_viewport = true`), a mouse click highlights the clicked row in place without scrolling — click again on the centered row to play it. Set `stable_viewport = false` in `config.toml` to make a single click center *and* play in one step.
+
+## Player bar
+
+![The player bar at the bottom of every view — transport on the left, progress bar in the middle, mode toggles and volume on the right](../../../assets/player-bar.webp)
+
+The strip at the bottom of every view is fixed-height and shared across all views: previous / play / pause / stop / next on the left, the progress bar with an animated waveform visualizer in the middle, and mode toggles (repeat, shuffle, crossfade, equalizer, sound effects, visualizer) plus volume sliders on the right. See [Keyboard Shortcuts](/reference/hotkeys/) for the transport key bindings and [Audio](/guides/audio/) for what the mode toggles do.
 
 ## Search
 
