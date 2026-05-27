@@ -30,8 +30,12 @@ const rowRe = /^\|\s*`([^`]+)`\s*\|\s*([^|]+?)\s*\|\s*(.+?)\s*\|\s*$/gm;
 let m;
 while ((m = rowRe.exec(mdx)) !== null) {
   const key = m[1];
-  if (key.includes(',') || key.includes(' ')) continue;
+  // Skip overview-table pseudo-rows: TOML section headers (`[settings]`) and
+  // multi-key cells. Real config rows always have a backticked literal in the
+  // default cell — overview rows describe sections in prose instead.
+  if (key.includes(',') || key.includes(' ') || key.startsWith('[')) continue;
   const defaultCell = m[2].trim();
+  if (!defaultCell.startsWith('`')) continue;
   const lineNumber = mdx.slice(0, m.index).split('\n').length;
   docKeys.set(key, { default: defaultCell, line: lineNumber });
 }

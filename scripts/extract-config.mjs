@@ -16,6 +16,9 @@ const FILES = {
   enums: 'data/src/types/player_settings.rs',
   visualizer: 'src/visualizer_config.rs',
   credentials: 'data/src/credentials.rs',
+  views: 'data/src/types/toml_views.rs',
+  sortMode: 'data/src/types/sort_mode.rs',
+  queueSortMode: 'data/src/types/queue_sort_mode.rs',
 };
 
 // Maps the `// -- X --` markers in toml_settings.rs to the canonical doc section.
@@ -31,6 +34,17 @@ const SECTION_MAP = {
   'Genres view column toggles': 'General',
   'Playlists view column toggles': 'General',
 };
+
+// Maps canonical section names → sentinel ids used in config.mdx
+// ({/* config-table:start id="..." */}). Kept here for reference and to keep
+// the /sync-config-docs command in sync; the schema itself just stores the
+// canonical section name.
+//
+// General → general, Interface → interface, Behavior → behavior,
+// MetadataStrip → metadata-strip, Playback → playback, Scrobbling → scrobbling,
+// Playlists → playlists, Views → views, VisualizerGeneral → visualizer-general,
+// VisualizerBars → visualizer-bars, VisualizerLines → visualizer-lines,
+// AudioEngine → audio-engine.
 
 // Per-key section overrides where the docs group differently than the source.
 const SECTION_OVERRIDES = {
@@ -97,11 +111,14 @@ function extractBlock(source, header) {
 // Parse `pub field: Type,` lines from a struct body, attaching preceding ///
 // doc comments and tracking `// -- Section --` markers. Set `allowPrivate`
 // for structs whose fields are not all `pub` (e.g. internal credentials).
+// Honors `#[serde(rename = "X")]` — the renamed value becomes the canonical
+// TOML key, which is what end users see and what the docs document.
 function parseFields(body, { allowPrivate = false } = {}) {
   const lines = body.split('\n');
   const fields = [];
   let doc = [];
   let section = null;
+  let pendingRename = null;
   const fieldRe = allowPrivate
     ? /^(?:pub\s+)?(\w+):\s*(.+?),?\s*$/
     : /^pub\s+(\w+):\s*(.+?),?\s*$/;
@@ -117,20 +134,45 @@ function parseFields(body, { allowPrivate = false } = {}) {
     if (docMatch) { doc.push(docMatch[1]); continue; }
 
     if (line.startsWith('//')) { doc = []; continue; }
+
+    const renameMatch = line.match(/^#\[serde\(rename\s*=\s*"([^"]+)"\)\]/);
+    if (renameMatch) { pendingRename = renameMatch[1]; continue; }
+
     if (line.startsWith('#[')) continue;
 
     const fieldMatch = line.match(fieldRe);
     if (fieldMatch) {
       fields.push({
         name: fieldMatch[1],
+        tomlKey: pendingRename ?? fieldMatch[1],
         rustType: fieldMatch[2].replace(/,$/, '').trim(),
         section,
         doc: doc.join(' ').trim(),
       });
       doc = [];
+      pendingRename = null;
     }
   }
   return fields;
+}
+
+// Parse `const TABLE: &[(EnumName, MetaStruct)] = &[ (EnumName::Variant,
+// MetaStruct { ..., toml_key: "value", ... }), ... ];` and return a map from
+// variant → toml_key for each enum found. Used to resolve default expressions
+// like `SortMode::RecentlyAdded.to_toml_key().to_string()`.
+function parseTomlKeyTables(...sources) {
+  const out = {};
+  const re = /\(\s*(\w+)::(\w+)\s*,\s*\w+\s*\{[\s\S]*?toml_key:\s*"([^"]+)"[\s\S]*?\}\s*,?\s*\)/g;
+  for (const source of sources) {
+    let m;
+    while ((m = re.exec(source)) !== null) {
+      const [, enumName, variant, tomlKey] = m;
+      if (!out[enumName]) out[enumName] = {};
+      out[enumName][variant] = tomlKey;
+    }
+    re.lastIndex = 0;
+  }
+  return out;
 }
 
 // Strip a trailing `// ...` comment, but only when preceded by whitespace so
@@ -246,22 +288,24 @@ function parseEnums(source) {
 // Resolve a Rust default expression into a JSON-friendly value.
 // `nested` maps nested-struct type names to their field-default maps;
 // `fns` maps simple `fn name() -> T { value }` helpers to their return value;
-// `consts` maps SCREAMING_SNAKE_CASE constant names to their literal value.
-function resolveDefault(expr, enums, nested, fns = {}, consts = {}) {
+// `consts` maps SCREAMING_SNAKE_CASE constant names to their literal value;
+// `tomlKeys` maps `EnumName.Variant` → toml_key string, populated from the
+// metadata tables in sort_mode.rs / queue_sort_mode.rs.
+function resolveDefault(expr, enums, nested, fns = {}, consts = {}, tomlKeys = {}) {
   // Strip module path prefixes like `crate::types::player_settings::Foo::bar` → `Foo::bar`.
   const e = expr.trim().replace(/^(?:\w+::)+([A-Z]\w*::)/, '$1');
 
   // Inline standalone helper functions (e.g. default_auto_sensitivity()).
   let fnMatch = e.match(/^(\w+)\(\)$/);
   if (fnMatch && fns[fnMatch[1]]) {
-    return resolveDefault(fns[fnMatch[1]], enums, nested, fns, consts);
+    return resolveDefault(fns[fnMatch[1]], enums, nested, fns, consts, tomlKeys);
   }
 
   // Inline bare constants, including module-path-prefixed forms like
   // `crate::types::player_settings::ARTWORK_COLUMN_WIDTH_PCT_DEFAULT`.
   const constMatch = e.match(/^(?:\w+::)*([A-Z][A-Z0-9_]*)$/);
   if (constMatch && consts[constMatch[1]]) {
-    return resolveDefault(consts[constMatch[1]], enums, nested, fns, consts);
+    return resolveDefault(consts[constMatch[1]], enums, nested, fns, consts, tomlKeys);
   }
 
   let m;
@@ -276,8 +320,15 @@ function resolveDefault(expr, enums, nested, fns = {}, consts = {}) {
 
   // Array literal: [value; N]
   if ((m = e.match(/^\[(.+?);\s*(\d+)\s*\]$/))) {
-    const v = resolveDefault(m[1], enums, nested, fns, consts);
+    const v = resolveDefault(m[1], enums, nested, fns, consts, tomlKeys);
     return new Array(parseInt(m[2], 10)).fill(v);
+  }
+
+  // EnumName::Variant.to_toml_key()(.to_string())? — resolved from the
+  // metadata tables in sort_mode.rs / queue_sort_mode.rs.
+  if ((m = e.match(/^(\w+)::(\w+)\.to_toml_key\(\)(?:\.to_string\(\))?$/))) {
+    const v = tomlKeys[m[1]]?.[m[2]];
+    if (v !== undefined) return v;
   }
 
   // EnumName::default()
@@ -304,10 +355,14 @@ const tomlSrc = read(FILES.toml);
 const enumSrc = read(FILES.enums);
 const vizSrc = read(FILES.visualizer);
 const credSrc = read(FILES.credentials);
+const viewsSrc = read(FILES.views);
+const sortModeSrc = read(FILES.sortMode);
+const queueSortModeSrc = read(FILES.queueSortMode);
 
 const enums = { ...parseEnums(enumSrc), ...parseEnums(vizSrc) };
 const fns = { ...parseSimpleFns(vizSrc), ...parseSimpleFns(tomlSrc) };
 const consts = { ...parseConsts(enumSrc), ...parseConsts(vizSrc), ...parseConsts(tomlSrc) };
+const tomlKeys = parseTomlKeyTables(sortModeSrc, queueSortModeSrc);
 
 // Phase 1: collect field definitions from each struct.
 const tomlBody = extractBlock(tomlSrc, 'pub struct TomlSettings');
@@ -324,6 +379,9 @@ const barsFields = parseFields(barsBody);
 const linesBody = extractBlock(vizSrc, 'pub struct LinesConfig');
 const linesFields = parseFields(linesBody);
 
+const viewsBody = extractBlock(viewsSrc, 'pub struct TomlViewPreferences');
+const viewsFields = parseFields(viewsBody);
+
 // Phase 2: collect default expressions from each `impl Default`. The impl body
 // contains `fn default() -> Self { Self { ... } }`; we want the innermost block.
 function extractDefaultsBlock(source, structName) {
@@ -338,6 +396,7 @@ const tomlDefaults = parseDefaultExprs(extractDefaultsBlock(tomlSrc, 'TomlSettin
 const vizDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'VisualizerConfig'));
 const barsDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'BarsConfig'));
 const linesDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'LinesConfig'));
+const viewsDefaults = parseDefaultExprs(extractDefaultsBlock(viewsSrc, 'TomlViewPreferences'));
 
 const nestedDefaults = {
   VisualizerConfig: vizDefaults,
@@ -349,7 +408,7 @@ const nestedDefaults = {
 function buildSetting(field, defaultExpr, opts = {}) {
   const { keyPrefix = '', sectionOverride = null } = opts;
   const resolved = defaultExpr !== undefined
-    ? resolveDefault(defaultExpr, enums, nestedDefaults, fns, consts)
+    ? resolveDefault(defaultExpr, enums, nestedDefaults, fns, consts, tomlKeys)
     : null;
 
   // Strip Option<T> wrapper for type display only.
@@ -357,7 +416,7 @@ function buildSetting(field, defaultExpr, opts = {}) {
   const enumName = enums[innerType] ? innerType : null;
 
   return {
-    key: keyPrefix + field.name,
+    key: keyPrefix + (field.tomlKey ?? field.name),
     section: sectionOverride
       ?? SECTION_OVERRIDES[field.name]
       ?? SECTION_MAP[field.section]
@@ -392,6 +451,15 @@ for (const f of credFields) {
 for (const f of tomlFields) {
   if (HIDDEN_KEYS.has(f.name)) continue;
   settings.push(buildSetting(f, tomlDefaults[f.name], { sourceFile: FILES.toml }));
+}
+
+// TomlViewPreferences — per-view sort/direction settings under `[views]`.
+for (const f of viewsFields) {
+  if (HIDDEN_KEYS.has(f.name)) continue;
+  settings.push(buildSetting(f, viewsDefaults[f.name], {
+    sourceFile: FILES.views,
+    sectionOverride: 'Views',
+  }));
 }
 
 // VisualizerConfig flat fields → "VisualizerGeneral"; nested bars/lines are

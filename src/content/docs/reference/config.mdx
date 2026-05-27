@@ -73,7 +73,7 @@ All keys in this section live under `[settings]`.
 | `library_page_size` | `"default"` | How many items to fetch per request. Options: `small` (100), `default` (500), `large` (1000), `massive` (5000). |
 | `artwork_resolution` | `"default"` | Quality for large panel artwork. Options: `default` (1000px), `high` (1500px), `ultra` (2000px), `original`. See note below. |
 | `show_album_artists_only` | `true` | If true, the Artists view shows only album artists and excludes track-level featured artists. |
-| `suppress_library_refresh_toasts` | `false` | Hide the toast notification that appears when Navidrome reports a library refresh. |
+| `suppress_library_refresh_toasts` | `true` | Hide the toast notification that appears when Navidrome reports a library refresh. |
 | `verbose_config` | `false` | If true, all settings (even defaults) are written to the TOML file. |
 | `queue_show_stars` | `true` | Show the star rating column in the queue. |
 | `queue_show_album` | `true` | Show the album column in the queue. |
@@ -152,11 +152,11 @@ All keys in this section live under `[settings]`.
 | `light_mode` | `false` | Use the light variant of the active theme. |
 | `nav_layout` | `"top"` | Placement of view tabs. Options: `top` (horizontal bar), `side` (vertical sidebar), `none` (hidden — only the active view and player bar render). |
 | `nav_display_mode` | `"text_only"` | Content of tabs. Options: `text_only`, `text_and_icons`, `icons_only`. |
-| `track_info_display` | `"off"` | Placement of the metadata strip. Options: `off`, `player_bar` (24 px strip below the player bar), `top_bar` (merged into the right side of the nav row in top-nav layout; sits as its own row above the slot list in side-nav / no-nav), `top_bar_under` (its own row directly below the top nav bar; falls back to `top_bar` in side-nav / no-nav layouts), `mini_player` (artwork + title/artist/album column inside the player bar; auto-hides at window widths below ~540 px). |
-| `slot_row_height` | `"default"` | Row density in lists. Options: `compact` (50px), `default` (70px), `comfortable` (90px), `spacious` (110px). |
+| `track_info_display` | `"player_bar"` | Placement of the metadata strip. Options: `off`, `player_bar` (24 px strip below the player bar), `top_bar` (merged into the right side of the nav row in top-nav layout; sits as its own row above the slot list in side-nav / no-nav), `top_bar_under` (its own row directly below the top nav bar; falls back to `top_bar` in side-nav / no-nav layouts), `mini_player` (artwork + title/artist/album column inside the player bar; auto-hides at window widths below ~540 px). |
+| `slot_row_height` | `"compact"` | Row density in lists. Options: `compact` (50px), `default` (70px), `comfortable` (90px), `spacious` (110px). |
 | `font_family` | `""` | Font family override. Leave empty to use system default sans-serif. |
-| `rounded_mode` | `false` | Apply rounded corners to all UI elements. |
-| `opacity_gradient` | `true` | Apply a subtle opacity fade to items that are not in the center of the list. |
+| `rounded_mode` | `true` | Apply rounded corners to all UI elements. |
+| `opacity_gradient` | `false` | Apply a subtle opacity fade to items that are not in the center of the list. |
 | `slot_text_links` | `true` | Make artist and album names inside list rows clickable links to their respective views. |
 | `horizontal_volume` | `false` | Stack volume sliders horizontally instead of vertically in the player bar. |
 {/* config-table:end */}
@@ -194,9 +194,9 @@ All keys in this section live under `[settings]`.
 | `strip_show_album` | `true` | Show the album name in the metadata strip. |
 | `strip_show_format_info` | `true` | Show technical info (codec/sample rate) in the strip. |
 | `strip_click_action` | `"go_to_queue"` | Action on click. Options: `go_to_queue`, `go_to_album`, `go_to_artist`, `copy_track_info`, `do_nothing`. |
-| `strip_merged_mode` | `false` | Apply strip patterns to the merged artist/album display string rather than individual fields. |
+| `strip_merged_mode` | `true` | Apply strip patterns to the merged artist/album display string rather than individual fields. |
 | `strip_show_labels` | `true` | Show the field labels (`title:` / `artist:` / `album:`) before each value in the metadata strip. |
-| `strip_separator` | `"dot"` | Character used to join visible fields in the metadata strip. Options: `dot` (·), `bullet` (•), `pipe` (\|), `em_dash` (—), `slash` (/), `bar` (│). |
+| `strip_separator` | `"slash"` | Character used to join visible fields in the metadata strip. Options: `dot` (·), `bullet` (•), `pipe` (\|), `em_dash` (—), `slash` (/), `bar` (│). |
 {/* config-table:end */}
 
 ## Behavior Settings
@@ -214,8 +214,8 @@ All keys in this section live under `[settings]`.
 | Key | Default | Description |
 | :--- | :--- | :--- |
 | `enter_behavior` | `"play_all"` | Action when pressing `Enter` on a song. Options: `play_all` (replace queue with the current view), `play_single` (replace queue with just this track), `append_and_play` (add to queue and play). |
-| `crossfade_enabled` | `false` | Enable smooth transitions between tracks. |
-| `crossfade_duration_secs` | `5` | Duration of the crossfade in seconds (1 to 12). |
+| `crossfade_enabled` | `true` | Enable smooth transitions between tracks. |
+| `crossfade_duration_secs` | `7` | Duration of the crossfade in seconds (1 to 12). |
 | `volume_normalization_mode` | `"off"` | Volume-normalization mode. Options: `off`, `replay_gain_track`, `replay_gain_album`, `agc`. See the [Audio guide](/guides/audio/#volume-normalization). |
 | `normalization_level` | `"normal"` | AGC target level (linear amplitude, not LUFS). Options: `quiet` (0.6), `normal` (1.0), `loud` (1.4). Applies only when `volume_normalization_mode = "agc"`. |
 | `replay_gain_preamp_db` | `0.0` | Pre-amp dB applied on top of the resolved ReplayGain value. Range −15 to +15. Typical values: `0` (reference), `+6` (modern-loudness target). |
@@ -313,9 +313,9 @@ Nokkvi features a high-performance PipeWire visualizer with two main modes: `bar
 | `visualizer.bars.max_bars` | `512` | Maximum number of bars the dynamic layout will try to fit (16 to 2048). |
 | `visualizer.bars.bar_width_min` | `10` | Minimum bar width in pixels for small windows (1.0 to 10.0). |
 | `visualizer.bars.bar_width_max` | `20` | Maximum bar width in pixels for large windows. Must be ≥ `bar_width_min` (up to 20.0). Equal min/max gives uniform bar widths regardless of window size. |
-| `visualizer.bars.bar_spacing` | `0` | Gap between bars in pixels. |
+| `visualizer.bars.bar_spacing` | `2` | Gap between bars in pixels. |
 | `visualizer.bars.border_width` | `2.0` | Border thickness in pixels. Also controls LED segment gaps when `led_bars` is on (0.0 to 5.0). |
-| `visualizer.bars.led_bars` | `false` | Render bars as discrete LED segments (VU meter style). |
+| `visualizer.bars.led_bars` | `true` | Render bars as discrete LED segments (VU meter style). |
 | `visualizer.bars.led_segment_height` | `5` | Height of each LED segment in pixels (LED mode only; 2.0 to 20.0). |
 | `visualizer.bars.gradient_mode` | `"wave"` | Color mapping mode. [Learn more &rarr;](/reference/visualizer/#gradient-modes) |
 | `visualizer.bars.gradient_orientation` | `"vertical"` | Axis for color mapping (`vertical` or `horizontal`). |
@@ -325,7 +325,7 @@ Nokkvi features a high-performance PipeWire visualizer with two main modes: `bar
 | `visualizer.bars.peak_fade_time` | `750` | Fade-out duration in milliseconds (`fade` and `fall_fade` modes only). |
 | `visualizer.bars.peak_height_ratio` | `35` | Peak indicator height as a percentage of bar width (10 to 100; ignored in LED mode). |
 | `visualizer.bars.peak_fall_speed` | `5` | Peak fall velocity scale (1 = slow, 5 = default, 20 = fast; does not affect `fade` mode). |
-| `visualizer.bars.bar_depth_3d` | `1` | 3D isometric depth in pixels (0.0 disables; up to 20.0). |
+| `visualizer.bars.bar_depth_3d` | `0` | 3D isometric depth in pixels (0.0 disables; up to 20.0). |
 {/* config-table:end */}
 
 ### Lines Mode
@@ -333,7 +333,7 @@ Nokkvi features a high-performance PipeWire visualizer with two main modes: `bar
 {/* config-table:start id="visualizer-lines" */}
 | Key | Default | Description |
 | :--- | :--- | :--- |
-| `visualizer.lines.point_count` | `24` | Number of points used to draw the line (8 to 512). |
+| `visualizer.lines.point_count` | `8` | Number of points used to draw the line (8 to 512). |
 | `visualizer.lines.line_thickness` | `0.01` | Thickness of the line as a fraction of visualizer height (0.01 to 0.10). |
 | `visualizer.lines.outline_thickness` | `1` | Outline border thickness in pixels (0.0 disables; up to 5.0). |
 | `visualizer.lines.outline_opacity` | `1.0` | Outline opacity (0.0 to 1.0). |
@@ -355,7 +355,7 @@ These settings drive the internal audio engine and the UI sound effects layer. T
 | `eq_enabled` | `false` | Global bypass for the 10-band equalizer. |
 | `eq_gains` | `[0.0, ...]` | List of 10 gain values in dB (one per band: 31, 62, 125, 250, 500, 1k, 2k, 4k, 8k, 16k Hz). Range −12.0 to +12.0 per band. |
 | `custom_eq_presets` | `[]` | User-saved EQ presets. Each preset is a `{ name, gains }` object; managed through the in-app EQ panel. |
-| `sound_effects_enabled` | `true` | Global toggle for UI sound effects. |
+| `sound_effects_enabled` | `false` | Global toggle for UI sound effects. |
 | `sfx_volume` | `0.68` | Volume for UI sound effects (0.0 to 1.0). |
 {/* config-table:end */}
 

@@ -2,6 +2,9 @@
   "albums_artwork_overlay": {
     "description": "Show a text overlay on artwork thumbnails in the Albums view."
   },
+  "albums_ascending": {
+    "description": "Ascending order in the Albums view."
+  },
   "albums_show_index": {
     "description": "Show the row index column in the albums view."
   },
@@ -23,8 +26,14 @@
   "albums_show_thumbnail": {
     "description": "Show the thumbnail column in the albums view."
   },
+  "albums_sort": {
+    "description": "Sort mode for the Albums view."
+  },
   "artists_artwork_overlay": {
     "description": "Show a text overlay on artwork thumbnails in the Artists view."
+  },
+  "artists_ascending": {
+    "description": "Ascending order in the Artists view."
   },
   "artists_show_albumcount": {
     "description": "Show the album count column in the artists view."
@@ -49,6 +58,9 @@
   },
   "artists_show_thumbnail": {
     "description": "Show the thumbnail column in the artists view."
+  },
+  "artists_sort": {
+    "description": "Sort mode for the Artists view."
   },
   "artwork_auto_max_pct": {
     "description": "Max artwork size in `auto` mode, as a fraction of the window's short axis (0.30–0.70)."
@@ -95,6 +107,9 @@
   "font_family": {
     "description": "Font family override. Leave empty to use system default sans-serif."
   },
+  "genres_ascending": {
+    "description": "Ascending order in the Genres view."
+  },
   "genres_show_albumcount": {
     "description": "Show the album count column in the genres view."
   },
@@ -109,6 +124,9 @@
   },
   "genres_show_thumbnail": {
     "description": "Show the thumbnail column in the genres view."
+  },
+  "genres_sort": {
+    "description": "Sort mode for the Genres view."
   },
   "horizontal_volume": {
     "description": "Stack volume sliders horizontally instead of vertically in the player bar."
@@ -137,6 +155,9 @@
   "playlists_artwork_overlay": {
     "description": "Show a text overlay on artwork thumbnails in the Playlists view."
   },
+  "playlists_ascending": {
+    "description": "Ascending order in the Playlists view."
+  },
   "playlists_show_duration": {
     "description": "Show the total duration column in the playlists view."
   },
@@ -154,6 +175,12 @@
   },
   "playlists_show_updatedat": {
     "description": "Show the last updated column in the playlists view."
+  },
+  "playlists_sort": {
+    "description": "Sort mode for the Playlists view."
+  },
+  "queue_ascending": {
+    "description": "Ascending order in the Queue view."
   },
   "queue_show_album": {
     "description": "Show the album column in the queue."
@@ -184,6 +211,9 @@
   },
   "queue_show_thumbnail": {
     "description": "Show the thumbnail column in the queue."
+  },
+  "queue_sort": {
+    "description": "Sort mode for the Queue view (last applied; manual reorder works from any mode)."
   },
   "quick_add_to_playlist": {
     "description": "Skip the \"Add to Playlist\" dialog and add directly to a remembered default playlist."
@@ -248,6 +278,9 @@
   "songs_artwork_overlay": {
     "description": "Show a text overlay on artwork thumbnails in the Songs view."
   },
+  "songs_ascending": {
+    "description": "Ascending order in the Songs view."
+  },
   "songs_show_album": {
     "description": "Show the album column in the songs view."
   },
@@ -274,6 +307,9 @@
   },
   "songs_show_thumbnail": {
     "description": "Show the thumbnail column in the songs view."
+  },
+  "songs_sort": {
+    "description": "Sort mode for the Songs view."
   },
   "sound_effects_enabled": {
     "description": "Global toggle for UI sound effects."
@@ -428,7 +464,7 @@
   "visualizer.waves_smoothing": {
     "description": "Spline control-point density when `waves` is on (2 to 16; higher = smoother curves)."
   },
-  "volume_normalization": {
-    "description": "Enable EBU R128 loudness normalization."
+  "volume_normalization_mode": {
+    "description": "Volume-normalization mode. Options: `off`, `replay_gain_track`, `replay_gain_album`, `agc`. See the [Audio guide](/guides/audio/#volume-normalization)."
   }
 }
