@@ -155,7 +155,7 @@ All keys in this section live under `[settings]`.
 | `track_info_display` | `"player_bar"` | Placement of the metadata strip. Options: `off`, `player_bar` (24 px strip below the player bar), `top_bar` (merged into the right side of the nav row in top-nav layout; sits as its own row above the slot list in side-nav / no-nav), `top_bar_under` (its own row directly below the top nav bar; falls back to `top_bar` in side-nav / no-nav layouts), `mini_player` (artwork + title/artist/album column inside the player bar; auto-hides at window widths below ~540 px). |
 | `slot_row_height` | `"compact"` | Row density in lists. Options: `compact` (50px), `default` (70px), `comfortable` (90px), `spacious` (110px). |
 | `font_family` | `""` | Font family override. Leave empty to use system default sans-serif. |
-| `rounded_mode` | `true` | Apply rounded corners to all UI elements. |
+| `rounded_mode` | `"on"` | Rounded corners on UI elements. Options: `off` (flat throughout), `on` (rounded everywhere), `player_only` (rounded player bar/progress/volume/transport and bottom metadata strip; rest of the UI stays flat). |
 | `opacity_gradient` | `false` | Apply a subtle opacity fade to items that are not in the center of the list. |
 | `slot_text_links` | `true` | Make artist and album names inside list rows clickable links to their respective views. |
 | `horizontal_volume` | `false` | Stack volume sliders horizontally instead of vertically in the player bar. |

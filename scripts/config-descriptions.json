@@ -231,7 +231,7 @@
     "description": "Clamp the resolved gain so `track_peak × gain ≤ 1.0` using the per-track peak tag."
   },
   "rounded_mode": {
-    "description": "Apply rounded corners to all UI elements."
+    "description": "Rounded corners on UI elements. Options: `off` (flat throughout), `on` (rounded everywhere), `player_only` (rounded player bar/progress/volume/transport and bottom metadata strip; rest of the UI stays flat)."
   },
   "scrobble_threshold": {
     "description": "Percentage of track duration (0.25 to 0.90) needed to trigger a scrobble."
