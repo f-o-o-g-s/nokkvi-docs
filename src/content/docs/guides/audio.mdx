@@ -1,78 +1,95 @@
 ---
 title: Audio Engine
-description: Deep dive into Nokkvi's high-performance PipeWire audio engine.
+description: How nokkvi plays your music — gapless playback, the equalizer, and volume normalization.
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-Nokkvi is built for audiophiles who want a native, high-performance listening experience.
-
-## Native PipeWire Support
-
-Unlike many web-based clients, Nokkvi communicates directly with the PipeWire framework. This ensures:
-- **Low Latency**: Minimal delay between clicking play and hearing music.
-- **Native output**: Stereo 48 kHz output is fed straight into PipeWire — other sample rates are resampled. A `dynamic_content` peak limiter is always in the chain to catch clipping from EQ, ReplayGain pre-amp, or AGC overshoot.
-- **System Integration**: Nokkvi appears as a native audio stream in your system mixer.
-
-Decoding goes through Symphonia. Native codecs: MP3, FLAC, Ogg Vorbis, WAV, AAC, MP4/ISO-BMFF, ALAC, AIFF — plus Opus via the `symphonia-adapter-libopus` shim.
+Nokkvi plays through PipeWire on Linux as a native audio stream — low latency and integrated with your system mixer. It decodes all common formats (MP3, FLAC, Opus, AAC, and more — full list in [Under the Hood](#under-the-hood)). This page covers the user-facing audio features: gapless playback, the 10-band equalizer, and volume normalization.
 
 ## Gapless Playback & Crossfade
 
-Nokkvi supports true gapless playback by pre-decoding the next track in the queue.
+Nokkvi has two ways to transition between tracks:
+
+- **Gapless** — songs flow into each other with no silence in between, exactly as the artist mastered them. Perfect for live albums, concept albums, or any continuous mix.
+- **Crossfade** — the outgoing track fades out while the next fades in, blending the two for a smoother handoff. Good for shuffled libraries or background listening.
+
+Crossfade is enabled by default at 7 seconds. There's no separate "enable gapless" toggle — turn off crossfade (with the [`F`](/reference/hotkeys/#playback) hotkey or [`crossfade_enabled`](/reference/config/#playback-settings)) and gapless takes over automatically. Either way, nokkvi pre-decodes the next track in the queue so the handoff is seamless.
 
 ### Configuring Crossfade
-Toggle [`crossfade_enabled`](/reference/config/#playback-settings) in the settings or with the [`F`](/reference/hotkeys/#playback) hotkey.
-- **Duration**: [`crossfade_duration_secs`](/reference/config/#playback-settings) — adjustable from 1 to 12 seconds.
-- **Behavior**: Smooth linear volume transition between tracks.
+- **Toggle**: [`crossfade_enabled`](/reference/config/#playback-settings), or hit [`F`](/reference/hotkeys/#playback).
+- **Duration**: [`crossfade_duration_secs`](/reference/config/#playback-settings) — adjustable from 1 to 15 seconds. Smooth linear volume transition between tracks.
+
+## 10-Band Equalizer
+
+Boost or cut ten frequency ranges to your taste — handy for compensating for headphones, room acoustics, or just dialing in more bass. Per-band gains are stored in [`eq_gains`](/reference/config/#audio-engine-internal), and you can save your favorite EQ curves as presets that persist in `config.toml`.
+
+- **Toggle**: [`eq_enabled`](/reference/config/#audio-engine-internal), or hit [`Q`](/reference/hotkeys/#playback).
+- **Bands**: 31Hz, 62Hz, 125Hz, 250Hz, 500Hz, 1kHz, 2kHz, 4kHz, 8kHz, 16kHz.
+- **Presets**: [`custom_eq_presets`](/reference/config/#audio-engine-internal) — save and reload custom EQ curves.
 
 ## Volume Normalization
 
-Nokkvi exposes four [`volume_normalization`](/reference/config/#playback-settings) modes, picking how (or whether) to even out track-to-track loudness:
+Different tracks can be mastered at wildly different loudness levels. Volume normalization evens them out so a quiet acoustic track doesn't get drowned out after a wall-of-sound rock track — or vice versa.
 
-- **`off`** — decoded audio passes through untouched. The peak limiter is still in the chain to catch overshoot, but no gain is applied.
-- **`replay_gain_track`** — uses each song's `replayGain.trackGain` tag.
-- **`replay_gain_album`** — uses each song's `replayGain.albumGain` tag, preserving the loudness contrast within an album.
-- **`agc`** — rodio's real-time automatic gain control. No metadata required; tracks every signal envelope frame-by-frame and pushes it toward a target.
+Nokkvi has four modes via [`volume_normalization`](/reference/config/#playback-settings):
 
-A peak limiter (rodio `LimitSettings::dynamic_content()`) sits at the end of every chain, so any boost — from AGC, ReplayGain pre-amp, or both — is clamped before mixing.
+- **`off`** — no leveling. Tracks play at their recorded loudness.
+- **`replay_gain_track`** — uses each track's pre-computed loudness tag. Every song lands at the same target level.
+- **`replay_gain_album`** — uses each album's loudness tag. Different albums get levelled against each other, but the loudness dynamics the artist intended *within* an album are preserved.
+- **`agc`** — real-time automatic gain control. Adjusts on the fly as you listen, no metadata required.
 
-### ReplayGain modes
+### ReplayGain
 
-ReplayGain values come from the file tags (`REPLAYGAIN_TRACK_GAIN`, `R128_TRACK_GAIN`, etc.), surfaced through the Subsonic API, and applied as a static `amplify()` factor to each stream. Because the gain is computed offline and constant per track, both sides of a crossfade are already at target — no convergence artifacts.
+ReplayGain is a tagging standard that stores each track's loudness in the file itself. Nokkvi reads the tag and applies a fixed gain so every track plays at the same target level.
 
-If you tag with [`rsgain`](https://github.com/complexlogic/rsgain) or [`loudgain`](https://github.com/Moonbase59/loudgain) (modern, EBU R128–based), Navidrome reads the tags during scan and serves them to nokkvi. Older `replaygain_*` tag pairs work too. R.128–only tags are converted to ReplayGain dB by Navidrome before the API call, so nokkvi sees a single dB-format value regardless of what the tagger wrote.
+Tag your library with [`rsgain`](https://github.com/complexlogic/rsgain) or [`loudgain`](https://github.com/Moonbase59/loudgain) (both use modern EBU R128 loudness measurement) and Navidrome will read them during scan and serve them to nokkvi via the Subsonic API. Older `replaygain_*` tag pairs work too — Navidrome converts everything to a single dB value before the API call.
 
-The four ReplayGain knobs:
+**Track vs. album mode:**
+- Choose `replay_gain_track` for shuffled listening — every song lands at the same level.
+- Choose `replay_gain_album` for whole-album listening — albums get levelled against each other, but the loudness contrast within each album stays intact.
 
-- **[`replay_gain_preamp_db`](/reference/config/#playback-settings)** — added to the resolved tag value before linearization. Default `0` matches the ReplayGain reference level. `+6` is typical for "modern loudness" listeners who find reference output too quiet.
-- **[`replay_gain_fallback_db`](/reference/config/#playback-settings)** — applied to tracks whose tag is missing entirely. Default `0` (unity).
-- **[`replay_gain_fallback_to_agc`](/reference/config/#playback-settings)** — when `true`, untagged tracks engage real-time AGC instead of `replay_gain_fallback_db`. Useful for libraries with mixed tagging coverage.
-- **[`replay_gain_prevent_clipping`](/reference/config/#playback-settings)** — clamps gain so `track_peak × gain ≤ 1.0` using the per-track peak tag. On by default. Disable only if you specifically want the limiter to handle peaks.
+**Fine-tuning** with four knobs:
 
-Smart cross-fallback is always on: in track mode, a track without `track_gain` falls back to `album_gain` (and vice versa) silently. A track with neither uses the fallback dB or the AGC fallthrough.
+- **[`replay_gain_preamp_db`](/reference/config/#playback-settings)** — extra dB on top of the tag value. Default `0` matches ReplayGain's reference level (relatively quiet by modern standards). `+6` is typical for listeners who find reference output too quiet.
+- **[`replay_gain_fallback_db`](/reference/config/#playback-settings)** — applied to tracks with no ReplayGain tag. Default `0` (no change).
+- **[`replay_gain_fallback_to_agc`](/reference/config/#playback-settings)** — when `true`, untagged tracks engage real-time AGC instead of the fallback dB. Useful for libraries with mixed tagging coverage.
+- **[`replay_gain_prevent_clipping`](/reference/config/#playback-settings)** — keeps the gain from pushing loud peaks into distortion. On by default.
+
+Smart cross-fallback is always on: in track mode, a track with only `album_gain` falls back to that, and vice versa. A track with neither tag uses the fallback dB or AGC fallthrough.
 
 <Aside type="caution" title="ReplayGain track mode and gapless">
-  In `replay_gain_track` mode, the `amplify` factor is baked into the rodio chain at stream creation. nokkvi disables the gapless decoder-swap when adjacent tracks have different `track_gain` values, forcing a brief stream rebuild instead — without it, the second track would play at the first track's gain. `replay_gain_album` is unaffected (same album → same gain), as are `off` and `agc`.
+  In `replay_gain_track` mode, when adjacent tracks have different per-track gains, nokkvi can't reuse the gapless decoder swap — it rebuilds the audio stream briefly between them. `replay_gain_album` is unaffected (same album = same gain), as are `off` and `agc`.
 </Aside>
 
 ### AGC mode
 
-Choose `agc` for libraries without ReplayGain tags. The [`normalization_level`](/reference/config/#playback-settings) target maps to rodio's `target_level` — a linear amplitude target, not LUFS:
+Pick `agc` for libraries without ReplayGain tags. Instead of reading a pre-computed value, nokkvi measures loudness as the track plays and pushes it toward a target level.
 
-- `quiet` — `target_level = 0.6`. Reduced loudness, maximum headroom.
-- `normal` (default) — `target_level = 1.0`. Maintain original perceived level.
-- `loud` — `target_level = 1.4`. Boost quiet tracks more aggressively.
+The [`normalization_level`](/reference/config/#playback-settings) setting controls how aggressively:
 
-### Crossfade and normalization
+- `quiet` — softer overall, maximum headroom for peaks.
+- `normal` (default) — keeps each track close to its natural perceived level.
+- `loud` — boosts quiet tracks more aggressively.
 
-In **AGC** mode, you may hear a brief level mismatch at track boundaries if the two tracks differ much in loudness. Lowering [`normalization_level`](/reference/config/#playback-settings) from `normal` to `quiet` softens it. The two **ReplayGain** modes pre-level both streams at construction, so this artifact does not occur there — it's the cleanest way to combine crossfade with loudness normalization if your library is tagged.
+### Combining crossfade and normalization
 
-<Aside type="note" title="Why AGC mode mismatches at boundaries (implementation detail)">
+If you're using both crossfade and AGC mode, you may hear a brief loudness mismatch right at track boundaries when two adjacent tracks differ a lot. Lowering `normalization_level` from `normal` to `quiet` softens it. The two ReplayGain modes don't have this issue — both sides of a crossfade are already at target level, so the transition is clean. If your library is tagged, ReplayGain is the cleanest pairing with crossfade.
+
+## Under the Hood
+
+For the technically curious:
+
+**Decoding** goes through [Symphonia](https://github.com/pdeljanov/Symphonia). Supported codecs: MP3, FLAC, Ogg Vorbis, WAV, AAC, MP4/ISO-BMFF, ALAC, AIFF — plus Opus via the `symphonia-adapter-libopus` shim.
+
+**Mixing and output** use [rodio](https://github.com/RustAudio/rodio). On Linux, audio is delivered to PipeWire as a native stream — minimal latency, integrated with the system mixer, and routable to any output via tools like `pavucontrol`.
+
+**Internal format** is stereo 48 kHz; other sample rates get resampled. A `dynamic_content` peak limiter (`LimitSettings::dynamic_content()`) sits at the end of every chain to catch clipping from EQ boosts, ReplayGain pre-amp, or AGC overshoot before mixing.
+
+**ReplayGain implementation**: values come from file tags (`REPLAYGAIN_TRACK_GAIN`, `R128_TRACK_GAIN`, etc.) and are applied as a static `amplify()` factor to each stream. Because the gain is computed offline and constant per track, both sides of a crossfade are already at target — no convergence artifacts.
+
+**AGC implementation**: uses rodio's `automatic_gain_control` with a linear amplitude target (`target_level = 0.6 / 1.0 / 1.4` for `quiet` / `normal` / `loud`), not LUFS.
+
+<Aside type="note" title="Why AGC mode mismatches at boundaries">
   Each stream gets its own [rodio `automatic_gain_control`](https://docs.rs/rodio/latest/rodio/source/trait.Source.html#method.automatic_gain_control) instance, and AGC has an attack/release time, so right at a track boundary the incoming stream's AGC hasn't converged on the target yet. The two instances don't share state. Nokkvi only overrides rodio's `target_level` (via `normalization_level`); attack/release stay at rodio's defaults.
 </Aside>
-
-## 10-Band Equalizer
-
-Toggle the equalizer with [`eq_enabled`](/reference/config/#audio-engine-internal) or the [`Q`](/reference/hotkeys/#playback) hotkey.
-- **Bands**: 31Hz, 62Hz, 125Hz, 250Hz, 500Hz, 1kHz, 2kHz, 4kHz, 8kHz, 16kHz — gains stored in [`eq_gains`](/reference/config/#audio-engine-internal).
-- **Presets**: You can save custom presets ([`custom_eq_presets`](/reference/config/#audio-engine-internal)) that are persisted in `config.toml`.
