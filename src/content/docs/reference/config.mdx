@@ -215,7 +215,8 @@ All keys in this section live under `[settings]`.
 | :--- | :--- | :--- |
 | `enter_behavior` | `"play_all"` | Action when pressing `Enter` on a song. Options: `play_all` (replace queue with the current view), `play_single` (replace queue with just this track), `append_and_play` (add to queue and play). |
 | `crossfade_enabled` | `true` | Enable smooth transitions between tracks. |
-| `crossfade_duration_secs` | `7` | Duration of the crossfade in seconds (1 to 15). |
+| `crossfade_duration_secs` | `7` | Duration of the crossfade in seconds (1 to 12). |
+| `rewind_on_previous` | `false` | When enabled, pressing Previous restarts the current track instead of stepping to the previous one, once it has played past 5 seconds. |
 | `volume_normalization_mode` | `"off"` | Volume-normalization mode. Options: `off`, `replay_gain_track`, `replay_gain_album`, `agc`. See the [Audio guide](/guides/audio/#volume-normalization). |
 | `normalization_level` | `"normal"` | AGC target level (linear amplitude, not LUFS). Options: `quiet` (0.6), `normal` (1.0), `loud` (1.4). Applies only when `volume_normalization_mode = "agc"`. |
 | `replay_gain_preamp_db` | `0.0` | Pre-amp dB applied on top of the resolved ReplayGain value. Range −15 to +15. Typical values: `0` (reference), `+6` (modern-loudness target). |

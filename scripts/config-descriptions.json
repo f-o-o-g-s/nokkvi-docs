@@ -230,6 +230,9 @@
   "replay_gain_prevent_clipping": {
     "description": "Clamp the resolved gain so `track_peak × gain ≤ 1.0` using the per-track peak tag."
   },
+  "rewind_on_previous": {
+    "description": "When enabled, pressing Previous restarts the current track instead of stepping to the previous one, once it has played past 5 seconds."
+  },
   "rounded_mode": {
     "description": "Rounded corners on UI elements. Options: `off` (flat throughout), `on` (rounded everywhere), `player_only` (rounded player bar/progress/volume/transport and bottom metadata strip; rest of the UI stays flat)."
   },
