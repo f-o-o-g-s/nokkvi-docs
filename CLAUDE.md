@@ -36,7 +36,7 @@ npm run astro -- <command>
 ### Custom Components & Styling
 
 - **Custom components**: `src/components/Hero.astro` and `src/components/SiteTitle.astro` are registered in `astro.config.mjs` to replace Starlight defaults
-- **Theming**: `src/styles/custom.css` defines the Everforest color scheme (light and dark variants) and custom fonts — all values override Starlight's CSS variables
+- **Theming**: `src/styles/custom.css` defines the Svalbard color scheme (light and dark variants) and custom fonts — all values override Starlight's CSS variables
 - **Font stack**: Uses monospace (JetBrains Mono preferred) throughout, configured globally in custom.css
 
 ### External Data

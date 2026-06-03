@@ -27,7 +27,7 @@ This mounts the sibling `../nokkvi/` directory into the container so the same wo
 | :--- | :------ |
 | `src/content/docs/` | Markdown / MDX page sources |
 | `src/components/` | Custom Astro components (Hero, SiteTitle) |
-| `src/styles/custom.css` | Everforest theme overrides |
+| `src/styles/custom.css` | Svalbard theme overrides |
 | `astro.config.mjs` | Sidebar structure and Starlight config |
 | `scripts/` | Config-schema extraction and drift-checking against nokkvi |
 | `.github/workflows/deploy.yml` | GitHub Pages deploy on push to `master` |
