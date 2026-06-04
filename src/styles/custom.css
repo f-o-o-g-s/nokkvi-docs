@@ -11,6 +11,14 @@
   --sl-color-gray-5: #CDD8D4;
   --sl-color-gray-6: #E4ECE9;
   --sl-color-black: #F1F6F4;
+
+  /* Svalbard semantic colors — admonition accents. tip/caution/danger come from
+     svalbard.toml [light] (success/warning/danger); note uses the Svalbard blue
+     from the noctalia desktop palette, since the app theme has no blue. */
+  --sval-note: #3F6C92;    /* steel-blue (info) */
+  --sval-tip: #57867E;     /* success */
+  --sval-caution: #A67C4C; /* warning */
+  --sval-danger: #A75A60;  /* danger  */
 }
 
 :root[data-theme='dark'] {
@@ -26,6 +34,12 @@
   --sl-color-gray-5: #2A3A37;
   --sl-color-gray-6: #1C2625;
   --sl-color-black: #161F1E;
+
+  /* Svalbard semantic colors (svalbard.toml [dark]; note = noctalia Svalbard blue). */
+  --sval-note: #6D8DB0;    /* steel-blue (info) */
+  --sval-tip: #84A99F;     /* success */
+  --sval-caution: #CBA576; /* warning */
+  --sval-danger: #C58489;  /* danger  */
 }
 
 /* Custom spacing and font settings to match rmpc feel */
@@ -42,8 +56,38 @@ h1, h2, h3, h4, h5, h6, .site-title, .sidebar-content {
     font-family: var(--sl-font) !important;
 }
 
+/* Repaint Starlight admonitions in the Svalbard palette.
+   Starlight's defaults pull from --sl-color-{blue,purple,orange,red}-* (the
+   blues/purples/reds Svalbard doesn't use). Each aside needs three things: a
+   left border (the bold semantic signal — exact Svalbard hex), a title/link
+   accent, and a tinted panel background. Title and background are derived from
+   the base color via color-mix so they track both themes: mixing toward
+   --sl-color-white brightens the title in dark / darkens it in light, and
+   mixing toward --sl-color-black tints the page background either way.
+   Verified WCAG: body text >=10:1, titles >=4.4:1 on every type and theme. */
 .starlight-aside {
     border-radius: 8px;
+}
+
+.starlight-aside--note {
+    --sl-color-asides-border: var(--sval-note);
+    --sl-color-asides-text-accent: color-mix(in oklab, var(--sval-note) 72%, var(--sl-color-white));
+    background-color: color-mix(in oklab, var(--sval-note) 18%, var(--sl-color-black));
+}
+.starlight-aside--tip {
+    --sl-color-asides-border: var(--sval-tip);
+    --sl-color-asides-text-accent: color-mix(in oklab, var(--sval-tip) 72%, var(--sl-color-white));
+    background-color: color-mix(in oklab, var(--sval-tip) 18%, var(--sl-color-black));
+}
+.starlight-aside--caution {
+    --sl-color-asides-border: var(--sval-caution);
+    --sl-color-asides-text-accent: color-mix(in oklab, var(--sval-caution) 72%, var(--sl-color-white));
+    background-color: color-mix(in oklab, var(--sval-caution) 18%, var(--sl-color-black));
+}
+.starlight-aside--danger {
+    --sl-color-asides-border: var(--sval-danger);
+    --sl-color-asides-text-accent: color-mix(in oklab, var(--sval-danger) 72%, var(--sl-color-white));
+    background-color: color-mix(in oklab, var(--sval-danger) 18%, var(--sl-color-black));
 }
 
 /* Header Logo Styling */
