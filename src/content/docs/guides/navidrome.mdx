@@ -45,6 +45,14 @@ SessionTimeout = "8760h"
 
 Nokkvi submits scrobbles through Navidrome's Subsonic API — Navidrome handles forwarding them to Last.fm and ListenBrainz. Both services need to be configured on the server side for scrobbling to work end-to-end. Client-side toggles live under [`scrobbling_enabled`](/reference/config/#scrobbling) and [`scrobble_threshold`](/reference/config/#scrobbling).
 
+Nokkvi — not the server — decides when a play counts. It submits a scrobble once your *actual listening time* reaches **`scrobble_threshold` of the track length, or 4 minutes, whichever comes first**. Listening time is real playback: seeking ahead or pausing doesn't count toward it.
+
+When that point is reached, Nokkvi tells Navidrome once, and Navidrome trusts it — it increments the track's **play count** (and the album's and artist's) and forwards the scrobble to Last.fm/ListenBrainz in the same step. There's no second threshold on the server. If a track never reaches that point (you skip it early, or play less than the threshold of a track shorter than 4 minutes), Nokkvi sends nothing: no play count is recorded and nothing reaches Last.fm. The "now playing" updates sent during playback never count as plays.
+
+<Aside type="note" title="A high threshold won't hold back long tracks">
+  The 4-minute arm is fixed and independent of `scrobble_threshold`. Set the threshold to `0.90` and a 20-minute mix still scrobbles after 4 minutes of listening — not 18. The threshold only governs tracks short enough that its percentage is reached before the 4-minute mark.
+</Aside>
+
 To get Last.fm API credentials, create an API account at [last.fm/api](https://www.last.fm/api/account/create). For ListenBrainz, generate a token from your [profile settings](https://listenbrainz.org/profile/).
 
 ```toml

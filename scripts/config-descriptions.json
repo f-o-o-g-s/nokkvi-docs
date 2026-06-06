@@ -246,7 +246,7 @@
     "description": "Rounded corners on UI elements. Options: `off` (flat throughout), `on` (rounded everywhere), `player_only` (rounded player bar/progress/volume/transport and bottom metadata strip; rest of the UI stays flat)."
   },
   "scrobble_threshold": {
-    "description": "Percentage of track duration (0.25 to 0.90) needed to trigger a scrobble."
+    "description": "Portion of the track you must actually listen to before a scrobble fires (0.25 to 0.90). A scrobble also fires after 4 minutes of listening regardless of this value — whichever comes first."
   },
   "scrobbling_enabled": {
     "description": "Report listening activity back to the server."
