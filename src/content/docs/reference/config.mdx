@@ -239,6 +239,16 @@ All keys in this section live under `[settings]`.
 | `scrobble_threshold` | `0.50` | Percentage of track duration (0.25 to 0.90) needed to trigger a scrobble. |
 {/* config-table:end */}
 
+### Rating Reminder
+
+{/* config-table:start id="rating-reminder" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `rating_reminder_enabled` | `false` | Show a "rate this track" desktop notification after you finish listening to a song. When off, no reminder is shown. |
+| `rating_reminder_trigger` | `"on_scrobble"` | When the reminder fires. Options: `on_scrobble` (when the server confirms the play — requires scrobbling to be active), `percentage_played` (once `rating_reminder_percent` of the track has elapsed). |
+| `rating_reminder_percent` | `75` | Percentage of the track that must play before the reminder fires when `rating_reminder_trigger = "percentage_played"`. Range 60–90. Ignored by the `on_scrobble` trigger. |
+{/* config-table:end */}
+
 ### Playlists
 
 {/* config-table:start id="playlists" */}

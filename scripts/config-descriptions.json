@@ -218,6 +218,15 @@
   "quick_add_to_playlist": {
     "description": "Skip the \"Add to Playlist\" dialog and add directly to a remembered default playlist."
   },
+  "rating_reminder_enabled": {
+    "description": "Show a \"rate this track\" desktop notification after you finish listening to a song. When off, no reminder is shown."
+  },
+  "rating_reminder_percent": {
+    "description": "Percentage of the track that must play before the reminder fires when `rating_reminder_trigger = \"percentage_played\"`. Range 60–90. Ignored by the `on_scrobble` trigger."
+  },
+  "rating_reminder_trigger": {
+    "description": "When the reminder fires. Options: `on_scrobble` (when the server confirms the play — requires scrobbling to be active), `percentage_played` (once `rating_reminder_percent` of the track has elapsed)."
+  },
   "replay_gain_fallback_db": {
     "description": "dB applied to tracks with no ReplayGain tags. Range -15 to +15. Ignored when `replay_gain_fallback_to_agc` is `true`."
   },
