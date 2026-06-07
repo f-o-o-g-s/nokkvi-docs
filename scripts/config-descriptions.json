@@ -83,6 +83,18 @@
   "auto_follow_playing": {
     "description": "The Queue view auto-scrolls to keep the currently playing track visible as it changes."
   },
+  "autohide_collapsed_appearance": {
+    "description": "What the auto-hide toolbar shows while collapsed. Options: `hairline` (a thin sliver with an optional accent grip — hover to reveal), `hidden` (nothing; the list reclaims the space, but flicking the mouse to the top edge or using a sort/search hotkey still reveals it), `count_strip` (a slim strip echoing the current sort and item count, without controls). Only applies when `autohide_toolbar` is on."
+  },
+  "autohide_toolbar": {
+    "description": "Auto-hide the view-header toolbar (sort and search controls) to a thin line until you hover it or use a sort/search shortcut."
+  },
+  "autohide_toolbar_grip": {
+    "description": "Show a centered accent grip bar on the collapsed `hairline` sliver. Only applies when `autohide_toolbar` is on and `autohide_collapsed_appearance = \"hairline\"`."
+  },
+  "autohide_toolbar_height": {
+    "description": "Height in pixels of the collapsed auto-hide toolbar. Only applies when `autohide_toolbar` is on."
+  },
   "close_to_tray": {
     "description": "When `show_tray_icon` is on, the window's close button hides Nokkvi into the tray instead of quitting. Ignored when the tray icon is disabled."
   },

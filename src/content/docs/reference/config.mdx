@@ -159,6 +159,10 @@ All keys in this section live under `[settings]`.
 | `opacity_gradient` | `false` | Apply a subtle opacity fade to items that are not in the center of the list. |
 | `slot_text_links` | `true` | Make artist and album names inside list rows clickable links to their respective views. |
 | `horizontal_volume` | `false` | Stack volume sliders horizontally instead of vertically in the player bar. |
+| `autohide_toolbar` | `false` | Auto-hide the view-header toolbar (sort and search controls) to a thin line until you hover it or use a sort/search shortcut. |
+| `autohide_toolbar_height` | `6` | Height in pixels of the collapsed auto-hide toolbar. Only applies when `autohide_toolbar` is on. |
+| `autohide_toolbar_grip` | `true` | Show a centered accent grip bar on the collapsed `hairline` sliver. Only applies when `autohide_toolbar` is on and `autohide_collapsed_appearance = "hairline"`. |
+| `autohide_collapsed_appearance` | `"hairline"` | What the auto-hide toolbar shows while collapsed. Options: `hairline` (a thin sliver with an optional accent grip — hover to reveal), `hidden` (nothing; the list reclaims the space, but flicking the mouse to the top edge or using a sort/search hotkey still reveals it), `count_strip` (a slim strip echoing the current sort and item count, without controls). Only applies when `autohide_toolbar` is on. |
 | `mini_player_show_volume` | `true` | Show the volume control in the mini-player bar. Only applies when `track_info_display = "mini_player"`. |
 | `mini_player_show_modes` | `true` | Show the playback-mode toggles (repeat, shuffle, consume, EQ, sound effects, crossfade, visualizer) and their kebab (⋮) overflow in the mini-player bar. Only applies when `track_info_display = "mini_player"`. |
 {/* config-table:end */}
