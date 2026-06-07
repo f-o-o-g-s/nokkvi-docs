@@ -21,7 +21,7 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
-nokkvi/
+nokkvi
 
 # Claude Code per-user settings (commands/ are tracked)
 .claude/settings.local.json
