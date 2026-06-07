@@ -140,6 +140,12 @@
   "local_music_path": {
     "description": "Absolute path to your local music library. If set, Nokkvi will try to open files directly (for things like \"Show in File Manager\")."
   },
+  "mini_player_show_modes": {
+    "description": "Show the playback-mode toggles (repeat, shuffle, consume, EQ, sound effects, crossfade, visualizer) and their kebab (⋮) overflow in the mini-player bar. Only applies when `track_info_display = \"mini_player\"`."
+  },
+  "mini_player_show_volume": {
+    "description": "Show the volume control in the mini-player bar. Only applies when `track_info_display = \"mini_player\"`."
+  },
   "nav_display_mode": {
     "description": "Content of tabs. Options: `text_only`, `text_and_icons`, `icons_only`."
   },
