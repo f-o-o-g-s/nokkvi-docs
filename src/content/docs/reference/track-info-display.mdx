@@ -1,0 +1,42 @@
+---
+title: Track Info Display
+description: Where Nokkvi shows the now-playing metadata strip, and how the mini player adapts to window width.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The now-playing **metadata strip** — title, artist, album, and the track's format — can sit in a few different places, set by [`track_info_display`](/reference/config/#interface-settings). Default is `player_bar`; the others tuck it into the chrome, fold it into a compact mini player, or hide it to give the list and artwork the whole window.
+
+<Tabs syncKey="track-info-display">
+  <TabItem label="Mini Player">
+    Artwork, metadata, and transport merge into one bar topped by a full-width progress scrub that shows elapsed and total time alongside the track's format and bitrate. On a wide window it spreads into three sections — metadata on the left, transport centered, modes and volume on the right. As the window narrows it folds into a single compact cluster with the mode toggles tucked behind a kebab (⋮) menu.
+
+    ![Mini player on a wide window: artwork and metadata left, centered transport, modes and volume right, full-width progress scrub on top](../../../assets/track-info-mini-player.webp)
+
+    ![Mini player on a narrow window: a single compact cluster with the mode toggles folded into the kebab menu](../../../assets/track-info-mini-player-compact.webp)
+
+    Hide the volume slider or the mode toggles independently with [`mini_player_show_volume`](/reference/config/#interface-settings) and [`mini_player_show_modes`](/reference/config/#interface-settings).
+  </TabItem>
+  <TabItem label="Player Bar">
+    The metadata sits as a strip in the bottom player bar, just below the transport row.
+
+    ![Metadata strip below the transport row in the bottom player bar](../../../assets/track-info-player-bar.webp)
+  </TabItem>
+  <TabItem label="Top Bar">
+    The metadata rides inline in the top navigation row, to the right of the view tabs. In side-nav or no-nav layouts it sits as its own row above the slot list instead.
+
+    ![Metadata merged into the top navigation row, to the right of the view tabs](../../../assets/track-info-top-bar.webp)
+  </TabItem>
+  <TabItem label="Top Bar Under">
+    The metadata gets its own full-width row directly beneath the top navigation bar.
+
+    ![Metadata as its own full-width row beneath the top navigation bar](../../../assets/track-info-top-bar-under.webp)
+  </TabItem>
+  <TabItem label="Off">
+    No metadata strip — the list and artwork get the full window.
+
+    ![Nokkvi with no metadata strip, giving the list and artwork the full window](../../../assets/track-info-off.webp)
+  </TabItem>
+</Tabs>
+
+Which fields the strip shows, and whether they carry `title:` / `artist:` / `album:` labels, is controlled by the `strip_show_*` keys in the [configuration reference](/reference/config/#interface-settings).
