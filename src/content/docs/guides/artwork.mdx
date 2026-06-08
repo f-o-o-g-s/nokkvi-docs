@@ -5,7 +5,7 @@ description: How Nokkvi fetches and caches album artwork from your Navidrome ser
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-Nokkvi uses a **server-only artwork pipeline** — images are fetched directly from Navidrome on demand and kept in an in-memory GPU texture cache. There is no local disk cache for browsing artwork. (The MPRIS integration writes a single `mpris-art-<pid>.jpg` to `$XDG_CACHE_HOME/nokkvi/` so D-Bus clients can read the now-playing cover via `file://` without leaking your Subsonic credential — that's the only file Nokkvi writes for artwork.)
+Nokkvi uses a **server-only artwork pipeline** — images are fetched directly from Navidrome on demand and kept in an in-memory GPU texture cache. There is no local disk cache for browsing artwork. (The MPRIS integration writes a per-track `mpris-art-<pid>-<cover-id>.jpg` (the previous one is removed on each song change, so it's ~one file at a time) to `$XDG_CACHE_HOME/nokkvi/` so D-Bus clients can read the now-playing cover via `file://` without leaking your Subsonic credential — that's the only file Nokkvi writes for artwork.)
 
 ## How Artwork Works
 
@@ -34,7 +34,7 @@ How it sizes and whether it shows up is controlled by [`artwork_column_mode`](/r
 
 | Mode | Behavior |
 | :--- | :------- |
-| `auto` *(default)* | Size is derived from window dimensions — up to [`artwork_auto_max_pct`](/reference/config/#artwork-column) × window width, capped at 1000 px. Hides when the remaining slot-list width would drop below 800 px. On tall windows, artwork stacks vertically above the slot list instead — up to `artwork_auto_max_pct` × window height, capped at 1000 px; hides when fewer than 400 px of height would remain below it. |
+| `auto` *(default)* | Size is derived from window dimensions — up to [`artwork_auto_max_pct`](/reference/config/#artwork-column) × window width, capped at 1000 px. Hides when the remaining slot-list width would drop below 800 px. On tall windows, artwork stacks vertically above the slot list instead — sized edge-to-edge to the window width (capped at 1000 px). Here `artwork_auto_max_pct` × window height acts as a threshold: the vertical panel only appears when that value is at least the window width (otherwise it would letterbox, so it stays hidden). It also hides when fewer than 400 px of height would remain below it. |
 | `always_native` | Always visible at a fixed fraction of window width. The image stays square and letterboxes vertically if the column is taller than wide. |
 | `always_stretched` | Always visible at a fixed fraction of window width. The image fills the column non-square per [`artwork_column_stretch_fit`](/reference/config/#artwork-column) — `cover` crops to fit, `fill` distorts. |
 | `always_vertical_native` | Always visible; artwork stacked above the slot list at a fixed fraction of window height. The image stays square, letterboxed horizontally as needed. |

@@ -31,13 +31,34 @@ The CLI is an alternative to [MPRIS](/guides/mpris/). MPRIS covers the standard 
 | `shuffle` | — | Toggle random mode |
 | `repeat` | — | Cycle repeat: off → one → queue |
 | `consume` | — | Toggle consume mode |
-| `clear-queue` | — | Empty the queue |
+| `clear-queue` | — | Empty the queue and stop playback |
+| `add-to-queue` | — | Add the focused list item to the queue — the in-app Shift+A |
+| `remove-from-queue` | — | Remove the centered queue song — Ctrl+D; errors `not_in_queue_view` outside the queue view |
 
 ### View
 
 | Verb | Arg | Action |
 | :--- | :--- | :--- |
 | `switch-view` | `<view>` | Switch the top pane — see [View names](#view-names) |
+
+### Navigation
+
+| Verb | Arg | Action |
+| :--- | :--- | :--- |
+| `nav-up` | — | Move the focused list selection up — Backspace |
+| `nav-down` | — | Move the focused list selection down — Tab |
+| `enter` | — | Activate the centered item — play / expand / edit |
+
+`nav-up`, `nav-down`, and `enter` are fire-and-forget; the move is async, so query `selection` afterward to read where focus landed.
+
+### Query
+
+These are pure reads — they print JSON and change nothing.
+
+| Verb | Arg | Action |
+| :--- | :--- | :--- |
+| `status` | — | Print playback state, track, album, position, duration, volume, and the three modes as JSON |
+| `selection` | — | Print the focused view's centered item as JSON: view, kind, name, artist, rating, starred; kind is null when nothing is selectable |
 
 ### Playing track
 
@@ -101,6 +122,8 @@ Each running Nokkvi daemon binds a per-PID socket so multiple instances can coex
 | `$XDG_RUNTIME_DIR` set | `$XDG_RUNTIME_DIR/nokkvi-{pid}.sock` |
 | Unset (fallback) | `/tmp/nokkvi-{uid}-{pid}.sock` |
 
+The `{uid}` in the fallback path comes from the `$UID` environment variable, not the kernel uid. When `$UID` is unset it falls back to the literal `default` (e.g. `/tmp/nokkvi-default-{pid}.sock`).
+
 The CLI auto-discovers the live socket — you don't pass a path. If no instance is running, the command exits `1` with a message listing the directory it searched.
 
 ## Exit codes
@@ -108,7 +131,7 @@ The CLI auto-discovers the live socket — you don't pass a path. If no instance
 | Code | Meaning |
 | :--- | :--- |
 | `0` | Server accepted the verb. Any payload is printed to stdout (e.g. `ping` prints `pong`). |
-| `1` | No live instance found, or the server returned an error (`unknown_command`, `invalid_args`, `no_playing_track`). Error message goes to stderr. |
+| `1` | No live instance found, or the server returned an error (e.g. `unknown_command`, `invalid_args`, `no_playing_track`, `unavailable`, `not_in_queue_view`). Error message goes to stderr. |
 
 ## Hyprland keybinds
 

@@ -18,7 +18,7 @@ Crossfade is enabled by default at 7 seconds. There's no separate "enable gaples
 
 ### Configuring Crossfade
 - **Toggle**: [`crossfade_enabled`](/reference/config/#playback-settings), or hit [`F`](/reference/hotkeys/#playback).
-- **Duration**: [`crossfade_duration_secs`](/reference/config/#playback-settings) — adjustable from 1 to 15 seconds. Smooth linear volume transition between tracks.
+- **Duration**: [`crossfade_duration_secs`](/reference/config/#playback-settings) — adjustable from 1 to 12 seconds. Smooth equal-power volume transition between tracks (constant perceived loudness across the fade).
 
 ## 10-Band Equalizer
 
@@ -86,7 +86,7 @@ For the technically curious:
 
 **Internal format** is stereo 48 kHz; other sample rates get resampled. A `dynamic_content` peak limiter (`LimitSettings::dynamic_content()`) sits at the end of every chain to catch clipping from EQ boosts, ReplayGain pre-amp, or AGC overshoot before mixing.
 
-**ReplayGain implementation**: values come from file tags (`REPLAYGAIN_TRACK_GAIN`, `R128_TRACK_GAIN`, etc.) and are applied as a static `amplify()` factor to each stream. Because the gain is computed offline and constant per track, both sides of a crossfade are already at target — no convergence artifacts.
+**ReplayGain implementation**: values come from the Subsonic API as a single resolved dB value per track (Navidrome reads the file tags during scan and converts them; nokkvi never parses tags itself) and are applied as a static `amplify()` factor to each stream. Because the gain is computed offline and constant per track, both sides of a crossfade are already at target — no convergence artifacts.
 
 **AGC implementation**: uses rodio's `automatic_gain_control` with a linear amplitude target (`target_level = 0.6 / 1.0 / 1.4` for `quiet` / `normal` / `loud`), not LUFS.
 

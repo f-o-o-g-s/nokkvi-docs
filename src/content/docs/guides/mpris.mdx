@@ -19,8 +19,10 @@ Beyond the basics, Nokkvi wires up the following MPRIS methods and properties:
 | `Stop` | Stops playback. | `playerctl -p nokkvi stop` |
 | `Seek` (offset) | Relative seek in microseconds. | `playerctl -p nokkvi position 10+` |
 | `SetPosition` | Absolute seek. | `playerctl -p nokkvi position 90` |
-| `SetLoopStatus` | `None` / `Track` / `Playlist` — set directly, doesn't cycle. | `playerctl -p nokkvi loop Track` |
-| `SetShuffle` | Toggles random mode when the requested state differs. | `playerctl -p nokkvi shuffle On` |
+| `LoopStatus` | `None` / `Track` / `Playlist` — set directly, doesn't cycle. | `playerctl -p nokkvi loop Track` |
+| `Shuffle` | Toggles random mode when the requested state differs. | `playerctl -p nokkvi shuffle On` |
+| `Volume` | Set directly; clamped to 0.0–1.0. | `playerctl -p nokkvi volume 0.05+` |
+| `xesam:title`, `xesam:artist`, `xesam:album`, `mpris:length` | Standard track metadata, refreshed on every track change (for radio, ICY title/artist override the station name). | `playerctl -p nokkvi metadata` |
 | `mpris:artUrl` | Published as a `file://` URI pointing to `$XDG_CACHE_HOME/nokkvi/mpris-art-<pid>-<cover_id>.jpg`. Nokkvi writes a new file per cover so desktop notifications never reuse a stale image. |  |
 
 ## CLI

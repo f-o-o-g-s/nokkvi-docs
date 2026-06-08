@@ -46,9 +46,9 @@ The strip at the bottom of every view is fixed-height and shared across all view
 
 ## Search
 
-`/` focuses the search bar. `Escape` clears it.
+`/` focuses the search bar; `Escape` unfocuses it — the query text and filtered results stay. To actually clear a search, use the X button in the search bar, or switch view / change sort.
 
-Search is case-insensitive in every view. The fields each view's search hits vary — see the per-view page when in doubt. Most views use Navidrome's full-text index, which matches across title/album/artist; a few (Genres, Radio, Playlists) match a more limited set.
+Search is case-insensitive in every view. The fields each view's search hits vary — see the per-view page when in doubt. Each view searches its own primary field server-side: Albums by album name, Artists by artist name, Songs by track title, Genres by genre name, Playlists by name. The Queue is the exception — it filters client-side across title, artist, album, and genre — and Radio matches station name or stream URL. So, for example, typing an artist or album name into the Songs view matches song titles only; it won't surface that artist's or album's tracks.
 
 ## Sorting
 

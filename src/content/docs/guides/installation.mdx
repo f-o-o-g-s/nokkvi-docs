@@ -44,19 +44,20 @@ cd nokkvi-vX.Y.Z-x86_64-unknown-linux-gnu
 
 - `~/.local/bin/nokkvi` — binary
 - `~/.local/share/applications/org.nokkvi.nokkvi.desktop` — launcher entry
-- `~/.local/share/icons/hicolor/scalable/apps/org.nokkvi.nokkvi.svg` — icon
+- `~/.local/share/icons/hicolor/scalable/apps/org.nokkvi.nokkvi.svg` — SVG icon
+- `~/.local/share/icons/hicolor/512x512/apps/org.nokkvi.nokkvi.png` — PNG raster icon fallback
 
-You'll need `pipewire` and `fontconfig` installed system-wide at runtime:
+You'll need `pipewire`, `alsa-lib`, and `fontconfig` installed system-wide at runtime:
 
 ```bash
-# Debian / Ubuntu
-sudo apt install pipewire fontconfig
+# Debian / Ubuntu (use libasound2 on releases older than Ubuntu 24.04)
+sudo apt install pipewire libasound2t64 fontconfig
 
 # Fedora
-sudo dnf install pipewire fontconfig
+sudo dnf install pipewire alsa-lib fontconfig
 ```
 
-The binary requires glibc roughly matching Ubuntu 24.04's (≥ 2.39) or newer. Modern rolling distros (Arch, Fedora, recent Ubuntu/Debian) work; very old enterprise distros may not.
+The binary is built on GitHub's current Ubuntu runner, so it needs a reasonably recent glibc (currently Ubuntu 24.04 / glibc ≥ 2.39). Modern rolling distros (Arch, Fedora, recent Ubuntu/Debian) work; very old enterprise distros may not.
 
 ## Launching
 
@@ -68,7 +69,7 @@ For contributors, AUR maintainers, or users on architectures we don't ship binar
 
 ```bash
 # System dependencies (Arch)
-sudo pacman -S pipewire fontconfig pkgconf cmake
+sudo pacman -S pipewire alsa-lib fontconfig pkgconf cmake
 
 # Clone and build
 git clone https://github.com/f-o-o-g-s/nokkvi.git

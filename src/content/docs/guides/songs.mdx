@@ -15,7 +15,7 @@ Songs has the most sort modes of any view:
 - **Title**, **Album**, **Artist**, **Album Artist**
 - **Release Year**, **Duration**, **BPM**, **Channels**, **Genre**, **Rating**, **Comment**
 
-The dynamic column on the right adapts to the current sort — showing year, duration, plays, rating, or genre.
+The dynamic column on the right adapts to the current sort — showing the recently-added or last-played date, release year, BPM, channels, comment, or album artist. (Plays, rating, duration, and genre have their own dedicated columns.)
 
 ## Columns
 
@@ -23,7 +23,7 @@ Toggle via the gear icon: **Multi-select**, **Index**, **Thumbnail**, **Album**,
 
 ## Search
 
-Search hits the Navidrome backend's full-text index and matches across **title, album, artist, and album artist** — typing `radiohead` finds tracks where Radiohead is the artist as well as anything titled "Radiohead".
+Search matches song titles only — it adds a title-substring filter on Navidrome's native song endpoint, so typing `radiohead` finds tracks titled "Radiohead" but not tracks where Radiohead is merely the artist.
 
 ## Click-through expansion
 

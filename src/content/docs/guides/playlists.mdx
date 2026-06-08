@@ -11,7 +11,7 @@ For navigation, search, multi-select, ratings, and shared right-click actions, s
 
 ## Browsing
 
-Playlists are shown with cover art (a 3×3 collage if the playlist spans multiple albums), name, owner, song count, and duration. Search matches playlist name and comment. Private playlists carry a small lock icon next to the name; public ones render without it.
+Playlists are shown with cover art (a 3×3 collage if the playlist spans multiple albums), name, song count, and duration. Search matches playlist name and comment. Private playlists carry a small lock icon next to the name; public ones render without it.
 
 ## Sort modes
 
@@ -46,7 +46,7 @@ Four interchangeable entry points:
 | **Right-click a playlist** | **Set as Default Playlist** — sets directly, no picker. |
 | **Settings** | Settings → **Playback → Default Playlist** opens the picker. |
 
-The chip is a small pin icon that sits alongside the other view-header buttons (sort / refresh / center / columns). Hover for a tooltip showing the current default's name — or *(none) — click to set* when nothing's pinned.
+The chip is a small pin icon that sits alongside the other view-header buttons (sort / refresh / new-playlist / columns). Hover for a tooltip showing the current default's name — or *(none) — click to set* when nothing's pinned.
 
 ![The pin chip in the Playlists view header — the highlighted row at the bottom is the current default](../../../assets/default-playlist-chip.webp)
 
@@ -98,13 +98,13 @@ Plus the standard **Add to Queue / Get Info** actions from [Library Basics](/gui
 
 **Edit Playlist** opens a split layout: the queue (now containing the playlist's tracks) is on the left, and the Library Browser is on the right. From here you can:
 
-- Reorder tracks with drag-and-drop or `Shift + ↑/↓`
+- Reorder tracks with drag-and-drop
 - Add tracks by dragging from the Library Browser
 - Remove tracks the same way you'd remove them from the queue
 - Edit the playlist name and comment inline
 - Toggle public/private with the lock button in the edit bar — open lock = public, closed lock = private
 
-When you're done, press `Ctrl + S` to save the changes back to the playlist. Nokkvi tracks unsaved changes and warns before discarding them.
+When you're done, click the save (disk) icon in the edit bar to write the changes back to the playlist. Nokkvi tracks unsaved changes; if you exit (via the discard button or Escape) with changes pending, it discards them and shows a toast confirming the discard.
 
 ## Limitations
 

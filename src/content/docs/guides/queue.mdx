@@ -14,7 +14,7 @@ Pressing `Enter` on a focused album or track is the most common way to start pla
 | Value | Behavior |
 | :---- | :------- |
 | [`play_all`](/reference/config/#playback-settings) *(default)* | Replaces the queue with the full album (or all songs in the current view) and starts playing |
-| [`play_single`](/reference/config/#playback-settings) | Replaces the queue with just the focused track |
+| [`play_single`](/reference/config/#playback-settings) | In song-level views (Songs, the queue), replaces the queue with just the focused track. On a focused album or artist, it behaves like play_all and replaces the queue with the whole album/artist |
 | [`append_and_play`](/reference/config/#playback-settings) | Adds the item to the end of the queue and starts playing it |
 
 ### Add without replacing
@@ -34,9 +34,9 @@ Nokkvi can ask your Navidrome server for recommendations powered by Last.fm. Tri
 | `Shift + S` | Find songs similar to the currently playing track |
 | `Shift + T` | Find the most-played songs by the currently playing track's artist |
 
-Both hotkeys operate on the *currently playing* track — if nothing's playing, a toast tells you so. To run either action against a different track, album, or artist, right-click it and pick **Find Similar** or **Top Songs** from the context menu; those entries act on the focused / right-clicked item.
+Both hotkeys operate on the *currently playing* track. Find Similar warns with a toast if nothing's playing. Top Songs also needs the playing track to carry artist metadata — if it has none, a toast tells you there's no artist metadata for the currently playing track. To run either action against a different track, album, or artist, right-click it and pick **Find Similar** or **Top Songs** from the context menu; those entries act on the focused / right-clicked item.
 
-Results are **limited to songs already in your library** — Navidrome matches Last.fm's recommendations against your local collection, so tracks you don't own won't appear. The Similar tab header shows which result set is loaded (e.g. "Similar to: Radiohead" or "Top Songs: Radiohead").
+Results are **limited to songs already in your library** — Navidrome matches Last.fm's recommendations against your local collection, so tracks you don't own won't appear. The Similar tab header shows which result set is loaded (e.g. "Similar to: Paranoid Android" or "Top Songs: Radiohead").
 
 Both features require Last.fm or ListenBrainz to be configured on the server. See [Scrobbling](/guides/navidrome/#scrobbling) for setup.
 

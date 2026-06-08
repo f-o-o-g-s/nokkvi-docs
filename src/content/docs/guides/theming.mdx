@@ -118,8 +118,8 @@ Accent colors drive interactive elements — the progress bar, focused item, pla
 | `primary` | `#3584e4` | `#3584e4` | Default accent: progress bar, toggles, links |
 | `bright` | `#62a0ea` | `#62a0ea` | Hover state, brighter highlight |
 | `border_light` | `#1c71d8` | `#99c1f1` | Light border / glow around accent elements |
-| `now_playing` | `#3584e4` | `#1c71d8` | Color of the now-playing row indicator; defaults to `primary` if empty |
-| `selected` | `#3584e4` | `#3584e4` | Color of the center/selected slot; defaults to `bright` if empty |
+| `now_playing` | `#3584e4` | `#1c71d8` | Legacy/round-trip-only: parsed but not consumed. The now-playing row fill is derived from `primary` and `bright` with a contrast guard; setting this key has no visible effect. |
+| `selected` | `#3584e4` | `#3584e4` | Legacy/round-trip-only: parsed but not consumed. The selected/center slot fill is derived from `bright` with a contrast guard; setting this key has no effect. |
 
 ### `border` (top-level scalar)
 
@@ -211,15 +211,11 @@ name = "Cobalt Accent"
 primary      = "#0088cc"
 bright       = "#33aaee"
 border_light = "#005f99"
-now_playing  = "#0077bb"
-selected     = "#0088cc"
 
 [light.accent]
 primary      = "#0077bb"
 bright       = "#0088cc"
 border_light = "#005f99"
-now_playing  = "#005f99"
-selected     = "#0077bb"
 ```
 
 ## Full Example
@@ -227,7 +223,7 @@ selected     = "#0077bb"
 A complete theme file with all sections filled out:
 
 ```toml
-name = "Gruvbox Dark"
+name = "Example Theme"
 
 [dark]
 border = "#151515"
@@ -253,8 +249,6 @@ gray   = "#928374"
 primary      = "#458588"
 bright       = "#83a598"
 border_light = "#689d6a"
-now_playing  = "#458588"
-selected     = "#83a598"
 
 [dark.danger]
 base   = "#cc241d"
@@ -303,8 +297,6 @@ gray   = "#928374"
 primary      = "#076678"
 bright       = "#458588"
 border_light = "#83a598"
-now_playing  = "#076678"
-selected     = "#458588"
 
 [light.danger]
 base   = "#9d0006"

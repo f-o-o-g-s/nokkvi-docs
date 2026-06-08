@@ -83,7 +83,7 @@ The `lines` mode renders frequency data as a continuous path (oscilloscope style
 | `static` | The line stays a single solid color (the first in the palette). |
 | `position` | Colors are mapped from left (bass) to right (treble). |
 | `height` | Colors are mapped based on amplitude (quiet = bottom colors, loud = top colors). |
-| `gradient` | A vertical gradient is applied to the line path. |
+| `gradient` | A blend of horizontal position and amplitude — peaks shift the palette further along, mixing the position and height mappings 50/50. |
 
 ### Surfing Boat
 
@@ -94,7 +94,7 @@ Optional overlay for `lines` mode: a small boat rides the waveform. Toggle under
 - **Tacks** ramp sail thrust from zero back to full over 4 seconds.
 - **Slope** tilts the boat to match the local wave (spring-damped, capped near 17°). Slope force only resists motion, never assists.
 - **Heading.** The sprite mirrors horizontally so the sail catches wind from behind.
-- **Edge wrap** preserves momentum; the boat draws split across the seam.
+- **Edge wrap** preserves momentum; the boat sails fully off one edge (through an off-screen margin) before reappearing on the opposite side — it is drawn as a single sprite, never split across the seam.
 - **Anchor.** Every 45–120 s the boat anchors for 10–15 s, dropping a lucide-anchor icon to the visualizer floor with a curved theme-colored rope back to the boat. The rope sways with the local wave; tacks pause for the duration.
 - **Sizing.** Boat sprite clamps to 48–160 px; rope stroke 1.5–3.5 px; the anchor scales with the boat.
 - **Outline** tracks the lines-mode wave outline (`border_color` / `border_opacity`) and hides when the wave outline is hidden.
@@ -109,7 +109,7 @@ Nokkvi provides two mutually exclusive smoothing algorithms to tailor the visual
 ### Monstercat Smoothing
 An exponential falloff effect that spreads energy to neighboring bars, creating a "bouncy" and connected look.
 - **Key**: [`visualizer.monstercat`](/reference/config/#general-visualizer)
-- **Value**: `0.7` to `1.0` (higher = more spread). Values below `0.7` snap to `0.0` (disabled).
+- **Value**: `0.7` to `10.0` (higher = more spread). Values below `0.7` snap to `0.0` (disabled).
 
 ### Waves Smoothing
 Applies spline interpolation between bars to create a smooth, wave-like silhouette.

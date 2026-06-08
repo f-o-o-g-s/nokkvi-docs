@@ -93,6 +93,8 @@ These shortcuts only apply while in the Settings view.
 | :--- | :--- | :--- |
 | Edit Value Up | `Up` | Toggle a setting on, or increment a value |
 | Edit Value Down | `Down` | Toggle a setting off, or decrement a value |
+| Next Settings Category | `Shift + Tab` | Move to the next category in the settings sidebar |
+| Previous Settings Category | `Shift + Backspace` | Move to the previous category in the settings sidebar |
 
 ---
 
@@ -100,7 +102,7 @@ These shortcuts only apply while in the Settings view.
 
 All shortcuts except `Escape` and `Delete` can be rebound in the **Settings** UI. Nokkvi writes bindings under the `[hotkeys]` section of `config.toml`, and only non-default bindings are written, so you only need to list the ones you want to change.
 
-A direct edit to `config.toml` can also override `escape` or `delete` — the loader accepts those action keys — but the in-app editor refuses to rebind them so you keep a way out of every screen.
+A direct edit to `config.toml` can also override `escape` or `reset_to_default` — the loader accepts those action keys — but the in-app editor refuses to rebind them so you keep a way out of every screen.
 
 ### Key combo syntax
 
@@ -164,6 +166,8 @@ Each action maps to a `snake_case` key under `[hotkeys]`:
 | Roulette | `roulette` |
 | Edit Value Up | `edit_up` |
 | Edit Value Down | `edit_down` |
+| Next Settings Category | `settings_category_next` |
+| Previous Settings Category | `settings_category_prev` |
 
 ### Example
 
