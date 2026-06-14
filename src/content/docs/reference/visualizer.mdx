@@ -1,13 +1,13 @@
 ---
 title: Visualizer Reference
-description: Deep dive into Nokkvi's high-performance visualizer modes and gradients.
+description: Deep dive into Nokkvi's high-performance visualizer modes, effects, and gradients.
 sidebar:
   order: 3
 ---
 
 import { Tabs, TabItem, Card, CardGrid, Aside } from '@astrojs/starlight/components';
 
-Nokkvi features a custom-built, hardware-accelerated visualizer powered by PipeWire and WGSL shaders. This reference explains the various modes and color mapping strategies available in `config.toml`.
+Nokkvi features a custom-built, GPU-accelerated visualizer that runs an internal FFT over Nokkvi's own audio output and renders it with WGSL shaders. This reference explains the modes, effects, and color-mapping strategies available in `config.toml`.
 
 <Tabs syncKey="visualizer-mode">
   <TabItem label="Bars">
@@ -31,11 +31,8 @@ Controls how colors from your theme's palette are mapped onto the bars.
 
 | Mode | Description |
 | :--- | :--- |
-| `static` | **Static Height.** The gradient is fixed to the background. Bars "reveal" higher colors as they rise. |
-| `wave` | **Stretched Gradient.** The full gradient is compressed/stretched to fit the current height of each bar. |
-| `shimmer` | **Animated Solid.** Each bar is a single color, but the entire visualizer cycles through colors over time and music energy. |
-| `energy` | **Loudness Offset.** The gradient position shifts rapidly based on the instantaneous volume of the track. |
-| `alternate` | **Two-Tone.** Bars oscillate between the first two colors of the palette in a rhythmic pattern. |
+| `static` | **Static Height.** The gradient is pinned to the visualizer; bars reveal higher colors as they rise. |
+| `wave` *(default)* | **Stretched Gradient.** Each bar's gradient is stretched by its amplitude, redistributing the palette as the bar rises and falls. |
 
 ### Orientation
 Determines the axis along which gradient colors are applied.
@@ -44,7 +41,7 @@ Determines the axis along which gradient colors are applied.
 - **`horizontal`**: Colors map from the low frequencies (left) to high frequencies (right).
 
 <Aside type="note">
-  Orientation works with `static`, `wave`, `shimmer`, and `energy` modes. It is ignored by `alternate`.
+  Orientation applies to both gradient modes (`static` and `wave`).
 </Aside>
 
 ### Peak Behavior
@@ -66,6 +63,15 @@ Controls the coloring of the peak indicators.
 - **`height`**: Color is determined by the peak's vertical position.
 - **`match`**: The peak always matches the color of the bar at that specific height.
 
+### Peak Flash
+[`visualizer.bars.flash_intensity`](/reference/config/#bars-mode) (default `0.6`, range `0.0`–`1.0`; `0` disables). When a bar spikes on a transient or beat, its body blooms toward the first peak color. The flash spreads to a few neighbouring bars and decays. This is separate from the peak indicator and from the global [Bloom Glow](#bloom-glow).
+
+### LED Mode
+[`visualizer.bars.led_bars`](/reference/config/#bars-mode) (default `false`) renders each bar as a stack of LED/VU-meter segments. [`led_segment_height`](/reference/config/#bars-mode) sets the segment height, and `border_width` doubles as the gap between segments. In LED mode the peak indicator is exactly one segment tall, so `peak_height_ratio` is ignored.
+
+### Isometric Depth
+[`visualizer.bars.bar_depth_3d`](/reference/config/#bars-mode) (default `0`, off) extrudes each bar with shaded top and side faces for an isometric 3D look. Higher values deepen the extrusion (up to 20 px).
+
 ---
 
 ## Lines Mode
@@ -80,10 +86,17 @@ The `lines` mode renders frequency data as a continuous path (oscilloscope style
 | Mode | Description |
 | :--- | :--- |
 | `breathing` | The entire line cycles through the palette over time. |
-| `static` | The line stays a single solid color (the first in the palette). |
+| `static` *(default)* | The line stays a single solid color (the first in the palette). |
 | `position` | Colors are mapped from left (bass) to right (treble). |
 | `height` | Colors are mapped based on amplitude (quiet = bottom colors, loud = top colors). |
 | `gradient` | A blend of horizontal position and amplitude — peaks shift the palette further along, mixing the position and height mappings 50/50. |
+
+### Glow
+[`visualizer.lines.glow_intensity`](/reference/config/#lines-mode) (default `0.5`, range `0.0`–`1.0`). A neon emissive halo drawn beyond the main stroke — over the dark backdrop it reads as a tube of light. The halo widens (≈3–10 px) with intensity, brightens with overall loudness, and flares on each beat. The dark outline never glows, so it stays crisp. `0` disables it.
+
+### Fill & Mirror
+- **Fill.** [`visualizer.lines.fill_opacity`](/reference/config/#lines-mode) (default `0.5`) shades the area under the curve with the gradient.
+- **Mirror.** [`visualizer.lines.mirror`](/reference/config/#lines-mode) (default `false`) draws the waveform symmetrically from the centre, oscilloscope-style.
 
 ### Surfing Boat
 
@@ -95,16 +108,37 @@ Optional overlay for `lines` mode: a small boat rides the waveform. Toggle under
 - **Slope** tilts the boat to match the local wave (spring-damped, capped near 17°). Slope force only resists motion, never assists.
 - **Heading.** The sprite mirrors horizontally so the sail catches wind from behind.
 - **Edge wrap** preserves momentum; the boat sails fully off one edge (through an off-screen margin) before reappearing on the opposite side — it is drawn as a single sprite, never split across the seam.
-- **Anchor.** Every 45–120 s the boat anchors for 10–15 s, dropping a lucide-anchor icon to the visualizer floor with a curved theme-colored rope back to the boat. The rope sways with the local wave; tacks pause for the duration.
+- **Anchor.** Every 45–120 s the boat anchors for 10–15 s, dropping a lucide-anchor icon to the visualizer floor with a curved rope back to the boat. The rope sways with the local wave; tacks pause for the duration.
 - **Sizing.** Boat sprite clamps to 48–160 px; rope stroke 1.5–3.5 px; the anchor scales with the boat.
-- **Outline** tracks the lines-mode wave outline (`border_color` / `border_opacity`) and hides when the wave outline is hidden.
+- **Outline.** The boat hull, anchor, and rope all use the theme's dark-variant `border_color` / `border_opacity`, so they stay solid in light mode even when the wave's own outline fades. The boat outline is independent of the wave's `outline_thickness` / `outline_opacity`; only a `border_opacity` of `0` hides it.
 - **Pause vs silence.** Freezes when audio is paused; sinks to the floor during silence while playing.
+
+---
+
+## Effects
+
+These effects are global — they apply on top of whichever mode (bars or lines) is active, and live under **Settings → Visualizer → Frame**.
+
+### Bloom Glow
+[`visualizer.bloom`](/reference/config/#general-visualizer) (default `true`) makes bright bars, peak flashes, and the neon line core bleed a soft additive halo. A brightness threshold means only the bright parts glow. [`visualizer.bloom_intensity`](/reference/config/#general-visualizer) (default `0.6`, range `0.0`–`1.0`) sets the strength — at `0` nothing glows even with bloom enabled.
+
+### Beat Reactivity
+[`visualizer.beat_reactivity`](/reference/config/#general-visualizer) (default `1.0`, range `0.0`–`1.0`) controls how hard the effects pump on the beat and bass drops. It scales the bloom surge, the lines-mode glow flare, the bar brightness lift, and the echo swirl together. At `0.0` everything is steady and tracks loudness only; at `1.0` it punches on every kick. (The CRT beat zoom-punch is driven by the raw beat and is not affected by this setting.)
+
+### Motion Trails
+[`visualizer.trails`](/reference/config/#general-visualizer) (default `0.0`, off) leaves a fading after-image behind the bars or line — a short ghost at low values, a long comet trail near `1.0`. It is a flat per-frame fade; for the swirling variant use [Echo](#echo). Off by default because it noticeably changes the look.
+
+### Echo
+[`visualizer.echo`](/reference/config/#general-visualizer) (default `0.0`, off) is Milkdrop-style zoom/rotate feedback: the visualizer spirals and tunnels into itself, swirling harder with the bass and beat. Near `1.0` the feedback persists strongly and effectively takes over the display. Unlike [Motion Trails](#motion-trails) (a flat fade), Echo warps and rotates each fading copy.
+
+### CRT / Film
+[`visualizer.crt`](/reference/config/#general-visualizer) (default `0.0`, off) is a retro composite under one master amount: chromatic aberration, barrel curve, scanlines, vignette, film grain, and a beat zoom-punch. It is masked to the visualizer content, so it never tints the rest of the UI.
 
 ---
 
 ## Advanced Smoothing
 
-Nokkvi provides two mutually exclusive smoothing algorithms to tailor the visualizer's response.
+Nokkvi provides two mutually exclusive smoothing algorithms to tailor the visualizer's response. Both apply to **bars mode only** — lines mode does its own Catmull-Rom smoothing on the GPU.
 
 ### Monstercat Smoothing
 An exponential falloff effect that spreads energy to neighboring bars, creating a "bouncy" and connected look.

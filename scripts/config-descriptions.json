@@ -407,7 +407,9 @@
   "visualizer.bars.border_width": {
     "description": "Border thickness in pixels. Also controls LED segment gaps when `led_bars` is on (0.0 to 5.0)."
   },
-  "visualizer.bars.flash_intensity": "Peak-flash bloom strength for Bars mode (0.0 disables; up to 1.0). Bars bloom toward the peak color on transients/beats.",
+  "visualizer.bars.flash_intensity": {
+    "description": "Peak-flash bloom strength for Bars mode (0.0 disables; up to 1.0). Bars bloom toward the peak color on transients/beats."
+  },
   "visualizer.bars.gradient_mode": {
     "description": "Color mapping mode. [Learn more &rarr;](/reference/visualizer/#gradient-modes)"
   },
@@ -441,11 +443,21 @@
   "visualizer.bars.peak_mode": {
     "description": "Behavior of peak indicators. [Learn more &rarr;](/reference/visualizer/#peak-behavior)"
   },
-  "visualizer.beat_reactivity": "How strongly effects pump on the beat and bass drops (0.0 = static/loudness-only, 1.0 = full punch). Scales the bloom surge, neon glow flare, and bar brightness lift together.",
-  "visualizer.bloom": "Bloom glow post-processing — bright bars, peak flashes, and the neon line core bleed a soft additive halo. Applies to all modes.",
-  "visualizer.bloom_intensity": "Bloom glow strength (0.0 disables; up to 1.0 for maximum additive glow).",
-  "visualizer.crt": "CRT/film composite post-process — chromatic aberration, barrel curve, scanlines, vignette, grain, and a beat zoom-punch under one master amount (0.0 disables; up to 1.0).",
-  "visualizer.echo": "Milkdrop-style zoom/rotate feedback — the visualizer spirals and tunnels into itself, swirling with the bass/beat (0.0 disables; 1.0 = strong persistence). Takes over the display when on.",
+  "visualizer.beat_reactivity": {
+    "description": "How strongly effects pump on the beat and bass drops (0.0 = static/loudness-only, 1.0 = full punch). Scales the bloom surge, neon glow flare, and bar brightness lift together."
+  },
+  "visualizer.bloom": {
+    "description": "Bloom glow post-processing — bright bars, peak flashes, and the neon line core bleed a soft additive halo. Applies to all modes."
+  },
+  "visualizer.bloom_intensity": {
+    "description": "Bloom glow strength (0.0 disables; up to 1.0 for maximum additive glow)."
+  },
+  "visualizer.crt": {
+    "description": "CRT/film composite post-process — chromatic aberration, barrel curve, scanlines, vignette, grain, and a beat zoom-punch under one master amount (0.0 disables; up to 1.0)."
+  },
+  "visualizer.echo": {
+    "description": "Milkdrop-style zoom/rotate feedback — the visualizer spirals and tunnels into itself, swirling with the bass/beat (0.0 disables; 1.0 = strong persistence). Takes over the display when on."
+  },
   "visualizer.height_percent": {
     "description": "Percentage of window height occupied by the visualizer (0.1 to 0.6)."
   },
@@ -461,7 +473,9 @@
   "visualizer.lines.fill_opacity": {
     "description": "Transparency of the area under the line (0.0 to 1.0)."
   },
-  "visualizer.lines.glow_intensity": "Neon glow halo around the main line (0.0 disables; up to 1.0). An exponential emissive falloff beyond the stroke that brightens with loudness.",
+  "visualizer.lines.glow_intensity": {
+    "description": "Neon glow halo around the main line (0.0 disables; up to 1.0). An exponential emissive falloff beyond the stroke that brightens with loudness."
+  },
   "visualizer.lines.gradient_mode": {
     "description": "Color mapping mode. [Learn more &rarr;](/reference/visualizer/#gradient-modes-1)"
   },
@@ -487,7 +501,7 @@
     "description": "Bass floor in Hz. Frequencies below this are excluded from the spectrum (minimum `20`)."
   },
   "visualizer.monstercat": {
-    "description": "Monstercat-style energy spread to neighbouring bars. Values below `0.7` snap to `0.0` (disabled); effective range is `0.7` to `1.0`."
+    "description": "Monstercat-style energy spread to neighbouring bars. Values below `0.7` snap to `0.0` (disabled); effective range is `0.7` to `10.0`."
   },
   "visualizer.noise_reduction": {
     "description": "Smoothing of the raw FFT data (0.0 to 1.0)."
@@ -495,7 +509,9 @@
   "visualizer.opacity": {
     "description": "Transparency of the visualizer (0.0 to 1.0)."
   },
-  "visualizer.trails": "Motion trails — bars and lines leave a fading after-image (0.0 disables; 1.0 = long comet trails).",
+  "visualizer.trails": {
+    "description": "Motion trails — bars and lines leave a fading after-image (0.0 disables; 1.0 = long comet trails)."
+  },
   "visualizer.waves": {
     "description": "Enable spline smoothing between bars."
   },
