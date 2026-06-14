@@ -69,8 +69,12 @@ Controls the coloring of the peak indicators.
 ### LED Mode
 [`visualizer.bars.led_bars`](/reference/config/#bars-mode) (default `false`) renders each bar as a stack of LED/VU-meter segments. [`led_segment_height`](/reference/config/#bars-mode) sets the segment height, and `border_width` doubles as the gap between segments. In LED mode the peak indicator is exactly one segment tall, so `peak_height_ratio` is ignored.
 
+![Nokkvi bars visualizer in LED mode — each bar rendered as a vertical stack of discrete VU-meter segments](../../../assets/visualizer-bars-led.webp)
+
 ### Isometric Depth
 [`visualizer.bars.bar_depth_3d`](/reference/config/#bars-mode) (default `0`, off) extrudes each bar with shaded top and side faces for an isometric 3D look. Higher values deepen the extrusion (up to 20 px).
+
+![Nokkvi bars visualizer with isometric 3D depth — bars extruded with shaded top and side faces](../../../assets/visualizer-bars-3d.webp)
 
 ---
 
@@ -94,9 +98,13 @@ The `lines` mode renders frequency data as a continuous path (oscilloscope style
 ### Glow
 [`visualizer.lines.glow_intensity`](/reference/config/#lines-mode) (default `0.5`, range `0.0`–`1.0`). A neon emissive halo drawn beyond the main stroke — over the dark backdrop it reads as a tube of light. The halo widens (≈3–10 px) with intensity, brightens with overall loudness, and flares on each beat. The dark outline never glows, so it stays crisp. `0` disables it.
 
+![Nokkvi lines visualizer with a bright neon glow halo around the waveform](../../../assets/visualizer-lines-glow.webp)
+
 ### Fill & Mirror
 - **Fill.** [`visualizer.lines.fill_opacity`](/reference/config/#lines-mode) (default `0.5`) shades the area under the curve with the gradient.
 - **Mirror.** [`visualizer.lines.mirror`](/reference/config/#lines-mode) (default `false`) draws the waveform symmetrically from the centre, oscilloscope-style.
+
+![Nokkvi lines visualizer in mirror mode — the waveform drawn symmetrically from the centre](../../../assets/visualizer-lines-mirror.webp)
 
 ### Surfing Boat
 
@@ -133,6 +141,8 @@ These effects are global — they apply on top of whichever mode (bars or lines)
 
 ### CRT / Film
 [`visualizer.crt`](/reference/config/#general-visualizer) (default `0.0`, off) is a retro composite under one master amount: chromatic aberration, barrel curve, scanlines, vignette, film grain, and a beat zoom-punch. It is masked to the visualizer content, so it never tints the rest of the UI.
+
+![Nokkvi visualizer with the CRT / film effect — scanlines, grain, and vignette over the bars](../../../assets/visualizer-crt.webp)
 
 ---
 
