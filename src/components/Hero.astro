@@ -86,6 +86,32 @@ if (image) {
         filter: drop-shadow(0 0 3rem var(--sl-color-accent-low));
     }
 
+    /* Hero video (raw image.html). Children come from set:html, so target them
+       with :global(). The poster <img> is the prefers-reduced-motion fallback. */
+    .hero-image-wrapper > .hero-html {
+        flex-direction: column;
+    }
+
+    .hero-html :global(.hero-video),
+    .hero-html :global(.hero-video-fallback) {
+        width: 100%;
+        height: auto;
+        border-radius: 0.75rem;
+    }
+
+    .hero-html :global(.hero-video-fallback) {
+        display: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .hero-html :global(.hero-video) {
+            display: none;
+        }
+        .hero-html :global(.hero-video-fallback) {
+            display: block;
+        }
+    }
+
     .stack {
         flex-direction: column;
         gap: clamp(1.5rem, calc(1.5rem + 1vw), 2rem);

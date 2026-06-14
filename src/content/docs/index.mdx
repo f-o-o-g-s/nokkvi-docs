@@ -6,7 +6,12 @@ hero:
   title: Nokkvi
   tagline: A native Rust/Iced client for Navidrome music server.
   image:
-    file: ../../assets/nokkvicards.webp
+    html: |
+      <video class="hero-video" autoplay loop muted playsinline width="1280" height="570" poster="/nokkvi-docs/hero/poster.webp">
+        <source src="/nokkvi-docs/hero/nokkvi-hero.webm" type="video/webm" />
+        <source src="/nokkvi-docs/hero/nokkvi-hero.mp4" type="video/mp4" />
+      </video>
+      <img class="hero-video-fallback" src="/nokkvi-docs/hero/poster.webp" width="1280" height="570" alt="Nokkvi running on the queue view with the visualizer" />
   actions:
     - text: Get Started
       link: /nokkvi-docs/guides/installation/
