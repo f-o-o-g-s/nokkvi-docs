@@ -19,6 +19,8 @@ const FILES = {
   views: 'data/src/types/toml_views.rs',
   sortMode: 'data/src/types/sort_mode.rs',
   queueSortMode: 'data/src/types/queue_sort_mode.rs',
+  viewColumns: 'data/src/types/view_columns.rs',
+  eq: 'data/src/audio/eq.rs',
 };
 
 // Maps the `// -- X --` markers in toml_settings.rs to the canonical doc section.
@@ -318,10 +320,14 @@ function resolveDefault(expr, enums, nested, fns = {}, consts = {}, tomlKeys = {
   if (/^-?\d+\.\d+$/.test(e)) return parseFloat(e);
   if (/^-?\d+$/.test(e)) return parseInt(e, 10);
 
-  // Array literal: [value; N]
-  if ((m = e.match(/^\[(.+?);\s*(\d+)\s*\]$/))) {
+  // Array literal: [value; N] where N is a number or a const (e.g.
+  // `[0.0; EQ_BAND_COUNT]`). Resolve the count through consts when not numeric.
+  if ((m = e.match(/^\[(.+?);\s*([\w:]+)\s*\]$/))) {
     const v = resolveDefault(m[1], enums, nested, fns, consts, tomlKeys);
-    return new Array(parseInt(m[2], 10)).fill(v);
+    const count = /^\d+$/.test(m[2])
+      ? parseInt(m[2], 10)
+      : resolveDefault(m[2], enums, nested, fns, consts, tomlKeys);
+    if (typeof count === 'number') return new Array(count).fill(v);
   }
 
   // EnumName::Variant.to_toml_key()(.to_string())? — resolved from the
@@ -358,10 +364,13 @@ const credSrc = read(FILES.credentials);
 const viewsSrc = read(FILES.views);
 const sortModeSrc = read(FILES.sortMode);
 const queueSortModeSrc = read(FILES.queueSortMode);
+const viewColumnsSrc = read(FILES.viewColumns);
+const eqSrc = read(FILES.eq);
 
 const enums = { ...parseEnums(enumSrc), ...parseEnums(vizSrc) };
 const fns = { ...parseSimpleFns(vizSrc), ...parseSimpleFns(tomlSrc) };
-const consts = { ...parseConsts(enumSrc), ...parseConsts(vizSrc), ...parseConsts(tomlSrc) };
+// eqSrc carries EQ_BAND_COUNT (used by `eq_gains: [0.0; EQ_BAND_COUNT]`).
+const consts = { ...parseConsts(enumSrc), ...parseConsts(vizSrc), ...parseConsts(tomlSrc), ...parseConsts(eqSrc) };
 const tomlKeys = parseTomlKeyTables(sortModeSrc, queueSortModeSrc);
 
 // Phase 1: collect field definitions from each struct.
@@ -382,6 +391,12 @@ const linesFields = parseFields(linesBody);
 const viewsBody = extractBlock(viewsSrc, 'pub struct TomlViewPreferences');
 const viewsFields = parseFields(viewsBody);
 
+// ViewColumns is embedded in TomlSettings via `#[serde(flatten)]`, so its 50
+// `<view>_show_<col>` fields stay TOP-LEVEL `[settings]` keys on the TOML wire.
+// We expand them inline where the `view_columns` field sits in TomlSettings.
+const viewColumnsBody = extractBlock(viewColumnsSrc, 'pub struct ViewColumns');
+const viewColumnsFields = parseFields(viewColumnsBody);
+
 // Phase 2: collect default expressions from each `impl Default`. The impl body
 // contains `fn default() -> Self { Self { ... } }`; we want the innermost block.
 function extractDefaultsBlock(source, structName) {
@@ -397,6 +412,7 @@ const vizDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'VisualizerCo
 const barsDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'BarsConfig'));
 const linesDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'LinesConfig'));
 const viewsDefaults = parseDefaultExprs(extractDefaultsBlock(viewsSrc, 'TomlViewPreferences'));
+const viewColumnsDefaults = parseDefaultExprs(extractDefaultsBlock(viewColumnsSrc, 'ViewColumns'));
 
 const nestedDefaults = {
   VisualizerConfig: vizDefaults,
@@ -450,6 +466,19 @@ for (const f of credFields) {
 // the visualizer.* sub-tree lives in VisualizerConfig (loaded separately by nokkvi).
 for (const f of tomlFields) {
   if (HIDDEN_KEYS.has(f.name)) continue;
+  // `#[serde(flatten)] view_columns: ViewColumns` — the 50 per-view column
+  // toggles stay flat top-level keys on the wire, so expand them in place
+  // rather than emitting a single opaque `view_columns` setting.
+  if (f.rustType === 'ViewColumns') {
+    for (const sub of viewColumnsFields) {
+      if (HIDDEN_KEYS.has(sub.name)) continue;
+      settings.push(buildSetting(sub, viewColumnsDefaults[sub.name], {
+        sectionOverride: 'General',
+        sourceFile: FILES.viewColumns,
+      }));
+    }
+    continue;
+  }
   settings.push(buildSetting(f, tomlDefaults[f.name], { sourceFile: FILES.toml }));
 }
 

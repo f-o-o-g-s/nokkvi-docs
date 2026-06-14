@@ -152,17 +152,17 @@ All keys in this section live under `[settings]`.
 | `light_mode` | `false` | Use the light variant of the active theme. |
 | `nav_layout` | `"top"` | Placement of view tabs. Options: `top` (horizontal bar), `side` (vertical sidebar), `none` (hidden — only the active view and player bar render). |
 | `nav_display_mode` | `"text_only"` | Content of tabs. Options: `text_only`, `text_and_icons`, `icons_only`. |
-| `track_info_display` | `"player_bar"` | Placement of the metadata strip. Options: `off`, `player_bar` (24 px strip below the player bar), `top_bar` (merged into the right side of the nav row in top-nav layout; sits as its own row above the slot list in side-nav / no-nav), `top_bar_under` (its own row directly below the top nav bar; falls back to `top_bar` in side-nav / no-nav layouts), `mini_player` (artwork + title/artist/album column inside the player bar; auto-hides when the artwork/metadata column can no longer fit beside the transport controls — the exact width depends on which mini-player controls are enabled, the nav layout, and `rounded_mode`). |
+| `track_info_display` | `"mini_player"` | Placement of the metadata strip. Options: `off`, `player_bar` (24 px strip below the player bar), `top_bar` (merged into the right side of the nav row in top-nav layout; sits as its own row above the slot list in side-nav / no-nav), `top_bar_under` (its own row directly below the top nav bar; falls back to `top_bar` in side-nav / no-nav layouts), `mini_player` (artwork + title/artist/album column inside the player bar; auto-hides when the artwork/metadata column can no longer fit beside the transport controls — the exact width depends on which mini-player controls are enabled, the nav layout, and `rounded_mode`). |
 | `slot_row_height` | `"compact"` | Row density in lists. Options: `compact` (50px), `default` (70px), `comfortable` (90px), `spacious` (110px). |
 | `font_family` | `""` | Font family override. Leave empty to use system default sans-serif. |
 | `rounded_mode` | `"on"` | Rounded corners on UI elements. Options: `off` (flat throughout), `on` (rounded everywhere), `player_only` (rounded player bar/progress/volume/transport and bottom metadata strip; rest of the UI stays flat). |
 | `opacity_gradient` | `false` | Apply a subtle opacity fade to items that are not in the center of the list. |
 | `slot_text_links` | `true` | Make artist and album names inside list rows clickable links to their respective views. |
 | `horizontal_volume` | `false` | Stack volume sliders horizontally instead of vertically in the player bar. |
-| `autohide_toolbar` | `false` | Auto-hide the view-header toolbar (sort and search controls) to a thin line until you hover it or use a sort/search shortcut. |
-| `autohide_toolbar_height` | `6` | Height in pixels of the collapsed auto-hide toolbar. Only applies when `autohide_toolbar` is on. |
+| `autohide_toolbar` | `true` | Auto-hide the view-header toolbar (sort and search controls) to a thin line until you hover it or use a sort/search shortcut. |
+| `autohide_toolbar_height` | `4` | Height in pixels of the collapsed auto-hide toolbar. Only applies when `autohide_toolbar` is on. |
 | `autohide_toolbar_grip` | `true` | Show a centered accent grip bar on the collapsed `hairline` sliver. Only applies when `autohide_toolbar` is on and `autohide_collapsed_appearance = "hairline"`. |
-| `autohide_collapsed_appearance` | `"hairline"` | What the auto-hide toolbar shows while collapsed. Options: `hairline` (a thin sliver with an optional accent grip — hover to reveal), `hidden` (nothing; the list reclaims the space, but flicking the mouse to the top edge or using a sort/search hotkey still reveals it), `count_strip` (a slim strip echoing the current sort and item count, without controls). Only applies when `autohide_toolbar` is on. |
+| `autohide_collapsed_appearance` | `"count_strip"` | What the auto-hide toolbar shows while collapsed. Options: `hairline` (a thin sliver with an optional accent grip — hover to reveal), `hidden` (nothing; the list reclaims the space, but flicking the mouse to the top edge or using a sort/search hotkey still reveals it), `count_strip` (a slim strip echoing the current sort and item count, without controls). Only applies when `autohide_toolbar` is on. |
 | `mini_player_show_volume` | `true` | Show the volume control in the mini-player bar. Only applies when `track_info_display = "mini_player"`. |
 | `mini_player_show_modes` | `true` | Show the playback-mode toggles (repeat, shuffle, consume, EQ, sound effects, crossfade, visualizer) and their kebab (⋮) overflow in the mini-player bar. Only applies when `track_info_display = "mini_player"`. |
 {/* config-table:end */}
@@ -320,6 +320,12 @@ Nokkvi features a high-performance PipeWire visualizer with two main modes: `bar
 | `visualizer.higher_cutoff_freq` | `10000` | Treble ceiling in Hz. Capped at the Nyquist limit (22050). |
 | `visualizer.height_percent` | `0.25` | Percentage of window height occupied by the visualizer (0.1 to 0.6). |
 | `visualizer.opacity` | `1.0` | Transparency of the visualizer (0.0 to 1.0). |
+| `visualizer.bloom` | `true` | Bloom glow post-processing — bright bars, peak flashes, and the neon line core bleed a soft additive halo. Applies to all modes. |
+| `visualizer.bloom_intensity` | `0.6` | Bloom glow strength (0.0 disables; up to 1.0 for maximum additive glow). |
+| `visualizer.beat_reactivity` | `1.0` | How strongly effects pump on the beat and bass drops (0.0 = static/loudness-only, 1.0 = full punch). Scales the bloom surge, neon glow flare, and bar brightness lift together. |
+| `visualizer.trails` | `0.0` | Motion trails — bars and lines leave a fading after-image (0.0 disables; 1.0 = long comet trails). |
+| `visualizer.echo` | `0.0` | Milkdrop-style zoom/rotate feedback — the visualizer spirals and tunnels into itself, swirling with the bass/beat (0.0 disables; 1.0 = strong persistence). Takes over the display when on. |
+| `visualizer.crt` | `0.0` | CRT/film composite post-process — chromatic aberration, barrel curve, scanlines, vignette, grain, and a beat zoom-punch under one master amount (0.0 disables; up to 1.0). |
 {/* config-table:end */}
 
 ### Bars Mode
@@ -332,7 +338,7 @@ Nokkvi features a high-performance PipeWire visualizer with two main modes: `bar
 | `visualizer.bars.bar_width_max` | `20` | Maximum bar width in pixels for large windows. Must be ≥ `bar_width_min` (up to 20.0). Equal min/max gives uniform bar widths regardless of window size. |
 | `visualizer.bars.bar_spacing` | `2` | Gap between bars in pixels. |
 | `visualizer.bars.border_width` | `2.0` | Border thickness in pixels. Also controls LED segment gaps when `led_bars` is on (0.0 to 5.0). |
-| `visualizer.bars.led_bars` | `true` | Render bars as discrete LED segments (VU meter style). |
+| `visualizer.bars.led_bars` | `false` | Render bars as discrete LED segments (VU meter style). |
 | `visualizer.bars.led_segment_height` | `5` | Height of each LED segment in pixels (LED mode only; 2.0 to 20.0). |
 | `visualizer.bars.gradient_mode` | `"wave"` | Color mapping mode. [Learn more &rarr;](/reference/visualizer/#gradient-modes) |
 | `visualizer.bars.gradient_orientation` | `"vertical"` | Axis for color mapping (`vertical` or `horizontal`). |
@@ -343,6 +349,7 @@ Nokkvi features a high-performance PipeWire visualizer with two main modes: `bar
 | `visualizer.bars.peak_height_ratio` | `35` | Peak indicator height as a percentage of bar width (10 to 100; ignored in LED mode). |
 | `visualizer.bars.peak_fall_speed` | `5` | Peak fall velocity scale (1 = slow, 5 = default, 20 = fast; does not affect `fade` mode). |
 | `visualizer.bars.bar_depth_3d` | `0` | 3D isometric depth in pixels (0.0 disables; up to 20.0). |
+| `visualizer.bars.flash_intensity` | `0.6` | Peak-flash bloom strength for Bars mode (0.0 disables; up to 1.0). Bars bloom toward the peak color on transients/beats. |
 {/* config-table:end */}
 
 ### Lines Mode
@@ -359,7 +366,8 @@ Nokkvi features a high-performance PipeWire visualizer with two main modes: `bar
 | `visualizer.lines.mirror` | `false` | Symmetric oscilloscope mode (extends from center). |
 | `visualizer.lines.style` | `"smooth"` | Interpolation style (`smooth` or `angular`). |
 | `visualizer.lines.gradient_mode` | `"static"` | Color mapping mode. [Learn more &rarr;](/reference/visualizer/#gradient-modes-1) |
-| `visualizer.lines.boat` | `false` | Render a small boat sprite that rides the waveform. |
+| `visualizer.lines.boat` | `true` | Render a small boat sprite that rides the waveform. |
+| `visualizer.lines.glow_intensity` | `0.5` | Neon glow halo around the main line (0.0 disables; up to 1.0). An exponential emissive falloff beyond the stroke that brightens with loudness. |
 {/* config-table:end */}
 
 ## Audio Engine (Internal)
