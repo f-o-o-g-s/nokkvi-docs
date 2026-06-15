@@ -95,6 +95,9 @@
   "autohide_toolbar_height": {
     "description": "Height in pixels of the collapsed auto-hide toolbar. Only applies when `autohide_toolbar` is on."
   },
+  "bit_perfect": {
+    "description": "Opt-in bit-perfect output for the Linux/PipeWire backend. Feeds each track to the DAC at its native sample rate and bypasses the EQ, software volume, limiter, and ReplayGain/AGC (volume moves to the PipeWire node). Mutually exclusive with `crossfade_enabled`. Needs PipeWire rate-switching (`allowed-rates`) configured. See the [Audio guide](/guides/audio/#bit-perfect-output)."
+  },
   "close_to_tray": {
     "description": "When `show_tray_icon` is on, the window's close button hides Nokkvi into the tray instead of quitting. Ignored when the tray icon is disabled."
   },
@@ -153,7 +156,7 @@
     "description": "Absolute path to your local music library. If set, Nokkvi will try to open files directly (for things like \"Show in File Manager\")."
   },
   "mini_player_show_modes": {
-    "description": "Show the playback-mode toggles (repeat, shuffle, consume, EQ, sound effects, crossfade, visualizer) and their kebab (⋮) overflow in the mini-player bar. Only applies when `track_info_display = \"mini_player\"`."
+    "description": "Show the playback-mode toggles (repeat, shuffle, consume, EQ, sound effects, crossfade, bit-perfect, visualizer) and their kebab (⋮) overflow in the mini-player bar. Only applies when `track_info_display = \"mini_player\"`."
   },
   "mini_player_show_volume": {
     "description": "Show the volume control in the mini-player bar. Only applies when `track_info_display = \"mini_player\"`."

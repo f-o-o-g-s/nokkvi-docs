@@ -164,7 +164,7 @@ All keys in this section live under `[settings]`.
 | `autohide_toolbar_grip` | `true` | Show a centered accent grip bar on the collapsed `hairline` sliver. Only applies when `autohide_toolbar` is on and `autohide_collapsed_appearance = "hairline"`. |
 | `autohide_collapsed_appearance` | `"count_strip"` | What the auto-hide toolbar shows while collapsed. Options: `hairline` (a thin sliver with an optional accent grip — hover to reveal), `hidden` (nothing; the list reclaims the space, but flicking the mouse to the top edge or using a sort/search hotkey still reveals it), `count_strip` (a slim strip echoing the current sort and item count, without controls). Only applies when `autohide_toolbar` is on. |
 | `mini_player_show_volume` | `true` | Show the volume control in the mini-player bar. Only applies when `track_info_display = "mini_player"`. |
-| `mini_player_show_modes` | `true` | Show the playback-mode toggles (repeat, shuffle, consume, EQ, sound effects, crossfade, visualizer) and their kebab (⋮) overflow in the mini-player bar. Only applies when `track_info_display = "mini_player"`. |
+| `mini_player_show_modes` | `true` | Show the playback-mode toggles (repeat, shuffle, consume, EQ, sound effects, crossfade, bit-perfect, visualizer) and their kebab (⋮) overflow in the mini-player bar. Only applies when `track_info_display = "mini_player"`. |
 {/* config-table:end */}
 
 ### Views
@@ -222,6 +222,7 @@ All keys in this section live under `[settings]`.
 | `enter_behavior` | `"play_all"` | Action when pressing `Enter` on a song. Options: `play_all` (replace queue with the current view), `play_single` (replace queue with just this track), `append_and_play` (add to queue and play). |
 | `crossfade_enabled` | `true` | Enable smooth transitions between tracks. |
 | `crossfade_duration_secs` | `7` | Duration of the crossfade in seconds (1 to 12). |
+| `bit_perfect` | `false` | Opt-in bit-perfect output for the Linux/PipeWire backend. Feeds each track to the DAC at its native sample rate and bypasses the EQ, software volume, limiter, and ReplayGain/AGC (volume moves to the PipeWire node). Mutually exclusive with `crossfade_enabled`. Needs PipeWire rate-switching (`allowed-rates`) configured. See the [Audio guide](/guides/audio/#bit-perfect-output). |
 | `rewind_on_previous` | `false` | When enabled, pressing Previous restarts the current track instead of stepping to the previous one, once it has played past 5 seconds. |
 | `volume_normalization_mode` | `"off"` | Volume-normalization mode. Options: `off`, `replay_gain_track`, `replay_gain_album`, `agc`. See the [Audio guide](/guides/audio/#volume-normalization). |
 | `normalization_level` | `"normal"` | AGC target level (linear amplitude, not LUFS). Options: `quiet` (0.6), `normal` (1.0), `loud` (1.4). Applies only when `volume_normalization_mode = "agc"`. |

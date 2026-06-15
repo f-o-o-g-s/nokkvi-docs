@@ -1,11 +1,11 @@
 ---
 title: Audio Engine
-description: How nokkvi plays your music — gapless playback, the equalizer, and volume normalization.
+description: How nokkvi plays your music — gapless playback, the equalizer, volume normalization, and bit-perfect output.
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-Nokkvi plays through PipeWire on Linux as a native audio stream — low latency and integrated with your system mixer. It decodes all common formats (MP3, FLAC, Opus, AAC, and more — full list in [Under the Hood](#under-the-hood)). This page covers the user-facing audio features: gapless playback, the 10-band equalizer, and volume normalization.
+Nokkvi plays through PipeWire on Linux as a native audio stream — low latency and integrated with your system mixer. It decodes all common formats (MP3, FLAC, Opus, AAC, and more — full list in [Under the Hood](#under-the-hood)). This page covers the user-facing audio features: gapless playback, the 10-band equalizer, volume normalization, and bit-perfect output.
 
 ## Gapless Playback & Crossfade
 
@@ -76,6 +76,23 @@ The [`normalization_level`](/reference/config/#playback-settings) setting contro
 
 If you're using both crossfade and AGC mode, you may hear a brief loudness mismatch right at track boundaries when two adjacent tracks differ a lot. Lowering `normalization_level` from `normal` to `quiet` softens it. The two ReplayGain modes don't have this issue — both sides of a crossfade are already at target level, so the transition is clean. If your library is tagged, ReplayGain is the cleanest pairing with crossfade.
 
+## Bit-Perfect Output
+
+Bit-perfect mode sends each track to your DAC exactly as it was decoded — no equalizer, no software volume, no limiter, no ReplayGain. The output device follows each track's native sample rate, so a 96 kHz hi-res file plays back at 96 kHz instead of being resampled to nokkvi's usual 48 kHz. It's off by default; turn it on if you have a wired DAC and want the signal untouched.
+
+It's a Linux/PipeWire feature: volume moves onto the PipeWire node, so the mode only engages on nokkvi's native PipeWire output — the cpal fallback stays on the normal path. The full-precision decode that makes it lossless applies to all playback anyway; bit-perfect just stops anything from touching the samples afterward.
+
+- **Toggle**: [`bit_perfect`](/reference/config/#playback-settings), the player-bar mode button, the kebab (⋮) menu, or hit [`B`](/reference/hotkeys/#playback).
+- **Always gapless, never crossfaded**: a blend of two tracks can't be bit-perfect, so this mode and [crossfade](#gapless-playback--crossfade) are mutually exclusive — turning one on turns the other off.
+
+<Aside type="caution" title="Bit-perfect bypasses your audio settings">
+  While the mode is on, the equalizer, volume normalization, the peak limiter, and the software volume curve are all skipped — that's the point. Your volume slider still works (it rides the PipeWire node directly), but EQ and ReplayGain leveling won't apply until you turn bit-perfect back off.
+</Aside>
+
+PipeWire re-clocks the device to a track's rate on a fresh start or a step *up* to a higher rate. A mid-session step *down* — 96 kHz to 44.1 kHz, say — is high-quality resampled instead, because a DAC can't re-clock live without a gap while the card is held open. For switching to work at all, the rates you want have to be in PipeWire's `default.clock.allowed-rates` (a system-level setting, outside nokkvi); otherwise the device stays put and PipeWire resamples.
+
+Bit-perfect mode reads your sound card's *real* clock — from `/proc/asound`, not the rate nokkvi requested — and shows an honest status in the now-playing strip: `BIT-PERFECT` when the device is clocked at the track's rate, `RESAMPLED` when something forced a different one, or `UNVERIFIED` when the clock can't be read (Bluetooth, which re-encodes, or an idle device). See [Track Info Display](/reference/track-info-display/#bit-perfect-status-badge) for the full legend.
+
 ## Under the Hood
 
 For the technically curious:
@@ -84,7 +101,7 @@ For the technically curious:
 
 **Mixing and output** use [rodio](https://github.com/RustAudio/rodio). On Linux, audio is delivered to PipeWire as a native stream — minimal latency, integrated with the system mixer, and routable to any output via tools like `pavucontrol`.
 
-**Internal format** is stereo 48 kHz; other sample rates get resampled. A `dynamic_content` peak limiter (`LimitSettings::dynamic_content()`) sits at the end of every chain to catch clipping from EQ boosts, ReplayGain pre-amp, or AGC overshoot before mixing.
+**Internal format** is stereo 48 kHz; other sample rates get resampled — unless [bit-perfect mode](#bit-perfect-output) is on, which follows each track's native rate instead. A `dynamic_content` peak limiter (`LimitSettings::dynamic_content()`) sits at the end of every chain to catch clipping from EQ boosts, ReplayGain pre-amp, or AGC overshoot before mixing; bit-perfect streams skip it along with the rest of the DSP.
 
 **ReplayGain implementation**: values come from the Subsonic API as a single resolved dB value per track (Navidrome reads the file tags during scan and converts them; nokkvi never parses tags itself) and are applied as a static `amplify()` factor to each stream. Because the gain is computed offline and constant per track, both sides of a crossfade are already at target — no convergence artifacts.
 
