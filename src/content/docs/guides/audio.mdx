@@ -32,7 +32,7 @@ Boost or cut ten frequency ranges to your taste — handy for compensating for h
 
 Different tracks can be mastered at wildly different loudness levels. Volume normalization evens them out so a quiet acoustic track doesn't get drowned out after a wall-of-sound rock track — or vice versa.
 
-Nokkvi has four modes via [`volume_normalization`](/reference/config/#playback-settings):
+Nokkvi has four modes via [`volume_normalization_mode`](/reference/config/#playback-settings):
 
 - **`off`** — no leveling. Tracks play at their recorded loudness.
 - **`replay_gain_track`** — uses each track's pre-computed loudness tag. Every song lands at the same target level.
@@ -78,20 +78,25 @@ If you're using both crossfade and AGC mode, you may hear a brief loudness misma
 
 ## Bit-Perfect Output
 
-Bit-perfect mode sends each track to your DAC exactly as it was decoded — no equalizer, no software volume, no limiter, no ReplayGain. The output device follows each track's native sample rate, so a 96 kHz hi-res file plays back at 96 kHz instead of being resampled to nokkvi's usual 48 kHz. It's off by default; turn it on if you have a wired DAC and want the signal untouched.
+Bit-perfect output sends each track to your DAC exactly as it was decoded — no equalizer, no software volume, no limiter, no ReplayGain. The output device follows each track's native sample rate, so a 96 kHz hi-res file plays back at 96 kHz instead of being resampled to nokkvi's usual 48 kHz. It's off by default; reach for Strict or Relaxed (below) if you have a wired DAC and want the signal untouched.
 
-It's a Linux/PipeWire feature: volume moves onto the PipeWire node, so the mode only engages on nokkvi's native PipeWire output — the cpal fallback stays on the normal path. The full-precision decode that makes it lossless applies to all playback anyway; bit-perfect just stops anything from touching the samples afterward.
+It's a Linux/PipeWire feature: volume moves onto the PipeWire node, so it only engages on nokkvi's native PipeWire output — the cpal fallback stays on the normal path. The full-precision decode that makes it lossless applies to all playback anyway; bit-perfect just stops anything from touching the samples afterward.
 
-- **Toggle**: [`bit_perfect`](/reference/config/#playback-settings), the player-bar mode button, the kebab (⋮) menu, or hit [`B`](/reference/hotkeys/#playback).
-- **Always gapless, never crossfaded**: a blend of two tracks can't be bit-perfect, so this mode and [crossfade](#gapless-playback--crossfade) are mutually exclusive — turning one on turns the other off.
+There are three modes. The player-bar mode button, the kebab (⋮) menu, and the [`B`](/reference/hotkeys/#playback) hotkey each cycle through them in order; you can also set [`bit_perfect`](/reference/config/#playback-settings) directly:
+
+- **Off** — the standard path. EQ, software volume, and [crossfade](#gapless-playback--crossfade) all apply.
+- **Strict** — untouched samples to the DAC, hard-cut between every track. Nothing ever touches the audio.
+- **Relaxed** — the same untouched bodies, but it crossfades between adjacent tracks that share a sample rate *and* channel count, using your [`crossfade_duration_secs`](/reference/config/#playback-settings). Only that few-second blend isn't bit-perfect; a cross-rate change still hard-cuts. A good middle ground if Strict's hard cuts feel too abrupt.
+
+Strict and Relaxed are mutually exclusive with the standalone [Crossfade](#gapless-playback--crossfade) mode — switching to either turns Crossfade off (Relaxed brings its own same-rate crossfade instead).
 
 <Aside type="caution" title="Bit-perfect bypasses your audio settings">
-  While the mode is on, the equalizer, volume normalization, the peak limiter, and the software volume curve are all skipped — that's the point. Your volume slider still works (it rides the PipeWire node directly), but EQ and ReplayGain leveling won't apply until you turn bit-perfect back off.
+  In Strict or Relaxed, the equalizer, volume normalization, the peak limiter, and the software volume curve are all skipped — that's the point. Your volume slider still works (it rides the PipeWire node directly), but EQ and ReplayGain leveling won't apply until you switch back to Off.
 </Aside>
 
 PipeWire re-clocks the device to a track's rate on a fresh start or a step *up* to a higher rate. A mid-session step *down* — 96 kHz to 44.1 kHz, say — is high-quality resampled instead, because a DAC can't re-clock live without a gap while the card is held open. For switching to work at all, the rates you want have to be in PipeWire's `default.clock.allowed-rates` (a system-level setting, outside nokkvi); otherwise the device stays put and PipeWire resamples.
 
-Bit-perfect mode reads your sound card's *real* clock — from `/proc/asound`, not the rate nokkvi requested — and shows an honest status in the now-playing strip: `BIT-PERFECT` when the device is clocked at the track's rate, `RESAMPLED` when something forced a different one, or `UNVERIFIED` when the clock can't be read (Bluetooth, which re-encodes, or an idle device). See [Track Info Display](/reference/track-info-display/#bit-perfect-status-badge) for the full legend.
+Bit-perfect mode reads your sound card's *real* clock — from `/proc/asound`, not the rate nokkvi requested — and shows an honest status in the now-playing strip: `BIT-PERFECT` when the device is clocked at the track's rate, `RESAMPLED` when something forced a different one, or `UNVERIFIED` when the clock can't be read (Bluetooth, which re-encodes, or an idle device). During a Relaxed crossfade the badge drops while the blend plays — that overlap isn't bit-perfect — and returns once the next track settles. See [Track Info Display](/reference/track-info-display/#bit-perfect-status-badge) for the full legend.
 
 ## Under the Hood
 

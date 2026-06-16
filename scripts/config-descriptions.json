@@ -96,7 +96,7 @@
     "description": "Height in pixels of the collapsed auto-hide toolbar. Only applies when `autohide_toolbar` is on."
   },
   "bit_perfect": {
-    "description": "Opt-in bit-perfect output for the Linux/PipeWire backend. Feeds each track to the DAC at its native sample rate and bypasses the EQ, software volume, limiter, and ReplayGain/AGC (volume moves to the PipeWire node). Mutually exclusive with `crossfade_enabled`. Needs PipeWire rate-switching (`allowed-rates`) configured. See the [Audio guide](/guides/audio/#bit-perfect-output)."
+    "description": "Bit-perfect output mode for the Linux/PipeWire backend. Options: `off` (standard 48 kHz DSP path — EQ, software volume, and crossfade all apply), `strict` (untouched samples to the DAC at each track's native rate, hard-cut between every track), `relaxed` (untouched bodies, but crossfades adjacent tracks that share a sample rate and channel count using `crossfade_duration_secs` — only that few-second blend isn't bit-perfect). Strict and Relaxed bypass the EQ, software volume, limiter, and ReplayGain/AGC (volume moves to the PipeWire node) and switch off `crossfade_enabled`. Needs PipeWire rate-switching (`allowed-rates`) configured. See the [Audio guide](/guides/audio/#bit-perfect-output)."
   },
   "close_to_tray": {
     "description": "When `show_tray_icon` is on, the window's close button hides Nokkvi into the tray instead of quitting. Ignored when the tray icon is disabled."
@@ -105,7 +105,7 @@
     "description": "Duration of the crossfade in seconds (1 to 12)."
   },
   "crossfade_enabled": {
-    "description": "Enable smooth transitions between tracks."
+    "description": "Enable smooth transitions between tracks. Mutually exclusive with `bit_perfect` (Strict/Relaxed)."
   },
   "custom_eq_presets": {
     "description": "User-saved EQ presets. Each preset is a `{ name, gains }` object; managed through the in-app EQ panel."

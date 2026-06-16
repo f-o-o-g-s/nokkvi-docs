@@ -43,7 +43,7 @@ Which fields the strip shows, and whether they carry `title:` / `artist:` / `alb
 
 ## Bit-Perfect Status Badge
 
-When [bit-perfect output](/guides/audio/#bit-perfect-output) is engaged, the now-playing strip carries a small badge reporting the *real* state of your sound card's clock — read from `/proc/asound`, not the rate nokkvi requested. It shows only while bit-perfect is on and a local track is playing; radio is excluded, since a network stream can't be bit-perfect.
+When [bit-perfect output](/guides/audio/#bit-perfect-output) is engaged, the now-playing strip carries a small badge reporting the *real* state of your sound card's clock — read from `/proc/asound`, not the rate nokkvi requested. It shows only while bit-perfect output is in Strict or Relaxed mode and a local track is playing; radio is excluded, since a network stream can't be bit-perfect.
 
 ![The mini-player progress scrub showing the BIT-PERFECT badge beside the track's MP3 44.1 kHz format and bitrate](../../../assets/track-info-bit-perfect-badge.webp)
 
@@ -53,4 +53,4 @@ When [bit-perfect output](/guides/audio/#bit-perfect-output) is engaged, the now
 | `RESAMPLED→96k` | The device is locked at a different rate (shown in kHz — e.g. `→96k`), so PipeWire is resampling. When it can, the badge appends the app holding the device at that rate (`RESAMPLED→96k · Zen`), so you know what to close. |
 | `UNVERIFIED` | Nokkvi can't read the device clock. Usually a Bluetooth sink (which re-encodes the audio, so bit-perfect isn't possible) or an idle / suspended device. |
 
-A brief blank moment right as a track starts is normal — nokkvi waits for the device to settle before committing to a state, so it won't flash a false `UNVERIFIED`.
+A brief blank moment right as a track starts is normal — nokkvi waits for the device to settle before committing to a state, so it won't flash a false `UNVERIFIED`. In **Relaxed** mode the badge also drops for the duration of a same-rate crossfade — the overlapping blend isn't bit-perfect — and returns once the next track settles.
