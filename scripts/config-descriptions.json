@@ -456,7 +456,7 @@
     "description": "Bloom glow strength (0.0 disables; up to 1.0 for maximum additive glow)."
   },
   "visualizer.crt": {
-    "description": "CRT/film composite post-process — chromatic aberration, barrel curve, scanlines, vignette, grain, and a beat zoom-punch under one master amount (0.0 disables; up to 1.0)."
+    "description": "CRT/film composite post-process — chromatic aberration, scanlines, vignette, grain, and a beat zoom-punch under one master amount (0.0 disables; up to 1.0)."
   },
   "visualizer.echo": {
     "description": "Milkdrop-style zoom/rotate feedback — the visualizer spirals and tunnels into itself, swirling with the bass/beat (0.0 disables; 1.0 = strong persistence). Takes over the display when on."
