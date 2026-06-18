@@ -272,6 +272,9 @@
   "scrobbling_enabled": {
     "description": "Report listening activity back to the server."
   },
+  "scrollbar_visibility": {
+    "description": "How the slot-list scrollbar is shown. Options: `on_hover` (transient fade handle, reserves no width), `always` (permanent track, reserves a right-side gutter), `hidden` (no scrollbar; mouse-wheel still scrolls)."
+  },
   "server_url": {
     "description": "The full URL of your Navidrome server (e.g., `https://music.example.com`)."
   },
