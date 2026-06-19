@@ -46,7 +46,7 @@ const SECTION_MAP = {
 // MetadataStrip → metadata-strip, Playback → playback, Scrobbling → scrobbling,
 // Playlists → playlists, Views → views, VisualizerGeneral → visualizer-general,
 // VisualizerBars → visualizer-bars, VisualizerLines → visualizer-lines,
-// AudioEngine → audio-engine.
+// VisualizerScope → visualizer-scope, AudioEngine → audio-engine.
 
 // Per-key section overrides where the docs group differently than the source.
 const SECTION_OVERRIDES = {
@@ -387,6 +387,8 @@ const barsBody = extractBlock(vizSrc, 'pub struct BarsConfig');
 const barsFields = parseFields(barsBody);
 const linesBody = extractBlock(vizSrc, 'pub struct LinesConfig');
 const linesFields = parseFields(linesBody);
+const scopeBody = extractBlock(vizSrc, 'pub struct ScopeConfig');
+const scopeFields = parseFields(scopeBody);
 
 const viewsBody = extractBlock(viewsSrc, 'pub struct TomlViewPreferences');
 const viewsFields = parseFields(viewsBody);
@@ -411,6 +413,7 @@ const tomlDefaults = parseDefaultExprs(extractDefaultsBlock(tomlSrc, 'TomlSettin
 const vizDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'VisualizerConfig'));
 const barsDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'BarsConfig'));
 const linesDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'LinesConfig'));
+const scopeDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'ScopeConfig'));
 const viewsDefaults = parseDefaultExprs(extractDefaultsBlock(viewsSrc, 'TomlViewPreferences'));
 const viewColumnsDefaults = parseDefaultExprs(extractDefaultsBlock(viewColumnsSrc, 'ViewColumns'));
 
@@ -418,6 +421,7 @@ const nestedDefaults = {
   VisualizerConfig: vizDefaults,
   BarsConfig: barsDefaults,
   LinesConfig: linesDefaults,
+  ScopeConfig: scopeDefaults,
 };
 
 // Phase 3: assemble the flat settings list.
@@ -507,6 +511,14 @@ for (const f of vizFields) {
       settings.push(buildSetting(sub, linesDefaults[sub.name], {
         keyPrefix: 'visualizer.lines.',
         sectionOverride: 'VisualizerLines',
+        sourceFile: FILES.visualizer,
+      }));
+    }
+  } else if (f.name === 'scope') {
+    for (const sub of scopeFields) {
+      settings.push(buildSetting(sub, scopeDefaults[sub.name], {
+        keyPrefix: 'visualizer.scope.',
+        sectionOverride: 'VisualizerScope',
         sourceFile: FILES.visualizer,
       }));
     }

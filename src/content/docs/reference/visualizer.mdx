@@ -13,12 +13,17 @@ Nokkvi features a custom-built, GPU-accelerated visualizer that runs an internal
   <TabItem label="Bars">
     Frequency data rendered as vertical columns with optional peak indicators.
 
-    ![Nokkvi visualizer in bars mode — vertical frequency columns across the player bar](../../../assets/visualizer-bars.webp)
+    ![Animated demo of Nokkvi's bars visualizer — vertical frequency columns reacting across the bottom of the window](../../../assets/visualizer-bars-anim.webp)
   </TabItem>
   <TabItem label="Lines">
     Frequency data rendered as a continuous path, oscilloscope-style. The surfing boat overlay is optional.
 
-    ![Nokkvi visualizer in lines mode — smooth waveform curve with the surfing boat riding it](../../../assets/visualizer-lines.webp)
+    ![Animated demo of Nokkvi's lines visualizer — a smooth waveform curve with the surfing boat riding it](../../../assets/visualizer-lines-anim.webp)
+  </TabItem>
+  <TabItem label="Scope">
+    A circular oscilloscope (time-domain waveform ring) drawn over the now-playing cover art, with an optional glowing particle field.
+
+    ![Animated demo of Nokkvi's scope visualizer — a glowing circular oscilloscope ring pulsing over the cover art with drifting particles](../../../assets/visualizer-scope-anim.webp)
   </TabItem>
 </Tabs>
 
@@ -123,9 +128,43 @@ Optional overlay for `lines` mode: a small boat rides the waveform. Toggle under
 
 ---
 
+## Scope Mode
+
+The `scope` mode draws a circular oscilloscope — a time-domain waveform ring — over the now-playing cover art. It is cycled after Lines with the `V` hotkey, or set [`visualization_mode = "scope"`](/reference/config/#playback-settings). The ring reuses the Lines [gradient modes](#gradient-modes-1) and [style](#style) options, and adds geometry and particle controls of its own.
+
+![Nokkvi's scope visualizer — a glowing circular oscilloscope ring with a drifting particle field, drawn over the now-playing cover art](../../../assets/visualizer-scope.webp)
+
+### Ring Geometry
+- **Radius.** [`visualizer.scope.radius`](/reference/config/#scope-mode) (default `0.7`) sets the ring's mean radius as a fraction of the space inside the cover — `0.1` is a tiny inner ring, `0.95` nearly fills the panel.
+- **Sensitivity.** [`visualizer.scope.sensitivity`](/reference/config/#scope-mode) (default `1.5`) is the waveform swing: how far loud audio pushes the ring in and out (`0.5` subtle, `5.0` wild).
+- **Point count.** [`visualizer.scope.point_count`](/reference/config/#scope-mode) (default `16`) sets how many points trace the ring — low values give a chunky, blobby ring; high values resolve fine waveform detail.
+- **Thickness.** [`visualizer.scope.line_thickness`](/reference/config/#scope-mode) (default `0.005`) is the ring stroke as a fraction of the panel.
+
+### Ring Look
+- **Fill.** [`visualizer.scope.fill_opacity`](/reference/config/#scope-mode) (default `0.75`) shades a radial gradient from the ring toward the centre.
+- **Glow.** [`visualizer.scope.glow_intensity`](/reference/config/#scope-mode) (default `0.75`) wraps the ring in a neon halo, like the Lines glow.
+- **Beam.** [`visualizer.scope.beam`](/reference/config/#scope-mode) (default `true`) renders the ring with additive blending so overlapping glow accumulates into a bright neon beam (woscope-style).
+- **Outline.** [`visualizer.scope.outline_thickness`](/reference/config/#scope-mode) / [`outline_opacity`](/reference/config/#scope-mode) (default off) draw a darker border behind the ring for contrast on busy covers.
+
+### Particles
+[`visualizer.scope.particles`](/reference/config/#scope-mode) (default `true`) launches a glowing particle field that drifts outward from the ring on the beat — the NCS / Wav2Bar look. [`particle_count`](/reference/config/#scope-mode) (default `512`, up to `2048`) sets how many, and [`particle_speed`](/reference/config/#scope-mode) (default `1.0`) how fast they fly out (`0.1` lazy drift, `4.0` energetic).
+
+---
+
+## Placement
+
+Bars and Lines can be drawn in one of two places, set per mode via [`visualizer.bars.placement`](/reference/config/#bars-mode) and [`visualizer.lines.placement`](/reference/config/#lines-mode):
+
+- **`over_cover`** *(default)* — over the now-playing cover art in the Queue view, and only while audio is playing. The integrated cover look greets you on the default Queue view.
+- **`bottom_band`** — the classic placement: a band across the bottom of the window, above the player bar, visible on every view.
+
+Scope has no placement setting of its own — it is always drawn over the cover.
+
+---
+
 ## Effects
 
-These effects are global — they apply on top of whichever mode (bars or lines) is active, and live under **Settings → Visualizer → Frame**.
+These effects apply on top of whichever mode (bars, lines, or scope) is active, and live under **Settings → Visualizer → Frame**. Bloom, Beat Reactivity, and CRT are global; Motion Trails and Echo are configured per mode.
 
 ### Bloom Glow
 [`visualizer.bloom`](/reference/config/#general-visualizer) (default `true`) makes bright bars, peak flashes, and the neon line core bleed a soft additive halo. A brightness threshold means only the bright parts glow. [`visualizer.bloom_intensity`](/reference/config/#general-visualizer) (default `0.6`, range `0.0`–`1.0`) sets the strength — at `0` nothing glows even with bloom enabled.
@@ -134,10 +173,10 @@ These effects are global — they apply on top of whichever mode (bars or lines)
 [`visualizer.beat_reactivity`](/reference/config/#general-visualizer) (default `1.0`, range `0.0`–`1.0`) controls how hard the effects pump on the beat and bass drops. It scales the bloom surge, the lines-mode glow flare, the bar brightness lift, and the echo swirl together. At `0.0` everything is steady and tracks loudness only; at `1.0` it punches on every kick. (The CRT beat zoom-punch is driven by the raw beat and is not affected by this setting.)
 
 ### Motion Trails
-[`visualizer.trails`](/reference/config/#general-visualizer) (default `0.0`, off) leaves a fading after-image behind the bars or line — a short ghost at low values, a long comet trail near `1.0`. It is a flat per-frame fade; for the swirling variant use [Echo](#echo). Off by default because it noticeably changes the look.
+Motion trails leave a fading after-image behind the waveform — a short ghost at low values, a long comet trail near `1.0`. It is a flat per-frame fade; for the swirling variant use [Echo](#echo). Configured per mode — [`visualizer.bars.trails`](/reference/config/#bars-mode), [`visualizer.lines.trails`](/reference/config/#lines-mode), [`visualizer.scope.trails`](/reference/config/#scope-mode) — and off (`0.0`) by default everywhere because it noticeably changes the look.
 
 ### Echo
-[`visualizer.echo`](/reference/config/#general-visualizer) (default `0.0`, off) is Milkdrop-style zoom/rotate feedback: the visualizer spirals and tunnels into itself, swirling harder with the bass and beat. Near `1.0` the feedback persists strongly and effectively takes over the display. Unlike [Motion Trails](#motion-trails) (a flat fade), Echo warps and rotates each fading copy.
+Echo is Milkdrop-style zoom/rotate feedback: the visualizer spirals and tunnels into itself, swirling harder with the bass and beat. Near `1.0` the feedback persists strongly and effectively takes over the display. Unlike [Motion Trails](#motion-trails) (a flat fade), Echo warps and rotates each fading copy. Configured per mode — [`visualizer.bars.echo`](/reference/config/#bars-mode), [`visualizer.lines.echo`](/reference/config/#lines-mode), [`visualizer.scope.echo`](/reference/config/#scope-mode). Bars and Lines default to `0.0` (off); Scope defaults to `0.25`, a subtle feedback swirl that suits the ring.
 
 ### CRT / Film
 [`visualizer.crt`](/reference/config/#general-visualizer) (default `0.0`, off) is a retro composite under one master amount: chromatic aberration, scanlines, vignette, film grain, and a beat zoom-punch. It is masked to the visualizer content, so it never tints the rest of the UI.

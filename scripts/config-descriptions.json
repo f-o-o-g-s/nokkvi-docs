@@ -393,7 +393,7 @@
     "description": "If true, all settings (even defaults) are written to the TOML file."
   },
   "visualization_mode": {
-    "description": "Active visualizer mode. Options: `off`, `bars`, `lines`. Cycle live with the `V` hotkey — see [Visualizer Reference](/reference/visualizer/)."
+    "description": "Active visualizer mode. Options: `off`, `bars`, `lines`, `scope`. Cycle live with the `V` hotkey — see [Visualizer Reference](/reference/visualizer/)."
   },
   "visualizer.auto_sensitivity": {
     "description": "Automatically scale gain to fill the available height."
@@ -412,6 +412,9 @@
   },
   "visualizer.bars.border_width": {
     "description": "Border thickness in pixels. Also controls LED segment gaps when `led_bars` is on (0.0 to 5.0)."
+  },
+  "visualizer.bars.echo": {
+    "description": "Milkdrop-style zoom/rotate feedback — the bars spiral and tunnel into themselves, swirling with the bass/beat (0.0 disables; 1.0 = strong persistence). Takes over the display when on."
   },
   "visualizer.bars.flash_intensity": {
     "description": "Peak-flash bloom strength for Bars mode (0.0 disables; up to 1.0). Bars bloom toward the peak color on transients/beats."
@@ -449,6 +452,12 @@
   "visualizer.bars.peak_mode": {
     "description": "Behavior of peak indicators. [Learn more &rarr;](/reference/visualizer/#peak-behavior)"
   },
+  "visualizer.bars.placement": {
+    "description": "Where the Bars visualizer is drawn. Options: `over_cover` (over the now-playing cover art on the Queue view, while playing), `bottom_band` (a band across the bottom of the window, above the player bar, on every view)."
+  },
+  "visualizer.bars.trails": {
+    "description": "Motion trails — bars leave a fading after-image (0.0 disables; 1.0 = long comet trails)."
+  },
   "visualizer.beat_reactivity": {
     "description": "How strongly effects pump on the beat and bass drops (0.0 = static/loudness-only, 1.0 = full punch). Scales the bloom surge, neon glow flare, and bar brightness lift together."
   },
@@ -461,9 +470,6 @@
   "visualizer.crt": {
     "description": "CRT/film composite post-process — chromatic aberration, scanlines, vignette, grain, and a beat zoom-punch under one master amount (0.0 disables; up to 1.0)."
   },
-  "visualizer.echo": {
-    "description": "Milkdrop-style zoom/rotate feedback — the visualizer spirals and tunnels into itself, swirling with the bass/beat (0.0 disables; 1.0 = strong persistence). Takes over the display when on."
-  },
   "visualizer.height_percent": {
     "description": "Percentage of window height occupied by the visualizer (0.1 to 0.6)."
   },
@@ -475,6 +481,9 @@
   },
   "visualizer.lines.boat": {
     "description": "Render a small boat sprite that rides the waveform."
+  },
+  "visualizer.lines.echo": {
+    "description": "Milkdrop-style zoom/rotate feedback — the line spirals and tunnels into itself, swirling with the bass/beat (0.0 disables; 1.0 = strong persistence). Takes over the display when on."
   },
   "visualizer.lines.fill_opacity": {
     "description": "Transparency of the area under the line (0.0 to 1.0)."
@@ -497,11 +506,17 @@
   "visualizer.lines.outline_thickness": {
     "description": "Outline border thickness in pixels (0.0 disables; up to 5.0)."
   },
+  "visualizer.lines.placement": {
+    "description": "Where the Lines visualizer is drawn. Options: `over_cover` (over the now-playing cover art on the Queue view, while playing), `bottom_band` (a band across the bottom of the window, above the player bar, on every view)."
+  },
   "visualizer.lines.point_count": {
     "description": "Number of points used to draw the line (8 to 512)."
   },
   "visualizer.lines.style": {
     "description": "Interpolation style (`smooth` or `angular`)."
+  },
+  "visualizer.lines.trails": {
+    "description": "Motion trails — the line leaves a fading after-image (0.0 disables; 1.0 = long comet trails)."
   },
   "visualizer.lower_cutoff_freq": {
     "description": "Bass floor in Hz. Frequencies below this are excluded from the spectrum (minimum `20`)."
@@ -515,8 +530,56 @@
   "visualizer.opacity": {
     "description": "Transparency of the visualizer (0.0 to 1.0)."
   },
-  "visualizer.trails": {
-    "description": "Motion trails — bars and lines leave a fading after-image (0.0 disables; 1.0 = long comet trails)."
+  "visualizer.scope.animation_speed": {
+    "description": "Color cycle speed for the `breathing` gradient mode (0.05 = very slow, 1.0 = very fast)."
+  },
+  "visualizer.scope.beam": {
+    "description": "Luminous-beam look: additive blending so the glow accumulates into a bright neon beam over the cover (woscope-style)."
+  },
+  "visualizer.scope.echo": {
+    "description": "Milkdrop-style zoom/rotate feedback — the ring spirals and tunnels inward, swirling with the bass/beat (0.0 disables; 1.0 = strong persistence). Takes over the display when on."
+  },
+  "visualizer.scope.fill_opacity": {
+    "description": "Radial gradient fill from the ring toward the center (0.0 = no fill, 1.0 = opaque rim)."
+  },
+  "visualizer.scope.glow_intensity": {
+    "description": "Neon glow halo around the ring (0.0 disables; up to 1.0)."
+  },
+  "visualizer.scope.gradient_mode": {
+    "description": "Color mapping mode. Options: `breathing`, `static`, `position`, `height`, `gradient`."
+  },
+  "visualizer.scope.line_thickness": {
+    "description": "Ring thickness as a fraction of the panel size (0.005 to 0.1)."
+  },
+  "visualizer.scope.outline_opacity": {
+    "description": "Outline opacity (0.0 to 1.0)."
+  },
+  "visualizer.scope.outline_thickness": {
+    "description": "Outline thickness in pixels behind the ring (0.0 disables; up to 5.0)."
+  },
+  "visualizer.scope.particle_count": {
+    "description": "Number of particles in the field (0 disables; up to 2048)."
+  },
+  "visualizer.scope.particle_speed": {
+    "description": "Particle launch-speed multiplier — how fast they fly out from the ring (0.1 = lazy drift, 4.0 = energetic)."
+  },
+  "visualizer.scope.particles": {
+    "description": "Glowing particle field drifting out from the ring (the NCS/Wav2Bar look)."
+  },
+  "visualizer.scope.point_count": {
+    "description": "Points around the ring; more = finer waveform detail (16 to 512)."
+  },
+  "visualizer.scope.radius": {
+    "description": "Mean ring radius as a fraction of the space inside the cover (0.1 = tiny inner ring, 0.95 = nearly fills the panel)."
+  },
+  "visualizer.scope.sensitivity": {
+    "description": "Waveform swing/gain — how far loud audio pushes the ring in and out (0.5 = subtle, 5.0 = wild)."
+  },
+  "visualizer.scope.style": {
+    "description": "Interpolation style around the ring (`smooth` or `angular`)."
+  },
+  "visualizer.scope.trails": {
+    "description": "Motion trails — the ring leaves a fading after-image (0.0 disables; 1.0 = long comet trails)."
   },
   "visualizer.waves": {
     "description": "Enable spline smoothing between bars."
