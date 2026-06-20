@@ -9,7 +9,7 @@ Nokkvi uses a **server-only artwork pipeline** — images are fetched directly f
 
 ## How Artwork Works
 
-When an album comes into view, Nokkvi fetches the image directly from your Navidrome server and decodes it into a GPU texture handle. Two in-memory LRU caches keep recent images warm: a **thumbnail cache** holds up to **512** slot-row thumbnails, and a **panel cache** holds up to **200** full-size images for the large artwork panel. Browsing a section of your library you visited recently has zero network overhead.
+When an album comes into view, Nokkvi fetches the image directly from your Navidrome server and decodes it into a GPU texture handle. Two in-memory LRU caches keep recent images warm: a **thumbnail cache** holds up to **1024** slot-row thumbnails, and a **panel cache** holds up to **200** full-size images for the large artwork panel. Browsing a section of your library you visited recently has zero network overhead.
 
 Thumbnails in list views are populated around the visible viewport — items well outside the visible area aren't pre-loaded.
 

@@ -27,7 +27,7 @@ A few values you might expect here are stored separately. **Volume** and **sessi
 | `[settings]` | Everything in [General Settings](#general-settings), [Interface Settings](#interface-settings), [Behavior Settings](#behavior-settings), [Playback Settings](#playback-settings), and [Audio Engine](#audio-engine-internal) below |
 | `[hotkeys]` | Key rebindings — see [Keyboard Shortcuts](/reference/hotkeys/) |
 | `[views]` | Per-view sort preferences — see [View Sort Preferences](#view-sort-preferences) below |
-| `[visualizer]`, `[visualizer.bars]`, `[visualizer.lines]` | Visualizer settings — the dotted keys in the tables below (e.g. `visualizer.bars.led_bars`) reflect this nesting |
+| `[visualizer]`, `[visualizer.bars]`, `[visualizer.lines]`, `[visualizer.scope]` | Visualizer settings — the dotted keys in the tables below (e.g. `visualizer.bars.led_bars`) reflect this nesting |
 
 A minimal file looks like:
 
@@ -68,7 +68,7 @@ All keys in this section live under `[settings]`.
 {/* config-table:start id="general" */}
 | Key | Default | Description |
 | :--- | :--- | :--- |
-| `start_view` | `"Queue"` | The view to show on startup. Options: `Albums`, `Artists`, `Songs`, `Genres`, `Playlists`. Any other value (including `Queue`, `Radios`, `Settings`) falls back to `Queue`. |
+| `start_view` | `"Queue"` | The view to show on startup. Options: `Queue`, `Albums`, `Artists`, `Songs`, `Genres`, `Playlists`. Any unrecognized value (e.g. `Radios`, `Settings`) falls back to `Queue`. |
 | `local_music_path` | `""` | Absolute path to your local music library. If set, Nokkvi will try to open files directly (for things like "Show in File Manager"). |
 | `library_page_size` | `"default"` | How many items to fetch per request. Options: `small` (100), `default` (500), `large` (1000), `massive` (5000). |
 | `artwork_resolution` | `"default"` | Quality for large panel artwork. Options: `default` (1000px), `high` (1500px), `ultra` (2000px), `original`. See note below. |
@@ -253,6 +253,7 @@ All keys in this section live under `[settings]`.
 | Key | Default | Description |
 | :--- | :--- | :--- |
 | `rating_reminder_enabled` | `false` | Show a "rate this track" desktop notification after you finish listening to a song. When off, no reminder is shown. |
+| `rating_change_notification_enabled` | `false` | Show a desktop notification confirming the new rating whenever you rate via the rating hotkey or the `nokkvi rate` command — handy when the window is minimized or on another workspace. Only fires on a real change, so a no-op like `+1` at 5 stars stays silent. |
 | `rating_reminder_trigger` | `"on_scrobble"` | When the reminder fires. Options: `on_scrobble` (when the server confirms the play — requires scrobbling to be active), `percentage_played` (once `rating_reminder_percent` of the track has elapsed). |
 | `rating_reminder_percent` | `75` | Percentage of the track that must play before the reminder fires when `rating_reminder_trigger = "percentage_played"`. Range 60–90. Ignored by the `on_scrobble` trigger. |
 {/* config-table:end */}

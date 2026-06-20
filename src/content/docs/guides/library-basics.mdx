@@ -24,9 +24,9 @@ For an exhaustive list of every shortcut and how to rebind it, see [Keyboard Sho
 
 ## Inline expansion
 
-`Shift + Enter` (or clicking the count on the focused row, e.g. "*N* songs" / "*N* albums") expands the focused item so its contents render indented below it — albums under an artist, tracks under an album or playlist, albums under a genre. Only one parent can be expanded at a time; changing sort, search, or refreshing collapses it.
+`Shift + Enter` (or clicking the count on the focused row, e.g. "*N* songs" / "*N* albums") expands the focused item so its contents render indented below it — albums under an artist, tracks under an album or playlist, albums under a genre. Only one parent can be expanded at a time; changing sort or search collapses it.
 
-Expanded child rows carry a **dotted-decimal sub-index** in the leading column — e.g. `236.1`, `236.2` for the first two children of the parent at row 236, with a slight indent so the parent's own number stays prominent. Enable the **Index** column from the gear icon to see them.
+Expanded child rows carry a **dotted-decimal sub-index** in the leading column — e.g. `236.1`, `236.2` for the first two children of the parent at row 236, with a slight indent so the parent's own number stays prominent. The **Index** column carries these and is on by default; hide it from the gear icon if you don't want them.
 
 ## The slot list
 
@@ -42,13 +42,13 @@ Navigation steps the focused item up or down by one (`Backspace` / `Tab`, or the
 
 ![The player bar at the bottom of every view — transport on the left, progress bar in the middle, mode toggles and volume on the right](../../../assets/player-bar.webp)
 
-The strip at the bottom of every view is fixed-height and shared across all views: a three-button transport — previous / play-pause / next — on the left, the progress bar with an animated waveform visualizer in the middle, and mode toggles (repeat, shuffle, consume, equalizer, sound effects, crossfade, bit-perfect, visualizer) plus volume sliders on the right. Stop isn't a transport button; it's on the media keys and `nokkvi stop`. See [Keyboard Shortcuts](/reference/hotkeys/) for the transport key bindings and [Audio](/guides/audio/) for what the mode toggles do.
+The strip at the bottom of every view is fixed-height and shared across all views: a three-button transport — previous / play-pause / next — on the left, the progress bar in the middle, and mode toggles (repeat, shuffle, consume, equalizer, sound effects, crossfade, bit-perfect, visualizer) plus volume sliders on the right. Stop isn't a transport button; it's on the media keys and `nokkvi stop`. See [Keyboard Shortcuts](/reference/hotkeys/) for the transport key bindings and [Audio](/guides/audio/) for what the mode toggles do.
 
 ## Search
 
 `/` focuses the search bar; `Escape` unfocuses it — the query text and filtered results stay. To actually clear a search, use the X button in the search bar, or switch view / change sort.
 
-Search is case-insensitive in every view. The fields each view's search hits vary — see the per-view page when in doubt. Each view searches its own primary field server-side: Albums by album name, Artists by artist name, Songs by track title, Genres by genre name, Playlists by name. The Queue is the exception — it filters client-side across title, artist, album, and genre — and Radio matches station name or stream URL. So, for example, typing an artist or album name into the Songs view matches song titles only; it won't surface that artist's or album's tracks.
+Search is case-insensitive in every view. The fields each view's search hits vary — see the per-view page when in doubt. Each view searches its own primary field server-side: Albums by album name, Artists by artist name, Songs by track title, Genres by genre name, Playlists by name. The Queue and Radio are the exceptions — they filter client-side: the Queue across title, artist, album, and genre, and Radio across station name and stream URL. So, for example, typing an artist or album name into the Songs view matches song titles only; it won't surface that artist's or album's tracks.
 
 ## Sorting
 
@@ -96,7 +96,7 @@ Two distinct concepts:
 - **Love / star** is a boolean — a track, album, or artist is either favorited or not. Toggle it with `Shift + L`, or click the heart icon in the **Love** column.
 - **Rating** is 0–5 stars. Click a star to set it directly; click the same star again to clear. Or use `=` and `-` to step the focused item's rating up or down.
 
-Sorting by **Favorited** puts starred items first; sorting by **Rating** orders by star count. Both columns auto-show when you sort by them, even if you've toggled them off.
+Sorting by **Favorited** puts starred items first; sorting by **Rating** orders by star count. The Rating column auto-shows when you sort by it, even if you've hidden it; the Love column is on by default but only follows its own toggle.
 
 ## Click-through expansion
 
@@ -104,7 +104,7 @@ Many views render the artist, album, or genre as clickable text on each row. Cli
 
 The "*N* songs" / "*N* albums" count cells on Artists and Genres rows are a different click affordance: they jump to a *different view scoped to that entity* (e.g. clicking "391 songs" on a Black Metal row opens the Songs view filtered to that genre's full backing catalog), distinct from the parent-view inline expansion behavior the per-view guides describe.
 
-To return to a normal browse state, collapse the expansion (`Shift + Enter` on the focused row), refresh (`R`), or change sort.
+To return to a normal browse state, collapse the expansion (`Shift + Enter` on the focused row) or change sort.
 
 ## Common context menu actions
 

@@ -3,7 +3,7 @@ title: Artists
 description: Browse artists, drill into their discography, and pull recommendations.
 ---
 
-The Artists view shows every artist in your library. Each row shows artwork (or a fallback album cover), name, and stats. The right side shows a large artwork panel with the artist's biography pulled from Last.fm via Navidrome — when present, a "Read more on Last.fm" button opens the full bio in your browser.
+The Artists view shows every artist in your library. Each row shows artwork (or a fallback album cover), name, and stats. The right side shows a large artwork panel with the artist's biography pulled from Last.fm via Navidrome — when present, a "Read more on Last.fm" button opens the artist's Last.fm page in your browser.
 
 For navigation, search, multi-select, ratings, and shared right-click actions, see [Library Basics](/guides/library-basics/). For artwork panel sizing, see [Artwork & Performance](/guides/artwork/#the-artwork-panel).
 
@@ -21,7 +21,16 @@ Toggle via the gear icon: **Multi-select**, **Index**, **Thumbnail**, **Stars**,
 
 ## Expansion
 
-`Shift + Enter` on an artist (or clicking the "*N* albums" text) expands their albums inline below the row. Only one artist can be expanded at a time; changing sort or search clears the expansion. Both artist rows and expanded album rows offer the standard **Add to Queue / Add to Playlist / Get Info / Show in File Manager** context-menu actions.
+`Shift + Enter` on an artist (or clicking the "*N* albums" text) expands their albums inline below the row. Only one artist can be expanded at a time; changing sort or search clears the expansion. Expanded album rows offer the standard **Add to Queue / Add to Playlist / Get Info / Show in File Manager** context-menu actions; artist rows add **Find Similar** and **Top Songs** on top of those (see [Recommendations](#recommendations)).
+
+## Recommendations
+
+Right-clicking an artist row adds two extras beyond the shared menu:
+
+- **Find Similar** — open a panel of tracks like this artist.
+- **Top Songs** — the artist's most-played tracks.
+
+Both switch to the Queue view's Similar tab and match against songs already in your library — see [Similar Songs and Top Songs](/guides/queue/#similar-songs-and-top-songs). They act on the artist row only; expanded album rows underneath use the standard menu.
 
 ## Click-through expansion
 
@@ -30,4 +39,4 @@ From an expanded album row, drill into tracks via:
 - "*N* songs" text or `Shift + Enter` on a centered child album → Albums view with that album expanded inline at the top.
 - **Album** name → Albums view with that album expanded inline at the top.
 
-Collapse with `Shift + Enter`, or refresh / change sort to clear the expansion state.
+Collapse with `Shift + Enter`, or change sort to clear the expansion state.
