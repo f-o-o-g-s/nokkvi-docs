@@ -138,16 +138,16 @@ The `scope` mode draws a circular oscilloscope — a time-domain waveform ring �
 - **Radius.** [`visualizer.scope.radius`](/reference/config/#scope-mode) (default `0.7`) sets the ring's mean radius as a fraction of the space inside the cover — `0.1` is a tiny inner ring, `0.95` nearly fills the panel.
 - **Sensitivity.** [`visualizer.scope.sensitivity`](/reference/config/#scope-mode) (default `1.5`) is the waveform swing: how far loud audio pushes the ring in and out (`0.5` subtle, `5.0` wild).
 - **Point count.** [`visualizer.scope.point_count`](/reference/config/#scope-mode) (default `16`) sets how many points trace the ring — low values give a chunky, blobby ring; high values resolve fine waveform detail.
-- **Thickness.** [`visualizer.scope.line_thickness`](/reference/config/#scope-mode) (default `0.005`) is the ring stroke as a fraction of the panel.
+- **Thickness.** [`visualizer.scope.line_thickness`](/reference/config/#scope-mode) (default `0.01`) is the ring stroke as a fraction of the panel.
 
 ### Ring Look
-- **Fill.** [`visualizer.scope.fill_opacity`](/reference/config/#scope-mode) (default `0.75`) shades a radial gradient from the ring toward the centre.
-- **Glow.** [`visualizer.scope.glow_intensity`](/reference/config/#scope-mode) (default `0.75`) wraps the ring in a neon halo, like the Lines glow.
+- **Fill.** [`visualizer.scope.fill_opacity`](/reference/config/#scope-mode) (default `0.5`) shades a radial gradient from the ring toward the centre.
+- **Glow.** [`visualizer.scope.glow_intensity`](/reference/config/#scope-mode) (default `0.35`) wraps the ring in a neon halo, like the Lines glow.
 - **Beam.** [`visualizer.scope.beam`](/reference/config/#scope-mode) (default `true`) renders the ring with additive blending so overlapping glow accumulates into a bright neon beam (woscope-style).
 - **Outline.** [`visualizer.scope.outline_thickness`](/reference/config/#scope-mode) / [`outline_opacity`](/reference/config/#scope-mode) (default off) draw a darker border behind the ring for contrast on busy covers.
 
 ### Particles
-[`visualizer.scope.particles`](/reference/config/#scope-mode) (default `true`) launches a glowing particle field that drifts outward from the ring on the beat — the NCS / Wav2Bar look. [`particle_count`](/reference/config/#scope-mode) (default `512`, up to `2048`) sets how many, and [`particle_speed`](/reference/config/#scope-mode) (default `1.0`) how fast they fly out (`0.1` lazy drift, `4.0` energetic).
+[`visualizer.scope.particles`](/reference/config/#scope-mode) (default `true`) launches a glowing particle field that drifts outward from the ring on the beat — the NCS / Wav2Bar look. [`particle_count`](/reference/config/#scope-mode) (default `192`, up to `2048`) sets how many, and [`particle_speed`](/reference/config/#scope-mode) (default `0.5`) how fast they fly out (`0.1` lazy drift, `4.0` energetic).
 
 ---
 
@@ -176,7 +176,7 @@ These effects apply on top of whichever mode (bars, lines, or scope) is active, 
 Motion trails leave a fading after-image behind the waveform — a short ghost at low values, a long comet trail near `1.0`. It is a flat per-frame fade; for the swirling variant use [Echo](#echo). Configured per mode — [`visualizer.bars.trails`](/reference/config/#bars-mode), [`visualizer.lines.trails`](/reference/config/#lines-mode), [`visualizer.scope.trails`](/reference/config/#scope-mode) — and off (`0.0`) by default everywhere because it noticeably changes the look.
 
 ### Echo
-Echo is Milkdrop-style zoom/rotate feedback: the visualizer spirals and tunnels into itself, swirling harder with the bass and beat. Near `1.0` the feedback persists strongly and effectively takes over the display. Unlike [Motion Trails](#motion-trails) (a flat fade), Echo warps and rotates each fading copy. Configured per mode — [`visualizer.bars.echo`](/reference/config/#bars-mode), [`visualizer.lines.echo`](/reference/config/#lines-mode), [`visualizer.scope.echo`](/reference/config/#scope-mode). Bars and Lines default to `0.0` (off); Scope defaults to `0.25`, a subtle feedback swirl that suits the ring.
+Echo is Milkdrop-style zoom/rotate feedback: the visualizer spirals and tunnels into itself, swirling harder with the bass and beat. Near `1.0` the feedback persists strongly and effectively takes over the display. Unlike [Motion Trails](#motion-trails) (a flat fade), Echo warps and rotates each fading copy. Configured per mode — [`visualizer.bars.echo`](/reference/config/#bars-mode), [`visualizer.lines.echo`](/reference/config/#lines-mode), [`visualizer.scope.echo`](/reference/config/#scope-mode). Bars and Lines default to `0.0` (off); Scope defaults to `1.0`, a strong feedback swirl that takes over the ring.
 
 ### CRT / Film
 [`visualizer.crt`](/reference/config/#general-visualizer) (default `0.0`, off) is a retro composite under one master amount: chromatic aberration, scanlines, vignette, film grain, and a beat zoom-punch. It is masked to the visualizer content, so it never tints the rest of the UI.
