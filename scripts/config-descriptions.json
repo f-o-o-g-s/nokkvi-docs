@@ -239,6 +239,9 @@
   "quick_add_to_playlist": {
     "description": "Skip the \"Add to Playlist\" dialog and add directly to a remembered default playlist."
   },
+  "rating_change_notification_enabled": {
+    "description": "Show a desktop notification confirming the new rating whenever you rate via the rating hotkey or the `nokkvi rate` command — handy when the window is minimized or on another workspace. Only fires on a real change, so a no-op like `+1` at 5 stars stays silent."
+  },
   "rating_reminder_enabled": {
     "description": "Show a \"rate this track\" desktop notification after you finish listening to a song. When off, no reminder is shown."
   },
