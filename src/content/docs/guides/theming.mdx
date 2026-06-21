@@ -9,7 +9,7 @@ Nokkvi comes with 23 built-in themes, but you can easily create your own using s
 
 ## Built-in themes
 
-Switch themes from the **Settings** menu (default: `` ` `` backtick). Here's a sampler of the 23 built-ins — every frame is the same Queue view, so the only thing changing is the theme's background, accent (the focused row + progress bar), text, and visualizer gradient.
+Switch themes from **Settings → Theme → Browse Themes…** (open Settings with the `` ` `` backtick). The picker is searchable and paints every row in its own palette, so scrolling the list is a live preview; press Enter or center-click a row to apply it. Here's a sampler of the 23 built-ins — every frame is the same Queue view, so the only thing changing is the theme's background, accent (the focused row + progress bar), text, and visualizer gradient.
 
 <Tabs syncKey="theme">
   <TabItem label="Svalbard">
@@ -46,7 +46,7 @@ Custom themes are stored in:
 ~/.config/nokkvi/themes/
 ```
 
-Any `.toml` file placed in this directory will automatically appear in the **Settings** menu (default: `` ` `` backtick). Built-in themes are seeded to this directory on first launch, so you can open any of them as a starting point. Fresh installs start on **Svalbard** (Nokkvi's default theme); switch from the Settings menu at any time.
+Any `.toml` file placed in this directory will automatically appear in the theme picker (**Settings → Theme → Browse Themes…**). Built-in themes are seeded to this directory on first launch, so you can open any of them as a starting point. Fresh installs start on **Svalbard** (Nokkvi's default theme); switch from the picker at any time.
 
 ## Theme File Structure
 
@@ -135,7 +135,7 @@ border = "#c4bc9b"
 | :--- | :--- | :--- | :--- |
 | `border` | derived | derived | Chrome separators throughout the UI. When empty, derives from `background.hard × 0.70`. |
 
-Editable in Settings → Theme → **Chrome Border**; the row has a one-click reset back to the derived default.
+Set `border` as a top-level key under `[dark]` / `[light]` in the theme file (as shown above); omit it to fall back to the derived default.
 
 ### `[dark.danger]` / `[light.danger]`
 
