@@ -393,7 +393,7 @@
     "description": "Your Navidrome username."
   },
   "verbose_config": {
-    "description": "If true, all settings (even defaults) are written to the TOML file."
+    "description": "How `config.toml` is rewritten when you change settings. Options: `off` (sparse — only non-default keys, with `# description` comments above each `[visualizer]` key), `on` (writes every setting, including unchanged defaults — a full template for manual editing), `clean` (sparse like `off`, but no comments). Legacy `true`/`false` values still load (`true` → `on`, `false` → `off`)."
   },
   "visualization_mode": {
     "description": "Active visualizer mode. Options: `off`, `bars`, `lines`, `scope`. Cycle live with the `V` hotkey — see [Visualizer Reference](/reference/visualizer/)."

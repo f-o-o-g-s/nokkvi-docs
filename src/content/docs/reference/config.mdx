@@ -10,7 +10,7 @@ import { Aside } from '@astrojs/starlight/components';
 Nokkvi stores your preferences in `~/.config/nokkvi/config.toml`. While most of these can be toggled in the in-app **Settings** menu (Default: `` ` `` backtick), this guide provides a complete technical reference for each key.
 
 :::tip[Verbose Config]
-By default, Nokkvi only writes settings that you have modified to the file. You can toggle **Verbose Config** in the Settings menu to force Nokkvi to write *every* default value into the file for easier manual editing.
+By default, Nokkvi only writes settings you have changed to the file. The **Verbose Config** setting controls this: `Off` (default) keeps the file sparse with helpful `# description` comments, `On` writes *every* default value for easier manual editing, and `Clean` stays sparse with no comments at all.
 :::
 
 :::note[What lives elsewhere]
@@ -74,7 +74,7 @@ All keys in this section live under `[settings]`.
 | `artwork_resolution` | `"default"` | Quality for large panel artwork. Options: `default` (1000px), `high` (1500px), `ultra` (2000px), `original`. See note below. |
 | `show_album_artists_only` | `true` | If true, the Artists view shows only album artists and excludes track-level featured artists. |
 | `suppress_library_refresh_toasts` | `true` | Hide the toast notification that appears when Navidrome reports a library refresh. |
-| `verbose_config` | `false` | If true, all settings (even defaults) are written to the TOML file. |
+| `verbose_config` | `"off"` | How `config.toml` is rewritten when you change settings. Options: `off` (sparse — only non-default keys, with `# description` comments above each `[visualizer]` key), `on` (writes every setting, including unchanged defaults — a full template for manual editing), `clean` (sparse like `off`, but no comments). Legacy `true`/`false` values still load (`true` → `on`, `false` → `off`). |
 | `queue_show_stars` | `true` | Show the star rating column in the queue. |
 | `queue_show_album` | `true` | Show the album column in the queue. |
 | `queue_show_duration` | `true` | Show the duration column in the queue. |
