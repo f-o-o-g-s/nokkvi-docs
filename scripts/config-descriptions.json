@@ -146,6 +146,9 @@
   "horizontal_volume": {
     "description": "Stack volume sliders horizontally instead of vertically in the player bar."
   },
+  "icon_set": {
+    "description": "Which icon family the UI renders its glyphs from. Options: `phosphor` (default — Phosphor glyphs at Regular weight, with the transport and rating glyphs forced to Fill so the play button and stars stay solid), `lucide` (the original thin stroked outlines the app first shipped)."
+  },
   "library_page_size": {
     "description": "How many items to fetch per request. Options: `small` (100), `default` (500), `large` (1000), `massive` (5000)."
   },
