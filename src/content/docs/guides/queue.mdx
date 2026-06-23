@@ -17,6 +17,14 @@ Pressing `Enter` on a focused album or track is the most common way to start pla
 | [`play_single`](/reference/config/#playback-settings) | In song-level views (Songs, the queue), replaces the queue with just the focused track. On a focused album or artist, it behaves like play_all and replaces the queue with the whole album/artist |
 | [`append_and_play`](/reference/config/#playback-settings) | Adds the item to the end of the queue and starts playing it |
 
+### Shuffle play
+
+By default `Enter` plays a collection in list order. Turn on [`enter_shuffle`](/reference/config/#playback-settings) (Settings → General → **Shuffle Play on Enter**) and every `Enter` or click that starts a collection instead plays it in a *fresh* random order — a new shuffle each time, not a saved one. It applies the same way in every library view: an album, an artist's tracks, a genre, a playlist, or the current Songs list.
+
+To shuffle just once without changing the setting, press `Ctrl + Enter` (the [**Shuffle Play**](/reference/hotkeys/#navigation) hotkey) on the focused item or selection, or right-click and choose **Shuffle Play**. That forces a one-shot shuffle of the whole batch regardless of how `enter_shuffle` is set.
+
+The two interact in one place: with `enter_shuffle` on, activating a *specific* track inside an expanded album or playlist pins that track first and shuffles the rest behind it, so you still start where you clicked. `Ctrl + Enter` ignores that and shuffles everything.
+
 ### Add without replacing
 
 `Shift + A` adds the focused item to the end of the queue without clearing what's already there. Works on individual tracks and on albums (which queues all their tracks).

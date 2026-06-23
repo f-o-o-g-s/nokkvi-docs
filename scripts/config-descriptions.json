@@ -113,6 +113,9 @@
   "enter_behavior": {
     "description": "Action when pressing `Enter` on a song. Options: `play_all` (replace queue with the current view), `play_single` (replace queue with just this track), `append_and_play` (add to queue and play)."
   },
+  "enter_shuffle": {
+    "description": "When enabled, pressing `Enter` (or clicking) to play a collection starts it in a fresh random order instead of list order. `Ctrl + Enter` forces a one-shot shuffle regardless of this setting."
+  },
   "eq_enabled": {
     "description": "Global bypass for the 10-band equalizer."
   },
