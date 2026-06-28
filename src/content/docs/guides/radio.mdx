@@ -19,8 +19,9 @@ All radio CRUD lives in Nokkvi — you don't need to touch Navidrome's web UI.
 
 - **Add Station** button (header, top-right) opens a dialog for **name** and **stream URL**.
 - **Right-click → Edit Station** re-opens that dialog pre-populated.
-- **Right-click → Delete Station** removes the station after confirmation.
 - **Right-click → Copy Stream URL** copies the URL to your clipboard.
+- **Right-click → Refresh Artwork** clears the station's cached art so it re-captures — see [Artwork](#artwork).
+- **Right-click → Delete Station** removes the station after confirmation.
 
 Behind the scenes, Nokkvi calls Navidrome's `createInternetRadioStation`, `updateInternetRadioStation`, and `deleteInternetRadioStation` endpoints.
 
@@ -35,6 +36,20 @@ When a station is streaming, the metadata strip shows:
 Most public Icecast/Shoutcast streams advertise ICY metadata; if a station you've added shows only the URL with no track info, it likely doesn't.
 
 While a radio is playing, `next` / `prev` (and the player-bar arrows) cycle through your stations in order, wrapping around at the ends — they don't act on the queue.
+
+## Artwork
+
+Stations show cover art in the list rows, the large now-playing panel, and the mini-player. It comes from one of three places:
+
+- An **uploaded station logo** (set on the server) — used as the station's identity everywhere in Nokkvi.
+- **Now-playing stream art** parsed from the playing station's ICY metadata — drives the large panel.
+- **Remembered art** — for a station with no logo, the last track's stream art is cached and reused as the row thumbnail in later sessions.
+
+A station with no logo and no art yet falls back to a radio-tower glyph. Remembered art is cached on disk per server (a bounded cache — the oldest art is evicted as it fills), so it survives restarts even though [playback itself doesn't](#limitations).
+
+**Right-click → Refresh Artwork** clears a station's cached art. A station with an uploaded logo re-fetches it right away; a logo-less station drops back to the tower glyph and re-captures the next time it plays.
+
+While a station streams, the over-cover visualizer animates over the artwork — or over the tower glyph when there's none — and freezes on pause, just like the Queue's now-playing cover.
 
 ## Scrobbling
 
@@ -75,5 +90,5 @@ These credentials are separate from any Last.fm/ListenBrainz keys configured on 
 - **No queue integration** — radio streams aren't queued. Merely navigating to the Queue view leaves the radio playing; playing anything from the queue (or any library view) stops the stream and switches back to queue playback.
 - **No server-side play counts** — radio plays don't go through Navidrome, so they never bump play counts on your server. They *can* scrobble straight to ListenBrainz/Last.fm instead — see [Scrobbling](#scrobbling) above.
 - **No favorites or playlists** — you can't star a station or add it to a playlist.
-- **No artwork or expansion** — radio rows are flat; no cover art, no track listings.
+- **No expansion** — radio rows are flat; there's no expand-to-tracklisting. (Rows *do* show artwork now — see [Artwork](#artwork).)
 - **Session-only playback** — the stream stops when you close Nokkvi and doesn't auto-resume.

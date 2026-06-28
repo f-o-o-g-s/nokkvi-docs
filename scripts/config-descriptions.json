@@ -1,6 +1,6 @@
 {
   "albums_artwork_overlay": {
-    "description": "Show a text overlay on artwork thumbnails in the Albums view."
+    "description": "Show a text overlay on the large artwork panel in the Albums view."
   },
   "albums_ascending": {
     "description": "Ascending order in the Albums view."
@@ -30,7 +30,7 @@
     "description": "Sort mode for the Albums view."
   },
   "artists_artwork_overlay": {
-    "description": "Show a text overlay on artwork thumbnails in the Artists view."
+    "description": "Show a text overlay on the large artwork panel in the Artists view."
   },
   "artists_ascending": {
     "description": "Ascending order in the Artists view."
@@ -180,7 +180,7 @@
     "description": "Apply a subtle opacity fade to items that are not in the center of the list."
   },
   "playlists_artwork_overlay": {
-    "description": "Show a text overlay on artwork thumbnails in the Playlists view."
+    "description": "Show a text overlay on the large artwork panel in the Playlists view."
   },
   "playlists_ascending": {
     "description": "Ascending order in the Playlists view."
@@ -330,7 +330,7 @@
     "description": "Make artist and album names inside list rows clickable links to their respective views."
   },
   "songs_artwork_overlay": {
-    "description": "Show a text overlay on artwork thumbnails in the Songs view."
+    "description": "Show a text overlay on the large artwork panel in the Songs view."
   },
   "songs_ascending": {
     "description": "Ascending order in the Songs view."
