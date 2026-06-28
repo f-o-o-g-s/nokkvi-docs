@@ -245,6 +245,15 @@
   "quick_add_to_playlist": {
     "description": "Skip the \"Add to Playlist\" dialog and add directly to a remembered default playlist."
   },
+  "radio_now_playing_enabled": {
+    "description": "Send a live now-playing update to ListenBrainz and Last.fm each time the radio track changes, refreshed every 30 seconds. No effect unless `radio_scrobbling_enabled` is on."
+  },
+  "radio_scrobble_threshold_secs": {
+    "description": "Seconds of actual playback a radio track must accrue before it scrobbles. Radio streams report no duration, so this is an absolute-seconds gate rather than the percentage used by [`scrobble_threshold`](#scrobbling). Range 20–240."
+  },
+  "radio_scrobbling_enabled": {
+    "description": "Scrobble internet-radio streams directly to ListenBrainz and/or Last.fm, bypassing Navidrome (radio tracks carry no library id to relay through the server). Reads the `Artist - Title` from the stream's ICY metadata and submits it once it passes `radio_scrobble_threshold_secs`. Needs at least one service connected — see [Radio → Scrobbling](/guides/radio/#scrobbling)."
+  },
   "rating_change_notification_enabled": {
     "description": "Show a desktop notification confirming the new rating whenever you rate via the rating hotkey or the `nokkvi rate` command — handy when the window is minimized or on another workspace. Only fires on a real change, so a no-op like `+1` at 5 stars stays silent."
   },

@@ -25,6 +25,7 @@ A few values you might expect here are stored separately. **Volume** and **sessi
 | :--- | :--- |
 | Root (no header) | `server_url`, `username` |
 | `[settings]` | Everything in [General Settings](#general-settings), [Interface Settings](#interface-settings), [Behavior Settings](#behavior-settings), [Playback Settings](#playback-settings), and [Audio Engine](#audio-engine-internal) below |
+| `[radio_scrobble]` | ListenBrainz token and Last.fm API credentials for [Radio Scrobbling](#radio-scrobbling) — stored in plaintext; usually set in-app. See [Radio → Scrobbling](/guides/radio/#scrobbling) |
 | `[hotkeys]` | Key rebindings — see [Keyboard Shortcuts](/reference/hotkeys/) |
 | `[views]` | Per-view sort preferences — see [View Sort Preferences](#view-sort-preferences) below |
 | `[visualizer]`, `[visualizer.bars]`, `[visualizer.lines]`, `[visualizer.scope]` | Visualizer settings — the dotted keys in the tables below (e.g. `visualizer.bars.led_bars`) reflect this nesting |
@@ -247,6 +248,18 @@ All keys in this section live under `[settings]`.
 | :--- | :--- | :--- |
 | `scrobbling_enabled` | `true` | Report listening activity back to the server. |
 | `scrobble_threshold` | `0.50` | Portion of the track you must actually listen to before a scrobble fires (0.25 to 0.90). A scrobble also fires after 4 minutes of listening regardless of this value — whichever comes first. |
+{/* config-table:end */}
+
+### Radio Scrobbling
+
+Internet-radio streams scrobble **directly** to ListenBrainz and/or Last.fm from Nokkvi, bypassing Navidrome — radio tracks have no library id for the server to relay. These keys live under `[settings]`; the service credentials live in a separate `[radio_scrobble]` table set up in-app. See [Radio → Scrobbling](/guides/radio/#scrobbling) for the full setup.
+
+{/* config-table:start id="radio-scrobbling" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `radio_scrobbling_enabled` | `false` | Scrobble internet-radio streams directly to ListenBrainz and/or Last.fm, bypassing Navidrome (radio tracks carry no library id to relay through the server). Reads the `Artist - Title` from the stream's ICY metadata and submits it once it passes `radio_scrobble_threshold_secs`. Needs at least one service connected — see [Radio → Scrobbling](/guides/radio/#scrobbling). |
+| `radio_scrobble_threshold_secs` | `60` | Seconds of actual playback a radio track must accrue before it scrobbles. Radio streams report no duration, so this is an absolute-seconds gate rather than the percentage used by [`scrobble_threshold`](#scrobbling). Range 20–240. |
+| `radio_now_playing_enabled` | `true` | Send a live now-playing update to ListenBrainz and Last.fm each time the radio track changes, refreshed every 30 seconds. No effect unless `radio_scrobbling_enabled` is on. |
 {/* config-table:end */}
 
 ### Rating Reminder

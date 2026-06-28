@@ -36,6 +36,36 @@ Most public Icecast/Shoutcast streams advertise ICY metadata; if a station you'v
 
 While a radio is playing, `next` / `prev` (and the player-bar arrows) cycle through your stations in order, wrapping around at the ends — they don't act on the queue.
 
+## Scrobbling
+
+Radio plays can scrobble **directly** to [ListenBrainz](https://listenbrainz.org/) and/or [Last.fm](https://www.last.fm/) — straight from Nokkvi, not through Navidrome. Library scrobbling rides Navidrome's Subsonic relay (see [Navidrome → Scrobbling](/guides/navidrome/#scrobbling)), but a radio track has no library id for the server to forward, so Nokkvi submits it itself using credentials you connect on the client.
+
+This is **off by default**. Turn it on under **Settings → Playback → Radio Scrobbling**.
+
+### What gets scrobbled
+
+Nokkvi reads the `Artist - Title` from the stream's [ICY metadata](#now-playing) — the same text the metadata strip shows. Once a track has *actually played* for your listen threshold, it's submitted once; while it plays, an optional now-playing update is sent too.
+
+- **Threshold** — `Radio Listen Threshold` (config: [`radio_scrobble_threshold_secs`](/reference/config/#radio-scrobbling), default 60 s, range 20–240). Radio streams don't report a duration, so this is a flat seconds count, not the percentage that [library tracks](/guides/navidrome/#scrobbling) use. Paused time doesn't count.
+- **Now-playing** — `Send Radio Now-Playing` (config: [`radio_now_playing_enabled`](/reference/config/#radio-scrobbling), on by default) pushes a live "now playing" to each connected service whenever the track changes, refreshed every 30 seconds.
+
+<Aside type="note">
+  A stream whose ICY title isn't in `Artist - Title` form (just a title, or nothing) can't be scrobbled — Nokkvi needs both an artist and a title. A repeating track won't scrobble twice in a row; a new listen only registers when the stream title actually changes.
+</Aside>
+
+### Connecting a service
+
+Credentials live in **Settings → Playback → Radio Scrobbling**, and each service's row shows whether it's connected. Set up either or both — scrobbling fires for whichever you've connected.
+
+- **ListenBrainz** — open `ListenBrainz Token`, then paste a user token from your [ListenBrainz profile](https://listenbrainz.org/profile/). `Verify ListenBrainz` checks it works; clearing the field disconnects.
+- **Last.fm** — open `Last.fm API Credentials` and paste an API key + secret from [last.fm/api](https://www.last.fm/api/account/create), then run `Connect Last.fm` to authorize Nokkvi in your browser. `Disconnect Last.fm` clears the stored session.
+
+These credentials are separate from any Last.fm/ListenBrainz keys configured on Navidrome for library scrobbling — radio uses your own client-side credentials, not the server's.
+
+<Aside type="note" title="Where credentials are stored">
+  Radio credentials are saved to a plaintext `[radio_scrobble]` block in `config.toml`. You can edit it by hand, or set the `NOKKVI_RADIO_LISTENBRAINZ_TOKEN`, `NOKKVI_RADIO_LASTFM_API_KEY`, and `NOKKVI_RADIO_LASTFM_API_SECRET` environment variables to override the file — handy for keeping secrets out of the config.
+</Aside>
+
 ## Limitations
 
 <Aside type="note">
@@ -43,7 +73,7 @@ While a radio is playing, `next` / `prev` (and the player-bar arrows) cycle thro
 </Aside>
 
 - **No queue integration** — radio streams aren't queued. Merely navigating to the Queue view leaves the radio playing; playing anything from the queue (or any library view) stops the stream and switches back to queue playback.
-- **No scrobbling** — Nokkvi doesn't submit Subsonic scrobbles for radio streams, so Navidrome won't forward them to Last.fm or ListenBrainz.
+- **No server-side play counts** — radio plays don't go through Navidrome, so they never bump play counts on your server. They *can* scrobble straight to ListenBrainz/Last.fm instead — see [Scrobbling](#scrobbling) above.
 - **No favorites or playlists** — you can't star a station or add it to a playlist.
 - **No artwork or expansion** — radio rows are flat; no cover art, no track listings.
 - **Session-only playback** — the stream stops when you close Nokkvi and doesn't auto-resume.

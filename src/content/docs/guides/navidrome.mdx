@@ -43,7 +43,7 @@ SessionTimeout = "8760h"
 
 ### Scrobbling
 
-Nokkvi submits scrobbles through Navidrome's Subsonic API — Navidrome handles forwarding them to Last.fm and ListenBrainz. Both services need to be configured on the server side for scrobbling to work end-to-end. Client-side toggles live under [`scrobbling_enabled`](/reference/config/#scrobbling) and [`scrobble_threshold`](/reference/config/#scrobbling).
+Nokkvi submits scrobbles through Navidrome's Subsonic API — Navidrome handles forwarding them to Last.fm and ListenBrainz. Both services need to be configured on the server side for scrobbling to work end-to-end. Client-side toggles live under [`scrobbling_enabled`](/reference/config/#scrobbling) and [`scrobble_threshold`](/reference/config/#scrobbling). Internet-radio streams are the exception — they scrobble directly from Nokkvi to ListenBrainz/Last.fm, bypassing the server; see [Radio → Scrobbling](/guides/radio/#scrobbling).
 
 Nokkvi — not the server — decides when a play counts. It submits a scrobble once your *actual listening time* reaches **`scrobble_threshold` of the track length, or 4 minutes, whichever comes first**. Listening time is real playback: seeking ahead or pausing doesn't count toward it.
 
