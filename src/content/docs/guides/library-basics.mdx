@@ -101,7 +101,7 @@ Sorting by **Favorited** puts starred items first; sorting by **Rating** orders 
 
 ## Click-through expansion
 
-Many views render the artist, album, or genre as clickable text on each row. Clicking those values jumps you to the corresponding view and expands the target inline at the top, so its contents are immediately visible — no follow-up `Shift + Enter` needed. For example, clicking an artist name on a song row takes you to the Artists view with that artist's albums already expanded below the row.
+With `slot_text_links` enabled (off by default), many views render the artist, album, or genre as clickable text on each row. Clicking those values jumps you to the corresponding view and expands the target inline at the top, so its contents are immediately visible — no follow-up `Shift + Enter` needed. For example, clicking an artist name on a song row takes you to the Artists view with that artist's albums already expanded below the row.
 
 The "*N* songs" / "*N* albums" count cells on Artists and Genres rows are a different click affordance: they jump to a *different view scoped to that entity* (e.g. clicking "391 songs" on a Black Metal row opens the Songs view filtered to that genre's full backing catalog), distinct from the parent-view inline expansion behavior the per-view guides describe.
 
