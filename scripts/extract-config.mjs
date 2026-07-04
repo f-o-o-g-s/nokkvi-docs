@@ -14,7 +14,7 @@ const NOKKVI = process.env.NOKKVI_PATH
 const FILES = {
   toml: 'data/src/types/toml_settings.rs',
   enums: 'data/src/types/player_settings.rs',
-  visualizer: 'src/visualizer_config.rs',
+  visualizer: 'data/src/types/visualizer_config.rs',
   credentials: 'data/src/credentials.rs',
   views: 'data/src/types/toml_views.rs',
   sortMode: 'data/src/types/sort_mode.rs',
@@ -242,7 +242,10 @@ function parseConsts(source) {
 }
 
 // Parse `pub enum Name { ... }` blocks, capturing #[serde(rename_all)] and
-// #[default] markers to resolve TOML serialization values.
+// #[default] markers to resolve TOML serialization values. Also handles the
+// `wire_enum!` macro (visualizer enums), whose variants carry an explicit wire
+// literal in `Variant = <disc> => "wire"` form — that literal wins over
+// rename_all, matching the `#[serde(rename = "wire")]` the macro emits.
 function parseEnums(source) {
   const enums = {};
   const re = /pub enum (\w+)\s*\{/g;
@@ -275,7 +278,11 @@ function parseEnums(source) {
       const variantMatch = line.match(/^([A-Z]\w*)/);
       if (variantMatch) {
         const rust = variantMatch[1];
-        const toml = pendingRename ?? applyRename(rust, renameAll);
+        // `wire_enum!` variants (`Variant = 2 => "wire",`) pin the wire literal
+        // explicitly; prefer it over the rename_all fallback. `#[serde(rename)]`
+        // still wins if present.
+        const wireArrow = line.match(/=>\s*"([^"]+)"/);
+        const toml = pendingRename ?? (wireArrow ? wireArrow[1] : applyRename(rust, renameAll));
         variants.push({ rust, toml });
         if (pendingDefault) defaultVariant = toml;
         pendingDefault = false;

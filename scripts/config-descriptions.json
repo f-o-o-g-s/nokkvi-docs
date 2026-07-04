@@ -101,11 +101,26 @@
   "close_to_tray": {
     "description": "When `show_tray_icon` is on, the window's close button hides Nokkvi into the tray instead of quitting. Ignored when the tray icon is disabled."
   },
+  "crossfade_album_gapless": {
+    "description": "When enabled, consecutive tracks from the same album play gapless so authored segues stay tight. Crossfade still applies between different albums, on shuffle, and on compilations."
+  },
+  "crossfade_bar_snap": {
+    "description": "Round the crossfade length to whole bars of the outgoing track's BPM tag so beats line up through the blend. Ignored when a track has no BPM tag."
+  },
+  "crossfade_curve": {
+    "description": "Gain curve for the blend. Options: `equal_power` (default — holds perceived loudness steady through the blend, best for different songs), `constant_gain` (dips ~3 dB in the middle, softer for same-album material), `linear` (plain straight-line fade). See the [Audio guide](/guides/audio/#configuring-crossfade)."
+  },
   "crossfade_duration_secs": {
-    "description": "Duration of the crossfade in seconds (1 to 12)."
+    "description": "Duration of the crossfade in seconds (1 to 12). Applies as tracks change on their own, not when you skip."
   },
   "crossfade_enabled": {
-    "description": "Enable smooth transitions between tracks. Mutually exclusive with `bit_perfect` (Strict/Relaxed)."
+    "description": "Overlap and blend the end of each track into the next. Off plays tracks gapless with no overlap. Mutually exclusive with `bit_perfect` (Strict/Relaxed)."
+  },
+  "crossfade_min_track_secs": {
+    "description": "Tracks shorter than this (in seconds) play gapless instead of crossfading. Range 0 to 60. `0` blends everything including short interludes; higher values keep segues sharp and only blend full-length songs."
+  },
+  "crossfade_offset_secs": {
+    "description": "Gap/overlap trim in seconds. Range −2 to +2. Negative starts blends early, folding in the outgoing track's tail; positive holds that many seconds of silence between tracks on gapless joins. A live crossfade overrides the gap."
   },
   "custom_eq_presets": {
     "description": "User-saved EQ presets. Each preset is a `{ name, gains }` object; managed through the in-app EQ panel."
@@ -121,6 +136,27 @@
   },
   "eq_gains": {
     "description": "List of 10 gain values in dB (one per band: 32, 64, 125, 250, 500, 1k, 2k, 4k, 8k, 16k Hz). Range −12.0 to +12.0 per band."
+  },
+  "fade_on_pause": {
+    "description": "Ramp the volume out when pausing and back in on resume, instead of cutting mid-waveform. Bit-perfect streams always cut instantly."
+  },
+  "fade_on_skip": {
+    "description": "What a manual Next/Previous does to the sound. Options: `off` (instant cut), `boundary_fade` (ease the old track out, then start the next fresh), `crossfade` (overlap and blend into the skipped-to track, falling back to a boundary fade or plain cut when a blend is blocked). Bit-perfect streams always cut instantly. See the [Audio guide](/guides/audio/#fading)."
+  },
+  "fade_on_stop": {
+    "description": "Ease the sound out when playback stops instead of a hard cut. Track changes are unaffected."
+  },
+  "fade_pause_ms": {
+    "description": "Pause/resume ramp length in milliseconds. Range 20 to 500. Applies when `fade_on_pause` is `true`."
+  },
+  "fade_radio_transitions": {
+    "description": "Fade out and back in (about a quarter-second each way) when starting a radio station or returning to the queue, instead of a hard cut. The fade-in waits for the station's first audio."
+  },
+  "fade_skip_secs": {
+    "description": "\"Fade on Skip\" length in seconds — also the Boundary Fade ease-out length. Range 1 to 4. Applies when `fade_on_skip` is not `off`."
+  },
+  "fade_stop_ms": {
+    "description": "Stop ramp length in milliseconds. Range 20 to 500. Applies when `fade_on_stop` is `true`."
   },
   "font_family": {
     "description": "Font family override. Leave empty to use system default sans-serif."
@@ -323,11 +359,17 @@
   "similar_show_thumbnail": {
     "description": "Show the thumbnail column in the similar songs view."
   },
+  "skip_silence": {
+    "description": "Trim near-silent lead-ins from tracks prepared in advance and start the blend early over a silent outro. Bit-perfect streams never trim."
+  },
   "slot_row_height": {
     "description": "Row density in lists. Options: `compact` (50px), `default` (70px), `comfortable` (90px), `spacious` (110px)."
   },
   "slot_text_links": {
     "description": "Make artist and album names inside list rows clickable links to their respective views."
+  },
+  "smooth_track_starts": {
+    "description": "Ramp up the first ~20 ms of each track to remove the click when a skip or seek lands mid-waveform. Off restores an instant onset. Bit-perfect streams always start instantly."
   },
   "songs_artwork_overlay": {
     "description": "Show a text overlay on the large artwork panel in the Songs view."

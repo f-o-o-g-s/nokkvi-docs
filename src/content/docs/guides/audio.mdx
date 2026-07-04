@@ -1,11 +1,11 @@
 ---
 title: Audio Engine
-description: How nokkvi plays your music — gapless playback, the equalizer, volume normalization, and bit-perfect output.
+description: How nokkvi plays your music — gapless playback and crossfade, the equalizer, volume normalization, and bit-perfect output.
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-Nokkvi plays through PipeWire on Linux as a native audio stream — low latency and integrated with your system mixer. It decodes all common formats (MP3, FLAC, Opus, AAC, and more — full list in [Under the Hood](#under-the-hood)). This page covers the user-facing audio features: gapless playback, the 10-band equalizer, volume normalization, and bit-perfect output.
+Nokkvi plays through PipeWire on Linux as a native audio stream — low latency and integrated with your system mixer. It decodes all common formats (MP3, FLAC, Opus, AAC, and more — full list in [Under the Hood](#under-the-hood)). This page covers the user-facing audio features: gapless playback and crossfade, the 10-band equalizer, volume normalization, and bit-perfect output.
 
 ## Gapless Playback & Crossfade
 
@@ -16,9 +16,37 @@ Nokkvi has two ways to transition between tracks:
 
 Crossfade is enabled by default at 7 seconds. There's no separate "enable gapless" toggle — turn off crossfade (with the [`F`](/reference/hotkeys/#playback) hotkey or [`crossfade_enabled`](/reference/config/#playback-settings)) and gapless takes over automatically. Either way, nokkvi pre-decodes the next track in the queue so the handoff is seamless.
 
+These settings live in **Settings → Playback** — the crossfade options under a **Transitions** heading, and the softer edges below them under **Fading**.
+
 ### Configuring Crossfade
+
 - **Toggle**: [`crossfade_enabled`](/reference/config/#playback-settings), or hit [`F`](/reference/hotkeys/#playback).
-- **Duration**: [`crossfade_duration_secs`](/reference/config/#playback-settings) — adjustable from 1 to 12 seconds. Smooth equal-power volume transition between tracks (constant perceived loudness across the fade).
+- **Duration**: [`crossfade_duration_secs`](/reference/config/#playback-settings) — 1 to 12 seconds. Applies as tracks change on their own, not when you skip.
+- **Curve** ([`crossfade_curve`](/reference/config/#playback-settings)) — the shape of the volume sweep across the blend:
+  - **`equal_power`** (default) — holds perceived loudness steady through the middle of the blend. The right pick for different songs, which is the normal track-boundary case.
+  - **`constant_gain`** — dips about 3 dB in the middle, a softer center some prefer for same-album material.
+  - **`linear`** — a plain straight-line fade with harder ends.
+- **Minimum track length** ([`crossfade_min_track_secs`](/reference/config/#playback-settings)) — tracks shorter than this play gapless instead of crossfading (0–60 s, default 10). `0` blends everything including short interludes; `30` keeps segues sharp and only blends full-length songs.
+- **Keep gapless albums seamless** ([`crossfade_album_gapless`](/reference/config/#playback-settings)) — off by default. When on, consecutive tracks from the same album play gapless so authored segues stay tight; crossfade still applies between different albums, on shuffle, and on compilations.
+
+### Fading
+
+A set of softer edges for everything *around* the blend — track starts, pause and stop, radio switches, and manual skips. Everything here is off by default except **Smooth Track Starts**, so out of the box nokkvi changes only one thing: track starts lose their click.
+
+- **Smooth Track Starts** ([`smooth_track_starts`](/reference/config/#playback-settings), on) — ramps up the first ~20 ms of each track to kill the click when a skip or seek lands mid-waveform. Turn it off for an instant, honest onset.
+- **Fade on Pause / Resume** ([`fade_on_pause`](/reference/config/#playback-settings)) and **Fade on Stop** ([`fade_on_stop`](/reference/config/#playback-settings)) — soft gain ramps instead of instant cuts, sized by [`fade_pause_ms`](/reference/config/#playback-settings) / [`fade_stop_ms`](/reference/config/#playback-settings) (20–500 ms, default 100). Track changes aren't touched — blending those is the crossfade's job.
+- **Fade Radio Switches** ([`fade_radio_transitions`](/reference/config/#playback-settings)) — a short fade (about a quarter-second each way) when starting a radio station or returning to the queue. The fade-in waits for the stream's first real audio instead of popping after the prebuffer.
+- **Fade on Skip** ([`fade_on_skip`](/reference/config/#playback-settings)) — what a manual Next/Previous does to the sound, over [`fade_skip_secs`](/reference/config/#playback-settings) (1–4 s, default 2):
+  - **`off`** (default) — instant cut, the classic behavior.
+  - **`boundary_fade`** — eases the outgoing track out, then starts the next one fresh.
+  - **`crossfade`** — overlaps and blends into the skipped-to track like an automatic track change, falling back to a boundary fade (or a plain cut) when a blend is blocked — a bit-perfect format mismatch, a track under the minimum length, or nothing audibly playing.
+- **Skip Silence Between Tracks** ([`skip_silence`](/reference/config/#playback-settings)) — trims near-silent lead-ins from tracks prepared in advance and starts the blend early over a silent outro.
+- **Gap / Overlap Trim** ([`crossfade_offset_secs`](/reference/config/#playback-settings), −2 to +2 s) — negative starts the blend early, folding the outgoing tail in; positive holds that many seconds of silence between tracks on gapless joins. A live crossfade overrides the gap.
+- **Snap Crossfade to Musical Bars** ([`crossfade_bar_snap`](/reference/config/#playback-settings)) — rounds the blend length to whole bars of the outgoing track's BPM tag so beats line up through the fade. Needs a BPM tag; ignored when a track has none.
+
+<Aside type="note" title="Fades and bit-perfect">
+  Bit-perfect streams (Strict or Relaxed) keep their honest edges — Smooth Track Starts and Fade on Pause/Resume don't apply, and Skip Silence never trims, so the samples reach the DAC untouched. A Relaxed same-rate crossfade still blends; that overlap was never bit-perfect anyway.
+</Aside>
 
 ## 10-Band Equalizer
 
