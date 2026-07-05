@@ -283,6 +283,7 @@ Internet-radio streams scrobble **directly** to ListenBrainz and/or Last.fm from
 | :--- | :--- | :--- |
 | `rating_reminder_enabled` | `false` | Show a "rate this track" desktop notification after you finish listening to a song. When off, no reminder is shown. |
 | `rating_change_notification_enabled` | `false` | Show a desktop notification confirming the new rating whenever you rate via the rating hotkey or the `nokkvi rate` command — handy when the window is minimized or on another workspace. Only fires on a real change, so a no-op like `+1` at 5 stars stays silent. |
+| `love_change_notification_enabled` | `false` | Whether to fire a desktop notification when a track is loved/unloved via the love hotkey or the `nokkvi love` IPC verb (default false). |
 | `rating_reminder_trigger` | `"on_scrobble"` | When the reminder fires. Options: `on_scrobble` (when the server confirms the play — requires scrobbling to be active), `percentage_played` (once `rating_reminder_percent` of the track has elapsed). |
 | `rating_reminder_percent` | `75` | Percentage of the track that must play before the reminder fires when `rating_reminder_trigger = "percentage_played"`. Range 60–90. Ignored by the `on_scrobble` trigger. |
 {/* config-table:end */}

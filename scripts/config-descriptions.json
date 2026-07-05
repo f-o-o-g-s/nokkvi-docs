@@ -197,6 +197,9 @@
   "local_music_path": {
     "description": "Absolute path to your local music library. If set, Nokkvi will try to open files directly (for things like \"Show in File Manager\")."
   },
+  "love_change_notification_enabled": {
+    "description": "Whether to fire a desktop notification when a track is loved/unloved via the love hotkey or the `nokkvi love` IPC verb (default false)."
+  },
   "mini_player_show_modes": {
     "description": "Show the playback-mode toggles (repeat, shuffle, consume, EQ, sound effects, crossfade, bit-perfect, visualizer) and their kebab (⋮) overflow in the mini-player bar. Only applies when `track_info_display = \"mini_player\"`."
   },
