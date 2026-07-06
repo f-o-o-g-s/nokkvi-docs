@@ -65,6 +65,36 @@ function remarkRewriteChangelogLinks() {
 }
 
 /**
+ * Remark plugin: the upstream nokkvi CHANGELOG files embed release imagery
+ * with repo-relative paths (`assets/foo.webp`) that GitHub resolves against
+ * the repo but that 404 on the docs site (they'd resolve under the page
+ * route, e.g. `/changelog/assets/…`). Rewrite those srcs — both raw `<img>`
+ * HTML and markdown `![](…)` images — to the base-prefixed
+ * `/changelog-assets/` location, which `public/changelog-assets/` serves.
+ * Gated to the CHANGELOG files so it never rewrites ordinary docs images.
+ */
+function remarkRewriteChangelogAssets() {
+  const isChangelog = /(?:^|\/)CHANGELOG(-[^/]+)?\.md$/;
+  const rel = /^(?:\.\/)?assets\//;
+  return (tree, file) => {
+    if (!file.path || !isChangelog.test(file.path)) return;
+    const visit = (node) => {
+      if (node.type === "image" && rel.test(node.url ?? "")) {
+        node.url = `${BASE}/changelog-assets/${node.url.replace(rel, "")}`;
+      }
+      if (node.type === "html" && typeof node.value === "string") {
+        node.value = node.value.replace(
+          /(<img\b[^>]*?\bsrc=")(?:\.\/)?assets\/([^"]+)(")/gi,
+          (_m, pre, name, post) => `${pre}${BASE}/changelog-assets/${name}${post}`,
+        );
+      }
+      if (node.children) node.children.forEach(visit);
+    };
+    visit(tree);
+  };
+}
+
+/**
  * Remark plugin: drop the leading top-level `# Changelog` heading from
  * the upstream nokkvi/CHANGELOG.md (and the CHANGELOG-X.Y.md archive
  * siblings) when they're rendered through pages/changelog*.astro.
@@ -86,7 +116,12 @@ export default defineConfig({
   site: "https://f-o-o-g-s.github.io",
   base: BASE,
   markdown: {
-    remarkPlugins: [remarkRewriteChangelogLinks, remarkPrefixBase, remarkStripChangelogTitle],
+    remarkPlugins: [
+      remarkRewriteChangelogLinks,
+      remarkRewriteChangelogAssets,
+      remarkPrefixBase,
+      remarkStripChangelogTitle,
+    ],
   },
   integrations: [
     starlight({
