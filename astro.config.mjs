@@ -166,6 +166,8 @@ export default defineConfig({
           label: "Library",
           items: [
             { label: "Library Basics", slug: "guides/library-basics" },
+            { label: "Harbour (home view)", slug: "guides/harbour" },
+            { label: "Trawl (mix builder)", slug: "guides/trawl" },
             { label: "Multi-library filter", slug: "guides/multi-library" },
             { label: "Queue", slug: "guides/queue" },
             { label: "Albums", slug: "guides/albums" },
