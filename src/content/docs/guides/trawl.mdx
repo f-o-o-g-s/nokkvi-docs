@@ -67,25 +67,45 @@ If the filters remove everything, Trawl won't play an empty mix — it tells you
 
 Three buttons finish the job:
 
-| Button | What it does |
-| :----- | :----------- |
-| **Clear** | Empties the crate but keeps your blend and filter choices |
-| **Add to Queue** | Blends the crate and **appends** it to the current queue; the modal stays open |
-| **Play Mix** | Blends the crate, **replaces** the queue with it, starts from the first track, and jumps to the Queue view |
+| Button | Keyboard | What it does |
+| :----- | :------- | :----------- |
+| **Clear** | — | Empties the crate but keeps your blend and filter choices |
+| **Add to Queue** | `Shift + A` | Blends the crate and **appends** it to the current queue; the modal stays open |
+| **Play Mix** | `Ctrl + Enter` | Blends the crate, **replaces** the queue with it, starts from the first track, and jumps to the Queue view |
 
 The crate isn't consumed by playing it — Play Mix keeps every seed so you can tweak a filter and replay. Think of it as a scratch pad you keep refining, not a one-shot.
 
 ## Keyboard
 
-Inside the modal:
+The modal is built to run from the keyboard. It opens with the cursor in the search field, so you can start typing seeds straight away.
+
+### Search and list
 
 | Key | Action |
 | :-- | :----- |
 | `Enter` | Add or remove the centered search result |
-| `Ctrl + Enter` | Play the mix |
 | `Tab` | Move down the list (also drops focus from the search field) |
 | `Backspace` | Move up the list (keeps search focus, so it keeps deleting text) |
 | `/` | Return focus to the search field |
+| `Shift + A` | Add the whole mix to the queue — the keyboard twin of the **Add to Queue** button (append) |
+| `Ctrl + Enter` | Play the mix — the keyboard twin of **Play Mix** (replaces the queue) |
 | `Escape` | Close the modal (the crate survives) |
 
 `Tab` leaves the search field while `Backspace` stays in it — the same asymmetry as the [library views](/guides/library-basics/#search), where `Backspace` has to keep erasing your query.
+
+`Shift + A` and `Ctrl + Enter` are the two [mix actions](#playing-the-mix) in key form — append versus replace. Press either with an empty crate and Trawl says *The crate is empty — add seeds first* instead of doing nothing.
+
+### Editing the controls from the keyboard
+
+The blend and the four filters — everything in the controls row — can be set without the mouse. `Shift + Tab` and `Shift + Backspace` walk a focus ring across that row, and `Left` / `Right` cycle the focused control's value.
+
+| Key | Action |
+| :-- | :----- |
+| `Shift + Tab` | Step the ring forward — **Blend → Minimum length → Maximum length → Minimum rating → Max tracks**, then back to nothing focused |
+| `Shift + Backspace` | Step the ring backward through the same controls |
+| `Left` | Step the focused control to its previous value (wraps around) |
+| `Right` | Step the focused control to its next value (wraps around) |
+
+The ring has a resting slot — *nothing focused* — that every lap passes back through. That slot is how you let go of the arrow keys without leaving the modal: `Escape` is reserved for closing it, so stepping the ring back to nothing is what releases `Left` / `Right`. While nothing is focused, `Left` / `Right` do nothing.
+
+Typing in the search field or pressing `/` also clears the ring — a focused search field owns the arrow keys, so the ring never fights it over `Left` / `Right`.
