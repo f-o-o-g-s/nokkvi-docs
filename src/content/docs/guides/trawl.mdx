@@ -50,14 +50,14 @@ Album, artist, genre, and playlist seeds expand into all their songs, and four p
 | :----- | :------ | :------ |
 | **Minimum length** | No minimum · 0:30 · 1:00 · 1:30 · 2:00 or longer | 1:00 or longer |
 | **Maximum length** | No maximum · Under 6:00 · 8:00 · 10:00 · 15:00 · 20:00 | No maximum |
-| **Minimum rating** | Any rating · 1 star and up … 5 stars only | Any rating |
+| **Rating** | Any rating · Unrated only · 1 star and up … 5 stars only | Any rating |
 | **Max tracks** | No limit · 25 · 50 · 100 · 200 tracks | No limit |
 
 A few rules make the filters behave the way you'd want:
 
 - **Songs you add by hand always play.** A song seed — whether picked from the modal search or dropped in with *Add to Mix* — skips every filter. The filters only ever prune songs pulled in *through* a larger seed.
 - **The length filters ignore unknown durations.** A track whose length Nokkvi doesn't know (a stream, bad metadata) is never dropped by the minimum or maximum length filter.
-- **The rating filter drops unrated songs.** Turn on a minimum rating and anything you haven't rated is excluded — unrated counts as below the bar, not exempt.
+- **A star threshold drops unrated songs; *Unrated only* keeps just them.** Set the rating filter to a star rating and anything you haven't rated is excluded — unrated counts as below the bar, not exempt. **Unrated only** inverts that: the mix pulls *only* songs without a rating yet — never-rated or cleared back to zero — for a listen-and-judge queue.
 - **Big seeds are sampled to 50 tracks.** Artist and genre seeds are trimmed to a random 50 songs each so one sprawling artist or genre can't swamp the mix. Albums, playlists, and hand-picked songs go in whole.
 - **Max tracks is applied last.** The cap truncates *after* blending, so the blend's character (the round-robin or shuffle) survives the cut rather than the mix being trimmed seed-by-seed first.
 
@@ -101,7 +101,7 @@ The blend and the four filters — everything in the controls row — can be set
 
 | Key | Action |
 | :-- | :----- |
-| `Shift + Tab` | Step the ring forward — **Blend → Minimum length → Maximum length → Minimum rating → Max tracks**, then back to nothing focused |
+| `Shift + Tab` | Step the ring forward — **Blend → Minimum length → Maximum length → Rating → Max tracks**, then back to nothing focused |
 | `Shift + Backspace` | Step the ring backward through the same controls |
 | `Left` | Step the focused control to its previous value (wraps around) |
 | `Right` | Step the focused control to its next value (wraps around) |
