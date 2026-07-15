@@ -7,7 +7,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 `nokkvi <verb>` sends a single command to the running Nokkvi instance over a Unix socket and exits. Use it from shell scripts, window manager keybinds, or any external tool — there's no GUI startup cost because the CLI path returns before iced initializes.
 
-The CLI is an alternative to [MPRIS](/guides/mpris/). MPRIS covers the standard transport surface and works with any MPRIS controller; the CLI adds verbs that MPRIS doesn't expose (`switch-view`, `love`, `rate`, `clear-queue`, `consume`).
+The CLI is an alternative to [MPRIS](/guides/mpris/). MPRIS covers the standard transport surface and works with any MPRIS controller; the CLI adds verbs that MPRIS doesn't expose (`switch-view`, `love`, `rate`, `clear-queue`, `consume`, `queue-push`, `queue-pull`).
 
 ## Verbs
 
@@ -34,6 +34,8 @@ The CLI is an alternative to [MPRIS](/guides/mpris/). MPRIS covers the standard 
 | `clear-queue` | — | Empty the queue and stop playback |
 | `add-to-queue` | — | Add the focused list item to the queue — the in-app Shift+A |
 | `remove-from-queue` | — | Remove the centered queue song — Ctrl+D; errors `not_in_queue_view` outside the queue view |
+| `queue-push` | — | Save the queue to the server — the header Push button. Errors `empty_queue`; `unsupported` if the server lacks the `indexBasedQueue` extension; `unavailable` during radio. See [Queue sync](/guides/queue/#queue-sync) |
+| `queue-pull` | — | Restore the server's saved queue without starting playback — the header Pull button. Same guards as `queue-push`, minus the empty-queue check |
 
 ### View
 
@@ -136,7 +138,7 @@ The CLI auto-discovers the live socket — you don't pass a path. If no instance
 | Code | Meaning |
 | :--- | :--- |
 | `0` | Server accepted the verb. Any payload is printed to stdout (e.g. `ping` prints `pong`). |
-| `1` | No live instance found, or the server returned an error (e.g. `invalid_args`, `no_playing_track`, `unavailable`, `not_in_queue_view`). Error message goes to stderr. |
+| `1` | No live instance found, or the server returned an error (e.g. `invalid_args`, `no_playing_track`, `unsupported`, `unavailable`, `empty_queue`, `not_in_queue_view`). Error message goes to stderr. |
 
 ## Hyprland keybinds
 

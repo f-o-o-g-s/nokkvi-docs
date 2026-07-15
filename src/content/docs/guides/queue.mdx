@@ -56,6 +56,29 @@ Both features require Last.fm or ListenBrainz to be configured on the server. Se
 | `Ctrl + D` | Remove the focused track |
 | `Shift + D` | Clear the entire queue |
 
+## Queue sync
+
+Nokkvi can save your whole queue to the Navidrome server and pull it back later — on another machine, or in a fresh session after you restart. The playing track and its exact position travel with it, so a pull drops you back mid-song rather than at the top of the list.
+
+Two buttons appear in the queue header once your server supports it — an up-arrow **Push** and a down-arrow **Pull**:
+
+- **Push** saves the current queue to the server. It's a full replace: the server holds one saved queue per user, and each push overwrites the previous one. Pushing an *empty* queue is refused rather than wiping the saved copy, so you can't clear it by accident. A toast confirms `Pushed N tracks to server`.
+- **Pull** replaces your local queue with the server's saved one. It doesn't change whether you're playing or paused: if you were listening, playback continues from the saved track and position; if you were paused, you stay paused and pressing Play picks up from that spot. A toast confirms `Pulled N tracks from server`, or reports `No saved queue on server` when nothing was ever pushed.
+
+The round trip is faithful in the ways that usually break:
+
+- **Duplicates survive.** The same track can sit in the queue more than once and the playhead still lands on the right copy — the sync keys the current track by its *position*, not by its id.
+- **Large queues are fine.** Saves go up as POST request bodies, so a multi-thousand-track queue won't hit a URL-length limit at a reverse proxy.
+- **Missing tracks are dropped.** If a saved track has since left your library, the server omits it and Nokkvi clamps the playhead to what's left.
+
+### Requirements
+
+Queue sync rides the OpenSubsonic `indexBasedQueue` extension, which Navidrome added in **0.58.5**. The buttons stay hidden until Nokkvi confirms the server advertises the extension at login, and they also hide during [radio playback](/guides/radio/) — where the position is a stream offset, not a track. On an older server the buttons simply don't appear.
+
+### From the command line
+
+`nokkvi queue-push` and `nokkvi queue-pull` do the same thing headless, for a window-manager keybind or a script. They enforce the same rules as the buttons — `queue-push` refuses an empty queue, and both report `unsupported` when the server lacks the extension or `unavailable` during radio. The network round trip is asynchronous, so the command returns as soon as the request is dispatched; a later failure surfaces as an in-window toast. See the [CLI reference](/guides/cli/#queue-and-modes) for the full verb table.
+
 ## Sort modes
 
 Each pick from the sort dropdown physically reorders the queue. Manual reorder (drag, `Shift + ↑/↓`) keeps working from any mode.
