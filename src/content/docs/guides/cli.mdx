@@ -34,8 +34,8 @@ The CLI is an alternative to [MPRIS](/guides/mpris/). MPRIS covers the standard 
 | `clear-queue` | — | Empty the queue and stop playback |
 | `add-to-queue` | — | Add the focused list item to the queue — the in-app Shift+A |
 | `remove-from-queue` | — | Remove the centered queue song — Ctrl+D; errors `not_in_queue_view` outside the queue view |
-| `queue-push` | — | Save the queue to the server — the header Push button. Errors `empty_queue`; `unsupported` if the server lacks the `indexBasedQueue` extension; `unavailable` during radio. See [Queue sync](/guides/queue/#queue-sync) |
-| `queue-pull` | — | Restore the server's saved queue without starting playback — the header Pull button. Same guards as `queue-push`, minus the empty-queue check |
+| `queue-push` | — | Save the queue to the server — the sync menu's **Push** row. Errors `empty_queue`; `unsupported` if the server lacks the `indexBasedQueue` extension; `unavailable` during radio. See [Queue sync](/guides/queue/#queue-sync) |
+| `queue-pull` | — | Restore the server's saved queue without starting playback — the sync menu's **Pull** row. Same guards as `queue-push`, minus the empty-queue check |
 
 ### View
 
