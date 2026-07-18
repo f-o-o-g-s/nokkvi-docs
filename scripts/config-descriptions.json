@@ -200,8 +200,17 @@
   "love_change_notification_enabled": {
     "description": "Whether to fire a desktop notification when a track is loved/unloved via the love hotkey or the `nokkvi love` IPC verb (default false)."
   },
+  "lyrics_backdrop_blur": {
+    "description": "Frost the cover art while lyrics display. Options: `off` (the cover stays sharp under the lyrics), `light` (a gentle soften — detail stays readable), `medium` (a true frosted-glass read — shapes survive, detail goes), `heavy` (melts the cover to a color wash). Blurred once per track and cached, never per frame."
+  },
+  "lyrics_enabled": {
+    "description": "Show synced lyrics over the Queue cover art, following the playing track line by line. Also toggled from the player bar or with the `L` hotkey. Off leaves the cover (and any over-cover visualizer) untouched. See the [Lyrics guide](/guides/lyrics/)."
+  },
+  "lyrics_fetch_online": {
+    "description": "Fetch missing lyrics from lrclib.net and cache them into the local store for next time. Off resolves lyrics only from the local store and your server — no third-party requests. See [Where lyrics come from](/guides/lyrics/#where-lyrics-come-from)."
+  },
   "mini_player_show_modes": {
-    "description": "Show the playback-mode toggles (repeat, shuffle, consume, EQ, sound effects, crossfade, bit-perfect, visualizer) and their kebab (⋮) overflow in the mini-player bar. Only applies when `track_info_display = \"mini_player\"`."
+    "description": "Show the playback-mode toggles (repeat, shuffle, consume, EQ, sound effects, crossfade, bit-perfect, visualizer, lyrics) and their kebab (⋮) overflow in the mini-player bar. Only applies when `track_info_display = \"mini_player\"`."
   },
   "mini_player_show_volume": {
     "description": "Show the volume control in the mini-player bar. Only applies when `track_info_display = \"mini_player\"`."

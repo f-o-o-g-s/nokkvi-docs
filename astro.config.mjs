@@ -170,6 +170,7 @@ export default defineConfig({
             { label: "Trawl (mix builder)", slug: "guides/trawl" },
             { label: "Multi-library filter", slug: "guides/multi-library" },
             { label: "Queue", slug: "guides/queue" },
+            { label: "Lyrics", slug: "guides/lyrics" },
             { label: "Albums", slug: "guides/albums" },
             { label: "Artists", slug: "guides/artists" },
             { label: "Songs", slug: "guides/songs" },
