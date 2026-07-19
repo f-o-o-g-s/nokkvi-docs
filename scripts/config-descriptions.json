@@ -254,6 +254,21 @@
   "playlists_sort": {
     "description": "Sort mode for the Playlists view."
   },
+  "preview_show_duration": {
+    "description": "Show the duration column in the smart playlist preview."
+  },
+  "preview_show_genre": {
+    "description": "Show the genre column in the smart playlist preview."
+  },
+  "preview_show_love": {
+    "description": "Show the loved/heart column in the smart playlist preview."
+  },
+  "preview_show_plays": {
+    "description": "Show the play count column in the smart playlist preview."
+  },
+  "preview_show_stars": {
+    "description": "Show the star rating column in the smart playlist preview (the rules editor's results pane)."
+  },
   "queue_ascending": {
     "description": "Ascending order in the Queue view."
   },
