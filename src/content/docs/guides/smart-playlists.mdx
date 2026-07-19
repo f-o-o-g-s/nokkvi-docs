@@ -1,0 +1,139 @@
+---
+title: Smart Playlists
+description: Build a rule-based playlist that the server keeps up to date — the rules editor, live preview, presets, and .nsp import.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+A **smart playlist** is a saved query instead of a fixed track list. You describe the tracks you want — *loved, but not played in 90 days*; *five stars, added this month* — and your Navidrome server re-evaluates those rules to a live set that stays current as your library and listening change. Nokkvi builds and edits them in a keyboard-first rules editor with a live, server-evaluated preview.
+
+For manual playlists — the kind you fill by hand — see [Playlists](/guides/playlists/). This page covers the smart kind.
+
+<Aside type="note" title="Needs a recent Navidrome">
+  Smart playlists are a server feature: they require **Navidrome 0.61+**. On an older server — or one whose version Nokkvi can't read — the smart entries stay hidden and the Playlists `+` is a plain **New Playlist** button. A handful of advanced rule fields need a newer server still; see the [rules reference](/reference/smart-playlist-rules/#navidrome-version-floors).
+</Aside>
+
+## Creating one
+
+On a capable server the Playlists header `+` becomes a small **create menu**:
+
+| Entry | What it does |
+| :---- | :----------- |
+| **New Playlist** | A manual playlist you fill yourself — drops into the [track editor](/guides/playlists/#editing-playlists) |
+| **New Smart Playlist** | Opens the rules editor on a fresh smart playlist |
+| **Import .nsp File** | Creates a smart playlist from a rules file — see [Importing rules](#importing-nsp-files) |
+
+`Shift + N` ([New Smart Playlist](/reference/hotkeys/#item-actions)) opens the editor from anywhere, without reaching for the menu.
+
+If Nokkvi couldn't read the server version, the menu shows a dimmed **Smart playlists unavailable — select to retry** row instead of the smart entries; selecting it re-checks the server.
+
+### Editing an existing one
+
+Smart playlists you **own** can be re-opened on their rules:
+
+- **`E`** on the centered playlist row ([Edit Centered Playlist](/reference/hotkeys/#item-actions)) — routes a smart playlist to the rules editor and a manual one to the track editor.
+- **Right-click → Edit Rules…** on the row (this replaces **Edit Playlist**, which smart rows don't offer).
+- The **pencil** on the Queue's now-playing playlist banner — same smart-vs-manual routing as `E`.
+
+You can only edit the rules of a playlist you own; opening someone else's smart playlist reports *Only the playlist's owner can edit its rules*. Smart rows carry a small **sparkles** badge in the Playlists view (tooltip *Smart playlist — updates itself from rules*).
+
+## The rules editor
+
+The editor is two panes side by side, with an edit bar across the top:
+
+- **Left — the preview.** The tracks your rules currently match, evaluated on the server. See [Preview](#preview).
+- **Right — the rule form.** Where you author the rules, keyboard-first.
+- **Edit bar.** Name, comment, a public/private toggle, the [cover](/guides/playlists/#the-cover), and the **Preview**, **Save**, **Save as new…**, and **Discard** actions.
+
+A brand-new smart playlist opens on an empty-state list first — pick a starting point before the form appears:
+
+- **Start empty** — build the rules from scratch.
+- **Import from .nsp file…** — load rules from a file on disk into this session (see [below](#importing-nsp-files)).
+- One of five **presets** — ready-made starting points you then edit freely.
+
+### Presets
+
+Each preset seeds a complete rule set — a real starting point, not a fixed template. Edit it however you like before saving.
+
+| Preset | What it seeds |
+| :----- | :------------ |
+| **Never Played** | Everything with zero plays, oldest additions first |
+| **Heavy Rotation** | Your most-played tracks |
+| **Forgotten Loves** | Loved tracks you haven't played in 90 days |
+| **Comeback Queue** | High-rated tracks on a per-tier cooldown — higher ratings recur sooner |
+| **Recently Added** | The newest additions to the library |
+
+The [rules reference](/reference/smart-playlist-rules/#presets) lists the exact rules, sort, and limit each one lays down.
+
+## Building rules
+
+The top of the form reads **Match [All / Any] of the following** — *All* means every rule must hold, *Any* means at least one. Below it, each rule is a row of three parts: a **field**, an **operator**, and a **value** (for example *rating · is · 5 stars*, or *last played · not in the last · 90 days*).
+
+Almost nothing here is free-typed — you **pick** from lists so a rule can't miss on a typo or a wrong case:
+
+| Value kind | How you set it |
+| :--------- | :------------- |
+| **Field** | A searchable picker — the ~18 most-used fields first, the rest behind **More fields…** |
+| **Operator** | Only the operators valid for that field are offered |
+| **Genre / tag / artist** | Picked from your library's actual values (server matching is case-sensitive, so an exact pick matters); or commit a typed value with the **Use "…"** row |
+| **Rating** | A fixed **0–5 star** picker (*Unrated*, *1 star* … *5 stars*) |
+| **Date** | A themed month-grid calendar — no hand-typed `YYYY-MM-DD` |
+| **Playlist** (in/not in playlist) | A picker of your other playlists |
+| **On/Off** (loved, compilation, …) | A toggle |
+
+Below the rules you can add one or more **sort keys** (each ascending or descending, reorderable with `Shift + ↑` / `Shift + ↓`, plus a *random* option) and a **limit** — a track count or a percentage of the library, with an optional offset.
+
+Rules can be **grouped** one level deep to mix *All* and *Any* — say *rating is 5* **and** *(genre is Jazz **or** genre is Blues)*. Anything nested deeper is shown read-only and edited through the raw-JSON escape hatch.
+
+<Aside type="tip" title="Edit as JSON">
+  **Edit as JSON…** at the bottom of the form opens the rules as raw JSON — the same format Navidrome stores and `.nsp` files carry. It round-trips cleanly (Escape re-parses it back into the form) and is the way to hand-edit deeply nested groups or paste rules from elsewhere.
+</Aside>
+
+The full list of fields, operators, and value shapes lives in the [Smart Playlist Rules reference](/reference/smart-playlist-rules/).
+
+### Live validation
+
+Rules are checked as you edit. **Errors** show in the danger color and block both Preview and Save until fixed; **warnings** show in amber and never block. Common blockers: no rules yet, an empty group, an empty name, a bad date, a range on a multi-valued field like genre, or a rule that points at the playlist itself. An amber warning is just a heads-up — for example, a genre the server doesn't recognize (the playlist saves, it just won't match anything).
+
+## Preview
+
+**Preview** (the chip, or `Ctrl + Enter`) evaluates the current rules on the server and fills the left pane with the tracks they match, headed by a running count and an **evaluated HH:MM** freshness stamp. Every press re-evaluates from scratch, so you can tweak a rule and immediately see the set shift. Press **Enter** on a preview row to play the evaluated list from there — tweak, preview, listen, in one loop.
+
+<Aside type="note" title="A stray “nokkvi draft” playlist is harmless">
+  To preview without touching anything real, Nokkvi evaluates through a private throwaway playlist named **nokkvi draft (safe to ignore)**. It's cleaned up automatically, and any strays self-delete at your next login — so if one flashes past in another client mid-session, that's the preview at work, not a mess to tidy.
+</Aside>
+
+## Saving
+
+**Save** writes the rules to the playlist. **Save as new…** forks a separate copy — the same rules under the original's name with *(copy)* appended — leaving the original untouched, handy for spinning a variant off a preset.
+
+If the playlist changed on the server while you were editing, Save shows a conflict banner (reload the server's rules, or overwrite anyway) rather than silently clobbering it. If it was deleted out from under you, Save offers to re-create it as a new playlist.
+
+Once saved, the smart row shows an **evaluated …** timestamp — when the server last refreshed its matches.
+
+## What smart playlists can't do
+
+The server owns a smart playlist's track list, so it's **read-only** in Nokkvi — you shape it through rules, never by hand. That has a few knock-on effects:
+
+- Smart playlists never appear as an **add target**: not in the right-click **Add to Playlist** dialog, not in the `Ctrl + S` [save-queue](/guides/playlists/#creating-playlists) overwrite/append dialog, and not in the [Default Playlist](/guides/playlists/#default-playlist) picker.
+- If your default playlist is smart, [Quick Add](/guides/playlists/#quick-add) refuses to append and asks you to pick a target instead.
+- Expanded smart-playlist tracks have no **Remove from Playlist** action, and smart rows drop **Set as Default Playlist**.
+
+**Rename** and **Delete** still work normally.
+
+<Aside type="note" title="File-backed playlists">
+  If a smart playlist is backed by an `.nsp`/`.m3u` file on the server, Nokkvi is honest about the file: deleting the playlist warns it *will return on the next scan unless that file is removed*, and a still-synced file keeps overwriting rule edits every scan. Renaming in Nokkvi is durable, but it won't rename the server-side file.
+</Aside>
+
+## Importing .nsp files
+
+A `.nsp` file is a Navidrome smart-playlist rules file — JSON holding the rules plus an optional name, comment, and visibility. Nokkvi imports one two ways:
+
+- **Playlists `+` → Import .nsp File** writes a real playlist straight away. If the name is free it's created immediately; if it collides with a smart playlist you already own, a dialog offers **Update** (replace just its rules) / **Create new** (a separate playlist) / **Cancel**. A collision with a manual or someone else's playlist offers create-only.
+- **The rules editor's empty state → Import from .nsp file…** loads the file's rules into the open session like a preset — nothing is written until you Save.
+
+Files are capped at 100 KB and may carry `//` and `/* */` comments. A bad file reports *Not a valid smart-playlist file —* with the reason (too large, unparseable JSON, or no rules found). The exact envelope fields are in the [rules reference](/reference/smart-playlist-rules/#nsp-files).
+
+## Keyboard
+
+The editor is built to run entirely from the keyboard — navigating rows, opening pickers, previewing, and saving without the mouse. The full key map, including the calendar and picker keys, is in [Keyboard Shortcuts → Smart playlist rules editor](/reference/hotkeys/#smart-playlist-rules-editor).

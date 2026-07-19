@@ -65,15 +65,18 @@ If the filters remove everything, Trawl won't play an empty mix — it tells you
 
 ## Playing the mix
 
-Three buttons finish the job:
+Four buttons finish the job:
 
 | Button | Keyboard | What it does |
 | :----- | :------- | :----------- |
 | **Clear** | — | Empties the crate but keeps your blend and filter choices |
 | **Add to Queue** | `Shift + A` | Blends the crate and **appends** it to the current queue; the modal stays open |
 | **Play Mix** | `Ctrl + Enter` | Blends the crate, **replaces** the queue with it, starts from the first track, and jumps to the Queue view |
+| **Save as Playlist** | `Shift + P` | Resolves the mix to concrete songs, then opens a **Save Mix as Playlist** name dialog |
 
 The crate isn't consumed by playing it — Play Mix keeps every seed so you can tweak a filter and replay. Think of it as a scratch pad you keep refining, not a one-shot.
+
+**Save as Playlist** freezes the mix: it resolves the blend to a fixed list of songs and saves them as an ordinary [playlist](/guides/playlists/) that *won't* re-evaluate (the dialog says as much — *Saves these N songs as an ordinary playlist — it won't update*). That's the difference from a [smart playlist](/guides/smart-playlists/), which stays live. It's not a way to save the crate itself — the crate is a scratch pad and still clears on logout.
 
 ## Keyboard
 
@@ -89,11 +92,12 @@ The modal is built to run from the keyboard. It opens with the cursor in the sea
 | `/` | Return focus to the search field |
 | `Shift + A` | Add the whole mix to the queue — the keyboard twin of the **Add to Queue** button (append) |
 | `Ctrl + Enter` | Play the mix — the keyboard twin of **Play Mix** (replaces the queue) |
+| `Shift + P` | Save the mix as a playlist — the keyboard twin of **Save as Playlist** |
 | `Escape` | Close the modal (the crate survives) |
 
 `Tab` leaves the search field while `Backspace` stays in it — the same asymmetry as the [library views](/guides/library-basics/#search), where `Backspace` has to keep erasing your query.
 
-`Shift + A` and `Ctrl + Enter` are the two [mix actions](#playing-the-mix) in key form — append versus replace. Press either with an empty crate and Trawl says *The crate is empty — add seeds first* instead of doing nothing.
+`Shift + A`, `Ctrl + Enter`, and `Shift + P` are the [mix actions](#playing-the-mix) in key form — append, replace, and save. Press any of them with an empty crate and Trawl says *The crate is empty — add seeds first* instead of doing nothing.
 
 ### Editing the controls from the keyboard
 

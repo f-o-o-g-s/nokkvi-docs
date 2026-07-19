@@ -13,6 +13,8 @@ For navigation, search, multi-select, ratings, and shared right-click actions, s
 
 Each playlist row shows its cover art — a 2×2 quad of the first distinct album covers — and its name. Song count and duration are optional columns (off by default; toggle them from the columns gear, or they auto-show when you sort by that field). The large artwork panel for the centered playlist shows a 3×3 collage for multi-album playlists, with a song count / duration / Updated overlay (`playlists_artwork_overlay`, on by default). Search matches playlist name and comment. Private playlists carry a small lock icon next to the name; public ones render without it.
 
+[Smart playlists](/guides/smart-playlists/) — rule-based playlists the server keeps up to date — live in this list too, marked with a small **sparkles** badge (tooltip *Smart playlist — updates itself from rules*). They browse and play like any other playlist; where they differ is in editing, covered on their own page.
+
 ## Sort modes
 
 - **Name** *(default)*, **Song Count**, **Duration**, **Updated At**, **Random**
@@ -25,11 +27,11 @@ Each playlist row shows its cover art — a 2×2 quad of the first distinct albu
 
 Three ways:
 
-1. **`+` button — Playlists view header** — opens a Create New Playlist dialog (name + Public toggle). On submit you're dropped straight into split-view edit mode for the new empty playlist; populate it from the Library Browser and save when ready.
+1. **`+` button — Playlists view header** — drops you straight into a blank [editor](#editing-playlists) where you type the name and add tracks. There's no naming dialog first: the playlist isn't written to the server until your first Save (an empty name blocks it, and a double-click can't mint a duplicate). On a server that supports [smart playlists](/guides/smart-playlists/), the `+` is instead a small menu — **New Playlist** / **New Smart Playlist** / **Import .nsp File**.
 2. **Save the queue** — from the Queue view, press `Ctrl + S`. A dialog prompts for a name and lets you create a new playlist or append to an existing one. `Ctrl + S` is not affected by [Quick Add](#quick-add) — it always opens the dialog so you can name or pick a destination.
 3. **Add to Playlist** — right-click any track, album, or artist in any view → **Add to Playlist**. The dialog can create a new playlist or pick one to append to. With [Quick Add](#quick-add) on and a [default playlist](#default-playlist) set, the dialog is skipped and the songs append straight to the default.
 
-All three create-playlist dialogs include a **Public** toggle that defaults to on. Public playlists are visible to every Navidrome user; private ones are only visible to you (and admins). You can flip the flag later from the edit bar (see below).
+The `Ctrl + S` and **Add to Playlist** dialogs each include a **Public** toggle that defaults to on; the `+` editor sets the same flag through its lock button (see below). Public playlists are visible to every Navidrome user; private ones are only visible to you (and admins). Both dialogs offer only *manual* playlists as append targets — [smart playlists](/guides/smart-playlists/) are rule-driven and can't be added to by hand. When you type a name that already exists, the dialog says so (*A playlist named "…" already exists*) but doesn't stop you — duplicate names are allowed.
 
 ## Default playlist
 
@@ -52,7 +54,7 @@ The chip is a small pin icon that sits alongside the other view-header buttons (
 
 ### The picker
 
-A searchable modal listing every playlist with its artwork, song count, and duration:
+A searchable modal listing every manual playlist with its artwork, song count, and duration ([smart playlists](/guides/smart-playlists/) can't be an append target, so they're left out):
 
 - Type to filter; the search input is auto-focused.
 - `↑` `↓` to move, `Enter` to select.
@@ -92,25 +94,29 @@ Right-click a playlist for the playlist-specific actions:
 
 Plus the standard **Add to Queue / Get Info** actions from [Library Basics](/guides/library-basics/#common-context-menu-actions).
 
+On a [smart playlist](/guides/smart-playlists/) you own, **Edit Rules…** takes the place of **Edit Playlist** (its tracks come from rules, not hand-editing), and **Set as Default Playlist** isn't offered. The `E` hotkey and the Queue banner's edit pencil follow the same split — rules editor for smart, this track editor for manual. Everything else here works the same on both kinds.
+
 ### Split-view edit mode
 
 ![Split-view edit mode — playlist queue on the left, Library Browser on the right](../../../assets/playlist-split-view.webp)
 
 **Edit Playlist** opens a split layout: the queue (now containing the playlist's tracks) is on the left, and the Library Browser is on the right. From here you can:
 
-- Reorder tracks with drag-and-drop
+- Reorder tracks with drag-and-drop — same behavior as the [queue](/guides/queue/), down to dropping a track past the last row to append it at the end
 - Add tracks by dragging from the Library Browser
 - Remove tracks the same way you'd remove them from the queue
 - Edit the playlist name and comment inline
+- Open **Get Info** on any track — from its right-click menu or by clicking its title
 - Toggle public/private with the lock button in the edit bar — open lock = public, closed lock = private
 
-When you're done, click the save (disk) icon in the edit bar to write the changes back to the playlist. Nokkvi tracks unsaved changes; if you exit (via the discard button or Escape) with changes pending, it discards them and shows a toast confirming the discard.
+The edit bar's eyebrow reads **EDITING PLAYLIST**, gaining a **• UNSAVED** marker whenever changes are pending. When you're done, click the save (disk) icon to write the changes back. If you exit (via the discard button or Escape) with changes pending, Nokkvi discards them and shows a toast confirming the discard.
+
+#### The cover
+
+The edit bar carries the playlist's cover as a small thumbnail — a custom upload if you've set one, otherwise the 2×2 album quad, otherwise a disc placeholder. Click it to set custom art; a **Reset** label appears under it (once the playlist is saved) to clear back to the quad. Setting a cover needs a saved playlist, so on a brand-new one you haven't saved yet, Nokkvi asks you to *save the playlist first*.
 
 ## Limitations
 
-<Aside type="note" title="Server-side features not exposed">
-  A few Navidrome playlist features are intentionally not surfaced in Nokkvi.
-</Aside>
-
-- **Smart playlists** are not supported — Nokkvi only manages manual playlists.
 - **M3U / PLS export** is not supported — playlists live entirely on the server.
+
+Smart playlists *are* supported — see the [Smart Playlists](/guides/smart-playlists/) guide.

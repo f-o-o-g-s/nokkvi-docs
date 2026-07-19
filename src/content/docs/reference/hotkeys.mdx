@@ -72,6 +72,9 @@ The slot list is the scrollable item list in the center of each view.
 | Move Track Up | `Shift + Up` | Move the focused queue track up by one position |
 | Move Track Down | `Shift + Down` | Move the focused queue track down by one position |
 | Save Queue as Playlist | `Ctrl + S` | Open the save-as-playlist dialog for the current queue |
+| New Smart Playlist | `Shift + N` | Open the [smart-playlist](/guides/smart-playlists/) rules editor on a new blank playlist |
+| Edit Centered Playlist | `E` | Edit the centered playlist (Playlists view) — rules editor for smart, track editor for manual |
+| Trawl: Save Mix as Playlist | `Shift + P` | Save the current [Trawl](/guides/trawl/) mix as an ordinary (static) playlist — mix builder only |
 
 ## Sort & View
 
@@ -100,6 +103,37 @@ The slot list is the scrollable item list in the center of each view.
 | Edit Value Down | `Down` | Toggle a setting off, or decrement a value |
 | Next Settings Category | `Shift + Tab` | Move to the next category in the settings sidebar — or step the [Trawl](/guides/trawl/#editing-the-controls-from-the-keyboard) controls-row focus ring forward |
 | Previous Settings Category | `Shift + Backspace` | Move to the previous category in the settings sidebar — or step the Trawl controls-row focus ring backward |
+
+## Smart playlist rules editor
+
+The [smart-playlist rules editor](/guides/smart-playlists/#the-rules-editor) is keyboard-first. Most of its keys are fixed context behaviors rather than rebindable actions — the exceptions are **Save**, which follows your *Save Queue as Playlist* binding (`Ctrl + S` by default), and the two entry-point actions above (`Shift + N`, `E`).
+
+Building the rules (form pane):
+
+| Action | Shortcut |
+| :--- | :--- |
+| Move between rows | `Up` / `Down` |
+| Step or cycle the focused cell | `Left` / `Right` |
+| Next cell in the row | `Tab` |
+| Switch between the form and the preview | `Shift + Tab` |
+| Act on the focused cell — open a picker, toggle, add or remove a rule | `Enter` |
+| Reorder a sort key | `Shift + Up` / `Shift + Down` |
+| Remove the focused rule or sort key | `Delete`, `Backspace`, or `x` |
+| Preview (re-evaluate on the server) | `Ctrl + Enter` |
+| Save | `Ctrl + S` |
+| Discard (confirms if there are unsaved edits) | `Escape` |
+
+While editing a text or number cell, `Enter` or `Tab` commits it and `Escape` reverts just that cell. In the preview pane, `Up` / `Down` move and `Enter` plays the evaluated list from the focused row.
+
+Pickers and the calendar:
+
+| Action | Shortcut |
+| :--- | :--- |
+| Filter a list picker (field, operator, genre, playlist…) | *type to filter*, then `Up` / `Down`, `Enter`, `Escape` |
+| Calendar — move by a day | `Left` / `Right` |
+| Calendar — move by a week | `Up` / `Down` |
+| Calendar — previous / next month | `Page Up` / `Page Down` |
+| Calendar — pick the focused day | `Enter` |
 
 ---
 
@@ -169,6 +203,9 @@ Each action maps to a `snake_case` key under `[hotkeys]`:
 | Move Track Up | `move_track_up` |
 | Move Track Down | `move_track_down` |
 | Save Queue as Playlist | `save_queue_as_playlist` |
+| New Smart Playlist | `new_smart_playlist` |
+| Edit Centered Playlist | `edit_centered_playlist` |
+| Trawl: Save Mix as Playlist | `trawl_save_as_playlist` |
 | Previous Sort Mode | `prev_sort_mode` |
 | Next Sort Mode | `next_sort_mode` |
 | Toggle Sort Order | `toggle_sort_order` |

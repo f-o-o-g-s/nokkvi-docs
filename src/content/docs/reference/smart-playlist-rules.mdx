@@ -1,0 +1,125 @@
+---
+title: Smart Playlist Rules
+description: The full field, operator, value, and preset reference for Nokkvi's smart-playlist rules editor, plus the .nsp file format.
+sidebar:
+  order: 4
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+This is the complete reference for the rules behind a [smart playlist](/guides/smart-playlists/) — every field you can filter on, every operator, the value editors, the built-in presets, and the `.nsp` file format. For the workflow — how to open the editor, preview, and save — see the [Smart Playlists guide](/guides/smart-playlists/).
+
+A rule is a **field**, an **operator**, and (for most operators) a **value** — for example *rating · is · 5*, or *dateadded · in the last · 30 days*. Rules combine under a top-level **Match All** (every rule) or **Match Any** (at least one), and can nest one group deep in the form.
+
+## Operators
+
+Seventeen operators, in the order the picker offers them. Only the operators valid for the selected field appear.
+
+| Operator | Applies to | Value |
+| :------- | :--------- | :---- |
+| **is** | any field | a single value (a toggle for booleans, a star picker for ratings) |
+| **is not** | any field | a single value |
+| **contains** | text | typed text |
+| **doesn't contain** | text | typed text |
+| **starts with** | text | typed text |
+| **ends with** | text | typed text |
+| **is greater than** | numbers, dates | a number or date |
+| **is less than** | numbers, dates | a number or date |
+| **is in the range** | numbers, dates | a min/max pair (not allowed on multi-valued fields) |
+| **is before** | dates | a date |
+| **is after** | dates | a date |
+| **in the last (days)** | dates | a whole number of days |
+| **not in the last (days)** | dates | a whole number of days |
+| **is in playlist** | playlist | another playlist |
+| **is not in playlist** | playlist | another playlist |
+| **is missing** | nullable fields, tags | — (no value) |
+| **is present** | nullable fields, tags | — (no value) |
+
+Negation is expressed through the negative operators (*is not*, *doesn't contain*, *not in the last*, *is not in playlist*) — there's no group-level NOT.
+
+## Value editors
+
+The editor a value cell shows depends on the field's type and the operator:
+
+| Editor | When |
+| :----- | :--- |
+| **Text input** | text fields |
+| **Number input** | numeric fields |
+| **Calendar** | date fields — a themed month grid, so dates are never hand-typed |
+| **Number pair** | *is in the range* on a numeric field |
+| **Date pair** | *is in the range* on a date field |
+| **Days** | *in the last* / *not in the last* — a number with a `days` suffix |
+| **Star picker** | rating fields — `Unrated`, `1 star` … `5 stars` |
+| **Toggle** | boolean fields under *is* / *is not* — On / Off |
+| **Playlist picker** | *is in playlist* / *is not in playlist* |
+| **Tag-value picker** | genres, moods, artist roles — picked from your library's actual values |
+| *(none)* | *is missing* / *is present* — presence operators take no value |
+
+<Aside type="note" title="Tag matching is exact">
+  The server matches tag and artist-role values **case-sensitively** — `phonk` is not `Phonk`. That's why those values come from a picker of your library's real values rather than a text box. When you do need a value the picker doesn't list, the **Use "…"** row commits exactly what you typed.
+</Aside>
+
+## Fields
+
+The field picker surfaces the ~18 most-used fields first; everything else is behind **More fields…**.
+
+**Common fields:** rating · play count · last played · genre · loved · date added · date rated · date loved · duration · album rating · album loved · album last played · title · album · artist · album artist · year · release type.
+
+The rest, grouped by type:
+
+**Text** — title, album, comment, lyrics, disc subtitle, catalog number, album comment, explicit status, file path, file type, codec, and the sort-name fields (sort title / album / artist / album artist) and MusicBrainz IDs (album, album-artist, artist, recording, release-track, release-group).
+
+**Number** — year, track number, disc number, original year, release year, file size (bytes), duration (seconds), bitrate, bit depth, sample rate, BPM, channels, play count (+ album / artist variants), average rating, library id, and the ReplayGain gain/peak fields.
+
+**Date** — recording date, original date, release date, date modified, date added, date loved (+ album / artist), last played (+ album / artist), date rated (+ album / artist).
+
+**Boolean** — loved (+ album / artist), compilation, has cover art, missing file.
+
+**Rating** — rating, album rating, artist rating open the 0–5 star picker. *Average rating* is a fractional number, so it's typed rather than starred.
+
+**Tags & artist roles** — multi-valued, picked from your library. Default tags are **genre, mood, grouping, release type, record label, media**; more are discovered from your server as you use them. The 14 artist roles are **artist, album artist, composer, conductor, lyricist, arranger, producer, director, engineer, mixer, remixer, djmixer, performer, main credit**.
+
+Two names are accepted as aliases for the server's canonical field: `albumtype` resolves to **release type**, and `recordingdate` resolves to the **recording date** column.
+
+## Sort and limit
+
+Below the rules you can add:
+
+- **Sort keys** — one or more fields, each ascending or descending, reorderable. A **random** option is available (it warns that random sort can be noisy in server logs on SQLite).
+- **A limit** — either a track count or a **percentage** of matches (1–100), with an optional offset. An offset only takes effect alongside a limit.
+
+## Presets
+
+The five built-in presets are complete, editable starting points — not fixed templates.
+
+| Preset | Rules | Sort | Limit |
+| :----- | :---- | :--- | :---- |
+| **Never Played** | play count **is** 0 | date added, ascending | 500 |
+| **Heavy Rotation** | play count **is greater than** 5 | play count, descending | 200 |
+| **Forgotten Loves** | loved **is** true **and** last played **not in the last** 90 days | date loved, descending | 100 |
+| **Comeback Queue** | **any** of: (rating is 3 **and** not played in 90 days), (rating is 4 **and** not in 30), (rating is 5 **and** not in 15), (loved **and** not in 10) | last played, ascending | 1000 |
+| **Recently Added** | date added **in the last** 30 days | date added, descending | 500 |
+
+## Navidrome version floors
+
+Smart playlists are a server feature, so what you can express depends on your Navidrome version. Nokkvi flags a rule your server is too old to evaluate rather than letting it save and silently match nothing.
+
+| Since | Unlocks |
+| :---- | :------ |
+| **0.61** | Smart playlists themselves (rules read/write over the REST API) |
+| **0.62** | The `missing`, `codec`, and `sample rate` fields, the short-form ReplayGain fields, and detaching a file-backed playlist on save |
+| **0.63** | The long-form `replaygain_*` fields, and *is missing* / *is present* on nullable columns (they already work on tags and roles on any version) |
+
+## .nsp files
+
+A `.nsp` is a Navidrome smart-playlist file: a JSON object whose top level **is** the rules (a `all` or `any` key holding the rule list), with three optional metadata fields alongside:
+
+| Field | Meaning | Default |
+| :---- | :------ | :------ |
+| `name` | Playlist name | the file's name |
+| `comment` | Playlist comment | empty |
+| `public` | Visibility | public |
+
+Everything that isn't one of those three is treated as rules and sent to the server verbatim, so a file exported from Navidrome round-trips unchanged. Files may include `//` and `/* */` comments and are capped at **100 KB**. See [Importing .nsp files](/guides/smart-playlists/#importing-nsp-files) for the two import paths and the name-collision dialog.
+
+A file that won't import reports **Not a valid smart-playlist file —** followed by the reason: *file exceeds 100 KB*, *couldn't parse JSON*, or *no rules object found*.
