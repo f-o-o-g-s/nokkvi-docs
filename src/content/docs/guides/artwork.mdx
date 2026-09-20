@@ -5,13 +5,23 @@ description: How Nokkvi fetches and caches album artwork from your Navidrome ser
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-Nokkvi uses a **server-only artwork pipeline** — images are fetched directly from Navidrome on demand and kept in an in-memory GPU texture cache. There is no local disk cache for browsing artwork. (The MPRIS integration writes a per-track `mpris-art-<pid>-<cover-id>.jpg` (the previous one is removed on each song change, so it's ~one file at a time) to `$XDG_CACHE_HOME/nokkvi/` so D-Bus clients can read the now-playing cover via `file://` without leaking your Subsonic credential — that's the only standalone artwork file Nokkvi writes. Remembered radio-station art is also kept on disk, but as bytes inside Nokkvi's local state database rather than a separate image file.)
+Nokkvi uses a **server-only artwork pipeline** — images are fetched directly from Navidrome on demand and kept in an in-memory GPU texture cache. There is no local disk cache for browsing artwork. (The MPRIS integration writes a per-track `mpris-art-<pid>-<cover_id>_<hash>.jpg` (the previous one is removed on each song change, so it's ~one file at a time, plus a `mpris-art-<pid>-placeholder.jpg` written once per process) to `$XDG_CACHE_HOME/nokkvi/` so D-Bus clients can read the now-playing cover via `file://` without leaking your Subsonic credential — those are the only standalone artwork files Nokkvi writes. Remembered radio-station art is also kept on disk, but as bytes inside Nokkvi's local state database rather than a separate image file.)
 
 ## How Artwork Works
 
 When an album comes into view, Nokkvi fetches the image directly from your Navidrome server and decodes it into a GPU texture handle. Two in-memory LRU caches keep recent images warm: a **thumbnail cache** holds up to **1024** slot-row thumbnails, and a **panel cache** holds up to **200** full-size images for the large artwork panel. Browsing a section of your library you visited recently has zero network overhead.
 
 Thumbnails in list views are populated around the visible viewport — items well outside the visible area aren't pre-loaded.
+
+### On Navidrome 0.64+
+
+A 0.64 server describes each album, artist, and playlist cover alongside the row itself, which lets Nokkvi do three things it can't on older servers:
+
+- **A thumbnail loads on its own color.** Instead of the flat `bg2` square, an empty slot takes the cover's **dominant color** while the image is in flight, so a list fills in on-palette rather than blinking grey. A loaded cover goes back to the `bg2` backdrop — square covers arrive padded with transparency, and a tint would bleed into their letterbox bars.
+- **Art the server says is missing is never requested.** A cover Navidrome has settled doesn't exist anywhere gets no URL at all, so Nokkvi shows its own empty square instead of fetching the server's placeholder picture.
+- **A replaced cover appears on its own.** Covers are versioned by the server's image **hash**, which changes exactly when the image bytes do — not on a play-count bump. Scroll the row back into view (or center it) and the new cover is there, in both the thumbnail and the large panel.
+
+Older servers still work: they version covers by the entity's `updated_at` instead, tint nothing, and fall back to the manual [Refresh Artwork](#updating-artwork).
 
 ## The Artwork Panel
 
@@ -86,6 +96,6 @@ EnableWebPEncoding = true
 
 ## Updating Artwork
 
-If you update a cover in Navidrome and want Nokkvi to reflect the change, right-click the artwork panel in the Albums, Songs, or Queue view and select **Refresh Artwork**. This evicts the cached image and fetches the latest version from the server.
+If you update a cover in Navidrome and want Nokkvi to reflect the change, right-click the artwork panel in the Albums, Songs, or Queue view and select **Refresh Artwork**. This evicts the cached image and fetches the latest version from the server. On **Navidrome 0.64+** you rarely need it — a replaced cover [shows up by itself](#on-navidrome-064) the next time the row comes into view.
 
 Radio stations work differently — right-click a station in the [Radios list](/guides/radio/#artwork) and choose **Refresh Artwork** to forget its remembered stream art and re-capture it.
