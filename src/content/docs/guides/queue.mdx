@@ -56,6 +56,8 @@ Both features require Last.fm or ListenBrainz to be configured on the server. Se
 | `Ctrl + D` | Remove the focused track |
 | `Shift + D` | Clear the entire queue |
 
+A row's right-click menu also carries **Remove Duplicates**, which shrinks the queue to one row per song. It keeps the first copy of each — except the song that's playing, where the row under the play cursor is the keeper and even an *earlier* copy goes. That's what lets the sweep run without touching playback: the row you're hearing is never the one removed. A toast reports the result — *Removed 3 duplicates*, or *No duplicates found*.
+
 ## Queue sync
 
 Nokkvi can save your whole queue to the Navidrome server and pull it back later — on another machine, or in a fresh session after you restart. The playing track and its exact position travel with it, so a pull drops you back mid-song rather than at the top of the list.

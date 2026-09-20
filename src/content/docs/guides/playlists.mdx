@@ -81,6 +81,17 @@ To send something to a different playlist for once, toggle Quick Add off, do the
 
 See [Configuration → Playlists](/reference/config/#playlists) for the underlying TOML keys.
 
+## Songs the playlist already has
+
+Before anything is written, Nokkvi reads the target's track list and checks your batch against it. If none of the songs are there, the add just happens — *Added 3 songs to 'Road Trip'*. If some are, nothing is written yet and a confirm opens instead:
+
+> **2 of 5 songs are already in "Road Trip".**
+> ☑ Skip the 2 already there
+
+The box is **checked by default**, so the primary button reads **Add** and adds only the three that are missing; uncheck it and every song goes in, duplicates included. When *every* song in the batch is already there the box would be pointless, so it's dropped and the button reads **Add anyway**. The toast afterwards counts both halves — *Added 3 songs to 'Road Trip' (2 already there)*.
+
+Repeats *inside* your own selection aren't duplicates: two copies of a song the playlist doesn't have are two songs to add. Both add paths run the check — the dialog's Submit and [Quick Add](#quick-add) to the default. The one exception is a conflict that lands while another dialog is open: Nokkvi won't swap the dialog under your cursor, so it toasts *Nothing added…* and leaves the playlist alone.
+
 ## Editing playlists
 
 Right-click a playlist for the playlist-specific actions:
@@ -105,6 +116,7 @@ On a [smart playlist](/guides/smart-playlists/) you own, **Edit Rules…** takes
 - Reorder tracks with drag-and-drop — same behavior as the [queue](/guides/queue/), down to dropping a track past the last row to append it at the end
 - Add tracks by dragging from the Library Browser
 - Remove tracks the same way you'd remove them from the queue
+- Strip repeats with **Remove Duplicates** — the squares icon in the edit bar, or the same entry in a row's right-click menu. It keeps the first copy of each song and drops every later one across the **whole** playlist: an active search doesn't narrow it, and neither does the row you clicked or your selection. Like every other edit it's staged, so the eyebrow flips to **• UNSAVED** and Save writes it
 - Edit the playlist name and comment inline
 - Open **Get Info** on any track — from its right-click menu or by clicking its title
 - Toggle public/private with the lock button in the edit bar — open lock = public, closed lock = private
