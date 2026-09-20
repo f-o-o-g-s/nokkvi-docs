@@ -1,11 +1,11 @@
 ---
 title: Harbour
-description: Nokkvi's home view — discovery shelves, cover previews, and a whole-library search.
+description: Nokkvi's home view — discovery shelves, one-press random rows, cover previews, and a whole-library search.
 ---
 
-Harbour is Nokkvi's home view: a landing page of collapsible discovery shelves — recently played tracks, recently added albums, your most-played music, and a couple of random picks — with the app's first **whole-library search** living in the header. It's the one screen that reaches across everything at once, rather than browsing a single entity type.
+Harbour is Nokkvi's home view: a landing page of collapsible discovery shelves — recently played tracks, recently added albums, your most-played music — followed by a block of one-press **Random** rows, with the app's first **whole-library search** living in the header. It's the one screen that reaches across everything at once, rather than browsing a single entity type.
 
-![The Harbour home view: discovery shelves with cover-art teasers on the left, the centered shelf's album cover previewed in the artwork column on the right](../../../assets/harbour.webp)
+![The Harbour home view: the Trawl row, collapsed discovery shelves teasing their top pick, and the five Random rows below them on the left; the centered shelf's album cover previewed in the artwork column on the right](../../../assets/harbour.webp)
 
 ## Getting to Harbour
 
@@ -28,18 +28,34 @@ The body of Harbour is a stack of shelves, each capped at **four picks**:
 | **Most Played Albums** | Your top albums |
 | **Most Played Artists** | Your top album artists |
 | **Most Played Genres** | Your most-played genres |
-| **Random Playlists** | A fresh handful of playlists each visit |
-| **Random Genres** | A fresh handful of genres each visit |
 
-The four **Most Played** shelves stay hidden until there's play history to rank — on a fresh library they simply don't appear. The [Trawl](/guides/trawl/) mix-builder anchor row always leads the list, above Recently Played.
+The four **Most Played** shelves stay hidden until there's play history to rank — on a fresh library they simply don't appear. The [Trawl](/guides/trawl/) mix-builder anchor row always leads the list, above Recently Played, and the [Random block](#the-random-block) closes it out below the last shelf.
 
-Every shelf starts **collapsed**. Click a header (or center it and press `Enter`) to expand it and reveal its picks; the caret on the right edge of each header points down when open, right when closed. Collapse state is per-session — Harbour opens with everything collapsed each launch.
+Every shelf starts **collapsed**. Click a header (or center it and press `Enter`) to expand it and reveal its picks; the caret on the right edge of each header points down when open, right when closed. `Shift + Enter` on a pick collapses the shelf it belongs to, so you can close a shelf without arrowing back up to its header. Collapse state is per-session — Harbour opens with everything collapsed each launch.
 
-Activating a pick plays or opens it the same way it would in its own view. Genre picks are the one twist: playing a genre row here starts **about 100 random tracks** drawn from that genre rather than the entire backing catalog.
+Activating a pick plays or opens it the same way it would in its own view. Genre picks are the one twist: playing a genre row here starts **up to 100 random tracks** drawn from that genre rather than the entire backing catalog. `Shift + A` enqueues that same capped draw.
 
 ### Header teasers
 
 A collapsed shelf isn't blank — its header **teases the top pick**: the pick's cover art on the left and a one-line summary of it (title, artist, and a fact like "Played 2 hours ago"). Expand the shelf and the header swaps that teaser for the shelf's own glyph and a pick count (`4 picks`, `1 pick`). Empty shelves read *Nothing here yet*.
+
+## The Random block
+
+Under the last shelf sit five **Random** rows — one per entity kind, in the nav bar's order:
+
+| Row | One press plays |
+| :-- | :-------------- |
+| **Random Album** | The album the row is showing |
+| **Random Artist** | The artist the row is showing |
+| **Random Songs** | A pre-drawn batch of **100** random songs |
+| **Random Genre** | **100** songs from the genre the row is showing |
+| **Random Playlist** | The playlist the row is showing |
+
+These aren't shelves. There's nothing to expand and no handful of picks to browse: each row **draws its pick when the shelves load** and then previews it, showing the pick's cover on the left and its own facts in the subtitle — an album reads *name • artist • year*, an artist *name • 12 albums*, a playlist *name • 24 songs • 1h 38m*. Press `Enter` and you play exactly what you're looking at, so the row is a preview rather than a lottery ticket. `Shift + A` adds that same pick to the queue instead.
+
+**Refresh re-rolls every row.** The `R` [hotkey](/reference/hotkeys/#sort--view) — or the refresh button in the Harbour header — reloads the shelves and draws a fresh pick for each Random row.
+
+Until a pick lands, a row shows its entity glyph and names what a press would do (*Play a random album*, *Play 100 songs from a random genre*). Draws skip playlists and genres with no songs, so a press never lands on something empty; a row whose draw didn't land at all says so instead of playing.
 
 ## The artwork preview
 
@@ -47,6 +63,7 @@ Harbour borrows the large horizontal [artwork column](/guides/artwork/#the-artwo
 
 - Center an **album or track** and its full-size cover fills the column.
 - Center a **playlist or genre** — or a shelf header for a collection shelf — and Nokkvi builds a **cover collage** (up to a 3×3 grid) from the items inside. A playlist with its own uploaded cover shows that instead.
+- Center a **Random row** and the panel previews its pre-drawn pick under a quiet pill — `RANDOM`, the entity noun, and the pick's facts. A row with nothing drawn yet shows the pill over a blank square.
 - Center the **Trawl row** — where Harbour first opens — and the panel comes alive instead: the nokkvi longship sails a rippling sea, endlessly dragging its anchor behind it. That's *trawling*, the mix-builder's namesake; the crate's current size and blend ride in the pill on top.
 
 So arrowing down the shelves is also a way to flip through cover art, one centered item at a time.
