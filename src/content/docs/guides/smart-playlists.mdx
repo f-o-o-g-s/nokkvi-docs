@@ -83,6 +83,8 @@ Almost nothing here is free-typed — you **pick** from lists so a rule can't mi
 
 Below the rules you can add one or more **sort keys** (each ascending or descending, reorderable with `Shift + ↑` / `Shift + ↓`, plus a *random* option) and a **limit** — a track count or a percentage of the library, with an optional offset.
 
+On **Navidrome 0.64+** a **Refresh** row sits under Limit: a free-text duration (`90m`, `12h`, `1d`, `1w`) setting how long the server waits before re-evaluating *this* playlist. Empty means the server's own interval — Navidrome's web UI has no control for it at all. The row appears only when your server supports it or the rules already carry a delay; see [Sort, limit, and refresh](/reference/smart-playlist-rules/#sort-limit-and-refresh) for the accepted spellings.
+
 Rules can be **grouped** one level deep to mix *All* and *Any* — say *rating is 5* **and** *(genre is Jazz **or** genre is Blues)*. Anything nested deeper is shown read-only and edited through the raw-JSON escape hatch.
 
 <Aside type="tip" title="Edit as JSON">

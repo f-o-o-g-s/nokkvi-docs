@@ -73,6 +73,8 @@ The rest, grouped by type:
 
 **Date** — recording date, original date, release date, date modified, date added, date loved (+ album / artist), last played (+ album / artist), date rated (+ album / artist).
 
+**Album-level, Navidrome 0.64+** — album date added, album date modified, album duration (seconds), album song count, album size (bytes). These filter *and* sort. A server older than 0.64 doesn't have the columns, so Nokkvi flags a rule on one rather than letting it save and match nothing.
+
 **Boolean** — loved (+ album / artist), compilation, has cover art, missing file.
 
 **Rating** — rating, album rating, artist rating open the 0–5 star picker. *Average rating* is a fractional number, so it's typed rather than starred.
@@ -81,12 +83,15 @@ The rest, grouped by type:
 
 Two names are accepted as aliases for the server's canonical field: `albumtype` resolves to **release type**, and `recordingdate` resolves to the **recording date** column.
 
-## Sort and limit
+## Sort, limit, and refresh
 
 Below the rules you can add:
 
-- **Sort keys** — one or more fields, each ascending or descending, reorderable. A **random** option is available (it warns that random sort can be noisy in server logs on SQLite).
+- **Sort keys** — one or more fields, each ascending or descending, reorderable. A **random** option is available (it warns that random sort can be noisy in server logs on SQLite). Sorting by a field your server is too old to have is a *warning*, not an error: Navidrome silently skips an unknown sort key, falling back to title only when no key is left.
 - **A limit** — either a track count or a **percentage** of matches (1–100), with an optional offset. An offset only takes effect alongside a limit.
+- **A refresh delay** (Navidrome 0.64+) — the **Refresh** row, a free-text duration telling the server how long to wait before re-evaluating this playlist. Leave it empty (the cell reads *default*) to use the server's own interval. Navidrome's own web UI has no control for this.
+
+Write the delay as digits plus a unit, terms running together: `90m`, `12h`, `1d`, `1w`, `1d12h`. Units are `ns`, `us`, `ms`, `s`, `m`, `h`, `d`, `w`; `0` means no delay. Anything else is an error — Navidrome 0.64 rejects the whole rule set over a delay it can't parse. On a server Nokkvi knows to predate 0.64 the delay only warns, because that server drops the key instead of failing.
 
 ## Presets
 
@@ -109,6 +114,7 @@ Smart playlists are a server feature, so what you can express depends on your Na
 | **0.61** | Smart playlists themselves (rules read/write over the REST API) |
 | **0.62** | The `missing`, `codec`, and `sample rate` fields, the short-form ReplayGain fields, and detaching a file-backed playlist on save |
 | **0.63** | The long-form `replaygain_*` fields, and *is missing* / *is present* on nullable columns (they already work on tags and roles on any version) |
+| **0.64** | The five [album-level fields](#fields), for filtering and sorting, and the per-playlist [refresh delay](#sort-limit-and-refresh) |
 
 ## .nsp files
 
