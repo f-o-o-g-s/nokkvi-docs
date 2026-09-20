@@ -356,6 +356,9 @@
   "scrollbar_visibility": {
     "description": "How the slot-list scrollbar is shown. Options: `on_hover` (transient fade handle, reserves no width), `always` (permanent track, reserves a right-side gutter), `hidden` (no scrollbar; mouse-wheel still scrolls)."
   },
+  "seek_step_secs": {
+    "description": "Seconds the Seek Backward / Seek Forward keys jump (1 to 60). 1s is a fine nudge; 60s leaps through a long mix."
+  },
   "server_url": {
     "description": "The full URL of your Navidrome server (e.g., `https://music.example.com`)."
   },

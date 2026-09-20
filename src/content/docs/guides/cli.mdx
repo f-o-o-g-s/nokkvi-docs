@@ -21,7 +21,7 @@ The CLI is an alternative to [MPRIS](/guides/mpris/). MPRIS covers the standard 
 | `stop` | — | Stop and reset the playhead |
 | `next` | — | Skip to the next track |
 | `previous` | — | Return to the previous track |
-| `seek` | `<seconds>` | Seek to absolute position (float, in seconds) |
+| `seek` | `<value>` | Seek the playing track — see [Seek syntax](#seek-syntax) |
 | `volume` | `<value>` | Set volume — see [Volume syntax](#volume-syntax) |
 
 ### Queue and modes
@@ -93,6 +93,27 @@ nokkvi volume +0.05    # bump 5%
 nokkvi volume -0.1     # drop 10%
 nokkvi volume 0.5      # set to 50%
 ```
+
+### Seek syntax
+
+The `<value>` arg accepts two shapes:
+
+- **Relative** — `+N` or `-N`, in seconds, moved from wherever the track currently is. `+0` and `-0` do nothing. Past the end ends the track (the next one plays, as if you had dragged the slider there); past the start parks at 0:00.
+- **Absolute** — `N`, in seconds from the start of the track.
+
+Fractions are fine (`+2.5`). `nan`, `inf`, `1:30` and anything else that is not a finite number are rejected.
+
+```bash
+nokkvi seek +10    # jump 10s ahead
+nokkvi seek -10    # jump 10s back
+nokkvi seek 90     # go to 1:30
+```
+
+Relative calls that arrive faster than the audio engine can apply them **add up** rather than piling on top of each other, so holding a media-key binding or firing `playerctl position 5+` in a loop scrubs smoothly.
+
+An absolute seek answers with where it was sent (`{"position":90}`); a relative one answers with the offset it dispatched (`{"offset":10}`), because the landing point is not known until the engine applies it. Ask `nokkvi status` for the resulting position.
+
+Seeking is unavailable during radio playback — the verb returns an `unavailable` error.
 
 ### Rating syntax
 

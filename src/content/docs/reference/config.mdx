@@ -220,6 +220,7 @@ All keys in this section live under `[settings]`.
 | :--- | :--- | :--- |
 | `stable_viewport` | `true` | Clicking an item highlights it in place; the list does not auto-scroll on playback changes. |
 | `auto_follow_playing` | `true` | The Queue view auto-scrolls to keep the currently playing track visible as it changes. |
+| `seek_step_secs` | `5` | Seconds the Seek Backward / Seek Forward keys jump (1 to 60). 1s is a fine nudge; 60s leaps through a long mix. |
 {/* config-table:end */}
 
 ## Playback Settings
@@ -307,7 +308,7 @@ Internet-radio streams scrobble **directly** to ListenBrainz and/or Last.fm from
 
 ## View Sort Preferences
 
-Per-view sort mode and direction live under `[views]` and persist across restarts. Each view has two keys: `<view>_sort` (string) and `<view>_ascending` (bool). The in-app sort cycle (`Left` / `Right` / `Page Up`) writes these for you; manual TOML edits work too.
+Per-view sort mode and direction live under `[views]` and persist across restarts. Each view has two keys: `<view>_sort` (string) and `<view>_ascending` (bool). The in-app sort cycle (`Shift + Left` / `Shift + Right` / `Page Up`) writes these for you; manual TOML edits work too.
 
 {/* config-table:start id="views" */}
 | Key | Default | Description |

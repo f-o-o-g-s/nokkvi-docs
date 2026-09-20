@@ -40,6 +40,8 @@ Switch between the different screens of the application.
 | Toggle Crossfade | `F` | Enable or disable gapless crossfading between tracks (enabling it turns off bit-perfect) |
 | Toggle Lyrics | `L` | Show or hide [lyrics](/guides/lyrics/) over the Queue cover art |
 | Toggle Bit-Perfect | `B` | Cycle bit-perfect output: off → strict → relaxed (turns off crossfade) |
+| Seek Backward | `Left` | Jump back by the [Seek Step](/reference/config/#behavior-settings) (5s default, 1–60s). Hold to scrub — or step the focused [Trawl](/guides/trawl/#editing-the-controls-from-the-keyboard) control to its previous value |
+| Seek Forward | `Right` | Jump ahead by the Seek Step. Hold to scrub — or step the focused Trawl control to its next value |
 
 ## Navigation
 
@@ -80,8 +82,8 @@ The slot list is the scrollable item list in the center of each view.
 
 | Action | Shortcut | Description |
 | :--- | :--- | :--- |
-| Previous Sort Mode | `Left` | Cycle the sort mode backward — or step the focused [Trawl](/guides/trawl/#editing-the-controls-from-the-keyboard) control to its previous value |
-| Next Sort Mode | `Right` | Cycle the sort mode forward — or step the focused Trawl control to its next value |
+| Previous Sort Mode | `Shift + Left` | Cycle the sort mode backward — or step the focused [Trawl](/guides/trawl/#editing-the-controls-from-the-keyboard) control to its previous value |
+| Next Sort Mode | `Shift + Right` | Cycle the sort mode forward — or step the focused Trawl control to its next value |
 | Toggle Sort Order | `Page Up` | Toggle ascending / descending sort |
 | Refresh View | `R` | Reload the current view's data from the server |
 | Roulette | `Ctrl + R` | Spin the wheel and play a random item from the current view |
@@ -183,6 +185,8 @@ Each action maps to a `snake_case` key under `[hotkeys]`:
 | Toggle Crossfade | `toggle_crossfade` |
 | Toggle Lyrics | `toggle_lyrics` |
 | Toggle Bit-Perfect | `toggle_bit_perfect` |
+| Seek Backward | `seek_backward` |
+| Seek Forward | `seek_forward` |
 | Slot List Up | `slot_list_up` |
 | Slot List Down | `slot_list_down` |
 | Activate | `activate` |
