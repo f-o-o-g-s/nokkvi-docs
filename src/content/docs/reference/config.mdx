@@ -254,8 +254,8 @@ All keys in this section live under `[settings]`.
 | `replay_gain_fallback_to_agc` | `false` | Untagged tracks fall through to real-time AGC instead of using `replay_gain_fallback_db`. |
 | `replay_gain_prevent_clipping` | `true` | Clamp the resolved gain so `track_peak × gain ≤ 1.0` using the per-track peak tag. |
 | `visualization_mode` | `"bars"` | Active visualizer mode. Options: `off`, `bars`, `lines`, `scope`. Cycle live with the `V` hotkey — see [Visualizer Reference](/reference/visualizer/). |
-| `lyrics_enabled` | `false` | Show synced lyrics over the Queue cover art, following the playing track line by line. Also toggled from the player bar or with the `L` hotkey. Off leaves the cover (and any over-cover visualizer) untouched. See the [Lyrics guide](/guides/lyrics/). |
-| `lyrics_fetch_online` | `true` | Fetch missing lyrics from lrclib.net and cache them into the local store for next time. Off resolves lyrics only from the local store and your server — no third-party requests. See [Where lyrics come from](/guides/lyrics/#where-lyrics-come-from). |
+| `lyrics_enabled` | `false` | Show lyrics over the Queue cover art. Synced lyrics follow the track line by line; plain lyrics drift with playback and scroll with the mouse wheel. Also toggled from the player bar or with the `L` hotkey. Off leaves the cover (and any over-cover visualizer) untouched. See the [Lyrics guide](/guides/lyrics/). |
+| `lyrics_fetch_online` | `true` | Fetch missing lyrics from lrclib.net and cache them into the local store for next time. Off resolves lyrics only from your own files, your server, and downloads already cached on disk — no third-party requests. See [Where lyrics come from](/guides/lyrics/#where-lyrics-come-from). |
 | `lyrics_backdrop_blur` | `"off"` | Frost the cover art while lyrics display. Options: `off` (the cover stays sharp under the lyrics), `light` (a gentle soften — detail stays readable), `medium` (a true frosted-glass read — shapes survive, detail goes), `heavy` (melts the cover to a color wash). Blurred once per track and cached, never per frame. |
 {/* config-table:end */}
 

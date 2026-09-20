@@ -1,11 +1,11 @@
 ---
 title: Lyrics
-description: Synced lyrics over the Queue cover art — where they come from, how to add your own, and how they stay readable.
+description: Lyrics over the Queue cover art — synced and plain, where they come from, how to add your own, and how they stay readable.
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-Nokkvi shows synced lyrics over the Queue view's cover art, following the playing track line by line. Nothing is faked: a sheet displays only when timestamped lyrics actually match the track — plain unsynced text is never shown.
+Nokkvi shows lyrics over the Queue view's cover art. **Synced** lyrics follow the playing track line by line. **Plain** (untimed) lyrics from your server display too, drifting with playback instead of pretending to a timing they don't have. Nothing is faked either way.
 
 ## Turning it on
 
@@ -23,32 +23,44 @@ All three write [`lyrics_enabled`](/reference/config/#playback-settings) in `con
 
 ## Where lyrics come from
 
-When a track starts, Nokkvi resolves its lyrics through three sources in order and stops at the first hit:
+When a track starts, Nokkvi resolves its lyrics through four sources in order and stops at the first hit:
 
 | Order | Source | When it's used |
 | :---- | :----- | :------------- |
-| 1 | **Local store** — `~/.local/share/nokkvi/lyrics/` | Always checked first. A store hit never touches the network. |
+| 1 | **Your own files** — `~/.local/share/nokkvi/lyrics/`, outside `.cache/` | Always checked first. A hit never touches the disk cache or the network. |
 | 2 | **Your server** — OpenSubsonic Song Lyrics (`getLyricsBySongId`) | Only when the server advertises the `songLyrics` extension. |
-| 3 | **LRCLIB** — [lrclib.net](https://lrclib.net) | Only when [`lyrics_fetch_online`](/reference/config/#playback-settings) is on (the default). |
+| 3 | **Cached LRCLIB downloads** — `~/.local/share/nokkvi/lyrics/.cache/` | Always checked, even with online fetch off: the download already happened. |
+| 4 | **LRCLIB** — [lrclib.net](https://lrclib.net) | Only when [`lyrics_fetch_online`](/reference/config/#playback-settings) is on (the default). |
+
+**Your server outranks LRCLIB**, including copies already cached on disk. A Navidrome answer is your own library talking — a sidecar file you put there, or the lyrics embedded in the track's own tags — so it wins even when it is plain untimed text and the LRCLIB copy is synced.
 
 The LRCLIB lookup is an *exact* match on artist, title, album, and duration — never a fuzzy search — so a hit is never-wrong by construction. Tracks LRCLIB doesn't know simply show no lyrics rather than someone else's.
 
-A successful LRCLIB fetch is written into the store's `.cache/` folder as a tagged `.lrc` file, so the next play of that track resolves offline. That's the only thing ever written: a "not found" is remembered for the session, not recorded on disk.
+A successful LRCLIB fetch is written into the store's `.cache/` folder as a tagged `.lrc` file, so the next play of that track resolves offline. That's the only thing ever written: a "not found" is remembered for the session, not recorded on disk. Lyrics added by a library rescan clear that memory, so they show up without restarting Nokkvi.
+
+## Embedded lyrics
+
+Nokkvi streams over HTTP and never opens your audio files. It doesn't need to: Navidrome reads the embedded lyrics tags at scan time and serves them through the same `getLyricsBySongId` endpoint above. That covers ID3v2 `USLT` and `SYLT` frames on MP3, plus the `lyrics` / `unsyncedlyrics` properties on FLAC, Ogg and MP4. A `SYLT` frame, or a `USLT` holding LRC text, arrives as a synced sheet; anything else arrives as plain text.
+
+Two things worth knowing about how Navidrome serves them:
+
+- **One source wins per song.** Navidrome's `LyricsPriority` defaults to `.ttml,.yaml,.yml,.elrc,.lrc,.srt,.txt,embedded`, and the first source with a result wins. `embedded` is **last**, so a sidecar `.lrc` sitting next to the audio file hides the embedded tag. That's a server setting, not something Nokkvi controls.
+- **Blank lines are dropped.** Navidrome strips empty lines out of plain lyrics before sending them, so stanza breaks are gone by the time Nokkvi sees the sheet. Bracketed lines like `[Chorus]` survive and render as written.
 
 ### Staying offline
 
-Turn **Lyrics: Online Fetch** off (Settings → Playback) and resolution uses only the local store and your own server — no third-party requests at all. Independently of that, lookups only run while the Queue view is actually showing, and a short debounce means skipping through the queue never fires a request per skip.
+Turn **Lyrics: Online Fetch** off (Settings → Playback) and resolution uses only your own files, your own server, and LRCLIB downloads already cached on disk — no third-party requests at all. Independently of that, lookups only run while the Queue view is actually showing, and a short debounce means skipping through the queue never fires a request per skip.
 
 ## Adding your own lyrics
 
-Drop `.lrc` files anywhere under `~/.local/share/nokkvi/lyrics/` — subfolders are fine. Files are matched by the tags *inside* them, never by filename:
+Drop `.lrc` files anywhere under `~/.local/share/nokkvi/lyrics/` — subfolders are fine. Everything outside the store's own top-level `.cache/` folder counts as yours, and yours are checked before anything else, so a sheet you add always beats an LRCLIB copy of the same song. Files are matched by the tags *inside* them, never by filename:
 
 - `[ar:Artist]` and `[ti:Title]` are required for a file to be indexed.
 - `[al:Album]` and `[length:mm:ss]` are optional but break ties when several sheets match.
 
 Matching tries the exact artist + title first (case-insensitive). If that misses, a looser pass forgives featured-artist credits, trailing qualifiers like *(Live)* or *(Remix)*, and punctuation differences — but it refuses to guess when the result would be ambiguous. A wrong synced sheet is worse than none.
 
-Standard LRC works as you'd expect: `[mm:ss.xx]` timestamps, several timestamps sharing one line, and an `[offset:]` tag. A file with no timestamps at all is treated as no match — only synced sheets display.
+Standard LRC works as you'd expect: `[mm:ss.xx]` timestamps, several timestamps sharing one line, and an `[offset:]` tag. A file with no timestamps at all is treated as no match: plain lyrics come from your server only, so the store and LRCLIB stay synced-only.
 
 <Aside type="note" title="Index at launch">
   The store is indexed once at startup, so files you drop in while Nokkvi is running are picked up on the next launch.
@@ -56,13 +68,17 @@ Standard LRC works as you'd expect: `[mm:ss.xx]` timestamps, several timestamps 
 
 ## Reading the overlay
 
-The active line sits centered and inked in the theme accent; neighbors fade with distance. The column glides between lines with eased motion and snaps on seeks. Before the first timestamp the sheet waits dimmed on its first line; after the last one, the final line stays lit to the end of the track.
+**A synced sheet** centers its active line, inked in the theme accent, with neighbors fading by distance. The column glides between lines with eased motion and snaps on seeks. Before the first timestamp the sheet waits dimmed on its first line; after the last one, the final line stays lit to the end of the track.
+
+**A plain sheet** has no line known to be current, so none is highlighted. A flat band of full-brightness lines carries the eye instead, with the same falloff outside it, and the column drifts from the first line to the last in step with playback progress. There's no easing: a seek moves the sheet in one step, the way a seek moves the progress bar. If the track's length isn't known the sheet simply holds still.
 
 Legibility is worked for, not assumed: every glyph carries a soft dark halo and a scrim dims the art behind the words, so lines read over any cover — white ink over white printed type included. With [crossfade](/guides/audio/#configuring-crossfade) on, the outgoing track's sheet dissolves out as the next one fades in, and the next sheet is prefetched near the end of the current track so sequential transitions never show a blank gap. The over-cover [visualizer](/reference/visualizer/) keeps playing beneath the words instead of yielding to them.
 
-The overlay is entirely hands-off — it never captures the mouse. Clicks, scrolling, and the right-click artwork menu all pass through to the panel beneath, exactly as if the lyrics weren't there.
+**Scrolling a plain sheet.** Drift is a guess, so you can override it: roll the mouse wheel over the cover and the sheet moves two lines a notch, then keeps drifting from wherever you left it. It stops cleanly at the first and last line, and the scroll resets when the track changes.
 
-If nothing matched anywhere, the panel says **"No synced lyrics for this track"** (it can also flash briefly while a lookup is in flight). The fix is one of the three sources: drop an `.lrc` in the store, serve lyrics from your server, or leave online fetch on.
+Apart from that one gesture the overlay is hands-off. Clicks, the right-click artwork menu, and the wheel over a synced sheet all pass through to the panel beneath, exactly as if the lyrics weren't there.
+
+If nothing matched anywhere, the panel says **"No lyrics for this track"**. The message is a settled verdict, not a guess: it appears only once the lookup has finished, so it never flashes while one is in flight. The fix is one of the sources above — drop an `.lrc` in the store, serve lyrics from your server (embedded tags included), or leave online fetch on.
 
 ## Cover blur
 
