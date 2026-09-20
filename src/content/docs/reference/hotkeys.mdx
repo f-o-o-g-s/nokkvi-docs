@@ -145,6 +145,18 @@ All shortcuts except `Escape` and `Delete` can be rebound in the **Settings** UI
 
 A direct edit to `config.toml` can also override `escape` or `reset_to_default` — the loader accepts those action keys — but the in-app editor refuses to rebind them so you keep a way out of every screen.
 
+### When two actions share a key
+
+Rebinding in the Settings UI can't create a shared key: pressing a combo another action already holds **swaps** the two, and the row confirms it — *Swapped with Seek Forward*. Nothing is left double-bound.
+
+Hand-editing `config.toml` can, and then Nokkvi picks one owner in a fixed order — the same on every launch, and the same answer the conflict check gives:
+
+1. A **reserved** action (`escape`, `reset_to_default`) always wins, so nothing parked on one can shadow your way out of a screen.
+2. Otherwise, an action **moved off its default** wins over one merely sitting where it shipped — you put it there on purpose.
+3. Otherwise, the action declared first wins.
+
+Loading a config with a shared combo logs one warning per combo naming every claimant and the winner, so `nokkvi.log` tells you which one is live.
+
 ### Key combo syntax
 
 A binding is a string in the form `"Modifiers + Key"`. Modifiers are optional; the key name is required.
