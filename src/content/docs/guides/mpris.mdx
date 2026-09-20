@@ -23,7 +23,16 @@ Beyond the basics, Nokkvi wires up the following MPRIS methods and properties:
 | `Shuffle` | Toggles random mode when the requested state differs. | `playerctl -p nokkvi shuffle On` |
 | `Volume` | Set directly; clamped to 0.0–1.0. | `playerctl -p nokkvi volume 0.05+` |
 | `xesam:title`, `xesam:artist`, `xesam:album`, `mpris:length` | Standard track metadata, refreshed on every track change (for radio, ICY title/artist override the station name). | `playerctl -p nokkvi metadata` |
-| `mpris:artUrl` | Published as a `file://` URI pointing to `$XDG_CACHE_HOME/nokkvi/mpris-art-<pid>-<cover_id>.jpg`. Nokkvi writes a new file per cover so desktop notifications never reuse a stale image. |  |
+| `mpris:artUrl` | Published as a `file://` URI pointing to `$XDG_CACHE_HOME/nokkvi/mpris-art-<pid>-<cover_id>_<hash>.jpg`. Nokkvi writes a new file per cover so desktop notifications never reuse a stale image. See [What art gets published](#what-art-gets-published). |  |
+
+## What art gets published
+
+Desktop shells keep showing the last image when `mpris:artUrl` is missing, so Nokkvi always publishes the key while something is current — otherwise a radio station would sit under the previous queue song's cover. What it points at, in order:
+
+- **A song** — its cover, fetched once per track change; if that fetch fails, the Nokkvi icon.
+- **A radio station** — the station's uploaded logo; failing that, the stream's ICY `StreamUrl` when it's an `http(s)` address (published verbatim, never fetched); failing that, the Nokkvi icon.
+
+The icon placeholder is written once per process as `mpris-art-<pid>-placeholder.jpg`. **Not Playing** publishes no art at all. With no writable cache directory only a stream URL can go out, and a failed write is retried after a minute rather than on every tick.
 
 ## CLI
 
