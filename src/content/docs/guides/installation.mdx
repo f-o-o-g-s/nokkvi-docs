@@ -3,7 +3,7 @@ title: Installation
 description: How to install Nokkvi on your system.
 ---
 
-Nokkvi is **Linux only** and built/tested on Arch Linux (Wayland/Hyprland) with PipeWire. Three install paths:
+Nokkvi is **Linux only** and built/tested on Arch Linux (Wayland/Hyprland) with PipeWire. Four install paths:
 
 ## Arch Linux (AUR) — recommended
 
@@ -58,6 +58,25 @@ sudo dnf install pipewire alsa-lib fontconfig
 ```
 
 The binary is built on GitHub's current Ubuntu runner, so it needs a reasonably recent glibc (currently Ubuntu 24.04 / glibc ≥ 2.39). Modern rolling distros (Arch, Fedora, recent Ubuntu/Debian) work; very old enterprise distros may not.
+
+## Nix
+
+The repo ships a `flake.nix`, so there's nothing to package first:
+
+```bash
+# Run it straight from GitHub, installing nothing
+nix run github:f-o-o-g-s/nokkvi
+
+# Build from a clone — the binary lands in ./result/bin/nokkvi
+nix build
+
+# Dev shell: cargo, rustc, clippy, rustfmt, rust-analyzer
+nix develop
+```
+
+Supported systems are `x86_64-linux` and `aarch64-linux`. The package reads its version from `Cargo.toml` and its dependencies from `Cargo.lock`, so releases and dependency bumps need no flake edit.
+
+The built binary is wrapped with an `LD_LIBRARY_PATH` covering the runtime libraries (PipeWire, ALSA, fontconfig, Wayland and X11, Mesa, Vulkan, D-Bus), and the `.desktop` file and icons are installed alongside it, so Nokkvi shows up in your launcher like any other install. An `overlays.default` is exported too, if you'd rather pull `nokkvi` into your own system flake.
 
 ## Launching
 
