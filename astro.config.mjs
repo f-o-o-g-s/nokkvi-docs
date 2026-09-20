@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import { unified } from "@astrojs/markdown-remark";
 import starlight from "@astrojs/starlight";
 import starlightLinksValidator from "starlight-links-validator";
 
@@ -116,12 +117,18 @@ export default defineConfig({
   site: "https://f-o-o-g-s.github.io",
   base: BASE,
   markdown: {
-    remarkPlugins: [
-      remarkRewriteChangelogLinks,
-      remarkRewriteChangelogAssets,
-      remarkPrefixBase,
-      remarkStripChangelogTitle,
-    ],
+    // Astro 7 made Sätteri the default Markdown processor; Starlight's
+    // pipeline (and these plugins) are remark-based, so keep the unified
+    // processor explicitly rather than riding the deprecated
+    // `markdown.remarkPlugins` shim.
+    processor: unified({
+      remarkPlugins: [
+        remarkRewriteChangelogLinks,
+        remarkRewriteChangelogAssets,
+        remarkPrefixBase,
+        remarkStripChangelogTitle,
+      ],
+    }),
   },
   integrations: [
     starlight({
@@ -192,7 +199,7 @@ export default defineConfig({
         },
         {
           label: "Reference",
-          autogenerate: { directory: "reference" },
+          items: [{ autogenerate: { directory: "reference" } }],
         },
       ],
     }),
