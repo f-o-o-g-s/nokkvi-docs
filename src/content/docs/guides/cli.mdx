@@ -76,8 +76,13 @@ These act on whatever's currently playing and exit `1` with a `no_playing_track`
 | Verb | Arg | Action |
 | :--- | :--- | :--- |
 | `ping` | — | Probe the running instance. Prints `pong` and exits `0`. |
+| `show` | — | Bring the window back: reopens it after it was closed to the tray (`{"window":"opened"}`), flags an open window for attention (`{"window":"already-open"}`), or does nothing while a window is already opening (`{"window":"opening"}`). The same action as MPRIS `Raise`. |
 | `-h`, `--help` | — | Print usage and the full verb catalog, then exit `0`. |
 | `-V`, `--version` | — | Print `nokkvi <version>`, then exit `0`. |
+
+Running `nokkvi` with no arguments while an instance is up forwards `show` to it and exits `0`, so a launcher entry or keybind that starts Nokkvi brings back a window closed to the tray instead of failing. Any unrecognized argument (`nokkvi nexxt`) still refuses with exit `1`.
+
+On Wayland an already-open window can only be flagged, not focused: the compositor shows the request as an urgency hint and decides whether to switch to it (on Hyprland, `misc:focus_on_activate = true` makes it switch).
 
 ## Argument syntax
 

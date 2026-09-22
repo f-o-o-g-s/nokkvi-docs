@@ -7,7 +7,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 Nokkvi registers on the MPRIS D-Bus interface as `org.mpris.MediaPlayer2.nokkvi.instance<pid>` — the per-PID suffix is required by the MPRIS spec so concurrent launches don't fight over the same well-known name. `playerctl -p nokkvi` still matches both forms because `playerctl` resolves the `-p` argument as a name prefix. Any MPRIS-compatible controller — `playerctl`, your desktop's media keys, or a window manager keybind — will work.
 
-For verbs MPRIS doesn't expose (`switch-view`, `love`, `rate`, `clear-queue`, `consume`), see the [`nokkvi` CLI](/guides/cli/).
+For verbs MPRIS doesn't expose (`switch-view`, `love`, `rate`, `clear-queue`, `consume`, `queue-push`, `queue-pull`), see the [`nokkvi` CLI](/guides/cli/).
 
 ## Supported MPRIS surface
 
@@ -22,6 +22,7 @@ Beyond the basics, Nokkvi wires up the following MPRIS methods and properties:
 | `LoopStatus` | `None` / `Track` / `Playlist` — set directly, doesn't cycle. | `playerctl -p nokkvi loop Track` |
 | `Shuffle` | Toggles random mode when the requested state differs. | `playerctl -p nokkvi shuffle On` |
 | `Volume` | Set directly; clamped to 0.0–1.0. | `playerctl -p nokkvi volume 0.05+` |
+| `Raise` | `CanRaise` is true. Reopens a window closed to the tray, or flags an open one for attention; the same action as [`nokkvi show`](/guides/cli/#misc). | |
 | `xesam:title`, `xesam:artist`, `xesam:album`, `mpris:length` | Standard track metadata, refreshed on every track change (for radio, ICY title/artist override the station name). | `playerctl -p nokkvi metadata` |
 | `mpris:artUrl` | Published as a `file://` URI pointing to `$XDG_CACHE_HOME/nokkvi/mpris-art-<pid>-<cover_id>_<hash>.jpg`. Nokkvi writes a new file per cover so desktop notifications never reuse a stale image. See [What art gets published](#what-art-gets-published). |  |
 
