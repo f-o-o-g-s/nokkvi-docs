@@ -70,29 +70,31 @@ Thumbnails in list views always use a smaller size regardless of this setting.
 
 ## Navidrome Server Settings
 
-Because Nokkvi keeps no disk cache for browsing artwork, your Navidrome server does the heavy lifting of serving and resizing artwork. Two settings in `navidrome.toml` are worth tuning — both are documented in Navidrome's [available options reference](https://www.navidrome.org/docs/usage/configuration/options/#available-options):
+Because Nokkvi keeps no disk cache for browsing artwork, your Navidrome server does the heavy lifting of serving and resizing artwork. Nokkvi asks for every cover as a padded square, and with default settings Navidrome encodes square artwork as **lossless PNG**, so what you see is already full quality. The settings below in `navidrome.toml` are all documented in Navidrome's [available options reference](https://www.navidrome.org/docs/usage/configuration/options/#available-options):
 
 ### ImageCacheSize
 
-The default `100MB` cache is too small for large libraries and will cause the server to re-process images on every fetch. Set it to at least `1500MB`:
+Navidrome keeps each resized cover in an on-disk cache, keyed by image and size. A lossless PNG at the default 1000 px panel size is about a megabyte (up to ~3 MB for detailed covers), so the default `100MB` holds fewer than a hundred panel covers; after that, the server decodes and resizes a cover again every time it's evicted. Set it to at least `1500MB`:
 
 ```toml
 ImageCacheSize = "1500MB"
 ```
 
-### CoverArtQuality
+### UICoverArtSize (optional)
 
-Navidrome encodes artwork at quality `75` by default. The format depends on your setup: standalone binaries use JPEG, while Docker builds use WebP (native libwebp is bundled). Either way the quality value applies to both formats, and `75` is visibly lossy at the large panel sizes Nokkvi requests (up to 2000px):
-
-```toml
-CoverArtQuality = 90
-```
-
-If you want to explicitly control the format, Navidrome exposes `EnableWebPEncoding`. On non-Docker installs it defaults to `false` (JPEG/PNG); set it to `true` to opt in to WebP:
+Navidrome's artwork precache (on by default) resizes each cover ahead of time at `UICoverArtSize`, the size its own web UI requests (default `300`). Nokkvi never requests that size, so out of the box every cover is resized on first view. If you keep [`artwork_resolution`](/reference/config/#general-settings) at `default`, setting this to `1000` makes the precache produce exactly the panel image Nokkvi asks for:
 
 ```toml
-EnableWebPEncoding = true
+UICoverArtSize = 1000
 ```
+
+The tradeoff is that Navidrome's web UI then loads 1000 px covers too. The precache runs when Navidrome picks up a cover, so covers it already knows about stay cold until they're first viewed. The setting accepts 200–1200, so it can't match the `high` or `ultra` resolutions.
+
+### EnableWebPEncoding
+
+Leave this at its default of `false`. Turning it on makes Navidrome encode every resized cover as WebP at `CoverArtQuality` (default `75`), which replaces the lossless PNGs Nokkvi receives with lossy ones. The files get smaller, but covers lose detail.
+
+`CoverArtQuality` itself has no effect on Nokkvi while `EnableWebPEncoding` is off, since PNG has no quality setting.
 
 ## Updating Artwork
 
