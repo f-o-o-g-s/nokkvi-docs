@@ -66,7 +66,14 @@ The [`artwork_resolution`](/reference/config/#general-settings) setting controls
 | [`ultra`](/reference/config/#general-settings) | 2000 px |
 | [`original`](/reference/config/#general-settings) | Full resolution |
 
-Thumbnails in list views always use a smaller size regardless of this setting.
+Thumbnails in list views always request 80 px regardless of this setting.
+
+In the square modes (`auto`, `always_native`, `always_vertical_native`) the panel never grows past 1000 px, so on a display at scale 1 `default` already fills it and the higher settings only cost bandwidth and server cache. They pay off in two cases:
+
+- **A scaled display.** The 1000 px cap is in logical pixels, so at scale 1.5 the panel can be 1500 physical pixels wide (`high`), and at scale 2, 2000 (`ultra`).
+- **The stretched modes.** `always_stretched` and `always_vertical_stretched` fill the full height or width of the window, and with `cover` fit the image is scaled up to fill that.
+
+`original` returns the file exactly as stored, without the square padding the other options get. In the square panel a non-square cover is therefore cropped to fill the square rather than shown whole.
 
 ## Navidrome Server Settings
 
