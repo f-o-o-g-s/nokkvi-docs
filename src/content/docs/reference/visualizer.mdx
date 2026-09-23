@@ -72,7 +72,7 @@ Controls the coloring of the peak indicators.
 [`visualizer.bars.flash_intensity`](/reference/config/#bars-mode) (default `0.6`, range `0.0`–`1.0`; `0` disables). When a bar spikes on a transient or beat, its body blooms toward the first peak color. The flash spreads to a few neighbouring bars and decays. This is separate from the peak indicator and from the global [Bloom Glow](#bloom-glow).
 
 ### LED Mode
-[`visualizer.bars.led_bars`](/reference/config/#bars-mode) (default `false`) renders each bar as a stack of LED/VU-meter segments. [`led_segment_height`](/reference/config/#bars-mode) sets the segment height, and `border_width` doubles as the gap between segments. In LED mode the peak indicator is exactly one segment tall, so `peak_height_ratio` is ignored.
+[`visualizer.bars.led_bars`](/reference/config/#bars-mode) (default `false`) renders each bar as a stack of LED/VU-meter segments. [`led_segment_height`](/reference/config/#bars-mode) sets the segment height. The gap between segments follows [`bar_spacing`](/reference/config/#bars-mode) (plus `border_width` when borders are on), so the LEDs are spaced vertically the same way the bars are spaced horizontally. Each LED gets its own `border_width` outline, like a bar; when `bar_spacing` is larger than `border_width` the background shows between neighbouring outlines, otherwise they merge. In LED mode the peak indicator is exactly one segment tall, so `peak_height_ratio` is ignored.
 
 ![Nokkvi bars visualizer in LED mode — each bar rendered as a vertical stack of discrete VU-meter segments](../../../assets/visualizer-bars-led.webp)
 

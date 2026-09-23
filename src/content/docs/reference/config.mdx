@@ -376,8 +376,8 @@ Nokkvi features a high-performance GPU visualizer with three modes: `bars`, `lin
 | `visualizer.bars.max_bars` | `512` | Maximum number of bars the dynamic layout will try to fit (16 to 2048). |
 | `visualizer.bars.bar_width_min` | `10` | Minimum bar width in pixels for small windows (1.0 to 10.0). |
 | `visualizer.bars.bar_width_max` | `20` | Maximum bar width in pixels for large windows. Must be ≥ `bar_width_min` (up to 20.0). Equal min/max gives uniform bar widths regardless of window size. |
-| `visualizer.bars.bar_spacing` | `2` | Gap between bars in pixels. |
-| `visualizer.bars.border_width` | `2.0` | Border thickness in pixels. Also controls LED segment gaps when `led_bars` is on (0.0 to 5.0). |
+| `visualizer.bars.bar_spacing` | `2` | Gap between bars in pixels. Also sets the gap between LED segments when `led_bars` is on. |
+| `visualizer.bars.border_width` | `2.0` | Border thickness in pixels. Outlines each bar and, when `led_bars` is on, each LED segment (0.0 to 5.0). |
 | `visualizer.bars.led_bars` | `false` | Render bars as discrete LED segments (VU meter style). |
 | `visualizer.bars.led_segment_height` | `5` | Height of each LED segment in pixels (LED mode only; 2.0 to 20.0). |
 | `visualizer.bars.gradient_mode` | `"wave"` | Color mapping mode. [Learn more &rarr;](/reference/visualizer/#gradient-modes) |
