@@ -1,0 +1,88 @@
+---
+title: MilkDrop
+description: A visualizer mode that plays MilkDrop presets, the classic Winamp feedback-warp visuals, in place of the cover art and full-window in Theater Mode.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The MilkDrop mode plays **MilkDrop presets**: the swirling, warping, feedback-driven visuals that Ryan Geiss's MilkDrop made famous in Winamp, and that a community has been writing presets for ever since. Nokkvi doesn't contain MilkDrop itself; it runs the presets through [OjoDrop](https://github.com/sho-run/ojodrop), a MilkDrop engine written in Rust, fed by Nokkvi's own audio.
+
+## Turning it on
+
+Press `V` (or click the visualizer button in the player bar) until the drop icon shows. The cycle is Off → Bars → Lines → Scope → MilkDrop → Off.
+
+MilkDrop takes the cover art's place:
+
+- On the **Queue** (and the **Radio** view), the preset replaces the now-playing cover. The cover shows while the first preset loads.
+- In **[Theater Mode](/guides/theater-mode/)** it fills the panel: the whole window with the Cover Art setting on **Hide in Theater Mode**, or the square or stretched panel otherwise.
+
+It only animates while music is playing and the panel is on screen. **Pause** freezes the picture; **Stop** gives the panel back to the cover. On other views, or with the window closed to the tray, nothing runs and no presets load.
+
+With [lyrics](/guides/lyrics/) on, the text sits over the preset with the usual dimming layer above it. The frosted-cover backdrop is skipped, since there's no cover to frost.
+
+## Changing presets
+
+Presets change on their own:
+
+- every **30 seconds** (the Preset Interval setting; `0` turns the timer off), and
+- on each **new track** (the Change Preset With Track setting).
+
+Each preset's name pops up as a notification when it appears (turn that off with Show Preset Names). Presets are drawn shuffle-style: every preset once before any repeats, and never the same one twice in a row.
+
+| Key | Action |
+| :--- | :--- |
+| `N` | Next Preset: jump to another preset |
+| `P` | Previous Preset: go back through the presets you've seen |
+| `Shift + M` | Lock Preset: keep this one until you press it again (the timer and track changes leave it alone) |
+
+All three are [rebindable](/reference/hotkeys/) and do nothing outside MilkDrop mode. They also work in Theater Mode. From a script, `nokkvi preset next` (and `previous`, `lock`, `unlock`, `favorite`, `unfavorite`, `hide`) does the same; see the [CLI guide](/guides/cli/#misc).
+
+## Curating
+
+Right-click the preset (on the Queue cover, or in Theater Mode) for:
+
+- **Next Preset**, **Previous Preset**, **Lock Preset** / **Unlock Preset**
+- **Favorite Preset** / **Unfavorite Preset**: with the Presets setting on **favorites_only**, only your favorites are drawn (and all presets while you have none).
+- **Never Show This Preset**: hides the preset on screen for good and moves on at once.
+
+Hidden and favorite presets are saved in `~/.config/nokkvi/milkdrop/curation.toml`, a plain list you can read or edit:
+
+```toml
+hidden = ["Some Author - a preset that didn't work"]
+favorites = ["Another Author - one I love"]
+```
+
+## The presets
+
+Nokkvi ships about 450 presets built in: the pre-converted pack from [butterchurn-presets](https://github.com/jberg/butterchurn-presets) (the preset collection behind the Butterchurn web player), minus the ones known not to run and the ones that need extra images. The file names keep each preset's author credit, which is the name you see when it appears.
+
+The presets are the work of the MilkDrop community; each author holds the copyright in their own preset. They have been shared freely for two decades, and Nokkvi follows the stance of projectM's preset collections: they're treated as freely redistributable, and any author who'd rather not have a preset included can [open an issue](https://github.com/f-o-o-g-s/nokkvi/issues) to have it removed.
+
+### Adding your own
+
+Drop Butterchurn-format `.json` presets into `~/.config/nokkvi/milkdrop/`. They join the rotation at the next login, or right away when you press the refresh key (`R`) in MilkDrop mode. A file with the same name as a built-in preset replaces it.
+
+## Settings
+
+Settings → Visualizer → **MilkDrop** (or `[visualizer.milkdrop]` in `config.toml`; see the [config reference](/reference/config/#milkdrop-mode)):
+
+| Setting | What it does |
+| :--- | :--- |
+| Preset Interval | Seconds between automatic changes (0 to 600, default 30; 0 = never). |
+| Change Preset With Track | A new track brings a new preset (default on). |
+| Presets | `all`, or `favorites_only`. |
+| Render Quality | Pixels rendered on the panel's shorter side before scaling: `low` (480), `medium` (720, default), `high` (1080), `native` (the panel's own size). Lower is softer and lighter on the GPU; `native` on a big window costs the most. |
+| Show Preset Names | The name notification on each change (default on). |
+
+## What it can't do (yet)
+
+- **`.milk` files.** Only presets already converted to Butterchurn's JSON format load. Converting classic `.milk` presets needs a separate tool.
+- **Presets that use images.** Presets that sample external textures are left out of the built-in pack; a user preset that needs one gets a generated stand-in.
+- **Smooth transitions.** Presets cut from one to the next rather than blending.
+- **Animating while paused.** Pausing freezes the frame.
+
+MilkDrop runs at up to 60 frames a second whatever your display's refresh rate, because presets are written for that speed.
+
+<Aside type="caution" title="Before going back to an older Nokkvi">
+  Nokkvi versions from before the MilkDrop mode can't read `visualization_mode = "milkdrop"`, and on start they reset **all** your settings to defaults. Switch the visualizer to another mode before you downgrade.
+</Aside>

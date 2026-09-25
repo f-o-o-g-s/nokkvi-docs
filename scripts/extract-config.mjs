@@ -46,7 +46,8 @@ const SECTION_MAP = {
 // MetadataStrip → metadata-strip, Playback → playback, Scrobbling → scrobbling,
 // Playlists → playlists, Views → views, VisualizerGeneral → visualizer-general,
 // VisualizerBars → visualizer-bars, VisualizerLines → visualizer-lines,
-// VisualizerScope → visualizer-scope, AudioEngine → audio-engine.
+// VisualizerScope → visualizer-scope, VisualizerMilkdrop → visualizer-milkdrop,
+// AudioEngine → audio-engine.
 
 // Per-key section overrides where the docs group differently than the source.
 const SECTION_OVERRIDES = {
@@ -396,6 +397,8 @@ const linesBody = extractBlock(vizSrc, 'pub struct LinesConfig');
 const linesFields = parseFields(linesBody);
 const scopeBody = extractBlock(vizSrc, 'pub struct ScopeConfig');
 const scopeFields = parseFields(scopeBody);
+const milkdropBody = extractBlock(vizSrc, 'pub struct MilkdropConfig');
+const milkdropFields = parseFields(milkdropBody);
 
 const viewsBody = extractBlock(viewsSrc, 'pub struct TomlViewPreferences');
 const viewsFields = parseFields(viewsBody);
@@ -421,6 +424,7 @@ const vizDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'VisualizerCo
 const barsDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'BarsConfig'));
 const linesDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'LinesConfig'));
 const scopeDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'ScopeConfig'));
+const milkdropDefaults = parseDefaultExprs(extractDefaultsBlock(vizSrc, 'MilkdropConfig'));
 const viewsDefaults = parseDefaultExprs(extractDefaultsBlock(viewsSrc, 'TomlViewPreferences'));
 const viewColumnsDefaults = parseDefaultExprs(extractDefaultsBlock(viewColumnsSrc, 'ViewColumns'));
 
@@ -429,6 +433,7 @@ const nestedDefaults = {
   BarsConfig: barsDefaults,
   LinesConfig: linesDefaults,
   ScopeConfig: scopeDefaults,
+  MilkdropConfig: milkdropDefaults,
 };
 
 // Phase 3: assemble the flat settings list.
@@ -526,6 +531,14 @@ for (const f of vizFields) {
       settings.push(buildSetting(sub, scopeDefaults[sub.name], {
         keyPrefix: 'visualizer.scope.',
         sectionOverride: 'VisualizerScope',
+        sourceFile: FILES.visualizer,
+      }));
+    }
+  } else if (f.name === 'milkdrop') {
+    for (const sub of milkdropFields) {
+      settings.push(buildSetting(sub, milkdropDefaults[sub.name], {
+        keyPrefix: 'visualizer.milkdrop.',
+        sectionOverride: 'VisualizerMilkdrop',
         sourceFile: FILES.visualizer,
       }));
     }

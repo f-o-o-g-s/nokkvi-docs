@@ -193,6 +193,7 @@ export default defineConfig({
             { label: "Audio Engine", slug: "guides/audio" },
             { label: "Lyrics", slug: "guides/lyrics" },
             { label: "Theater Mode", slug: "guides/theater-mode" },
+            { label: "MilkDrop", slug: "guides/milkdrop" },
             { label: "Customizing Themes", slug: "guides/theming" },
             { label: "Media Controls (MPRIS)", slug: "guides/mpris" },
             { label: "Command Line (nokkvi CLI)", slug: "guides/cli" },

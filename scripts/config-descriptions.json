@@ -620,6 +620,21 @@
   "visualizer.lower_cutoff_freq": {
     "description": "Bass floor in Hz. Frequencies below this are excluded from the spectrum (minimum `20`)."
   },
+  "visualizer.milkdrop.preset_interval_secs": {
+    "description": "Seconds before MilkDrop picks another preset (0 to 600). `0` keeps the current preset until you press Next Preset."
+  },
+  "visualizer.milkdrop.preset_source": {
+    "description": "Which presets are drawn: `all` (every preset you haven't hidden) or `favorites_only` (your favorites, and all of them while you have none)."
+  },
+  "visualizer.milkdrop.render_quality": {
+    "description": "Pixels rendered on the shorter side of the panel before scaling: `low` (480), `medium` (720), `high` (1080) or `native` (the panel's own size, the most expensive on a big window)."
+  },
+  "visualizer.milkdrop.show_preset_names": {
+    "description": "Show each preset's name in a toast when it appears."
+  },
+  "visualizer.milkdrop.switch_on_track_change": {
+    "description": "Each new track brings a new preset. Off: presets change only on the timer and the keys."
+  },
   "visualizer.monstercat": {
     "description": "Monstercat-style energy spread to neighbouring bars. Values below `0.7` snap to `0.0` (disabled); effective range is `0.7` to `10.0`."
   },

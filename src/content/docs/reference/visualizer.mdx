@@ -25,6 +25,9 @@ Nokkvi features a custom-built, GPU-accelerated visualizer that runs an internal
 
     ![Animated demo of Nokkvi's scope visualizer — a glowing circular oscilloscope ring pulsing over the cover art with drifting particles](../../../assets/visualizer-scope-anim.webp)
   </TabItem>
+  <TabItem label="MilkDrop">
+    Plays MilkDrop presets, the classic Winamp feedback-warp visuals, in place of the now-playing cover. See the [MilkDrop guide](/guides/milkdrop/).
+  </TabItem>
 </Tabs>
 
 ## Bars Mode
@@ -186,6 +189,12 @@ Echo is Milkdrop-style zoom/rotate feedback: the visualizer spirals and tunnels 
 [`visualizer.crt`](/reference/config/#general-visualizer) (default `0.0`, off) is a retro composite under one master amount: chromatic aberration, scanlines, vignette, film grain, and a beat zoom-punch. It is masked to the visualizer content, so it never tints the rest of the UI.
 
 ![Nokkvi visualizer with the CRT / film effect — scanlines, grain, and vignette over the bars](../../../assets/visualizer-crt.webp)
+
+---
+
+## MilkDrop Mode
+
+The `milkdrop` mode is different from the others: instead of Nokkvi's own shaders it runs MilkDrop presets through a separate engine, over the cover art on the Queue and Radios panels and full-window in [Theater Mode](/guides/theater-mode/). None of the effects above apply to it. It is cycled after Scope with the `V` hotkey, or set [`visualization_mode = "milkdrop"`](/reference/config/#playback-settings); its own settings are under [`[visualizer.milkdrop]`](/reference/config/#milkdrop-mode). The [MilkDrop guide](/guides/milkdrop/) covers the presets, the keys and the panel menu.
 
 ---
 

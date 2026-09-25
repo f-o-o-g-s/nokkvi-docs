@@ -28,7 +28,7 @@ A few values you might expect here are stored separately. **Volume** and **sessi
 | `[radio_scrobble]` | ListenBrainz token and Last.fm API credentials for [Radio Scrobbling](#radio-scrobbling) — stored in plaintext; usually set in-app. See [Radio → Scrobbling](/guides/radio/#scrobbling) |
 | `[hotkeys]` | Key rebindings — see [Keyboard Shortcuts](/reference/hotkeys/) |
 | `[views]` | Per-view sort preferences — see [View Sort Preferences](#view-sort-preferences) below |
-| `[visualizer]`, `[visualizer.bars]`, `[visualizer.lines]`, `[visualizer.scope]` | Visualizer settings — the dotted keys in the tables below (e.g. `visualizer.bars.led_bars`) reflect this nesting |
+| `[visualizer]`, `[visualizer.bars]`, `[visualizer.lines]`, `[visualizer.scope]`, `[visualizer.milkdrop]` | Visualizer settings — the dotted keys in the tables below (e.g. `visualizer.bars.led_bars`) reflect this nesting |
 
 A minimal file looks like:
 
@@ -266,7 +266,7 @@ Theater Mode (`F11`) is covered in the [Theater Mode guide](/guides/theater-mode
 | `replay_gain_fallback_db` | `0.0` | dB applied to tracks with no ReplayGain tags. Range −15 to +15. Ignored when `replay_gain_fallback_to_agc` is `true`. |
 | `replay_gain_fallback_to_agc` | `false` | Untagged tracks fall through to real-time AGC instead of using `replay_gain_fallback_db`. |
 | `replay_gain_prevent_clipping` | `true` | Clamp the resolved gain so `track_peak × gain ≤ 1.0` using the per-track peak tag. |
-| `visualization_mode` | `"bars"` | Active visualizer mode. Options: `off`, `bars`, `lines`, `scope`. Cycle live with the `V` hotkey — see [Visualizer Reference](/reference/visualizer/). |
+| `visualization_mode` | `"bars"` | Active visualizer mode. Options: `off`, `bars`, `lines`, `scope`, `milkdrop`. Cycle live with the `V` hotkey — see [Visualizer Reference](/reference/visualizer/). |
 | `lyrics_enabled` | `false` | Show lyrics over the Queue cover art. Synced lyrics follow the track line by line; plain lyrics drift with playback and scroll with the mouse wheel. Also toggled from the player bar or with the `L` hotkey. Off leaves the cover (and any over-cover visualizer) untouched. See the [Lyrics guide](/guides/lyrics/). |
 | `lyrics_fetch_online` | `true` | Fetch missing lyrics from lrclib.net and cache them into the local store for next time. Off resolves lyrics only from your own files, your server, and downloads already cached on disk — no third-party requests. See [Where lyrics come from](/guides/lyrics/#where-lyrics-come-from). |
 | `lyrics_backdrop_blur` | `"off"` | Frost the cover art while lyrics display. Options: `off` (the cover stays sharp under the lyrics), `light` (a gentle soften — detail stays readable), `medium` (a true frosted-glass read — shapes survive, detail goes), `heavy` (melts the cover to a color wash). Blurred once per track and cached, never per frame. |
@@ -452,6 +452,20 @@ The `scope` mode draws a circular oscilloscope — a time-domain waveform ring �
 | `visualizer.scope.beam` | `true` | Luminous-beam look: additive blending so the glow accumulates into a bright neon beam over the cover (woscope-style). |
 | `visualizer.scope.trails` | `0.0` | Motion trails — the ring leaves a fading after-image (0.0 disables; 1.0 = long comet trails). |
 | `visualizer.scope.echo` | `1.0` | Milkdrop-style zoom/rotate feedback — the ring spirals and tunnels inward, swirling with the bass/beat (0.0 disables; 1.0 = strong persistence). Takes over the display when on. |
+{/* config-table:end */}
+
+### MilkDrop Mode
+
+The `milkdrop` mode plays MilkDrop presets in place of the now-playing cover (and fills [Theater Mode](/guides/theater-mode/)). These keys control how presets change and how sharply they render. See the [MilkDrop guide](/guides/milkdrop/).
+
+{/* config-table:start id="visualizer-milkdrop" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `visualizer.milkdrop.preset_interval_secs` | `30` | Seconds before MilkDrop picks another preset (0 to 600). `0` keeps the current preset until you press Next Preset. |
+| `visualizer.milkdrop.switch_on_track_change` | `true` | Each new track brings a new preset. Off: presets change only on the timer and the keys. |
+| `visualizer.milkdrop.preset_source` | `"all"` | Which presets are drawn: `all` (every preset you haven't hidden) or `favorites_only` (your favorites, and all of them while you have none). |
+| `visualizer.milkdrop.render_quality` | `"medium"` | Pixels rendered on the shorter side of the panel before scaling: `low` (480), `medium` (720), `high` (1080) or `native` (the panel's own size, the most expensive on a big window). |
+| `visualizer.milkdrop.show_preset_names` | `true` | Show each preset's name in a toast when it appears. |
 {/* config-table:end */}
 
 ## Audio Engine (Internal)
