@@ -1,0 +1,69 @@
+---
+title: Theater Mode
+description: A now-playing layout that fills the window with the cover, the visualizer and the lyrics, with a player bar that slides away when you're not using it.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Theater Mode hides the library, the toolbar and the navigation, and fills the window with what's playing: the cover art, the visualizer drawn over it, and the lyrics. The player bar is still there, but it slides away after a few idle seconds and slides back the moment you move the mouse.
+
+## Entering and leaving
+
+| Way in | Way out |
+| :--- | :--- |
+| `F11` ([rebindable](/reference/hotkeys/#views) as `toggle_theater`) | `F11` again, or `Escape` |
+| The expand icon in the bottom-right corner of the Queue cover (it appears when you hover the cover) | The exit icon above the player bar's right end |
+| Right-click the Queue cover → **Enter Theater Mode** | Right-click the cover → **Exit Theater Mode** |
+| `nokkvi theater` from a script or keybind ([CLI](/guides/cli/#misc)) | `nokkvi theater` again |
+
+Theater Mode always shows the **playing** track, whichever view you entered it from. During [radio](/guides/radio/) it shows the station's art (or the radio tower). With nothing playing and an empty queue the panel is blank.
+
+It is never remembered across restarts, and it can't be entered from the login screen. Logging out or closing the window to the tray leaves it.
+
+## The player bar
+
+The bar is the same player bar as always, with every control working. How it behaves is the **Theater Controls** setting (Settings → Interface → Theater):
+
+- **Auto-hide** (default): the bar slides away 2.5 seconds after your last mouse move, scroll, click or key press, and comes back on any of them. It stays up while the cursor is on it or a menu from it is open. While the window is in the background it stays hidden until you move the mouse over it again.
+- **Always shown**: the bar never leaves.
+- **Always hidden**: the bar never shows; hotkeys still work.
+
+The mouse cursor also hides over the cover after 2.5 idle seconds, like in a video player, and reappears when you move it.
+
+## Keys
+
+Playback keys work as normal and keep you in Theater Mode: play/pause, seek (`Left` / `Right`, even if you entered from Settings), shuffle, repeat, consume, the visualizer, lyrics, crossfade, the equalizer.
+
+`Escape` leaves Theater Mode. If a menu or a window (the equalizer, Info) is open, the first `Escape` closes that and the next one leaves.
+
+Keys aimed at the list you can't see leave Theater Mode **without** acting, so nothing happens to a row you didn't see: `Tab`, `Enter`, rating and love keys, queue edits (including `Shift + D`), sort keys, and the Settings edit keys.
+
+Keys that go somewhere leave Theater Mode and then do their thing: the view keys (`1`–`8`, backtick), `/` (lands you in the search box), the library browser, center-on-playing, Trawl, Roulette, refresh, save queue, and Find Similar / Top Songs for the playing track. If what the key toggles is already open behind Theater Mode (backtick while you entered from Settings, the browser key with the split view open), it just leaves and shows it to you.
+
+## What it shows
+
+The panel follows your artwork column settings, so it's a centered square in the square modes and fills the window in the stretched modes (the Stretch Fit setting picks crop or stretch). The empty space around a square cover uses your theme's artwork background.
+
+Lyrics grow with the window in Theater Mode, up to two and a half times their size on the Queue cover. On a 1080p window they're about twice the size.
+
+### Hiding the cover
+
+The **Cover Art** setting (Settings → Interface → Artwork Column) swaps the cover picture for a plain backdrop so the visualizer stands out: **Hide in Theater Mode** does it only here, **Hide everywhere** also does it on the Queue and Radios panels. The backdrop is black in dark mode and your theme's background in light mode, where the lyrics and visualizer colors are made for a light surface.
+
+With the cover hidden, Theater Mode always fills the window: the Bars and Lines visualizers span its full width without stretching, and Scope stays a round circle in the middle, sized to the window.
+
+## Fullscreen
+
+Theater Mode changes the layout, not the window. To also make the window fullscreen, turn on **Theater Fills the Screen** (Settings → Interface → Theater): entering then makes the window fullscreen and leaving puts it back the way it was.
+
+<Aside type="tip">
+  Your compositor's own fullscreen key still works on top of Theater Mode either way.
+</Aside>
+
+## Settings
+
+| Setting | `config.toml` key | Default |
+| :--- | :--- | :--- |
+| Theater Controls | [`theater_controls`](/reference/config/#theater) | Auto-hide |
+| Theater Fills the Screen | [`theater_window_fullscreen`](/reference/config/#theater) | Off |
+| Cover Art | [`artwork_cover`](/reference/config/#artwork-column) | Show |

@@ -74,6 +74,9 @@
   "artwork_column_width_pct": {
     "description": "Artwork column width as a fraction of the window width (0.05 to 0.80). Only consulted in `always_native` and `always_stretched` modes."
   },
+  "artwork_cover": {
+    "description": "Cover picture or a plain backdrop on the now-playing panels (the Queue cover, the Radios panel, Theater Mode). Options: `show`, `hide_in_theater` (backdrop in Theater Mode only), `hide_everywhere`. The backdrop is black in dark mode and the theme's hard background in light mode; the visualizer and lyrics stay."
+  },
   "artwork_resolution": {
     "description": "Quality for large panel artwork. Options: `default` (1000px), `high` (1500px), `ultra` (2000px), `original`."
   },
@@ -472,6 +475,12 @@
   },
   "suppress_library_refresh_toasts": {
     "description": "Hide the toast notification that appears when Navidrome reports a library refresh."
+  },
+  "theater_controls": {
+    "description": "How Theater Mode shows the player bar. Options: `auto_hide` (slides away 2.5 seconds after the last mouse or key activity, back on any movement), `always_shown`, `always_hidden` (hotkeys still work)."
+  },
+  "theater_window_fullscreen": {
+    "description": "When `true`, entering Theater Mode also makes the window fullscreen and leaving restores the previous window mode. When `false`, only the layout changes."
   },
   "track_info_display": {
     "description": "Placement of the metadata strip. Options: `off`, `player_bar`, `top_bar`, `progress_track`."

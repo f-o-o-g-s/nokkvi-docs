@@ -24,6 +24,7 @@ Switch between the different screens of the application.
 | Radios | `7` | Radio stations |
 | Harbour | `8` | Home view — discovery shelves and whole-library search |
 | Settings | `` ` `` (Backtick) | Open the settings panel |
+| Theater Mode | `F11` | Show only the now-playing cover, visualizer and lyrics; the player bar slides in when the mouse moves. See [Theater Mode](/guides/theater-mode/) |
 
 ## Playback
 
@@ -94,6 +95,8 @@ The slot list is the scrollable item list in the center of each view.
 | :--- | :--- | :--- |
 | Escape / Back | `Escape` | Close overlays, clear search, or go back — **not rebindable** |
 | Reset to Default | `Delete` | Reset the focused setting to its default value (Settings view only) — **not rebindable** |
+
+In [Theater Mode](/guides/theater-mode/#keys), `Escape` leaves it. Keys that act on the hidden list (Tab, Enter, ratings, queue edits) leave it too without acting, and view keys leave it and then switch.
 
 ## Settings Navigation
 
@@ -186,6 +189,7 @@ Each action maps to a `snake_case` key under `[hotkeys]`:
 | Radios view | `switch_to_radios` |
 | Harbour view | `switch_to_harbour` |
 | Settings | `switch_to_settings` |
+| Theater Mode | `toggle_theater` |
 | Play / Pause | `toggle_play` |
 | Toggle Random | `toggle_random` |
 | Toggle Repeat | `toggle_repeat` |

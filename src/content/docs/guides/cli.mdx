@@ -7,7 +7,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 `nokkvi <verb>` sends a single command to the running Nokkvi instance over a Unix socket and exits. Use it from shell scripts, window manager keybinds, or any external tool — there's no GUI startup cost because the CLI path returns before iced initializes.
 
-The CLI is an alternative to [MPRIS](/guides/mpris/). MPRIS covers the standard transport surface and works with any MPRIS controller; the CLI adds verbs that MPRIS doesn't expose (`switch-view`, `love`, `rate`, `clear-queue`, `consume`, `queue-push`, `queue-pull`).
+The CLI is an alternative to [MPRIS](/guides/mpris/). MPRIS covers the standard transport surface and works with any MPRIS controller; the CLI adds verbs that MPRIS doesn't expose (`switch-view`, `love`, `rate`, `clear-queue`, `consume`, `queue-push`, `queue-pull`, `theater`).
 
 ## Verbs
 
@@ -59,7 +59,7 @@ These are pure reads — they print JSON and change nothing.
 
 | Verb | Arg | Action |
 | :--- | :--- | :--- |
-| `status` | — | Print playback state, track, album, position, duration, volume, and the three modes as JSON |
+| `status` | — | Print playback state, track, album, position, duration, volume, the three modes, and whether Theater Mode is on (`theater`) as JSON |
 | `selection` | — | Print the focused view's centered item as JSON: view, kind, name, artist, rating, starred; kind is null when nothing is selectable |
 
 ### Playing track
@@ -77,6 +77,7 @@ These act on whatever's currently playing and exit `1` with a `no_playing_track`
 | :--- | :--- | :--- |
 | `ping` | — | Probe the running instance. Prints `pong` and exits `0`. |
 | `show` | — | Bring the window back: reopens it after it was closed to the tray (`{"window":"opened"}`), flags an open window for attention (`{"window":"already-open"}`), or does nothing while a window is already opening (`{"window":"opening"}`). The same action as MPRIS `Raise`. |
+| `theater` | — | Toggle [Theater Mode](/guides/theater-mode/), the same as `F11`. Prints `{"theater":true}` or `{"theater":false}`. Refuses with an `unavailable` error on the login screen. |
 | `-h`, `--help` | — | Print usage and the full verb catalog, then exit `0`. |
 | `-V`, `--version` | — | Print `nokkvi <version>`, then exit `0`. |
 
