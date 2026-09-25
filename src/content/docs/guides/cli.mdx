@@ -77,7 +77,7 @@ These act on whatever's currently playing and exit `1` with a `no_playing_track`
 | :--- | :--- | :--- |
 | `ping` | — | Probe the running instance. Prints `pong` and exits `0`. |
 | `show` | — | Bring the window back: reopens it after it was closed to the tray (`{"window":"opened"}`), flags an open window for attention (`{"window":"already-open"}`), or does nothing while a window is already opening (`{"window":"opening"}`). The same action as MPRIS `Raise`. |
-| `theater` | — | Toggle [Theater Mode](/guides/theater-mode/), the same as `F11`. Prints `{"theater":true}` or `{"theater":false}`. Refuses with an `unavailable` error on the login screen. |
+| `theater` | — | Toggle [Theater Mode](/guides/theater-mode/), the same as `F11`. Prints `{"theater":true}` or `{"theater":false}`. Refuses with an `unavailable` error on the login screen or while the window is closed to the tray. |
 | `-h`, `--help` | — | Print usage and the full verb catalog, then exit `0`. |
 | `-V`, `--version` | — | Print `nokkvi <version>`, then exit `0`. |
 
