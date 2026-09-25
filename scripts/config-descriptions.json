@@ -624,7 +624,7 @@
     "description": "Seconds before MilkDrop picks another preset (0 to 600). `0` keeps the current preset until you press Next Preset."
   },
   "visualizer.milkdrop.preset_source": {
-    "description": "Which presets are drawn: `all` (every preset you haven't hidden) or `favorites_only` (your favorites, and all of them while you have none)."
+    "description": "Which presets are drawn: `all` (every preset you haven't hidden), `favorites_only` (your favorites) or `nokkvi` (Nokkvi's own presets, drawn in your theme's colours with the playing cover); all of them while the choice has none left."
   },
   "visualizer.milkdrop.render_quality": {
     "description": "Pixels rendered on the shorter side of the panel before scaling: `low` (480), `medium` (720), `high` (1080) or `native` (the panel's own size, the most expensive on a big window)."
