@@ -66,9 +66,9 @@ Ten presets are made for Nokkvi and draw in **your theme's colours**: its backgr
 | `nokkvi - cover ripple` | The cover embossed under a lit pool's surface; each kick drops a ripple across it. |
 | `nokkvi - cover deep dive` | A flight into the cover, planted at the vanishing point, as it grows into a lit, lichen-like relief that keeps sprouting finer detail. |
 | `nokkvi - cover orb` | The cover wrapped on a slowly spinning, lit sphere that pulses on each kick. |
-| `nokkvi - aurora` | Flowing ribbons of the theme's gradient around the waveform; no cover needed. |
+| `nokkvi - aurora` | A folded aurora curtain in the theme's gradient, its rays reaching with the spectrum and surging along the arc on each kick, over stars, low hills and a rippling sea that mirrors it; no cover needed. |
 | `nokkvi - starfield` | A hyperspace flight through a spiralling vortex of stars that trail outward, each tied to a frequency; no cover needed. |
-| `nokkvi - fractal zoom` | A never-ending, twisting dive into a fractal that warps and changes with the music as you fall into it; no cover needed. |
+| `nokkvi - fractal zoom` | A never-ending, twisting dive into a fractal that warps and changes with the music as you fall into it; each kick stamps the waveform as a ring that flies outward with the dive. No cover needed. |
 | `nokkvi - living ink` | A glossy, lit coral surface that grows and reorganises itself, fed by the spectrum and shaken by kicks; its scene shifts every 16 kicks. No cover. |
 
 They're built as light on a dark canvas (glowing trails, bright bands), so in light mode they keep your theme's **dark** colours: the panel stays a dark window in your theme's palette rather than washing out.
@@ -95,7 +95,7 @@ Settings → Visualizer → **MilkDrop** (or `[visualizer.milkdrop]` in `config.
 | :--- | :--- |
 | Preset Interval | Seconds between automatic changes (0 to 600, default 30; 0 = never). |
 | Change Preset With Track | A new track brings a new preset (default on). |
-| Presets | `all`, or `favorites_only`. |
+| Presets | `all`, `favorites_only`, or `nokkvi` (only Nokkvi's own presets). |
 | Render Quality | Pixels rendered on the panel's shorter side before scaling: `low` (480), `medium` (720, default), `high` (1080), `native` (the panel's own size). Lower is softer and lighter on the GPU; `native` on a big window costs the most. |
 | Show Preset Names | The name notification on each change (default on). |
 
@@ -103,7 +103,7 @@ Settings → Visualizer → **MilkDrop** (or `[visualizer.milkdrop]` in `config.
 
 - **`.milk` files.** Only presets already converted to Butterchurn's JSON format load. Converting classic `.milk` presets needs a separate tool.
 - **Presets that use images.** Presets that sample external textures are left out of the built-in pack; a user preset that needs one gets a generated stand-in (except `cover`, which is the playing album's).
-- **Smooth transitions.** Presets cut from one to the next rather than blending.
+- **Smooth transitions.** Presets cut from one to the next rather than blending. As in MilkDrop, each new preset starts from the previous one's picture rather than from black.
 - **Animating while paused.** Pausing freezes the frame.
 
 MilkDrop runs at up to 60 frames a second whatever your display's refresh rate, because presets are written for that speed.
