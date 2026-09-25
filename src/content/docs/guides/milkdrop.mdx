@@ -43,9 +43,11 @@ Right-click the preset (on the Queue cover, or in Theater Mode) for:
 
 - **Next Preset**, **Previous Preset**, **Lock Preset** / **Unlock Preset**
 - **Favorite Preset** / **Unfavorite Preset**: with the Presets setting on **favorites_only**, only your favorites are drawn (and all presets while you have none).
-- **Never Show This Preset**: hides the preset on screen for good and moves on at once.
+- **Never Show This Preset**: hides the preset on screen for good and moves on at once (if you're paused, the next one loads when you press play). Hide the last one and the cover comes back.
 
-Hidden and favorite presets are saved in `~/.config/nokkvi/milkdrop/curation.toml`, a plain list you can read or edit:
+Next and Previous only work while music plays with MilkDrop on screen; otherwise a notification says so.
+
+Hidden and favorite presets are saved in `~/.config/nokkvi/milkdrop/curation.toml`, a plain list you can read or edit (if you break its syntax, Nokkvi warns you and won't save over it until you fix it and restart):
 
 ```toml
 hidden = ["Some Author - a preset that didn't work"]
@@ -60,7 +62,7 @@ The presets are the work of the MilkDrop community; each author holds the copyri
 
 ### Adding your own
 
-Drop Butterchurn-format `.json` presets into `~/.config/nokkvi/milkdrop/`. They join the rotation at the next login, or right away when you press the refresh key (`R`) in MilkDrop mode. A file with the same name as a built-in preset replaces it.
+Drop Butterchurn-format `.json` presets into `~/.config/nokkvi/milkdrop/`. They join the rotation at the next login, or right away when you press the refresh key (`R`) in MilkDrop mode. A file with the same name as a built-in preset replaces it. A preset that fails to load is skipped for the rest of the session (the reason is in `~/.local/state/nokkvi/nokkvi.log`).
 
 ## Settings
 
