@@ -27,7 +27,7 @@ Presets change on their own:
 - every **30 seconds** (the Preset Interval setting; `0` turns the timer off), and
 - on each **new track** (the Change Preset With Track setting).
 
-Each preset's name pops up as a notification when it appears (turn that off with Show Preset Names). Presets are drawn shuffle-style: every preset once before any repeats, and never the same one twice in a row.
+The old preset dissolves into the new one over **2 seconds** (the Preset Crossfade setting; `0` cuts straight over), with a different pattern each time: all at once, a sweep, a growing or closing ring, or blotches. Each preset's name pops up as a notification when it appears (turn that off with Show Preset Names). Presets are drawn shuffle-style: every preset once before any repeats, and never the same one twice in a row.
 
 | Key | Action |
 | :--- | :--- |
@@ -101,6 +101,7 @@ Settings → Visualizer → **MilkDrop** (or `[visualizer.milkdrop]` in `config.
 | Setting | What it does |
 | :--- | :--- |
 | Preset Interval | Seconds between automatic changes (0 to 600, default 30; 0 = never). |
+| Preset Crossfade | Seconds one preset takes to dissolve into the next (0 to 10, default 2; 0 = a hard cut). Capped at half the Preset Interval. Two presets are drawn during a fade, so it costs more GPU while it lasts. |
 | Change Preset With Track | A new track brings a new preset (default on). |
 | Presets | `all`, `favorites_only`, or `nokkvi` (only Nokkvi's own presets). |
 | Render Quality | Pixels rendered on the panel's shorter side before scaling: `low` (480), `medium` (720, default), `high` (1080), `native` (the panel's own size). Lower is softer and lighter on the GPU; `native` on a big window costs the most. |

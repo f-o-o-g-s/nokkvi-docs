@@ -620,6 +620,9 @@
   "visualizer.lower_cutoff_freq": {
     "description": "Bass floor in Hz. Frequencies below this are excluded from the spectrum (minimum `20`)."
   },
+  "visualizer.milkdrop.preset_crossfade_secs": {
+    "description": "Seconds one preset takes to dissolve into the next (0 to 10, in half seconds). `0` cuts straight to the new preset. A fade never runs longer than half the preset interval, and two presets are drawn at once while it lasts."
+  },
   "visualizer.milkdrop.preset_interval_secs": {
     "description": "Seconds before MilkDrop picks another preset (0 to 600). `0` keeps the current preset until you press Next Preset."
   },
