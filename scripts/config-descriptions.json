@@ -128,6 +128,12 @@
   "custom_eq_presets": {
     "description": "User-saved EQ presets. Each preset is a `{ name, gains }` object; managed through the in-app EQ panel."
   },
+  "dynamic_accent": {
+    "description": "Take the accent color from the playing cover (or the radio station's logo) instead of the theme. Covers highlights, active buttons, the progress bar, the now-playing row, and rating stars and love hearts; the rest of the theme stays. The color is adjusted to stay readable, and black-and-white covers give a grey accent. Only while something is playing or paused. See [Colors from the album art](/guides/theming/#colors-from-the-album-art)."
+  },
+  "dynamic_visualizer": {
+    "description": "Build the visualizer gradient from the playing cover's colors (up to four of its hues) instead of the theme's `bar_gradient_colors` / `peak_gradient_colors`. Applies to `bars`, `lines`, `scope`, and Nokkvi's own MilkDrop presets. Independent of `dynamic_accent`. See [Colors from the album art](/guides/theming/#colors-from-the-album-art)."
+  },
   "enter_behavior": {
     "description": "Action when pressing `Enter` on a song. Options: `play_all` (replace queue with the current view), `play_single` (replace queue with just this track), `append_and_play` (add to queue and play)."
   },

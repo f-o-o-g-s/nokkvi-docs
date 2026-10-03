@@ -56,7 +56,7 @@ favorites = ["Another Author - one I love"]
 
 ## nokkvi's own presets
 
-Twenty presets are made for Nokkvi and draw in **your theme's colours**: its background, accents and visualizer gradient. Change theme and the preset on screen recolours on the spot. Eight of them also use the **playing album's cover** (or the station's logo on the radio), and it follows each track change:
+Twenty presets are made for Nokkvi and draw in **your theme's colours**: its background, accents and visualizer gradient. Change theme and the preset on screen recolours on the spot. Six of them also use the **playing album's cover** (or the station's logo on the radio), and it follows each track change:
 
 | Preset | What it does |
 | :--- | :--- |
@@ -81,13 +81,15 @@ Twenty presets are made for Nokkvi and draw in **your theme's colours**: its bac
 
 They're built as light on a dark canvas (glowing trails, bright bands), so in light mode they keep your theme's **dark** colours: the panel stays a dark window in your theme's palette rather than washing out.
 
+With **Visualizer From Album Art** on (Settings → Theme), their accent, highlight and gradient come from the playing cover instead of the theme, and the preset on screen recolours on each track change. It reloads to do that, so presets that build up trails start them over. Their backgrounds and text stay the theme's. The other presets keep their own colours. See [Colors from the album art](/guides/theming/#colors-from-the-album-art).
+
 To see only these, set **Presets** to `nokkvi` (Settings → Visualizer → MilkDrop, or `preset_source = "nokkvi"` in `[visualizer.milkdrop]`).
 
 Your own presets can use the same trick: name a colour `NOKKVI_BG`, `NOKKVI_SURFACE`, `NOKKVI_TEXT`, `NOKKVI_ACCENT`, `NOKKVI_HIGHLIGHT`, `NOKKVI_WARM` or `NOKKVI_RAMP0` to `NOKKVI_RAMP5` in shader code (it becomes a `vec3`), or add `_R`, `_G`, `_B` for a number in the equations. Sample the cover as `sampler_cover`. Name the file `nokkvi - something.json` and it joins the `nokkvi` set.
 
 ## The presets
 
-Besides its own nineteen, Nokkvi ships about 450 presets built in: the pre-converted pack from [butterchurn-presets](https://github.com/jberg/butterchurn-presets) (the preset collection behind the Butterchurn web player), minus the ones known not to run and the ones that need extra images. The file names keep each preset's author credit, which is the name you see when it appears.
+Besides its own twenty, Nokkvi ships about 450 presets built in: the pre-converted pack from [butterchurn-presets](https://github.com/jberg/butterchurn-presets) (the preset collection behind the Butterchurn web player), minus the ones known not to run and the ones that need extra images. The file names keep each preset's author credit, which is the name you see when it appears.
 
 The presets are the work of the MilkDrop community; each author holds the copyright in their own preset. They have been shared freely for two decades, and Nokkvi follows the stance of projectM's preset collections: they're treated as freely redistributable, and any author who'd rather not have a preset included can [open an issue](https://github.com/f-o-o-g-s/nokkvi/issues) to have it removed.
 

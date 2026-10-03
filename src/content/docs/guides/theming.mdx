@@ -38,6 +38,25 @@ Switch themes from **Settings → Theme → Browse Themes…** (open Settings wi
   </TabItem>
 </Tabs>
 
+## Colors from the album art
+
+Two toggles in **Settings → Theme** take colors from the cover of whatever is playing, so the app changes with the music. Both are off by default, and you can use either one on its own.
+
+- **Accent From Album Art** (`dynamic_accent`) replaces the theme's accent: highlights, active buttons and tabs, the progress bar, the now-playing row, and rating stars and love hearts. Backgrounds, text, and the warning/error colors stay the theme's.
+- **Visualizer From Album Art** (`dynamic_visualizer`) builds the visualizer gradient from the cover for the bars, lines, and scope modes, and for Nokkvi's own MilkDrop presets.
+
+How the colors are chosen:
+
+- Nokkvi picks the cover's most prominent vivid color for the accent, and up to four of its hues for the visualizer gradient. A tiny speck of color doesn't count.
+- The color is adjusted to stay readable on your theme in both light and dark mode, so it is usually a lighter or darker version of the one on the cover. Filled things like the now-playing row and active buttons stay close to the cover; text drawn in the accent color uses a shade with more contrast.
+- Light mode pulls colors darker, so bright covers (yellow especially) come out deeper there.
+- Black-and-white covers, including sepia or tinted prints, turn the accent and gradient grey.
+- The visualizer colors are kept lighter or darker than the cover itself, since bars, lines, and scope draw on top of the artwork.
+- Stars and hearts take the accent color. On the now-playing row they take the row's text color, so they never blend into it.
+- The colors change on each track change, with no fade. When playback stops, the theme's own colors come back.
+
+Nothing is written to your theme file; turn a toggle off and the theme looks exactly as before. For radio, the station's logo stands in for the cover.
+
 ## Theme Location
 
 Custom themes are stored in:
@@ -177,7 +196,7 @@ Used for star rating fills.
 
 ## Visualizer Colors
 
-Each mode (`[dark.visualizer]` / `[light.visualizer]`) has its own set of visualizer colors. See the [Visualizer Reference](/reference/visualizer/) for how `gradient_mode` maps these onto bars and lines.
+Each mode (`[dark.visualizer]` / `[light.visualizer]`) has its own set of visualizer colors. See the [Visualizer Reference](/reference/visualizer/) for how `gradient_mode` maps these onto bars and lines. With **Visualizer From Album Art** on, the gradients come from the playing cover instead (see [Colors from the album art](#colors-from-the-album-art)); `border_color` and the opacities still come from the theme.
 
 | Key | Dark default | Light default | Description |
 | :--- | :--- | :--- | :--- |

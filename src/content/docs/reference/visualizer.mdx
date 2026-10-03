@@ -9,6 +9,8 @@ import { Tabs, TabItem, Card, CardGrid, Aside } from '@astrojs/starlight/compone
 
 Nokkvi features a custom-built, GPU-accelerated visualizer that runs an internal FFT over Nokkvi's own audio output and renders it with WGSL shaders. This reference explains the modes, effects, and color-mapping strategies available in `config.toml`.
 
+The colors come from the active theme's `[dark.visualizer]` / `[light.visualizer]` tables, or, with **Visualizer From Album Art** on (Settings → Theme), from the playing cover. See [Colors from the album art](/guides/theming/#colors-from-the-album-art).
+
 <Tabs syncKey="visualizer-mode">
   <TabItem label="Bars">
     Frequency data rendered as vertical columns with optional peak indicators.
