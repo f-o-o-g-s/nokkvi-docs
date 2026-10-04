@@ -3,6 +3,8 @@ title: Harbour
 description: Nokkvi's home view — discovery shelves, one-press random rows, cover previews, and a whole-library search.
 ---
 
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
 Harbour is Nokkvi's home view: a landing page of collapsible discovery shelves — recently played tracks, recently added albums, your most-played music — followed by a block of one-press **Random** rows, with the app's first **whole-library search** living in the header. It's the one screen that reaches across everything at once, rather than browsing a single entity type.
 
 ![The Harbour home view: the Trawl row, collapsed discovery shelves teasing their top pick, and the five Random rows below them on the left; the centered shelf's album cover previewed in the artwork column on the right](../../../assets/harbour.webp)
@@ -68,9 +70,18 @@ Harbour borrows the large horizontal [artwork column](/guides/artwork/#the-artwo
 
 So arrowing down the shelves is also a way to flip through cover art, one centered item at a time.
 
-The Trawl scene follows your **theme**, not the clock: dark themes give it a night sea under stars, an aurora, and a moon, with the occasional shooting star; light themes give it a daylit sea with the sun and gliding seagulls. Leaping fish and little drifting music notes surface in both. It runs on its own — no music required — and the boat itself is the [visualizer's surfing boat](/reference/visualizer/#surfing-boat) at a slow cruise.
+The Trawl scene follows your **theme**, not the clock: dark themes give it a night sea under stars, an aurora, and a moon, with the occasional shooting star; light themes give it a daylit sea with the sun and gliding seagulls. Leaping fish, little drifting music notes, and a half-buried viking shield on the seabed show up in both. It runs on its own, no music required, and the boat itself is the [visualizer's surfing boat](/reference/visualizer/#surfing-boat) at a slow cruise.
 
-![The Harbour Trawl panel: the Trawl row centered on the left, and on the right its animated night scene — the nokkvi longship dragging its anchor across a starlit sea below a moon, with the "TRAWL — Build a mix" pill overlaid](../../../assets/harbour-trawl.webp)
+While music plays, the night sky moves with it: the aurora's rays rise and fall with the track, each kick sends a surge of light across it, and the stars flare on the beat. This works with the visualizer off too.
+
+<Tabs syncKey="trawl-scene">
+  <TabItem label="Night (dark themes)">
+    ![The Harbour Trawl panel on a dark theme: the Trawl row centered on the left, and on the right the night scene: an aurora curtain and a moon over a dark sea, the moonlit nokkvi longship mid-panel with music notes rising from it, its anchor dragging across a seabed of glowing kelp and a sunken shield, with the "TRAWL — Build a mix" pill below](../../../assets/harbour-trawl.webp)
+  </TabItem>
+  <TabItem label="Day (light themes)">
+    ![The Harbour Trawl panel on a light theme: the same layout in daylight, with a hazy sun and gulls over a pale teal sea, sun shafts slanting down to sandy seabed, the longship dragging its anchor past the half-buried shield](../../../assets/harbour-trawl-day.webp)
+  </TabItem>
+</Tabs>
 
 ## Whole-library search
 
