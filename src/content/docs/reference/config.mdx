@@ -406,6 +406,8 @@ Nokkvi features a high-performance GPU visualizer with three modes: `bars`, `lin
 | `visualizer.bars.flash_intensity` | `0.6` | Peak-flash bloom strength for Bars mode (0.0 disables; up to 1.0). Bars bloom toward the peak color on transients/beats. |
 | `visualizer.bars.trails` | `0.0` | Motion trails — bars leave a fading after-image (0.0 disables; 1.0 = long comet trails). |
 | `visualizer.bars.echo` | `0.0` | Milkdrop-style zoom/rotate feedback — the bars spiral and tunnel into themselves, swirling with the bass/beat (0.0 disables; 1.0 = strong persistence). Takes over the display when on. |
+| `visualizer.bars.reflection` | `false` | Stand the bars on a waterline and mirror them in dark, rippling water below it; beats send ripples across. [Learn more &rarr;](/reference/visualizer/#reflection) |
+| `visualizer.bars.horizon` | `false` | About the last second and a half of bars recede behind the live ones in rows toward a misty horizon. [Learn more &rarr;](/reference/visualizer/#horizon) |
 | `visualizer.bars.placement` | `"over_cover"` | Where the Bars visualizer is drawn. Options: `over_cover` (over the now-playing cover art on the Queue view, while playing), `bottom_band` (a band across the bottom of the window, above the player bar, on every view). |
 {/* config-table:end */}
 
@@ -427,6 +429,8 @@ Nokkvi features a high-performance GPU visualizer with three modes: `bars`, `lin
 | `visualizer.lines.glow_intensity` | `0.5` | Neon glow halo around the main line (0.0 disables; up to 1.0). An exponential emissive falloff beyond the stroke that brightens with loudness. |
 | `visualizer.lines.trails` | `0.0` | Motion trails — the line leaves a fading after-image (0.0 disables; 1.0 = long comet trails). |
 | `visualizer.lines.echo` | `0.0` | Milkdrop-style zoom/rotate feedback — the line spirals and tunnels into itself, swirling with the bass/beat (0.0 disables; 1.0 = strong persistence). Takes over the display when on. |
+| `visualizer.lines.reflection` | `false` | Stand the line above a waterline and mirror it in dark, rippling water below it; beats send ripples across. [Learn more &rarr;](/reference/visualizer/#reflection) |
+| `visualizer.lines.horizon` | `false` | About the last second and a half of the line recedes behind it as misty waves toward a horizon. [Learn more &rarr;](/reference/visualizer/#horizon) |
 | `visualizer.lines.placement` | `"over_cover"` | Where the Lines visualizer is drawn. Options: `over_cover` (over the now-playing cover art on the Queue view, while playing), `bottom_band` (a band across the bottom of the window, above the player bar, on every view). |
 {/* config-table:end */}
 

@@ -171,6 +171,45 @@ Over-cover drawing shares its surface with the [lyrics overlay](/guides/lyrics/)
 
 ---
 
+## Reflection & Horizon
+
+Two scenery toggles for Bars and Lines, each set per mode under **Settings → Visualizer → Bars** / **Lines** and off by default. On together, they turn the visualizer into a fjord: the past few moments of the spectrum recede toward a horizon behind the live bars or line, and the whole scene is mirrored in dark water below. Neither applies to Scope or MilkDrop.
+
+![Nokkvi bars visualizer with Reflection and Horizon on — rows of past bars recede toward a misty horizon behind the live bars, all mirrored in dark rippling water below](../../../assets/visualizer-fjord-anim.webp)
+
+Both carry their own dark body (the water, the rows), so they read over a bright cover as well as a dark one. They work in either [placement](#placement).
+
+### Reflection
+[`visualizer.bars.reflection`](/reference/config/#bars-mode) / [`visualizer.lines.reflection`](/reference/config/#lines-mode) (default `false`). The visualizer stands on a waterline about two-thirds of the way down its area, and the band below becomes dark water that mirrors it, squashed so most of the skyline fits.
+
+- **Water.** The body takes the visualizer's border colour, deepening toward the bottom, so the cover shows through only faintly.
+- **Ripples.** The reflection wobbles in ripples that are fine near the waterline and widen further down, and swell with the bass.
+- **Light on water.** Reflections smear downward and break into slivers; the waterline shimmers and the water glints under bright bars.
+- **Kicks.** Each beat drops a ripple under the bar that jumped hardest, and it runs sideways across the water in both directions.
+- **Boat.** In Lines mode the [surfing boat](#surfing-boat) rides the line above the water.
+- The water mirrors what is on screen, so [Motion Trails](#motion-trails) and [Echo](#echo) show in it too; [Bloom](#bloom-glow) glows across the surface.
+
+![Nokkvi bars visualizer with Reflection on — the bars stand on a waterline and are mirrored in dark, rippling water below](../../../assets/visualizer-reflection.webp)
+
+### Horizon
+[`visualizer.bars.horizon`](/reference/config/#bars-mode) / [`visualizer.lines.horizon`](/reference/config/#lines-mode) (default `false`). About the last second and a half of the spectrum recedes behind the live visualizer: a new row every tenth of a second, each one further back sitting higher, shorter and narrower as it heads for a horizon near the top, fading into mist on the way. The newest row sits on the live bars or line.
+
+- **Bars** recede as rows of bars in the bar gradient, with gaps you see the rows behind through. In [LED mode](#led-mode) they are cut into LED segments too.
+- **Lines** recede as smooth, misty waves with lit crests. A quiet stretch of a wave stays low ground, so the cover shows through there instead of a solid slab.
+- **Edges.** The front rows run off both sides of the visualizer (the spectrum continues past the edges, mirrored); the far rows narrow toward the middle and show their ends.
+- With Reflection on as well, the rows stand above the waterline and appear in the water.
+
+<CardGrid>
+  <Card title="Bars">
+    ![Nokkvi bars visualizer with Horizon on — rows of past bars recede in perspective toward a misty horizon behind the live bars](../../../assets/visualizer-horizon.webp)
+  </Card>
+  <Card title="Lines">
+    ![Nokkvi lines visualizer with Horizon and Reflection on — misty waves of the past spectrum recede behind the line, mirrored in the water below](../../../assets/visualizer-lines-fjord.webp)
+  </Card>
+</CardGrid>
+
+---
+
 ## Effects
 
 These effects apply on top of whichever mode (bars, lines, or scope) is active, and live under **Settings → Visualizer → Frame**. Bloom, Beat Reactivity, and CRT are global; Motion Trails and Echo are configured per mode.
