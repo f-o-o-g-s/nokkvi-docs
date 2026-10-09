@@ -58,6 +58,25 @@ Both features require Last.fm or ListenBrainz to be configured on the server. Se
 
 A row's right-click menu also carries **Remove Duplicates**, which shrinks the queue to one row per song. It keeps the first copy of each — except the song that's playing, where the row under the play cursor is the keeper and even an *earlier* copy goes. That's what lets the sweep run without touching playback: the row you're hearing is never the one removed. A toast reports the result — *Removed 3 duplicates*, or *No duplicates found*.
 
+## Playing from a playlist
+
+When you play a playlist, the queue toolbar leads with it: the playlist's cover and name sit at the start of the toolbar, ahead of the sort control. The cover is the playlist's uploaded image if it has one, otherwise a 2×2 collage of its first albums' covers. Hover it for a *Playing from playlist* reminder.
+
+![The queue toolbar playing from a smart playlist: collapsed to its slim strip (top), and revealed with the playlist's edit button (bottom)](../../../assets/queue-playing-from.webp)
+
+With the [auto-hide toolbar](/reference/config/#interface-settings) collapsed to its slim strip (the default), a small cover and the name start the strip, before the sort label and song count. Reveal the toolbar and they grow, followed by the playlist's own buttons:
+
+- **Save Queue as Playlist** opens the save-as-playlist dialog, the same one `Ctrl + S` opens.
+- **Edit Playlist** opens the playlist for editing: the [track editor](/guides/playlists/#editing-playlists) for a regular playlist, the [rules editor](/guides/smart-playlists/#the-rules-editor) for a smart one.
+
+A [smart playlist](/guides/smart-playlists/) shows its sparkles mark after its name in the revealed toolbar, and only the edit button: its tracks come from its rules, so there is nothing to save over.
+
+Rest the pointer on the cover or name for a moment and the playlist's details open under the toolbar: its description, song count, total length, when it was last updated, and whether it's public or private. They close when the pointer leaves.
+
+In a narrow window the name shortens first, then the revealed toolbar's song count steps aside, and finally only the cover remains; hover it for the playlist's name. With the `hairline` or `hidden` [collapsed appearance](/reference/config/#interface-settings), the playlist shows once the toolbar is revealed.
+
+The playlist stays in the toolbar across restarts. Playing something else in place of the queue clears it, and so does clearing the queue with `Shift + D`.
+
 ## Queue sync
 
 Nokkvi can save your whole queue to the Navidrome server and pull it back later — on another machine, or in a fresh session after you restart. The playing track and its exact position travel with it, so a pull drops you back mid-song rather than at the top of the list.

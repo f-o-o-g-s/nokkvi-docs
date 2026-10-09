@@ -87,7 +87,7 @@
     "description": "The Queue view auto-scrolls to keep the currently playing track visible as it changes."
   },
   "autohide_collapsed_appearance": {
-    "description": "What the auto-hide toolbar shows while collapsed. Options: `hairline` (a thin sliver with an optional accent grip — hover to reveal), `hidden` (nothing; the list reclaims the space, but flicking the mouse to the top edge or using a sort/search hotkey still reveals it), `count_strip` (a slim strip echoing the current sort and item count, without controls). Only applies when `autohide_toolbar` is on."
+    "description": "What the auto-hide toolbar shows while collapsed. Options: `hairline` (a thin sliver with an optional accent grip — hover to reveal), `hidden` (nothing; the list reclaims the space, but flicking the mouse to the top edge or using a sort/search hotkey still reveals it), `count_strip` (a slim strip echoing the current sort and item count, without controls; in the Queue it also leads with the playing playlist's cover and name). Only applies when `autohide_toolbar` is on."
   },
   "autohide_toolbar": {
     "description": "Auto-hide the view-header toolbar (sort and search controls) to a thin line until you hover it or use a sort/search shortcut."
