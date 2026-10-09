@@ -672,10 +672,10 @@
     "description": "Luminous-beam look: additive blending so the glow accumulates into a bright neon beam over the cover (woscope-style)."
   },
   "visualizer.scope.echo": {
-    "description": "Milkdrop-style zoom/rotate feedback — the ring spirals and tunnels inward, swirling with the bass/beat (0.0 disables; 1.0 = strong persistence). Takes over the display when on."
+    "description": "Milkdrop-style zoom/rotate feedback — the ring spirals and tunnels inward, swirling with the bass/beat (0.0 disables; 1.0 = strong persistence). Takes over the ring when on; the Tunnel stays sharp beneath it."
   },
   "visualizer.scope.fill_opacity": {
-    "description": "Radial gradient fill from the ring toward the center (0.0 = no fill, 1.0 = opaque rim)."
+    "description": "Radial gradient fill from the ring toward the center (0.0 = no fill, 1.0 = opaque rim). No effect while the Tunnel is on."
   },
   "visualizer.scope.glow_intensity": {
     "description": "Neon glow halo around the ring (0.0 disables; up to 1.0)."
@@ -715,6 +715,9 @@
   },
   "visualizer.scope.trails": {
     "description": "Motion trails — the ring leaves a fading after-image (0.0 disables; 1.0 = long comet trails)."
+  },
+  "visualizer.scope.tunnel": {
+    "description": "About the last second of the spectrum spirals down into the cover behind the ring, lighting a ring on each kick as it falls away. The ring's Fill has no effect while it is on. [Learn more &rarr;](/reference/visualizer/#tunnel)"
   },
   "visualizer.waves": {
     "description": "Enable spline smoothing between bars."

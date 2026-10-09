@@ -23,7 +23,7 @@ The colors come from the active theme's `[dark.visualizer]` / `[light.visualizer
     ![Animated demo of Nokkvi's lines visualizer — a smooth waveform curve with the surfing boat riding it](../../../assets/visualizer-lines-anim.webp)
   </TabItem>
   <TabItem label="Scope">
-    A circular oscilloscope (time-domain waveform ring) drawn over the now-playing cover art, with an optional glowing particle field.
+    A circular oscilloscope (time-domain waveform ring) drawn over the now-playing cover art, with the recent spectrum spiralling down a tunnel behind it and an optional glowing particle field.
 
     ![Animated demo of Nokkvi's scope visualizer — a glowing circular oscilloscope ring pulsing over the cover art with drifting particles](../../../assets/visualizer-scope-anim.webp)
   </TabItem>
@@ -137,7 +137,7 @@ The same boat also sails the [Harbour](/guides/harbour/#the-artwork-preview) Tra
 
 ## Scope Mode
 
-The `scope` mode draws a circular oscilloscope — a time-domain waveform ring — over the now-playing cover art. It is cycled after Lines with the `V` hotkey, or set [`visualization_mode = "scope"`](/reference/config/#playback-settings). The ring reuses the Lines [gradient modes](#gradient-modes-1) and [style](#style) options, and adds geometry and particle controls of its own.
+The `scope` mode draws a circular oscilloscope — a time-domain waveform ring — over the now-playing cover art. It is cycled after Lines with the `V` hotkey, or set [`visualization_mode = "scope"`](/reference/config/#playback-settings). The ring reuses the Lines [gradient modes](#gradient-modes-1) and [style](#style) options, and adds geometry, tunnel and particle controls of its own.
 
 ![Nokkvi's scope visualizer — a glowing circular oscilloscope ring with a drifting particle field, drawn over the now-playing cover art](../../../assets/visualizer-scope.webp)
 
@@ -148,10 +148,20 @@ The `scope` mode draws a circular oscilloscope — a time-domain waveform ring �
 - **Thickness.** [`visualizer.scope.line_thickness`](/reference/config/#scope-mode) (default `0.01`) is the ring stroke as a fraction of the panel.
 
 ### Ring Look
-- **Fill.** [`visualizer.scope.fill_opacity`](/reference/config/#scope-mode) (default `0.5`) shades a radial gradient from the ring toward the centre.
+- **Fill.** [`visualizer.scope.fill_opacity`](/reference/config/#scope-mode) (default `0.5`) shades a radial gradient from the ring toward the centre. It has no effect while the [Tunnel](#tunnel) is on, which fills the ring instead.
 - **Glow.** [`visualizer.scope.glow_intensity`](/reference/config/#scope-mode) (default `0.35`) wraps the ring in a neon halo, like the Lines glow.
 - **Beam.** [`visualizer.scope.beam`](/reference/config/#scope-mode) (default `true`) renders the ring with additive blending so overlapping glow accumulates into a bright neon beam (woscope-style).
 - **Outline.** [`visualizer.scope.outline_thickness`](/reference/config/#scope-mode) / [`outline_opacity`](/reference/config/#scope-mode) (default off) draw a darker border behind the ring for contrast on busy covers.
+
+### Tunnel
+[`visualizer.scope.tunnel`](/reference/config/#scope-mode) (default `true`). About the last second of the spectrum spirals down into the cover behind the ring, so the ring becomes the mouth of a tunnel.
+
+- **Rings.** A new ring joins the mouth every twentieth of a second and falls away, shrinking in perspective and turning a little as it goes, so the walls twist into a vortex.
+- **Spectrum.** Each ring is the spectrum wrapped around the circle: bass at the bottom, treble at the top, mirrored left and right. Loud frequencies push the wall out.
+- **Walls.** The walls are dark, lit by the ring behind each one, so the tunnel reads over a bright cover as well as a dark one. They thin with depth, and the cover shows at the far end.
+- **Kicks.** A ring kept on a beat glows hot as it falls away down the tunnel.
+- The live ring is still the raw waveform; only the tunnel behind it is drawn from the spectrum.
+- With [Echo](#echo) on, the ring's echo swirls over the tunnel while the tunnel stays sharp.
 
 ### Particles
 [`visualizer.scope.particles`](/reference/config/#scope-mode) (default `true`) launches a glowing particle field that drifts outward from the ring on the beat — the NCS / Wav2Bar look. [`particle_count`](/reference/config/#scope-mode) (default `192`, up to `2048`) sets how many, and [`particle_speed`](/reference/config/#scope-mode) (default `0.5`) how fast they fly out (`0.1` lazy drift, `4.0` energetic).
@@ -224,7 +234,7 @@ These effects apply on top of whichever mode (bars, lines, or scope) is active, 
 Motion trails leave a fading after-image behind the waveform — a short ghost at low values, a long comet trail near `1.0`. It is a flat per-frame fade; for the swirling variant use [Echo](#echo). Configured per mode — [`visualizer.bars.trails`](/reference/config/#bars-mode), [`visualizer.lines.trails`](/reference/config/#lines-mode), [`visualizer.scope.trails`](/reference/config/#scope-mode) — and off (`0.0`) by default everywhere because it noticeably changes the look.
 
 ### Echo
-Echo is Milkdrop-style zoom/rotate feedback: the visualizer spirals and tunnels into itself, swirling harder with the bass and beat. Near `1.0` the feedback persists strongly and effectively takes over the display. Unlike [Motion Trails](#motion-trails) (a flat fade), Echo warps and rotates each fading copy. Configured per mode — [`visualizer.bars.echo`](/reference/config/#bars-mode), [`visualizer.lines.echo`](/reference/config/#lines-mode), [`visualizer.scope.echo`](/reference/config/#scope-mode). Bars and Lines default to `0.0` (off); Scope defaults to `1.0`, a strong feedback swirl that takes over the ring.
+Echo is Milkdrop-style zoom/rotate feedback: the visualizer spirals and tunnels into itself, swirling harder with the bass and beat. Near `1.0` the feedback persists strongly and effectively takes over the display. Unlike [Motion Trails](#motion-trails) (a flat fade), Echo warps and rotates each fading copy. Configured per mode — [`visualizer.bars.echo`](/reference/config/#bars-mode), [`visualizer.lines.echo`](/reference/config/#lines-mode), [`visualizer.scope.echo`](/reference/config/#scope-mode). All three default to `0.0` (off). In Scope it takes over the ring, and the [Tunnel](#tunnel) stays sharp beneath it.
 
 ### CRT / Film
 [`visualizer.crt`](/reference/config/#general-visualizer) (default `0.0`, off) is a retro composite under one master amount: chromatic aberration, scanlines, vignette, film grain, and a beat zoom-punch. It is masked to the visualizer content, so it never tints the rest of the UI.
