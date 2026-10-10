@@ -190,8 +190,9 @@ Two scenery toggles for Bars and Lines, each set per mode under **Settings → V
 Both carry their own dark body (the water, the rows), so they read over a bright cover as well as a dark one. They work in either [placement](#placement).
 
 ### Reflection
-[`visualizer.bars.reflection`](/reference/config/#bars-mode) / [`visualizer.lines.reflection`](/reference/config/#lines-mode) (default `false`). The visualizer stands on a waterline about two-thirds of the way down its area, and the band below becomes dark water that mirrors it, squashed so most of the skyline fits.
+[`visualizer.bars.reflection`](/reference/config/#bars-mode) / [`visualizer.lines.reflection`](/reference/config/#lines-mode) (default `false`). The visualizer stands on a waterline and dark water below mirrors it, squashed so most of the skyline fits. In the bottom band, and over a cover with no room below it, the waterline sits about two-thirds of the way down the visualizer's area.
 
+- **Below the cover.** Over the cover, the bars or line stand on the cover's bottom edge and fill the whole Visualizer Height, and the water hangs below the cover, over whatever is there (the Queue's header and first rows when the cover sits above the list), fading out toward its end. It never covers the player bar, and with only a little room below the cover the waterline settles partway. **Reflection Below Cover** ([`visualizer.bars.reflection_below_cover`](/reference/config/#bars-mode) / [`visualizer.lines.reflection_below_cover`](/reference/config/#lines-mode), default `true`) turns this off and keeps the water on the cover.
 - **Water.** The body takes the visualizer's border colour, deepening toward the bottom, so the cover shows through only faintly.
 - **Ripples.** The reflection wobbles in ripples that are fine near the waterline and widen further down, and swell with the bass.
 - **Light on water.** Reflections smear downward and break into slivers; the waterline shimmers and the water glints under bright bars.

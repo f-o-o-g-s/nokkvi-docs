@@ -566,6 +566,9 @@
   "visualizer.bars.reflection": {
     "description": "Stand the bars on a waterline and mirror them in dark, rippling water below it; beats send ripples across. [Learn more &rarr;](/reference/visualizer/#reflection)"
   },
+  "visualizer.bars.reflection_below_cover": {
+    "description": "Over the cover, hang the Reflection's water below the cover, over the UI there, with the bars standing on the cover's bottom edge; `false` keeps the water on the cover. [Learn more &rarr;](/reference/visualizer/#reflection)"
+  },
   "visualizer.bars.trails": {
     "description": "Motion trails — bars leave a fading after-image (0.0 disables; 1.0 = long comet trails)."
   },
@@ -628,6 +631,9 @@
   },
   "visualizer.lines.reflection": {
     "description": "Stand the line above a waterline and mirror it in dark, rippling water below it; beats send ripples across. [Learn more &rarr;](/reference/visualizer/#reflection)"
+  },
+  "visualizer.lines.reflection_below_cover": {
+    "description": "Over the cover, hang the Reflection's water below the cover, over the UI there, with the line riding down to the cover's bottom edge; `false` keeps the water on the cover. [Learn more &rarr;](/reference/visualizer/#reflection)"
   },
   "visualizer.lines.style": {
     "description": "Interpolation style (`smooth` or `angular`)."
