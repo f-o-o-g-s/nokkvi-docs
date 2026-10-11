@@ -66,7 +66,7 @@
     "description": "Max artwork size in `auto` mode, as a fraction of the window's short axis (0.30–0.70)."
   },
   "artwork_column_mode": {
-    "description": "Visibility and sizing of the large artwork panel shown alongside list views. Options: `auto` (size derived from window width; auto-hides when the slot list would have less than 800px), `always_native` (user-defined width; image stays square and letterboxed vertically), `always_stretched` (user-defined width; image fills the column non-square per `artwork_column_stretch_fit`), `always_vertical_native` (user-defined height; artwork stacked above the slot list, stays square), `always_vertical_stretched` (user-defined height; artwork stacked above the slot list, fills the rect via `artwork_column_stretch_fit`), `never` (column hidden everywhere)."
+    "description": "Visibility and sizing of the large artwork panel shown alongside list views. Options: `auto` (beside the list, a square as tall as the window; auto-hides when the slot list would have less than 800px), `always_native` (user-defined width; image stays square and letterboxed vertically), `always_stretched` (user-defined width; image fills the column non-square per `artwork_column_stretch_fit`), `always_vertical_native` (user-defined height; artwork stacked above the slot list, stays square), `always_vertical_stretched` (user-defined height; artwork stacked above the slot list, fills the rect via `artwork_column_stretch_fit`), `never` (column hidden everywhere)."
   },
   "artwork_column_stretch_fit": {
     "description": "Fit mode used when `artwork_column_mode = \"always_stretched\"`. Options: `cover` (preserve aspect ratio, crop to fill), `fill` (true stretch — distorts album art). Ignored in other modes."
@@ -564,7 +564,7 @@
     "description": "Behavior of peak indicators. [Learn more &rarr;](/reference/visualizer/#peak-behavior)"
   },
   "visualizer.bars.placement": {
-    "description": "Where the Bars visualizer is drawn. Options: `over_cover` (over the now-playing cover art on the Queue view, while playing), `bottom_band` (a band above the player bar on every view, as wide as the bar: beside the artwork column, over the list only)."
+    "description": "Where the Bars visualizer is drawn. Options: `over_cover` (over the cover art on the Queue and Radios panels and in Theater Mode; holds still while paused), `bottom_band` (a band above the player bar on every view, as wide as the bar: beside the artwork column, over the list only)."
   },
   "visualizer.bars.reflection": {
     "description": "Stand the bars on a waterline and mirror them in dark, rippling water below it; beats send ripples across. [Learn more &rarr;](/reference/visualizer/#reflection)"
@@ -627,7 +627,7 @@
     "description": "Outline border thickness in pixels (0.0 disables; up to 5.0)."
   },
   "visualizer.lines.placement": {
-    "description": "Where the Lines visualizer is drawn. Options: `over_cover` (over the now-playing cover art on the Queue view, while playing), `bottom_band` (a band above the player bar on every view, as wide as the bar: beside the artwork column, over the list only)."
+    "description": "Where the Lines visualizer is drawn. Options: `over_cover` (over the cover art on the Queue and Radios panels and in Theater Mode; holds still while paused), `bottom_band` (a band above the player bar on every view, as wide as the bar: beside the artwork column, over the list only)."
   },
   "visualizer.lines.point_count": {
     "description": "Number of points used to draw the line (8 to 512)."

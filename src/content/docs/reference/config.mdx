@@ -194,7 +194,7 @@ All keys in this section live under `[settings]`.
 | Key | Default | Description |
 | :--- | :--- | :--- |
 | `artwork_auto_max_pct` | `0.70` | Max artwork size in `auto` mode, as a fraction of the window's short axis (0.30–0.70). |
-| `artwork_column_mode` | `"auto"` | Visibility and sizing of the large artwork panel shown alongside list views. Options: `auto` (size derived from window width; auto-hides when the slot list would have less than 800px), `always_native` (user-defined width; image stays square and letterboxed vertically), `always_stretched` (user-defined width; image fills the column non-square per `artwork_column_stretch_fit`), `always_vertical_native` (user-defined height; artwork stacked above the slot list, stays square), `always_vertical_stretched` (user-defined height; artwork stacked above the slot list, fills the rect via `artwork_column_stretch_fit`), `never` (column hidden everywhere). |
+| `artwork_column_mode` | `"auto"` | Visibility and sizing of the large artwork panel shown alongside list views. Options: `auto` (beside the list, a square as tall as the window; auto-hides when the slot list would have less than 800px), `always_native` (user-defined width; image stays square and letterboxed vertically), `always_stretched` (user-defined width; image fills the column non-square per `artwork_column_stretch_fit`), `always_vertical_native` (user-defined height; artwork stacked above the slot list, stays square), `always_vertical_stretched` (user-defined height; artwork stacked above the slot list, fills the rect via `artwork_column_stretch_fit`), `never` (column hidden everywhere). |
 | `artwork_column_stretch_fit` | `"cover"` | Fit mode used when `artwork_column_mode = "always_stretched"`. Options: `cover` (preserve aspect ratio, crop to fill), `fill` (true stretch — distorts album art). Ignored in other modes. |
 | `artwork_column_width_pct` | `0.40` | Artwork column width as a fraction of the window width (0.05 to 0.80). Only consulted in `always_native` and `always_stretched` modes. |
 | `artwork_cover` | `"show"` | Cover picture or a plain backdrop on the now-playing panels (the Queue cover, the Radios panel, Theater Mode). Options: `show`, `hide_in_theater` (backdrop in Theater Mode only), `hide_everywhere`. The backdrop is black in dark mode and the theme's hard background in light mode; the visualizer and lyrics stay. |
@@ -410,7 +410,7 @@ Nokkvi features a high-performance GPU visualizer with three modes: `bars`, `lin
 | `visualizer.bars.reflection` | `false` | Stand the bars on a waterline and mirror them in dark, rippling water below it; beats send ripples across. [Learn more &rarr;](/reference/visualizer/#reflection) |
 | `visualizer.bars.reflection_below_cover` | `true` | Over the cover, hang the Reflection's water below the cover, over the UI there, with the bars standing on the cover's bottom edge; `false` keeps the water on the cover. [Learn more &rarr;](/reference/visualizer/#reflection) |
 | `visualizer.bars.horizon` | `false` | About the last second and a half of bars recede behind the live ones in rows toward a misty horizon. [Learn more &rarr;](/reference/visualizer/#horizon) |
-| `visualizer.bars.placement` | `"over_cover"` | Where the Bars visualizer is drawn. Options: `over_cover` (over the now-playing cover art on the Queue view, while playing), `bottom_band` (a band above the player bar on every view, as wide as the bar: beside the artwork column, over the list only). |
+| `visualizer.bars.placement` | `"over_cover"` | Where the Bars visualizer is drawn. Options: `over_cover` (over the cover art on the Queue and Radios panels and in Theater Mode; holds still while paused), `bottom_band` (a band above the player bar on every view, as wide as the bar: beside the artwork column, over the list only). |
 {/* config-table:end */}
 
 ### Lines Mode
@@ -434,7 +434,7 @@ Nokkvi features a high-performance GPU visualizer with three modes: `bars`, `lin
 | `visualizer.lines.reflection` | `false` | Stand the line above a waterline and mirror it in dark, rippling water below it; beats send ripples across. [Learn more &rarr;](/reference/visualizer/#reflection) |
 | `visualizer.lines.reflection_below_cover` | `true` | Over the cover, hang the Reflection's water below the cover, over the UI there, with the line riding down to the cover's bottom edge; `false` keeps the water on the cover. [Learn more &rarr;](/reference/visualizer/#reflection) |
 | `visualizer.lines.horizon` | `false` | About the last second and a half of the line recedes behind it as misty waves toward a horizon. [Learn more &rarr;](/reference/visualizer/#horizon) |
-| `visualizer.lines.placement` | `"over_cover"` | Where the Lines visualizer is drawn. Options: `over_cover` (over the now-playing cover art on the Queue view, while playing), `bottom_band` (a band above the player bar on every view, as wide as the bar: beside the artwork column, over the list only). |
+| `visualizer.lines.placement` | `"over_cover"` | Where the Lines visualizer is drawn. Options: `over_cover` (over the cover art on the Queue and Radios panels and in Theater Mode; holds still while paused), `bottom_band` (a band above the player bar on every view, as wide as the bar: beside the artwork column, over the list only). |
 {/* config-table:end */}
 
 ### Scope Mode
