@@ -33,6 +33,8 @@ A playlist's own cover can be set or reset from the [editor's edit-bar thumbnail
   <TabItem label="Horizontal">
     Artwork sits beside the slot list. Used by `always_native`, `always_stretched`, and `auto` on wide windows.
 
+    The column runs the window's full height. The top navigation bar, the [metadata strip](/reference/track-info-display/) and the player bar sit beside it over the list only, and so do toasts and the [bottom-band visualizer](/reference/visualizer/#placement). The Library Browser's split view keeps them full width.
+
     ![Horizontal artwork layout: square cover beside the slot list](../../../assets/artwork-panel-horizontal.webp)
   </TabItem>
   <TabItem label="Vertical">
@@ -53,7 +55,7 @@ How it sizes and whether it shows up is controlled by [`artwork_column_mode`](/r
 | `always_vertical_stretched` | Always visible; artwork stacked above the slot list at a fixed fraction of window height. The image fills the rect per [`artwork_column_stretch_fit`](/reference/config/#artwork-column) — `cover` crops, `fill` distorts. |
 | `never` | Column is always hidden. |
 
-`always_native` and `always_stretched` show a drag handle between the artwork and the slot list — drag horizontally to resize; the new fraction is saved to [`artwork_column_width_pct`](/reference/config/#artwork-column) (clamped to 0.05–0.80). `always_vertical_native` and `always_vertical_stretched` show a drag handle below the artwork — drag vertically to resize; the new fraction is saved to [`artwork_vertical_height_pct`](/reference/config/#artwork-column) (clamped to 0.10–0.80). `auto` sizes itself, so there's no handle.
+The `always_*` modes resize from the artwork's edge that faces the slot list. Nothing is drawn there: hover a thin strip along that edge and the cursor turns into a resize arrow. In `always_native` and `always_stretched` that's the artwork's left edge — drag horizontally to resize; the new fraction is saved to [`artwork_column_width_pct`](/reference/config/#artwork-column) (clamped to 0.05–0.80). In `always_vertical_native` and `always_vertical_stretched` it's the artwork's bottom edge — drag vertically to resize; the new fraction is saved to [`artwork_vertical_height_pct`](/reference/config/#artwork-column) (clamped to 0.10–0.80). `auto` sizes itself, so it can't be resized.
 
 ## Artwork Quality
 

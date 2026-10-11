@@ -564,7 +564,7 @@
     "description": "Behavior of peak indicators. [Learn more &rarr;](/reference/visualizer/#peak-behavior)"
   },
   "visualizer.bars.placement": {
-    "description": "Where the Bars visualizer is drawn. Options: `over_cover` (over the now-playing cover art on the Queue view, while playing), `bottom_band` (a band across the bottom of the window, above the player bar, on every view)."
+    "description": "Where the Bars visualizer is drawn. Options: `over_cover` (over the now-playing cover art on the Queue view, while playing), `bottom_band` (a band above the player bar on every view, as wide as the bar: beside the artwork column, over the list only)."
   },
   "visualizer.bars.reflection": {
     "description": "Stand the bars on a waterline and mirror them in dark, rippling water below it; beats send ripples across. [Learn more &rarr;](/reference/visualizer/#reflection)"
@@ -627,7 +627,7 @@
     "description": "Outline border thickness in pixels (0.0 disables; up to 5.0)."
   },
   "visualizer.lines.placement": {
-    "description": "Where the Lines visualizer is drawn. Options: `over_cover` (over the now-playing cover art on the Queue view, while playing), `bottom_band` (a band across the bottom of the window, above the player bar, on every view)."
+    "description": "Where the Lines visualizer is drawn. Options: `over_cover` (over the now-playing cover art on the Queue view, while playing), `bottom_band` (a band above the player bar on every view, as wide as the bar: beside the artwork column, over the list only)."
   },
   "visualizer.lines.point_count": {
     "description": "Number of points used to draw the line (8 to 512)."
