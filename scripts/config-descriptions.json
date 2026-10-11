@@ -218,6 +218,9 @@
   "lyrics_fetch_online": {
     "description": "Fetch missing lyrics from lrclib.net and cache them into the local store for next time. Off resolves lyrics only from your own files, your server, and downloads already cached on disk — no third-party requests. See [Where lyrics come from](/guides/lyrics/#where-lyrics-come-from)."
   },
+  "lyrics_word_highlight": {
+    "description": "How the active line lights up when the lyrics carry word timing (TTML or enhanced LRC). Options: `sweep` (the accent floods each word left to right as it is sung, karaoke-style), `word` (each word lights up whole as its moment comes), `off` (the whole line in accent). Line-synced and plain lyrics look the same whichever you pick."
+  },
   "mini_player_show_modes": {
     "description": "Show the playback-mode toggles (repeat, shuffle, consume, EQ, sound effects, crossfade, bit-perfect, visualizer, lyrics) and their kebab (⋮) overflow in the mini-player bar. Only applies when `track_info_display = \"mini_player\"`."
   },

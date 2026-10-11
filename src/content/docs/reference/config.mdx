@@ -272,6 +272,7 @@ Theater Mode (`F11`) is covered in the [Theater Mode guide](/guides/theater-mode
 | `lyrics_enabled` | `false` | Show lyrics over the Queue cover art. Synced lyrics follow the track line by line; plain lyrics drift with playback and scroll with the mouse wheel. Also toggled from the player bar or with the `L` hotkey. Off leaves the cover (and any over-cover visualizer) untouched. See the [Lyrics guide](/guides/lyrics/). |
 | `lyrics_fetch_online` | `true` | Fetch missing lyrics from lrclib.net and cache them into the local store for next time. Off resolves lyrics only from your own files, your server, and downloads already cached on disk — no third-party requests. See [Where lyrics come from](/guides/lyrics/#where-lyrics-come-from). |
 | `lyrics_backdrop_blur` | `"off"` | Frost the cover art while lyrics display. Options: `off` (the cover stays sharp under the lyrics), `light` (a gentle soften — detail stays readable), `medium` (a true frosted-glass read — shapes survive, detail goes), `heavy` (melts the cover to a color wash). Blurred once per track and cached, never per frame. |
+| `lyrics_word_highlight` | `"sweep"` | How the active line lights up when the lyrics carry word timing (TTML or enhanced LRC). Options: `sweep` (the accent floods each word left to right as it is sung, karaoke-style), `word` (each word lights up whole as its moment comes), `off` (the whole line in accent). Line-synced and plain lyrics look the same whichever you pick. |
 {/* config-table:end */}
 
 <Aside type="note" title="Crossfade and normalization">
