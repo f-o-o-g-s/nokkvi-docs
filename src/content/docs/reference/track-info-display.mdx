@@ -5,9 +5,14 @@ description: Where Nokkvi shows the now-playing metadata strip, and how the mini
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-The now-playing **metadata strip** — title, artist, album, and the track's format — can sit in a few different places, set by [`track_info_display`](/reference/config/#interface-settings). Default is `mini_player`; the others drop it as a strip in the bottom player bar, tuck it into the chrome, or hide it to give the list and artwork the whole window.
+The now-playing **metadata strip** — title, artist, album, and the track's format — can sit in a few different places, set by [`track_info_display`](/reference/config/#interface-settings). Default is `player_bar_above`, a strip on top of the bottom player bar's controls; the others move the strip under the controls or into the top chrome, fold it into a mini player with the cover, or hide it to give the list and artwork the whole window.
 
 <Tabs syncKey="track-info-display">
+  <TabItem label="Player Bar Above">
+    The metadata sits as a strip in the bottom player bar, on top of the transport row, between the list and the controls. Beside the artwork column it's as wide as the player bar: the list's width.
+
+    ![Metadata strip above the transport row in the bottom player bar](../../../assets/track-info-player-bar-above.webp)
+  </TabItem>
   <TabItem label="Mini Player">
     Artwork, metadata, and transport merge into one bar topped by a full-width progress scrub that shows elapsed and total time alongside the track's format and bitrate. On a wide window it spreads into three sections — metadata on the left, transport centered, modes and volume on the right. As the window narrows it folds into a single compact cluster with the mode toggles tucked behind a kebab (⋮) menu.
 
@@ -16,16 +21,13 @@ The now-playing **metadata strip** — title, artist, album, and the track's for
     ![Mini player on a narrow window: a single compact cluster with the mode toggles folded into the kebab menu](../../../assets/track-info-mini-player-compact.webp)
 
     Hide the volume slider or the mode toggles independently with [`mini_player_show_volume`](/reference/config/#interface-settings) and [`mini_player_show_modes`](/reference/config/#interface-settings).
+
+    The mini player suits a layout without the [artwork panel](/guides/artwork/#the-artwork-panel) (`artwork_column_mode = "never"`): its thumbnail keeps the playing album's cover in sight on every view.
   </TabItem>
   <TabItem label="Player Bar">
     The metadata sits as a strip in the bottom player bar, just below the transport row.
 
     ![Metadata strip below the transport row in the bottom player bar](../../../assets/track-info-player-bar.webp)
-  </TabItem>
-  <TabItem label="Player Bar Above">
-    The same strip sits in the bottom player bar on top of the transport row, between the list and the controls. Beside the artwork column it's as wide as the player bar: the list's width.
-
-    ![Metadata strip above the transport row in the bottom player bar](../../../assets/track-info-player-bar-above.webp)
   </TabItem>
   <TabItem label="Top Bar">
     The metadata rides inline in the top navigation row, to the right of the view tabs. In side-nav or no-nav layouts it sits as its own row above the slot list instead.
