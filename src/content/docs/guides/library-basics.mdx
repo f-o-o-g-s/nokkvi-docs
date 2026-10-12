@@ -5,6 +5,8 @@ sidebar:
   order: 1
 ---
 
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
 The Albums, Artists, Songs, Genres, Playlists, and Radio views share a common interaction model. This page documents the conventions once so the per-view guides only have to cover what's unique to each.
 
 For an exhaustive list of every shortcut and how to rebind it, see [Keyboard Shortcuts](/reference/hotkeys/).
@@ -43,7 +45,49 @@ Navigation steps the focused item up or down by one (`Backspace` / `Tab`, or the
 
 ![The player bar at the bottom of every view — the metadata strip along its top, then transport on the left, the progress bar in the middle, mode toggles and volume on the right](../../../assets/player-bar.webp)
 
-The strip at the bottom of every view is fixed-height and shared across all views. In the default layout a metadata strip runs along its top — the track's format, title, artist, album, and bitrate — over the controls: a three-button transport — previous / play-pause / next — on the left, the progress bar with elapsed and total time in the middle, and mode toggles (repeat, shuffle, consume, equalizer, sound effects, crossfade, bit-perfect, visualizer, lyrics) plus volume sliders on the right. As the window narrows, the toggles fold one by one into a kebab (⋮) menu. [Track Info Display](/reference/track-info-display/) covers the other layouts, including the mini player, which puts the now-playing cover beside the metadata. Stop isn't a transport button; it's on the media keys and `nokkvi stop`. See [Keyboard Shortcuts](/reference/hotkeys/) for the transport key bindings, [Audio](/guides/audio/) for what the mode toggles do, and [Lyrics](/guides/lyrics/) for the lyrics overlay.
+The strip at the bottom of every view is fixed-height and shared across all views. In the default layout a metadata strip runs along its top — the track's format, title, artist, album, and bitrate — over the controls: a three-button transport — previous / play-pause / next — on the left, the seek bar with elapsed and total time in the middle (in one of [five styles](#seek-bar-styles)), and mode toggles (repeat, shuffle, consume, equalizer, sound effects, crossfade, bit-perfect, visualizer, lyrics) plus volume sliders on the right. As the window narrows, the toggles fold one by one into a kebab (⋮) menu. [Track Info Display](/reference/track-info-display/) covers the other layouts, including the mini player, which puts the now-playing cover beside the metadata. Stop isn't a transport button; it's on the media keys and `nokkvi stop`. See [Keyboard Shortcuts](/reference/hotkeys/) for the transport key bindings, [Audio](/guides/audio/) for what the mode toggles do, and [Lyrics](/guides/lyrics/) for the lyrics overlay.
+
+### Seek bar styles
+
+The seek bar comes in five looks, picked under **Settings → Interface → Player Bar → Seekbar Style** ([`seekbar_style`](/reference/config/#interface-settings)). Classic is the default.
+
+<Tabs syncKey="seekbar-style">
+  <TabItem label="Classic">
+    A track with a drag handle. Grab the handle to scrub, or click anywhere on the track to jump there.
+
+    ![Classic seek bar: a track with a round handle at the playhead](../../../assets/seekbar-classic.webp)
+  </TabItem>
+  <TabItem label="Line">
+    A thin track that thickens and shows its handle while the cursor is over it.
+
+    ![Line seek bar: a thin track with no handle at rest](../../../assets/seekbar-line.webp)
+  </TabItem>
+  <TabItem label="Capsule">
+    A solid block with the elapsed and total time inside. The text changes color where the fill passes under it.
+
+    ![Capsule seek bar: a filled block with the elapsed and total time inside it](../../../assets/seekbar-capsule.webp)
+  </TabItem>
+  <TabItem label="Cells">
+    A row of up to 64 blocks, like a level meter. The block at the playhead is lifted brighter than the rest of the played ones.
+
+    ![Cells seek bar: a row of blocks, the played ones filled](../../../assets/seekbar-cells.webp)
+  </TabItem>
+  <TabItem label="Waveform">
+    The playing song's shape, with the played part filled. See [How the waveform is made](#how-the-waveform-is-made).
+
+    ![Waveform seek bar: the song's loudness drawn as bars, the played part filled](../../../assets/seekbar-waveform.webp)
+  </TabItem>
+</Tabs>
+
+Every style except Classic seeks from anywhere on the track (press and drag to scrub) and shows the time under the cursor before you click. Capsule also draws a marker there, and Cells and Waveform light up the stretch between the playhead and the cursor. Radio, and songs the server transcodes on the fly, can't seek, so there the bar only shows progress.
+
+The mini player keeps its own style ([`mini_player_seekbar_style`](/reference/config/#interface-settings), default Capsule), so changing one doesn't change the other. The Seekbar Style row in Settings edits whichever bar is on screen. See [Track Info Display](/reference/track-info-display/) for the mini player.
+
+#### How the waveform is made
+
+Navidrome doesn't serve waveform data, so nokkvi works each song's shape out itself. A few seconds after a song starts, it reads the song's stream once more in the background (the same stream playback uses, so the shape matches what you hear) and saves the result, about 2 KB per song, under `~/.cache/nokkvi/waveforms/`. The next song in the queue is read ahead, so its shape is usually there the moment it starts, and a song you've played before shows its shape right away. Until a shape is ready, and always for radio, the bar draws the Line style.
+
+On a connection that can't read a song at least four times faster than it plays, nokkvi stops making new shapes for the rest of the session, so playback keeps the bandwidth. Songs it already has still show theirs.
 
 ## Search
 

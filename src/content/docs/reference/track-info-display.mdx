@@ -20,9 +20,13 @@ The now-playing **metadata strip** — title, artist, album, and the track's for
 
     ![Mini player on a narrow window: a single compact cluster with the mode toggles folded into the kebab menu](../../../assets/track-info-mini-player-compact.webp)
 
-    Hide the volume slider or the mode toggles independently with [`mini_player_show_volume`](/reference/config/#interface-settings) and [`mini_player_show_modes`](/reference/config/#interface-settings).
+    The scrub has its own [seek bar style](/guides/library-basics/#seek-bar-styles) ([`mini_player_seekbar_style`](/reference/config/#interface-settings)), separate from the main player bar's. The default, Capsule, puts the times, format and bitrate inside the bar; every other style puts them beside the track.
 
-    The mini player suits a layout without the [artwork panel](/guides/artwork/#the-artwork-panel) (`artwork_column_mode = "never"`): its thumbnail keeps the playing album's cover in sight on every view.
+    Hide the cover, the volume slider or the mode toggles independently under **Settings → Interface → Player Bar → Visible Controls** (shown while the mini player is the active layout), or with [`mini_player_show_artwork`](/reference/config/#interface-settings), [`mini_player_show_volume`](/reference/config/#interface-settings) and [`mini_player_show_modes`](/reference/config/#interface-settings).
+
+    The mini player suits a layout without the [artwork panel](/guides/artwork/#the-artwork-panel) (`artwork_column_mode = "never"`): its thumbnail keeps the playing album's cover in sight on every view. With the artwork panel and the list thumbnails already showing the cover, turn the thumbnail off: the title, artist and album then start at the left edge, lined up with the elapsed time above them.
+
+    ![Mini player with the cover hidden: title, artist and album at the left edge, under the elapsed time](../../../assets/track-info-mini-player-no-artwork.webp)
   </TabItem>
   <TabItem label="Player Bar">
     The metadata sits as a strip in the bottom player bar, just below the transport row.
