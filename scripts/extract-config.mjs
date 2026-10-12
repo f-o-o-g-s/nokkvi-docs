@@ -315,7 +315,12 @@ function resolveDefault(expr, enums, nested, fns = {}, consts = {}, tomlKeys = {
   // `crate::types::player_settings::ARTWORK_COLUMN_WIDTH_PCT_DEFAULT`.
   const constMatch = e.match(/^(?:\w+::)*([A-Z][A-Z0-9_]*)$/);
   if (constMatch && consts[constMatch[1]]) {
-    return resolveDefault(consts[constMatch[1]], enums, nested, fns, consts, tomlKeys);
+    let value = consts[constMatch[1]].trim();
+    // An associated const (`Enum::CONST` defined as `Self::Variant`) names its
+    // enum as `Self`; put the owning enum back so the variant resolves.
+    const owner = e.match(/(\w+)::[A-Z][A-Z0-9_]*$/);
+    if (owner && value.startsWith('Self::')) value = `${owner[1]}::${value.slice(6)}`;
+    return resolveDefault(value, enums, nested, fns, consts, tomlKeys);
   }
 
   let m;

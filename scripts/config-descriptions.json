@@ -221,6 +221,12 @@
   "lyrics_word_highlight": {
     "description": "How the active line lights up when the lyrics carry word timing (TTML or enhanced LRC). Options: `sweep` (the accent floods each word left to right as it is sung, karaoke-style), `word` (each word lights up whole as its moment comes), `off` (the whole line in accent). Line-synced and plain lyrics look the same whichever you pick."
   },
+  "mini_player_seekbar_style": {
+    "description": "How the mini player's seek bar is drawn, kept separate from `seekbar_style`. Same options; the default `capsule` puts the times, format and bitrate inside the bar, and every other style puts them beside it. Only applies when `track_info_display = \"mini_player\"`."
+  },
+  "mini_player_show_artwork": {
+    "description": "Show the album cover at the left of the mini-player bar. Off starts the title, artist and album at the left edge, lined up with the elapsed time above them. Only applies when `track_info_display = \"mini_player\"`."
+  },
   "mini_player_show_modes": {
     "description": "Show the playback-mode toggles (repeat, shuffle, consume, EQ, sound effects, crossfade, bit-perfect, visualizer, lyrics) and their kebab (⋮) overflow in the mini-player bar. Only applies when `track_info_display = \"mini_player\"`."
   },
@@ -370,6 +376,9 @@
   },
   "seek_step_secs": {
     "description": "Seconds the Seek Backward / Seek Forward keys jump (1 to 60). 1s is a fine nudge; 60s leaps through a long mix."
+  },
+  "seekbar_style": {
+    "description": "How the player bar draws its seek bar, in every metadata strip mode except `mini_player`. Options: `classic` (a track with a drag handle), `line` (a thin track that thickens and shows its handle under the cursor), `capsule` (a solid block with the times inside), `cells` (a row of blocks), `waveform` (the song's shape, worked out once per song in the background and saved; draws `line` until it is ready, and always for radio). Every style but `classic` shows the time under the cursor. See [Seek bar styles](/guides/library-basics/#seek-bar-styles)."
   },
   "server_url": {
     "description": "The full URL of your Navidrome server (e.g., `https://music.example.com`)."
