@@ -210,7 +210,7 @@
     "description": "Whether to fire a desktop notification when a track is loved/unloved via the love hotkey or the `nokkvi love` IPC verb (default false)."
   },
   "lyrics_alignment": {
-    "description": "Where lyric lines sit on the Queue cover and in Theater Mode. Options: `left` (every line starts at the left edge), `center` (each line centered), `right` (every line ends at the right edge). A line that wraps keeps the same edge on each row, and the \"No lyrics for this track\" note follows it too."
+    "description": "Where lyric lines sit on the Queue cover and in Theater Mode. Options: `left` (every line starts at the left edge), `center` (each line centered), `right` (every line ends at the right edge). Each row of a wrapped line follows the setting, and so does the \"No lyrics for this track\" note."
   },
   "lyrics_backdrop_blur": {
     "description": "Frost the cover art while lyrics display. Options: `off` (the cover stays sharp under the lyrics), `light` (a gentle soften — detail stays readable), `medium` (a true frosted-glass read — shapes survive, detail goes), `heavy` (melts the cover to a color wash). Blurred once per track and cached, never per frame."
