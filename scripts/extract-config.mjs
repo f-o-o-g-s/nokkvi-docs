@@ -49,6 +49,13 @@ const SECTION_MAP = {
 // VisualizerScope → visualizer-scope, VisualizerMilkdrop → visualizer-milkdrop,
 // AudioEngine → audio-engine.
 
+// Keys whose Rust type has hand-written serde the struct parser can't see:
+// the TOML values the app actually reads and writes.
+const WIRE_OVERRIDES = {
+  // LyricsMode keeps the bool it replaced: false (Off), true (On), "auto".
+  lyrics_enabled: { default: false, values: [false, true, 'auto'] },
+};
+
 // Per-key section overrides where the docs group differently than the source.
 const SECTION_OVERRIDES = {
   sound_effects_enabled: 'AudioEngine',
@@ -451,6 +458,7 @@ function buildSetting(field, defaultExpr, opts = {}) {
   // Strip Option<T> wrapper for type display only.
   const innerType = field.rustType.replace(/^Option<(.+)>$/, '$1');
   const enumName = enums[innerType] ? innerType : null;
+  const wire = WIRE_OVERRIDES[field.tomlKey ?? field.name];
 
   return {
     key: keyPrefix + (field.tomlKey ?? field.name),
@@ -460,8 +468,8 @@ function buildSetting(field, defaultExpr, opts = {}) {
       ?? field.section
       ?? 'Unknown',
     rustType: field.rustType,
-    default: resolved,
-    enumVariants: enumName ? enums[enumName].variants.map(v => v.toml) : null,
+    default: wire ? wire.default : resolved,
+    enumVariants: wire ? wire.values : enumName ? enums[enumName].variants.map(v => v.toml) : null,
     doc: field.doc,
     sourceFile: opts.sourceFile,
   };

@@ -213,7 +213,7 @@
     "description": "Frost the cover art while lyrics display. Options: `off` (the cover stays sharp under the lyrics), `light` (a gentle soften — detail stays readable), `medium` (a true frosted-glass read — shapes survive, detail goes), `heavy` (melts the cover to a color wash). Blurred once per track and cached, never per frame."
   },
   "lyrics_enabled": {
-    "description": "Show lyrics over the Queue cover art. Synced lyrics follow the track line by line; plain lyrics drift with playback and scroll with the mouse wheel. Also toggled from the player bar or with the `L` hotkey. Off leaves the cover (and any over-cover visualizer) untouched. See the [Lyrics guide](/guides/lyrics/)."
+    "description": "Lyrics over the Queue cover art and in Theater Mode. `false` (Off): no lyrics, nothing looked up. `true` (On): lyrics for every song, or a \"No lyrics for this track\" note; synced lyrics follow the track line by line, plain lyrics drift with playback and scroll with the mouse wheel. `\"auto\"`: lyrics only for songs that have them; every song played while the Queue or Theater Mode is open is looked up, and the `L` hotkey or the player-bar button hides or shows them for the playing song only. See the [Lyrics guide](/guides/lyrics/)."
   },
   "lyrics_fetch_online": {
     "description": "Fetch missing lyrics from lrclib.net and cache them into the local store for next time. Off resolves lyrics only from your own files, your server, and downloads already cached on disk — no third-party requests. See [Where lyrics come from](/guides/lyrics/#where-lyrics-come-from)."
