@@ -99,3 +99,15 @@ If sharp art behind the words is still too busy, **Lyrics: Cover Blur** (Setting
 | `heavy` | Melts the cover to a color wash |
 
 The blur is computed once per track on a downscaled copy and cached — it's a one-shot job, not a per-frame effect, so it costs nothing while playing.
+
+## Alignment
+
+**Lyrics: Alignment** (Settings → Playback) sets where the lines sit across the cover, on the Queue and in Theater Mode alike. Set [`lyrics_alignment`](/reference/config/#playback-settings):
+
+| Value | Lines |
+| :---- | :---- |
+| `left` *(default)* | Every line starts at the left edge |
+| `center` | Each line is centered |
+| `right` | Every line ends at the right edge |
+
+A line too long for one row wraps and keeps the same edge on its second row. The "No lyrics for this track" note and the word-by-word highlight follow the alignment too.
