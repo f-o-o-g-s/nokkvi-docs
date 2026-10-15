@@ -13,7 +13,7 @@ When an album comes into view, Nokkvi fetches the image directly from your Navid
 
 Thumbnails in list views are populated around the visible viewport — items well outside the visible area aren't pre-loaded.
 
-The large panel's full-size cover waits while you scroll. A single step loads it right away, but when you hold a key or spin the wheel, Nokkvi fetches it only for the row you stop on, about 150 ms after you stop, and shows that row's thumbnail meanwhile. On a slow server this keeps the full-size covers of the rows you passed from holding up the thumbnails of the rows you stopped on.
+The large panel downloads one full-size cover at a time. When you scroll faster than covers arrive, Nokkvi skips the rows you pass and fetches the newest one as soon as the cover before it lands, showing that row's thumbnail meanwhile. On a fast server every cover still arrives as you reach it; on a slow one this keeps the full-size covers of the rows you passed from holding up the thumbnails of the rows you stopped on.
 
 ### On Navidrome 0.64+
 
