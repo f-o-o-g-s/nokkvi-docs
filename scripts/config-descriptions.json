@@ -191,6 +191,9 @@
   "genres_sort": {
     "description": "Sort mode for the Genres view."
   },
+  "harbour_expandable_shelves": {
+    "description": "Harbour shelves open to browse their picks instead of playing in one press. See [Harbour](/guides/harbour/)."
+  },
   "horizontal_volume": {
     "description": "Stack volume sliders horizontally instead of vertically in the player bar."
   },
