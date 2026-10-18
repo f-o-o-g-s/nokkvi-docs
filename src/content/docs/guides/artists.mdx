@@ -3,7 +3,7 @@ title: Artists
 description: Browse artists, drill into their discography, and pull recommendations.
 ---
 
-The Artists view shows every artist in your library. Each row shows artwork (or a fallback album cover), name, and stats. The right side shows a large artwork panel with the artist's biography pulled from Last.fm via Navidrome — when present, a "Read more on Last.fm" button opens the artist's Last.fm page in your browser.
+The Artists view shows every artist in your library. Each row shows artwork (or a fallback album cover), name, and stats. The right side shows a large artwork panel with the artist's biography from Navidrome's artist info (usually Last.fm). When the bio comes with a link, a "Read more on ..." line names the site and opens it in your browser. Under the bio sit the artist's [similar artists](#similar-artists), from ListenBrainz.
 
 For navigation, search, multi-select, ratings, and shared right-click actions, see [Library Basics](/guides/library-basics/). For artwork panel sizing, see [Artwork & Performance](/guides/artwork/#the-artwork-panel).
 
@@ -31,6 +31,34 @@ Right-clicking an artist row adds two extras beyond the shared menu:
 - **Top Songs** — the artist's most-played tracks.
 
 Both switch to the Queue view's Similar tab and match against songs already in your library — see [Similar Songs and Top Songs](/guides/queue/#similar-songs-and-top-songs). They act on the artist row only; expanded album rows underneath use the standard menu.
+
+For artists rather than songs, and artists you don't have yet, see [Similar artists](#similar-artists) below.
+
+## Similar artists
+
+Under the biography, the artwork panel lists up to ten artists like the one you're on, straight from [ListenBrainz](https://listenbrainz.org/). Unlike Find Similar, this list isn't limited to your library, so it doubles as a way to find new music.
+
+![The Artists view with Chihei Hatakeyama highlighted on the left; on the right, the artist photo, bio, and a SIMILAR ARTISTS row of tags under it, most filled in the accent color and one outlined with a globe](../../../assets/similar-artists-panel.webp)
+
+- **Filled tags** are artists in your library. Click one to jump to them in the Artists view.
+- **Outlined tags** with a globe are artists you don't have. Click one to open their ListenBrainz page in your browser.
+- An artist you only have as a guest on other people's albums opens in the Songs view, filtered to their songs, since there's no Artists row for them.
+
+Hover a tag to see whether you have that artist, plus MusicBrainz's short note about them when there is one (handy when two artists share a name).
+
+The list needs the artist's MusicBrainz ID, which comes from your files' tags or from Navidrome's artist info. An artist without one gets no list.
+
+### The Similar Artists popup
+
+You don't have to be in the Artists view. Right-click any album, song or artist row (in the library views, the Queue, or the Library Browser's Similar tab) and pick **Similar Artists**. An album or song row uses its artist. Or press `Shift + R` on the highlighted row, and `Shift + R` again to close it.
+
+![The Similar Artists popup over the Queue: a search box, then one row per artist with "In your library" or "Not in your library" under the name and a globe button on the right](../../../assets/similar-artists-popup.webp)
+
+Type to filter the list. `Enter` or a click on an artist you have jumps to them and closes the popup. Each row's globe button opens the artist's ListenBrainz page, whether you have them or not.
+
+### Privacy
+
+Looking up similar artists sends the artist's MusicBrainz ID to ListenBrainz. It needs no ListenBrainz account or token. To send nothing, turn off **Settings → General → Similar Artists: ListenBrainz** (`similar_artists_online` in [config.toml](/reference/config/#general-settings)). With it off the panel shows no list and the popup says it's turned off.
 
 ## Click-through expansion
 

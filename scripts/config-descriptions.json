@@ -395,6 +395,9 @@
   "show_tray_icon": {
     "description": "Register a StatusNotifierItem tray icon on the session bus. When off, no tray icon is shown."
   },
+  "similar_artists_online": {
+    "description": "List similar artists from ListenBrainz under the centered artist's biography in Artists, and in the Similar Artists popup. Sends the artist's MusicBrainz ID to ListenBrainz; `false` shows no list and sends nothing. See [Similar artists](/guides/artists/#similar-artists)."
+  },
   "similar_show_album": {
     "description": "Show the album column in the similar songs view."
   },
