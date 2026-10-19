@@ -17,5 +17,10 @@
     "astro": "^7.3.3",
     "sharp": "^0.35.4",
     "starlight-links-validator": "^0.26.0"
+  },
+  "overrides": {
+    "@expressive-code/core": {
+      "postcss-nested": "^7.0.2"
+    }
   }
 }
