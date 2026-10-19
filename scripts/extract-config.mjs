@@ -37,17 +37,9 @@ const SECTION_MAP = {
   'Playlists view column toggles': 'General',
 };
 
-// Maps canonical section names → sentinel ids used in config.mdx
-// ({/* config-table:start id="..." */}). Kept here for reference and to keep
-// the /sync-config-docs command in sync; the schema itself just stores the
+// Sentinel ids ({/* config-table:start id="..." */}) live in config.mdx, and
+// /sync-config-docs reads them from there; the schema itself just stores the
 // canonical section name.
-//
-// General → general, Interface → interface, Behavior → behavior,
-// MetadataStrip → metadata-strip, Playback → playback, Scrobbling → scrobbling,
-// Playlists → playlists, Views → views, VisualizerGeneral → visualizer-general,
-// VisualizerBars → visualizer-bars, VisualizerLines → visualizer-lines,
-// VisualizerScope → visualizer-scope, VisualizerMilkdrop → visualizer-milkdrop,
-// AudioEngine → audio-engine.
 
 // Keys whose Rust type has hand-written serde the struct parser can't see:
 // the TOML values the app actually reads and writes.

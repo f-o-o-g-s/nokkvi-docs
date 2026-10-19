@@ -24,9 +24,9 @@ Sync the config reference page (`src/content/docs/reference/config.mdx`) against
      - If the schema entry has a `doc` from the Rust `///` comment, use that as the seed description.
      - If no doc comment exists, ask the user for the description before adding the row. Suggest one based on the field name + type, but let the user override.
      - Save accepted descriptions to `scripts/config-descriptions.json` (alphabetically sorted) so the override file remains authoritative.
-     - Insert the new row inside the matching `{/* config-table:start id="..." */}` ... `{/* config-table:end */}` block. Use the `section` field on the schema entry to pick the correct sentinel id (mapping: `General` → `general`, `Interface` → `interface`, `MetadataStrip` → `metadata-strip`, `Behavior` → `behavior`, `Playback` → `playback`, `Scrobbling` → `scrobbling`, `Playlists` → `playlists`, `Views` → `views`, `VisualizerGeneral` → `visualizer-general`, `VisualizerBars` → `visualizer-bars`, `VisualizerLines` → `visualizer-lines`, `AudioEngine` → `audio-engine`).
+     - Insert the new row inside the matching `{/* config-table:start id="..." */}` ... `{/* config-table:end */}` block. Pick the sentinel id from the schema entry's `section` field: list the ids with `grep -n 'config-table:start' src/content/docs/reference/config.mdx` and take the one named for that section (e.g. `VisualizerScope` → `visualizer-scope`, `System tray` → `system-tray`, `Artwork column layout` → `artwork-column`). If no id clearly matches, ask the user which table the row belongs in.
 
-   - **`removed`** — settings in docs but missing from code. **Always ask before deleting** — these may indicate an upstream rename rather than a real removal. Show the user the surrounding context (`config.mdx:line`) and the closest-named code key (Levenshtein on schema keys) as a possible rename candidate. Only delete the row on explicit confirmation. If it's a rename, edit the row to use the new key + remove any stale entry from `config-descriptions.json`.
+   - **`removed`** — settings in docs but missing from code. **Always ask before deleting** — these may indicate an upstream rename rather than a real removal. Show the user the surrounding context (`config.mdx:line`) and the closest-named code key in the schema as a possible rename candidate. Only delete the row on explicit confirmation. If it's a rename, edit the row to use the new key + remove any stale entry from `config-descriptions.json`.
 
    - **`missingDescription`** — schema keys with no override entry in `config-descriptions.json`. These are usually a side-effect of `added` handling above; if any remain, prompt the user to author one and write it back to the JSON.
 
@@ -45,5 +45,5 @@ If `$ARGUMENTS` contains a path, treat it as `NOKKVI_PATH` and prepend `NOKKVI_P
 ## Important
 
 - Never bypass the description override layer. The descriptions in `config-descriptions.json` are hand-tuned and richer than the Rust doc comments. When auto-generating new rows, the override file is the source of truth for prose; the Rust doc comment is only a seed.
-- The sentinel comments are load-bearing. If a `{/* config-table:start id="..." */}` or `{/* config-table:end */}` is missing, run `node scripts/add-sentinels.mjs` (idempotent) to restore them before editing.
+- The sentinel comments are load-bearing. If a `{/* config-table:start id="..." */}` or `{/* config-table:end */}` is missing, restore it before editing: `node scripts/add-sentinels.mjs` (idempotent) restores the ids in its `SECTIONS` list; add any other id back by hand, matching the surrounding sentinels.
 - Do not modify `nokkvi/` itself. This command is one-way: code → docs.

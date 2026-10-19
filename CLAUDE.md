@@ -9,7 +9,7 @@ This is the documentation site for **Nokkvi**, a music player application. It's 
 ## Development Commands
 
 ```bash
-# Start local dev server (pulls latest nokkvi repo, then runs on http://localhost:4321)
+# Start local dev server on http://localhost:4321 (scripts/pull runs first and leaves an existing nokkvi/ checkout as is)
 npm run dev
 
 # Build production site to ./dist/
@@ -21,6 +21,8 @@ npm run preview
 # Run Astro CLI directly for advanced operations
 npm run astro -- <command>
 ```
+
+Local dev normally runs in Docker: `docker compose up` serves the dev server with `../nokkvi` mounted, and `docker compose run --rm docs npm run build` builds inside the container.
 
 ## Architecture
 
@@ -35,13 +37,13 @@ npm run astro -- <command>
 
 ### Custom Components & Styling
 
-- **Custom components**: `src/components/Hero.astro` and `src/components/SiteTitle.astro` are registered in `astro.config.mjs` to replace Starlight defaults
+- **Custom components**: `src/components/Header.astro`, `SiteTitle.astro` and `Hero.astro` are registered under `components` in `astro.config.mjs` to replace Starlight defaults
 - **Theming**: `src/styles/custom.css` defines the Svalbard color scheme (light and dark variants) and custom fonts — all values override Starlight's CSS variables
 - **Font stack**: Uses monospace (JetBrains Mono preferred) throughout, configured globally in custom.css
 
 ### External Data
 
-The `scripts/pull` script (run before dev/build) ensures the main [nokkvi repository](https://github.com/f-o-o-g-s/nokkvi) is available locally in the `nokkvi/` directory. In Docker it's mounted; in CI it clones from GitHub. This allows documentation to reference or pull data from the main project if needed.
+The `scripts/pull` script (run before dev/build) ensures the main [nokkvi repository](https://github.com/f-o-o-g-s/nokkvi) is available locally in the `nokkvi/` directory. In Docker it's mounted; in CI it clones from GitHub. The build needs it: `src/pages/changelog.astro` and `src/pages/changelog-archive-[slug].astro` render `nokkvi/CHANGELOG.md` and `nokkvi/changelog-archive/` as the changelog pages, and `scripts/extract-config.mjs` reads nokkvi's config structs for `/sync-config-docs`.
 
 ## Content Workflow
 

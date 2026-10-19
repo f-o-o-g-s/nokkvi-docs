@@ -3,12 +3,12 @@ description: Commit only the files you authored this session
 argument-hint: [optional hint about commit message focus]
 ---
 
-Commit only the files you (Claude) directly Edited or Wrote in this conversation. Leave everything else alone — pre-existing modifications, files the user changed, files from other agents, untracked files you didn't create.
+Commit only the files you (Claude) changed yourself in this conversation, whether with Edit, Write, or a shell command (sed, a heredoc, a script that rewrites a file). Leave everything else alone — pre-existing modifications, files the user changed, files from other agents, untracked files you didn't create.
 
 ## Steps
 
 1. Run `git status` and `git diff` in parallel to see all working-tree changes.
-2. Build a list of files you touched in this session by scanning your own prior `Edit` and `Write` tool calls. That exact set is what you stage. New files created via `Write` belong on the list; files modified by anyone else stay off it.
+2. Build a list of files you touched in this session by scanning your own prior `Edit` and `Write` calls and the Bash commands you ran that wrote to files. That exact set is what you stage. New files you created belong on the list; files modified by anyone else stay off it.
 3. Stage that list explicitly with `git add <file1> <file2> ...` — always name each file.
 4. If dirty or untracked files exist outside your set, list them in your response under "**Not staged (not authored this session):**" so the user knows they were skipped on purpose.
 5. If your set is empty, say so and stop — leave the working tree alone.

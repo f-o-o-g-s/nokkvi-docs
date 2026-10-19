@@ -4,8 +4,11 @@
 # In local development (Docker), we mount the sibling directory.
 # In CI/Production, we clone the repository.
 
-# Fix for dubious ownership in Docker
-git config --global --add safe.directory /app/nokkvi
+# Fix for dubious ownership in Docker (only inside the container, and only
+# once, so host runs don't pile entries into the host's global git config)
+if [ -d /app/nokkvi ] && ! git config --global --get-all safe.directory | grep -qxF /app/nokkvi; then
+    git config --global --add safe.directory /app/nokkvi
+fi
 
 if [ -d "nokkvi/.git" ]; then
     echo "Detected local/mounted nokkvi repository. Skipping network pull."
