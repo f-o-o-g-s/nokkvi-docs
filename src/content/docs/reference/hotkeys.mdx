@@ -55,6 +55,7 @@ The slot list is the scrollable item list in the center of each view.
 | :--- | :--- | :--- |
 | Slot List Up | `Backspace` | Move the centered slot up in the list |
 | Slot List Down | `Tab` | Move the centered slot down in the list |
+| Up / Down | `Up` / `Down` | Also move up and down the list, everywhere but Settings (see [Settings Navigation](#settings-navigation)) |
 | Activate / Enter | `Enter` | Play or open the focused item |
 | Shuffle Play | `Ctrl + Enter` | Shuffle-play the focused item or selection (forced shuffle, ignores the Enter setting) — or, in the [Trawl](/guides/trawl/#keyboard) modal, play the mix (replaces the queue) |
 | Expand / Collapse | `Shift + Enter` | Expand / collapse the focused item inline (albums, artists, playlists, genres) |
@@ -100,11 +101,29 @@ The slot list is the scrollable item list in the center of each view.
 | Escape / Back | `Escape` | Close overlays, clear search, or go back — **not rebindable** |
 | Reset to Default | `Delete` | Reset the focused setting to its default value (Settings view only) — **not rebindable** |
 
+## Media Keys and TV Remotes
+
+A keyboard's media keys and a TV remote with a USB dongle (an air mouse like the G20S) work out of the box. These are fixed, like `Escape`:
+
+| Key | What it does |
+| :--- | :--- |
+| Play/Pause, Media Pause, Media Stop | Play, pause or stop playback, even with a popup open |
+| Next Track / Previous Track | Skip to the next or previous track, even with a popup open |
+| Home Page (a remote's Home) | Go to Harbour |
+| A remote's OK | Same as `Enter` |
+| A remote's Back | Same as `Escape` |
+
+On a remote, the D-pad's `Up` / `Down` move through the list, `Left` / `Right` seek, OK plays the focused item and Back goes back.
+
+Plasma, GNOME and most compositor configs take the media and volume keys for themselves. Nokkvi then gets play/pause, next and previous through [MPRIS](/guides/mpris/) instead, so they still work.
+
+Every other remote or media key can be bound to any action: `Menu`, `Search`, `Favorites`, `Forward`, `Refresh`, `Rewind`, `Fast Forward`, `Volume Up`, `Volume Down` and `Mute`. A button with no key name at all (a remote's voice button, say) binds by its Linux key number and shows as `Key 582`. Press it while a row in **Settings > Hotkeys** is waiting for a key, or look for `Key with no name pressed` in `nokkvi.log`.
+
 In [Theater Mode](/guides/theater-mode/#keys), `Escape` leaves it. Keys that act on the hidden list (Tab, Enter, ratings, queue edits) leave it too without acting, and view keys leave it and then switch.
 
 ## Settings Navigation
 
-`Up` / `Down` edit values only in the Settings view. `Shift + Tab` / `Shift + Backspace` move between settings categories here, and do double duty inside the [Trawl](/guides/trawl/#editing-the-controls-from-the-keyboard) modal, where they step the controls-row focus ring.
+In the Settings view, `Up` / `Down` edit values; everywhere else they move through the list. `Shift + Tab` / `Shift + Backspace` move between settings categories here, and do double duty inside the [Trawl](/guides/trawl/#editing-the-controls-from-the-keyboard) modal, where they step the controls-row focus ring.
 
 | Action | Shortcut | Description |
 | :--- | :--- | :--- |
@@ -148,7 +167,7 @@ Pickers and the calendar:
 
 ## Customizing Shortcuts
 
-All shortcuts except `Escape` and `Delete` can be rebound in the **Settings** UI. Nokkvi writes bindings under the `[hotkeys]` section of `config.toml`, and only non-default bindings are written, so you only need to list the ones you want to change.
+All shortcuts except `Escape`, `Delete` and the [media keys](#media-keys-and-tv-remotes) can be rebound in the **Settings** UI. Nokkvi writes bindings under the `[hotkeys]` section of `config.toml`, and only non-default bindings are written, so you only need to list the ones you want to change.
 
 A direct edit to `config.toml` can also override `escape` or `reset_to_default` — the loader accepts those action keys — but the in-app editor refuses to rebind them so you keep a way out of every screen.
 
@@ -173,6 +192,8 @@ A binding is a string in the form `"Modifiers + Key"`. Modifiers are optional; t
 | Modifier | `Shift`, `Ctrl` (or `Control`), `Alt` |
 | Key | Any single character (`a`–`z`, `0`–`9`, `/`, `-`, `=`, `` ` ``, etc.) |
 | Named key | `Space`, `Enter`, `Escape`, `Backspace`, `Tab`, `Up`, `Down`, `Left`, `Right`, `Page Up`, `Page Down`, `Home`, `End`, `Delete`, `Insert`, `F1`–`F12` |
+| Remote and media key | `Menu`, `Home Page`, `Search`, `Favorites`, `Forward`, `Refresh`, `Play/Pause`, `Media Pause`, `Media Stop`, `Next Track`, `Previous Track`, `Rewind`, `Fast Forward`, `Volume Up`, `Volume Down`, `Mute` |
+| Key with no name | `Key 582` (its Linux key number, as `evtest` shows it) |
 
 Multiple modifiers are combined with `+`: `"Ctrl + Shift + S"`.
 
@@ -244,6 +265,8 @@ Each action maps to a `snake_case` key under `[hotkeys]`:
 | Next Settings Category | `settings_category_next` |
 | Previous Settings Category | `settings_category_prev` |
 
+The fixed keys have TOML keys too, which only a direct edit to `config.toml` can move: `escape`, `reset_to_default`, `media_play_pause`, `media_pause`, `media_stop`, `media_next_track`, `media_previous_track` and `go_home`.
+
 ### Example
 
 ```toml
@@ -257,6 +280,9 @@ cycle_visualization = "F2"
 
 # Use Ctrl+Shift+S to save queue as playlist
 save_queue_as_playlist = "Ctrl + Shift + S"
+
+# A TV remote with no play key: play/pause on its Menu button (moves it off Space)
+toggle_play = "Menu"
 ```
 
 <Aside type="tip">
