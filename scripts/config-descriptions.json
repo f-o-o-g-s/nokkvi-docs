@@ -398,8 +398,11 @@
   "show_tray_icon": {
     "description": "Register a StatusNotifierItem tray icon on the session bus. When off, no tray icon is shown."
   },
+  "similar_artists_deezer": {
+    "description": "Add Deezer's related artists to the similar artists list under the centered artist's biography in Artists, and in the Similar Artists popup, blended with ListenBrainz's. Deezer covers more small, new and non-English artists. Sends the artist's name to Deezer, with no account or key; `false` sends nothing there. See [Similar artists](/guides/artists/#similar-artists)."
+  },
   "similar_artists_online": {
-    "description": "List similar artists from ListenBrainz under the centered artist's biography in Artists, and in the Similar Artists popup. Sends the artist's MusicBrainz ID to ListenBrainz; `false` shows no list and sends nothing. See [Similar artists](/guides/artists/#similar-artists)."
+    "description": "List similar artists from ListenBrainz under the centered artist's biography in Artists, and in the Similar Artists popup. Sends the artist's MusicBrainz ID to ListenBrainz; `false` sends nothing there. With this and `similar_artists_deezer` both off, no list shows. See [Similar artists](/guides/artists/#similar-artists)."
   },
   "similar_show_album": {
     "description": "Show the album column in the similar songs view."
