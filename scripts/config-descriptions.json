@@ -509,6 +509,9 @@
   "theater_window_fullscreen": {
     "description": "When `true`, entering Theater Mode also makes the window fullscreen and leaving restores the previous window mode. When `false`, only the layout changes."
   },
+  "track_artwork": {
+    "description": "Which cover songs show in the queue, song lists and on the now-playing panels. Options: `album_cover` (the album's cover), `own_cover` (the art embedded in each song's file, or the album's when a file has none; fetched once per track). See [Track artwork](/guides/artwork/#track-artwork)."
+  },
   "track_info_display": {
     "description": "Placement of the metadata strip. Options: `off`, `player_bar` (24 px strip in the player bar, below the transport row), `player_bar_above` (the same strip in the player bar, above the transport row), `top_bar` (merged into the right side of the nav row in top-nav layout; sits as its own row above the slot list in side-nav / no-nav), `top_bar_under` (its own row directly below the top nav bar; falls back to `top_bar` in side-nav / no-nav layouts), `mini_player` (artwork + title/artist/album column inside the player bar; auto-hides when the artwork/metadata column can no longer fit beside the transport controls — the exact width depends on which mini-player controls are enabled, the nav layout, and `rounded_mode`)."
   },

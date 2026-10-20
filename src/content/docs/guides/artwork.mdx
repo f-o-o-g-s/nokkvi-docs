@@ -82,6 +82,16 @@ In `always_native`, `always_vertical_native`, and `auto` stacked above the list,
 
 `original` returns the file exactly as stored, without the square padding the other options get. In the square panel a non-square cover is therefore cropped to fill the square rather than shown whole.
 
+## Track Artwork
+
+By default every song shows its album's cover. If your files carry their own embedded art (singles collected into one album, compilations, a different picture per track), set **Settings → General → Track Artwork** to **Track's Own Cover**, or [`track_artwork = "own_cover"`](/reference/config/#general-settings) in `config.toml`:
+
+- Songs in the queue, the Songs view, playlists, Similar, Harbour and Trawl show the art embedded in their own file.
+- The now-playing cover, the mini player, Theater Mode, the lyrics backdrop, the album-art accent and the MPRIS cover follow the playing song's own art.
+- A song with no art of its own keeps its album's cover. Album, artist, genre and playlist covers don't change.
+
+Nokkvi asks Navidrome for each song's own cover separately, so an album whose files all embed the same picture downloads it once per track instead of once per album. That's why it's off by default. If Navidrome's `EnableMediaFileCoverArt` option is off, the server answers with the album's cover for every song, so the setting changes nothing.
+
 ## Navidrome Server Settings
 
 Because Nokkvi keeps no disk cache for browsing artwork, your Navidrome server does the heavy lifting of serving and resizing artwork. Nokkvi asks for every cover as a padded square, and with default settings Navidrome encodes square artwork as **lossless PNG**, so what you see is already full quality. The settings below in `navidrome.toml` are all documented in Navidrome's [available options reference](https://www.navidrome.org/docs/usage/configuration/options/#available-options):
