@@ -1,0 +1,7 @@
+# The image installs its own node_modules; the project and ../nokkvi are
+# bind-mounted at runtime (docker-compose.yml).
+node_modules
+dist
+.astro
+nokkvi
+.git
