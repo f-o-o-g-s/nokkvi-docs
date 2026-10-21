@@ -43,6 +43,12 @@ Controls how colors from your theme's palette are mapped onto the bars.
 | :--- | :--- |
 | `static` | **Static Height.** The gradient is pinned to the visualizer; bars reveal higher colors as they rise. |
 | `wave` *(default)* | **Stretched Gradient.** Each bar's gradient is stretched by its amplitude, redistributing the palette as the bar rises and falls. |
+| `drift` | **Drift.** The palette slowly scrolls up through the bars. |
+| `swell` | **Swell.** The gradient slowly breathes in and out: the light colors spread down the bars, then pull back, with a gentle brightness swell in step. |
+| `pulse` | **Pulse.** Like `wave`, plus overall loudness pushes the light colors down every bar and brightens them. |
+| `ripple` | **Ripple.** A slow color wave travels sideways across the bars. |
+
+`drift`, `swell` and `ripple` move on their own, even when the music holds steady, while `pulse` follows the loudness. `drift` and `ripple` run through the palette and back again, so the colors never jump from the last one to the first.
 
 ### Orientation
 Determines the axis along which gradient colors are applied.
@@ -51,7 +57,7 @@ Determines the axis along which gradient colors are applied.
 - **`horizontal`**: Colors map from the low frequencies (left) to high frequencies (right).
 
 <Aside type="note">
-  Orientation applies to both gradient modes (`static` and `wave`).
+  Orientation applies to every gradient mode. With `horizontal`, each mode works from the bar's position across the visualizer instead of the height within the bar.
 </Aside>
 
 ### Peak Behavior

@@ -78,7 +78,7 @@
     "description": "Cover picture or a plain backdrop on the now-playing panels (the Queue cover, the Radios panel, Theater Mode). Options: `show`, `hide_in_theater` (backdrop in Theater Mode only), `hide_everywhere`. The backdrop is black in dark mode and the theme's hard background in light mode; the visualizer and lyrics stay."
   },
   "artwork_resolution": {
-    "description": "Quality for large panel artwork. Options: `default` (1000px), `high` (1500px), `ultra` (2000px), `original`."
+    "description": "Quality for large panel artwork. Options: `default` (1000px), `high` (1500px), `ultra` (2000px), `original`. See note below."
   },
   "artwork_vertical_height_pct": {
     "description": "Artwork height as a fraction of window height (0.10–0.80). Only consulted in `always_vertical_native` and `always_vertical_stretched` modes."
@@ -144,7 +144,7 @@
     "description": "Global bypass for the 10-band equalizer."
   },
   "eq_gains": {
-    "description": "List of 10 gain values in dB (one per band: 32, 64, 125, 250, 500, 1k, 2k, 4k, 8k, 16k Hz). Range −12.0 to +12.0 per band."
+    "description": "List of 10 gain values in dB (one per band: 31, 62, 125, 250, 500, 1k, 2k, 4k, 8k, 16k Hz). Range −12.0 to +12.0 per band."
   },
   "fade_on_pause": {
     "description": "Ramp the volume out when pausing and back in on resume, instead of cutting mid-waveform. Bit-perfect streams always cut instantly."
@@ -246,7 +246,7 @@
     "description": "Placement of view tabs. Options: `top` (horizontal bar), `side` (vertical sidebar), `none` (hidden — only the active view and player bar render)."
   },
   "normalization_level": {
-    "description": "Target loudness. Options: `quiet` (-23 LUFS), `normal` (-14 LUFS), `loud` (-9 LUFS)."
+    "description": "AGC target level (linear amplitude, not LUFS). Options: `quiet` (0.6), `normal` (1.0), `loud` (1.4). Applies only when `volume_normalization_mode = \"agc\"`."
   },
   "opacity_gradient": {
     "description": "Apply a subtle opacity fade to items that are not in the center of the list."
@@ -354,13 +354,13 @@
     "description": "When the reminder fires. Options: `on_scrobble` (when the server confirms the play — requires scrobbling to be active), `percentage_played` (once `rating_reminder_percent` of the track has elapsed)."
   },
   "replay_gain_fallback_db": {
-    "description": "dB applied to tracks with no ReplayGain tags. Range -15 to +15. Ignored when `replay_gain_fallback_to_agc` is `true`."
+    "description": "dB applied to tracks with no ReplayGain tags. Range −15 to +15. Ignored when `replay_gain_fallback_to_agc` is `true`."
   },
   "replay_gain_fallback_to_agc": {
     "description": "Untagged tracks fall through to real-time AGC instead of using `replay_gain_fallback_db`."
   },
   "replay_gain_preamp_db": {
-    "description": "Pre-amp dB applied on top of the resolved ReplayGain value. Range -15 to +15. Typical: `0` (reference), `+6` (modern-loudness target)."
+    "description": "Pre-amp dB applied on top of the resolved ReplayGain value. Range −15 to +15. Typical values: `0` (reference), `+6` (modern-loudness target)."
   },
   "replay_gain_prevent_clipping": {
     "description": "Clamp the resolved gain so `track_peak × gain ≤ 1.0` using the per-track peak tag."
@@ -477,7 +477,7 @@
     "description": "Clicking an item highlights it in place; the list does not auto-scroll on playback changes."
   },
   "start_view": {
-    "description": "The view to show on startup. Options: `Queue`, `Albums`, `Artists`, `Songs`, `Genres`, `Playlists`, `Radios`."
+    "description": "The view to show on startup. Options: `Queue`, `Albums`, `Artists`, `Songs`, `Genres`, `Playlists`, `Harbour`. Any unrecognized value (e.g. `Radios`, `Settings`) falls back to `Queue`."
   },
   "strip_click_action": {
     "description": "Action on click. Options: `go_to_queue`, `go_to_album`, `go_to_artist`, `copy_track_info`, `do_nothing`."
@@ -486,7 +486,7 @@
     "description": "Apply strip patterns to the merged artist/album display string rather than individual fields."
   },
   "strip_separator": {
-    "description": "Character used to join visible fields in the metadata strip. Options: `dot` (·), `bullet` (•), `pipe` (|), `em_dash` (—), `slash` (/), `bar` (│)."
+    "description": "Character used to join visible fields in the metadata strip. Options: `dot` (·), `bullet` (•), `pipe` (\\|), `em_dash` (—), `slash` (/), `bar` (│)."
   },
   "strip_show_album": {
     "description": "Show the album name in the metadata strip."
@@ -525,7 +525,7 @@
     "description": "How `config.toml` is rewritten when you change settings. Options: `off` (sparse — only non-default keys, with `# description` comments above each `[visualizer]` key), `on` (writes every setting, including unchanged defaults — a full template for manual editing), `clean` (sparse like `off`, but no comments). Legacy `true`/`false` values still load (`true` → `on`, `false` → `off`)."
   },
   "visualization_mode": {
-    "description": "Active visualizer mode. Options: `off`, `bars`, `lines`, `scope`. Cycle live with the `V` hotkey — see [Visualizer Reference](/reference/visualizer/)."
+    "description": "Active visualizer mode. Options: `off`, `bars`, `lines`, `scope`, `milkdrop`. Cycle live with the `V` hotkey — see [Visualizer Reference](/reference/visualizer/)."
   },
   "visualizer.auto_sensitivity": {
     "description": "Automatically scale gain to fill the available height."
@@ -534,7 +534,7 @@
     "description": "3D isometric depth in pixels (0.0 disables; up to 20.0)."
   },
   "visualizer.bars.bar_spacing": {
-    "description": "Gap between bars in pixels."
+    "description": "Gap between bars in pixels. Also sets the gap between LED segments when `led_bars` is on."
   },
   "visualizer.bars.bar_width_max": {
     "description": "Maximum bar width in pixels for large windows. Must be ≥ `bar_width_min` (up to 20.0). Equal min/max gives uniform bar widths regardless of window size."
@@ -543,7 +543,7 @@
     "description": "Minimum bar width in pixels for small windows (1.0 to 10.0)."
   },
   "visualizer.bars.border_width": {
-    "description": "Border thickness in pixels. Also controls LED segment gaps when `led_bars` is on (0.0 to 5.0)."
+    "description": "Border thickness in pixels. Outlines each bar and, when `led_bars` is on, each LED segment (0.0 to 5.0)."
   },
   "visualizer.bars.echo": {
     "description": "Milkdrop-style zoom/rotate feedback — the bars spiral and tunnel into themselves, swirling with the bass/beat (0.0 disables; 1.0 = strong persistence). Takes over the display when on."

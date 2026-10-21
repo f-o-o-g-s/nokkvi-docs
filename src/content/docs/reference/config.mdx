@@ -10,7 +10,7 @@ import { Aside } from '@astrojs/starlight/components';
 Nokkvi stores your preferences in `~/.config/nokkvi/config.toml`. While most of these can be toggled in the in-app **Settings** menu (Default: `` ` `` backtick), this guide provides a complete technical reference for each key.
 
 :::tip[Verbose Config]
-By default, Nokkvi only writes settings you have changed to the file. The **Verbose Config** setting controls this: `Off` (default) keeps the file sparse with helpful `# description` comments, `On` writes *every* default value for easier manual editing, and `Clean` stays sparse with no comments at all.
+By default, Nokkvi only writes settings you have changed to the file. The **Verbose Config** setting controls this: `Clean` (default) keeps the file sparse with no comments at all, `Off` stays sparse but adds a `# description` comment above each `[visualizer]` key it writes, and `On` writes *every* default value for easier manual editing.
 :::
 
 :::note[What lives elsewhere]
