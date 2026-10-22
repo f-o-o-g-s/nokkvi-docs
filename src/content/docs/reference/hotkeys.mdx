@@ -55,7 +55,7 @@ The slot list is the scrollable item list in the center of each view.
 | :--- | :--- | :--- |
 | Slot List Up | `Backspace` | Move the centered slot up in the list |
 | Slot List Down | `Tab` | Move the centered slot down in the list |
-| Up / Down | `Up` / `Down` | Also move up and down the list, everywhere but Settings and a search box you're typing in (see [Settings Navigation](#settings-navigation)) |
+| Up / Down | `Up` / `Down` | Also move up and down the list, everywhere but Settings, Trawl and a search box you're typing in (see [Settings Navigation](#settings-navigation)) |
 | Activate / Enter | `Enter` | Play or open the focused item |
 | Focus Navigation | `Menu` | Highlight the view tabs: the arrows move along them, `Enter` opens one, `Escape` goes back to the list. This is how a TV remote's Menu button reaches the other views |
 | Shuffle Play | `Ctrl + Enter` | Shuffle-play the focused item or selection (forced shuffle, ignores the Enter setting) — or, in the [Trawl](/guides/trawl/#keyboard) modal, play the mix (replaces the queue) |
@@ -112,11 +112,11 @@ A keyboard's media keys and a TV remote with a USB dongle (an air mouse like the
 | Next Track / Previous Track | Skip to the next or previous track, even with a popup open |
 | Home Page (a remote's Home) | Go to Harbour (Plasma Bigscreen keeps this key for its own home screen) |
 | A remote's OK | Play or open the focused item, like `Enter`. Wayland only: X11 can't carry this key |
-| A remote's Back | Back out of a popup, a menu, a search or Theater Mode, like `Escape`. With nothing left to back out of, it highlights the view tabs |
+| A remote's Back | Back out of a popup, a menu, a search box or Theater Mode, like `Escape`. With nothing left to back out of, it highlights the view tabs |
 
 On a remote, the D-pad's `Up` / `Down` move through the list, `Left` / `Right` seek, OK plays the focused item and Back goes back. To switch views, press Back until there's nothing left to back out of (a popup, a search, an expanded album): the next Back highlights the view tabs. Then `Left` / `Right` move along the top bar (`Up` / `Down` in the side bar), OK opens one, and Back or the arrow toward the list leaves. The Menu button does the same ([Focus Navigation](#navigation)) on desktops that pass it through; Plasma Bigscreen keeps Menu, Home and Settings for its own screens. A press acts once even when the TV box is busy: `Enter`, `Escape` and the highlighted tabs don't repeat.
 
-Plasma, GNOME and most compositor configs take the media and volume keys for themselves. Nokkvi then gets play/pause, next and previous through [MPRIS](/guides/mpris/) instead, so they still work.
+Plasma, GNOME and most compositor configs take the media and volume keys for themselves. Nokkvi then gets play/pause, next and previous through [MPRIS](/guides/mpris/) instead, so they still work. Where the desktop leaves them alone, the media keys reach nokkvi only while its window has focus.
 
 Every other remote or media key can be bound to any action: `Search`, `Favorites`, `Forward`, `Refresh`, `Rewind`, `Fast Forward`, `Volume Up`, `Volume Down` and `Mute`. A button with no key name at all (a remote's voice button, say) binds by its Linux key number and shows as `Key 582`. Press it while a row in **Settings > Hotkeys** is waiting for a key, or look for `Key with no name pressed` in `nokkvi.log`.
 
@@ -124,7 +124,7 @@ In [Theater Mode](/guides/theater-mode/#keys), `Escape` leaves it. Keys that act
 
 ## Settings Navigation
 
-In the Settings view, `Up` / `Down` edit values; everywhere else they move through the list, except while you're typing in a search box. `Shift + Tab` / `Shift + Backspace` move between settings categories here, and do double duty inside the [Trawl](/guides/trawl/#editing-the-controls-from-the-keyboard) modal, where they step the controls-row focus ring.
+In the Settings view, `Up` / `Down` edit values; everywhere else they move through the list, except in Trawl and while you're typing in a search box. `Shift + Tab` / `Shift + Backspace` move between settings categories here, and do double duty inside the [Trawl](/guides/trawl/#editing-the-controls-from-the-keyboard) modal, where they step the controls-row focus ring.
 
 | Action | Shortcut | Description |
 | :--- | :--- | :--- |
