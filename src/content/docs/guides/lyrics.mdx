@@ -41,9 +41,11 @@ When a track starts, Nokkvi resolves its lyrics through four sources in order an
 
 **Your server outranks LRCLIB**, including copies already cached on disk. A Navidrome answer is your own library talking — a sidecar file you put there, or the lyrics embedded in the track's own tags — so it wins even when it is plain untimed text and the LRCLIB copy is synced.
 
-The LRCLIB lookup is an *exact* match on artist, title, album, and duration — never a fuzzy search — so a hit is never-wrong by construction. Tracks LRCLIB doesn't know simply show no lyrics rather than someone else's.
+The LRCLIB lookup is an *exact* match on artist, title, album, and duration — never a fuzzy search — so a hit is never-wrong by construction. LRCLIB matches the album letter for letter, so when it has nothing timed under your album (a deluxe edition, say), Nokkvi asks once more without the album; the artist, title and length still have to match. Timed lyrics win, and when LRCLIB only has untimed text for the song, that shows instead. Tracks LRCLIB doesn't know simply show no lyrics rather than someone else's.
 
-A successful LRCLIB fetch is written into the store's `.cache/` folder as a tagged `.lrc` file, so the next play of that track resolves offline. That's the only thing ever written: a "not found" is remembered for the session, not recorded on disk. Lyrics added by a library rescan clear that memory, so they show up without restarting Nokkvi.
+When lrclib.net is too busy to answer, Nokkvi waits the second or so it asks for and tries again, for up to about 12 seconds, before giving up until the song plays again.
+
+Timed lyrics from LRCLIB are written into the store's `.cache/` folder as a tagged `.lrc` file, so the next play of that track resolves offline. That's the only thing ever written: untimed LRCLIB text and a "not found" are remembered for the session, not recorded on disk, so a song can pick up timed lyrics once someone adds them to LRCLIB. Lyrics added by a library rescan clear that memory, so they show up without restarting Nokkvi.
 
 ## Embedded lyrics
 
@@ -67,7 +69,7 @@ Drop `.lrc` files anywhere under `~/.local/share/nokkvi/lyrics/` — subfolders 
 
 Matching tries the exact artist + title first (case-insensitive). If that misses, a looser pass forgives featured-artist credits, trailing qualifiers like *(Live)* or *(Remix)*, and punctuation differences — but it refuses to guess when the result would be ambiguous. A wrong synced sheet is worse than none.
 
-Standard LRC works as you'd expect: `[mm:ss.xx]` timestamps, several timestamps sharing one line, and an `[offset:]` tag. A file with no timestamps at all is treated as no match: plain lyrics come from your server only, so the store and LRCLIB stay synced-only.
+Standard LRC works as you'd expect: `[mm:ss.xx]` timestamps, several timestamps sharing one line, and an `[offset:]` tag. A file with no timestamps at all is treated as no match: plain lyrics come from your server or a live LRCLIB answer, never from disk, so the store stays synced-only.
 
 <Aside type="note" title="Index at launch">
   The store is indexed once at startup, so files you drop in while Nokkvi is running are picked up on the next launch.
