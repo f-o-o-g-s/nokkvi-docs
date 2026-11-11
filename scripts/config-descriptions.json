@@ -191,6 +191,9 @@
   "genres_sort": {
     "description": "Sort mode for the Genres view."
   },
+  "group_artist_albums": {
+    "description": "Group an expanded artist's albums under release-type headers (Albums, EPs, Singles, Live, Compilations, Appears On and more). `false` shows one list, newest first. See [Release-type sections](/guides/artists/#release-type-sections)."
+  },
   "harbour_expandable_shelves": {
     "description": "Harbour shelves open to browse their picks instead of playing in one press. See [Harbour](/guides/harbour/)."
   },
