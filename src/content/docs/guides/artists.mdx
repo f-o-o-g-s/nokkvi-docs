@@ -23,6 +23,31 @@ Toggle via the gear icon: **Multi-select**, **Index**, **Thumbnail**, **Stars**,
 
 `Shift + Enter` on an artist (or clicking the "*N* albums" text) expands their albums inline below the row. Only one artist can be expanded at a time; changing sort or search clears the expansion. Expanded album rows offer the standard **Add to Queue / Add to Playlist / Get Info / Show in File Manager** context-menu actions. Artist rows offer the same minus **Show in File Manager** (an artist has no folder of its own), plus **Find Similar** and **Top Songs** (see [Recommendations](#recommendations)).
 
+### Release-type sections
+
+When an artist has more than plain albums, the expanded list is split into sections, each under a header that shows how many releases it holds and the years they span:
+
+**Albums**, **EPs**, **Singles**, **Live**, **Compilations**, **Soundtracks**, **Remixes**, **DJ Mixes**, **Mixtapes**, **Demos**, **Other**, and **Appears On** (albums by someone else that the artist plays on).
+
+Only the sections an artist has show up, and inside each one the newest release comes first. An artist with nothing but plain albums keeps the flat list.
+
+A header is a row like any other, so you can land on it and act on the whole section:
+
+| Action | What it does |
+| :--- | :--- |
+| `Enter` | Plays the section in list order. From the split view's library pane it adds the section to the queue. |
+| `Shift + Enter` or a click on the chevron | Folds or unfolds the section. |
+| `Shift + A` | Adds the section to the queue. |
+| Right-click | **Shuffle Play**, **Add to Queue**, **Add to Playlist**, **Add to Mix** for the section. |
+
+A folded section stays folded for every artist until you quit nokkvi. In a multi-selection a header stands for all of its albums, and an album you also ticked yourself is only added once.
+
+Album rows under a header carry small tags for what the header doesn't already say: a second type (**Live** on an EP, **Remix** on a single), the album version (**Deluxe Edition**), and an **E** for explicit albums. Rows under **Appears On** also show the album's own artist. When the row is too narrow, the tags hide before the title gets cut.
+
+The sections come from the release type in your files' tags (the MusicBrainz `releasetype` tag that Picard and beets write). Albums without one land under **Albums**, or **Compilations** when they're flagged as a compilation.
+
+To get the single flat list back, turn off **Settings → General → Group Artist Albums by Release Type** (`group_artist_albums` in [config.toml](/reference/config/#general-settings)).
+
 ## Recommendations
 
 Right-clicking an artist row adds two extras beyond the shared menu:
