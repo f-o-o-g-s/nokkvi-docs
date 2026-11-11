@@ -59,7 +59,7 @@ These are pure reads — they print JSON and change nothing.
 
 | Verb | Arg | Action |
 | :--- | :--- | :--- |
-| `status` | — | Print playback state, track, album, position, duration, volume, the three modes, whether Theater Mode is on (`theater`), the visualizer mode (`visualizer`) and the MilkDrop preset on screen (`preset`, or null) as JSON |
+| `status` | — | Print playback state, track, album, position, duration, volume, the three modes, whether Theater Mode is on (`theater`), the visualizer mode (`visualizer`), the MilkDrop preset on screen (`preset`, or null) and the stream that plays as JSON: `codec`, `bitrate` (the decoder's live kbps), `sample_rate`, `delivery` (`sized`, `unsized` or `live`), `origin` (`file` for the song's own file, `transcode`, or `unknown`), `seekable`, and `seek_kind` (`range`, `reopen` or `none`) |
 | `selection` | — | Print the focused view's centered item as JSON: view, kind, name, artist, rating, starred; kind is null when nothing is selectable |
 
 ### Playing track
@@ -120,7 +120,7 @@ Relative calls that arrive faster than the audio engine can apply them **add up*
 
 An absolute seek answers with where it was sent (`{"position":90}`); a relative one answers with the offset it dispatched (`{"offset":10}`), because the landing point is not known until the engine applies it. Ask `nokkvi status` for the resulting position.
 
-Seeking is unavailable during radio playback — the verb returns an `unavailable` error.
+Seeking is unavailable during radio playback, in a song your server transcodes on its own, and in a [smaller copy](/guides/audio/#streaming-quality) on a server that can't seek in one. The verb returns an `unavailable` error that says which.
 
 ### Rating syntax
 

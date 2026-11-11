@@ -479,6 +479,12 @@
   "start_view": {
     "description": "The view to show on startup. Options: `Queue`, `Albums`, `Artists`, `Songs`, `Genres`, `Playlists`, `Harbour`. Any unrecognized value (e.g. `Radios`, `Settings`) falls back to `Queue`."
   },
+  "stream_format": {
+    "description": "What queue songs stream as. Options: `original` (every song streams as its own file), `opus`, `mp3` (the server sends a smaller copy, capped at `stream_max_bitrate`, of lossless songs above the cap and of compressed songs more than a quarter above it). Under `opus` or `mp3`, formats nokkvi can't decode itself (APE, WavPack, DSD and the like) always get a copy, and songs with more than two channels always get an MP3 copy. A smaller copy never shows BIT-PERFECT, and MP3 can add a short gap between songs that run together. Applies from the next song. If your server's player settings for nokkvi force a format or bitrate, they win over this, and Settings → Playback → Streaming Quality says so. See the [Audio guide](/guides/audio/#streaming-quality)."
+  },
+  "stream_max_bitrate": {
+    "description": "Bitrate cap in kbps for a smaller copy. Options: `64`, `96`, `128`, `160`, `192`, `256`, `320`. Lower saves more data, higher sounds closer to the original. Lossless songs at or under the cap, and compressed songs up to a quarter above it, play as they are. Any other whole number loads as the closest listed rate below it (`200` becomes `192`, anything under `64` becomes `64`). Used only when `stream_format` is `opus` or `mp3`."
+  },
   "strip_click_action": {
     "description": "Action on click. Options: `go_to_queue`, `go_to_album`, `go_to_artist`, `copy_track_info`, `do_nothing`."
   },

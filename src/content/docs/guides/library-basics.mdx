@@ -79,13 +79,13 @@ The seek bar comes in five looks, picked under **Settings → Interface → Play
   </TabItem>
 </Tabs>
 
-Every style except Classic seeks from anywhere on the track (press and drag to scrub) and shows the time under the cursor before you click. Capsule also draws a marker there, and Cells and Waveform light up the stretch between the playhead and the cursor. Radio, and songs the server transcodes on the fly, can't seek, so there the bar only shows progress.
+Every style except Classic seeks from anywhere on the track (press and drag to scrub) and shows the time under the cursor before you click. Capsule also draws a marker there, and Cells and Waveform light up the stretch between the playhead and the cursor. Radio can't seek, and neither can a song your server transcodes on its own or a [smaller copy](/guides/audio/#streaming-quality) on a server that can't seek in one, so there the bar only shows progress.
 
 The mini player keeps its own style ([`mini_player_seekbar_style`](/reference/config/#interface-settings), default Capsule), so changing one doesn't change the other. The Seekbar Style row in Settings edits whichever bar is on screen. See [Track Info Display](/reference/track-info-display/) for the mini player.
 
 #### How the waveform is made
 
-Navidrome doesn't serve waveform data, so nokkvi works each song's shape out itself. A few seconds after a song starts, it reads the song's stream once more in the background (the same stream playback uses, so the shape matches what you hear) and saves the result, about 2 KB per song, under `~/.cache/nokkvi/waveforms/`. The next song in the queue is read ahead, so its shape is usually there the moment it starts, and a song you've played before shows its shape right away. Until a shape is ready, and always for radio, the bar draws the Line style.
+Navidrome doesn't serve waveform data, so nokkvi works each song's shape out itself. A few seconds after a song starts, it reads the song's stream once more in the background (the same stream playback uses, so the shape matches what you hear) and saves the result, about 2 KB per song, under `~/.cache/nokkvi/waveforms/`. The next song in the queue is read ahead, so its shape is usually there the moment it starts, and a song you've played before shows its shape right away. Until a shape is ready, and always for radio, the bar draws the Line style. A song streamed as a [smaller copy](/guides/audio/#streaming-quality) is never read for its shape, so it draws the Line style too, unless its shape is already saved from an earlier play of the file.
 
 On a connection that can't read a song at least four times faster than it plays, nokkvi stops making new shapes for the rest of the session, so playback keeps the bandwidth. Songs it already has still show theirs.
 

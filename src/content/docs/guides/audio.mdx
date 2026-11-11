@@ -1,11 +1,11 @@
 ---
 title: Audio Engine
-description: How nokkvi plays your music — gapless playback and crossfade, the equalizer, volume normalization, and bit-perfect output.
+description: How nokkvi plays your music — gapless playback and crossfade, the equalizer, volume normalization, bit-perfect output, and streaming quality.
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-Nokkvi plays through PipeWire on Linux as a native audio stream — low latency and integrated with your system mixer. It decodes all common formats (MP3, FLAC, Opus, AAC, and more — full list in [Under the Hood](#under-the-hood)). This page covers the user-facing audio features: gapless playback and crossfade, the 10-band equalizer, volume normalization, and bit-perfect output.
+Nokkvi plays through PipeWire on Linux as a native audio stream — low latency and integrated with your system mixer. It decodes all common formats (MP3, FLAC, Opus, AAC, and more — full list in [Under the Hood](#under-the-hood)). This page covers the user-facing audio features: gapless playback and crossfade, the 10-band equalizer, volume normalization, bit-perfect output, and streaming quality.
 
 ## Gapless Playback & Crossfade
 
@@ -125,6 +125,36 @@ Strict and Relaxed are mutually exclusive with the standalone [Crossfade](#gaple
 PipeWire only re-clocks a device on a fresh open. Nokkvi tears its sink fully down and reopens it on every rate change, so a track plays at its native rate in either direction — a step *up* to 96 kHz and a step *down* to 44.1 kHz both re-clock the device. The exception is when something holds the card open across that gap: a hard-cut crossfade that spans the rate change, or another app streaming to the same DAC. Then the device stays at its current rate and PipeWire high-quality resamples to it. For native switching to work at all, the rates you want have to be in PipeWire's `default.clock.allowed-rates` (a system-level setting, outside nokkvi); otherwise the device stays put and PipeWire resamples.
 
 Bit-perfect mode reads your sound card's *real* clock — from `/proc/asound`, not the rate nokkvi requested — and shows an honest status in the now-playing strip: `BIT-PERFECT` when the device is clocked at the track's rate, `RESAMPLED` when something forced a different one, or `UNVERIFIED` when the clock can't be read (Bluetooth, which re-encodes, or an idle device). During a Relaxed crossfade the badge drops while the blend plays — that overlap isn't bit-perfect — and returns once the next track settles. See [Track Info Display](/reference/track-info-display/#bit-perfect-status-badge) for the full legend.
+
+## Streaming Quality
+
+By default nokkvi streams each song as its own file. Over a slow or metered connection a big FLAC can keep stopping to buffer, so **Settings → Playback → Streaming Quality** can have your server send a smaller copy instead:
+
+- **Stream Format** ([`stream_format`](/reference/config/#playback-settings)): Original (the default), Opus or MP3.
+- **Max Bitrate** ([`stream_max_bitrate`](/reference/config/#playback-settings)): the size of the copy, 64 to 320 kbps (default 128). Lower saves more data, higher sounds closer to the original.
+
+Opus at the default 128 kbps is hard to tell from the original. MP3 can add a short gap between songs that run together, since a copy made on the fly carries no gapless info. A change applies from the next song; the one playing carries on as it is.
+
+Not every song gets a copy. With Opus or MP3 picked:
+
+- Lossless songs (FLAC, WAV, AIFF) above Max Bitrate get one. Ones at or under it play as they are, since a copy wouldn't be any smaller.
+- MP3s and other compressed songs get one only when they're more than a quarter above Max Bitrate, so an album that hovers around the cap doesn't flip between the two from track to track.
+- Formats nokkvi can't decode itself (APE, WavPack, DSD and the like) always get one, so they play at all.
+- Songs with more than two channels always get an MP3 copy, whichever format you picked.
+
+A smaller copy plays a little differently from the file:
+
+- **Seeking** works when your server supports seeking in one (the OpenSubsonic `transcodeOffset` extension, which Navidrome 0.64 has). On a server without it, a seek says *Can't seek in a smaller copy on this server* and the song keeps playing where it was.
+- **Dropped connections**: if the stream cuts out partway through, nokkvi picks the song up again where it stopped. If the server keeps dropping it, nokkvi says the server stopped sending the song instead of skipping on.
+- **The format label** in the now-playing strip shows the codec and bitrate actually coming in (Opus at 128 kbps, say), not the file's own.
+- **Bit-perfect**: a copy is never the original audio, so it never shows the [`BIT-PERFECT` badge](/reference/track-info-display/#bit-perfect-status-badge).
+- **The Waveform seek bar** draws a plain line, unless the song's shape is already saved from an earlier play of the file. See [How the waveform is made](/guides/library-basics/#how-the-waveform-is-made).
+
+### Set by your server
+
+Navidrome can also set a transcoding or a max bitrate on nokkvi's player, under **Settings → Players** in its web UI. Either one wins over Streaming Quality for every song: a forced transcoding replaces both rows, and a max bitrate alone makes the server send a copy of every song above it, even with Stream Format on Original. While your server forces something, Streaming Quality shows a read-only **Set by Your Server** row saying what (*MP3 at 192 kbps*, *96 kbps limit*). Change it in Navidrome; nokkvi only reads it.
+
+You can't seek in a song the server transcodes on its own. A seek there says *Can't seek: your server is choosing this song's format*.
 
 ## Under the Hood
 

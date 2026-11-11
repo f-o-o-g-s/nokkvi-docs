@@ -46,6 +46,8 @@ const SECTION_MAP = {
 const WIRE_OVERRIDES = {
   // LyricsMode keeps the bool it replaced: false (Off), true (On), "auto".
   lyrics_enabled: { default: false, values: [false, true, 'auto'] },
+  // StreamMaxBitrate serializes as the plain kbps number, not a variant name.
+  stream_max_bitrate: { default: 128, values: [64, 96, 128, 160, 192, 256, 320] },
 };
 
 // Per-key section overrides where the docs group differently than the source.
