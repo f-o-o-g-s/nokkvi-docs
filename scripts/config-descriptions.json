@@ -266,11 +266,17 @@
   "playlists_show_index": {
     "description": "Show the row index column in the playlists view."
   },
+  "playlists_show_love": {
+    "description": "Show the loved/heart column in the playlists view. Needs a server that stars playlists (Navidrome 0.64+)."
+  },
   "playlists_show_select": {
     "description": "Show the multi-select checkbox column in the playlists view."
   },
   "playlists_show_songcount": {
     "description": "Show the song count column in the playlists view."
+  },
+  "playlists_show_stars": {
+    "description": "Show the star rating column in the playlists view. Needs a server that rates playlists (Navidrome 0.64+)."
   },
   "playlists_show_thumbnail": {
     "description": "Show the thumbnail column in the playlists view."
