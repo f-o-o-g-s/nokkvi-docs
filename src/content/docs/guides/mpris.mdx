@@ -7,7 +7,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 Nokkvi registers on the MPRIS D-Bus interface as `org.mpris.MediaPlayer2.nokkvi.instance<pid>` — the per-PID suffix is required by the MPRIS spec so concurrent launches don't fight over the same well-known name. `playerctl -p nokkvi` still matches both forms because `playerctl` resolves the `-p` argument as a name prefix. Any MPRIS-compatible controller — `playerctl`, your desktop's media keys, or a window manager keybind — will work.
 
-For verbs MPRIS doesn't expose (`switch-view`, `love`, `rate`, `clear-queue`, `consume`, `queue-push`, `queue-pull`), see the [`nokkvi` CLI](/guides/cli/).
+For verbs MPRIS doesn't expose (`switch-view`, `love`, `rate`, `clear-queue`, `consume`, `autoplay`, `queue-push`, `queue-pull`), see the [`nokkvi` CLI](/guides/cli/).
 
 ## Supported MPRIS surface
 

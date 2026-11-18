@@ -7,7 +7,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 `nokkvi <verb>` sends a single command to the running Nokkvi instance over a Unix socket and exits. Use it from shell scripts, window manager keybinds, or any external tool — there's no GUI startup cost because the CLI path returns before iced initializes.
 
-The CLI is an alternative to [MPRIS](/guides/mpris/). MPRIS covers the standard transport surface and works with any MPRIS controller; the CLI adds verbs that MPRIS doesn't expose (`switch-view`, `love`, `rate`, `clear-queue`, `consume`, `queue-push`, `queue-pull`, `theater`, `preset`).
+The CLI is an alternative to [MPRIS](/guides/mpris/). MPRIS covers the standard transport surface and works with any MPRIS controller; the CLI adds verbs that MPRIS doesn't expose (`switch-view`, `love`, `rate`, `clear-queue`, `consume`, `autoplay`, `queue-push`, `queue-pull`, `theater`, `preset`).
 
 ## Verbs
 
@@ -31,6 +31,7 @@ The CLI is an alternative to [MPRIS](/guides/mpris/). MPRIS covers the standard 
 | `shuffle` | — | Toggle random mode |
 | `repeat` | — | Cycle repeat: off → one → queue |
 | `consume` | — | Toggle consume mode |
+| `autoplay` | — | Toggle [Autoplay](/guides/queue/#autoplay) (add similar songs when the queue runs low). Prints `{"autoplay":bool}`; does nothing during radio |
 | `clear-queue` | — | Empty the queue and stop playback |
 | `add-to-queue` | — | Add the focused list item to the queue — the in-app Shift+A |
 | `remove-from-queue` | — | Remove the centered queue song — Ctrl+D; errors `not_in_queue_view` outside the queue view |
@@ -59,7 +60,7 @@ These are pure reads — they print JSON and change nothing.
 
 | Verb | Arg | Action |
 | :--- | :--- | :--- |
-| `status` | — | Print playback state, track, album, position, duration, volume, the three modes, whether Theater Mode is on (`theater`), the visualizer mode (`visualizer`), the MilkDrop preset on screen (`preset`, or null) and the stream that plays as JSON: `codec`, `bitrate` (the decoder's live kbps), `sample_rate`, `delivery` (`sized`, `unsized` or `live`), `origin` (`file` for the song's own file, `transcode`, or `unknown`), `seekable`, and `seek_kind` (`range`, `reopen` or `none`) |
+| `status` | — | Print playback state, track, album, position, duration, volume, the three modes plus `autoplay`, whether Theater Mode is on (`theater`), the visualizer mode (`visualizer`), the MilkDrop preset on screen (`preset`, or null) and the stream that plays as JSON: `codec`, `bitrate` (the decoder's live kbps), `sample_rate`, `delivery` (`sized`, `unsized` or `live`), `origin` (`file` for the song's own file, `transcode`, or `unknown`), `seekable`, and `seek_kind` (`range`, `reopen` or `none`) |
 | `selection` | — | Print the focused view's centered item as JSON: view, kind, name, artist, rating, starred; kind is null when nothing is selectable |
 
 ### Playing track
