@@ -1,11 +1,11 @@
 ---
 title: Harbour
-description: Nokkvi's home view, with one-press discovery shelves, random rows, cover previews, and a whole-library search.
+description: Nokkvi's home view, with an instant mix, one-press discovery shelves, random rows, cover previews, and a whole-library search.
 ---
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-Harbour is Nokkvi's home view and where it opens by default: a landing page of one-press discovery shelves (your recent plays, your newest album, your most-played music), followed by a block of one-press **Random** rows, with a **whole-library search** in the header. It's the one screen that reaches across everything at once, rather than browsing a single entity type.
+Harbour is Nokkvi's home view and where it opens by default: a landing page with a one-press [**Instant Mix**](#instant-mix), then one-press discovery shelves (your recent plays, your newest album, your most-played music), followed by a block of one-press **Random** rows, with a **whole-library search** in the header. It's the one screen that reaches across everything at once, rather than browsing a single entity type.
 
 ![The Harbour home view: the Trawl row, the six one-press discovery shelves each showing the cover and facts of what it plays, and the five Random rows below them on the left; the centered Recently Played shelf's cover previewed in the artwork column on the right](../../../assets/harbour.webp)
 
@@ -18,9 +18,21 @@ Harbour isn't a numbered nav tab. Reach it any of these ways:
 - `nokkvi switch-view harbour` from the [CLI](/guides/cli/#view-names).
 - On launch: Harbour is the default **start view**. To open somewhere else, set [`start_view`](/reference/config/#general-settings) (Settings → General → **Start View**) to another view.
 
+## Instant Mix
+
+Right under the Trawl row sits **Instant Mix**: one press gets you a queue of songs like something you already listen to. The row's subtitle always says what it will mix from, and that depends on whether something is playing.
+
+**While a song from your queue is playing**, the row reads something like *Songs like Night Drive • Kavinsky*. Press `Enter` and that song keeps playing, and everything else in the queue is swapped for songs like it. A paused or stopped song doesn't count, and neither does a radio station; then you get the other case.
+
+**Otherwise**, Instant Mix works from up to five seed songs that Harbour picks when the shelves load: from your Recently Played songs, or your played Most Played Tracks if you have no recent plays, or the Random Songs draw if you have neither. It tries to take each seed from a different artist. The row names them, like *Like Alpha, Beta and 3 more*, and the artwork panel lists them all. `Enter` replaces the queue with the mix and plays it. Don't like the seeds? Press `R` (or the refresh button in the header) and Harbour draws new ones, along with fresh picks for the [Random rows](#the-random-block). While the shelves are still loading, or if there's nothing to pick from, the row says there's nothing to mix from yet.
+
+Either way `Enter` takes you to the Queue, like every other Harbour play. `Shift + A` adds the same mix to the end of the queue instead, leaving out songs that are already in it.
+
+What goes into the mix: Nokkvi asks your Navidrome server for songs similar to each seed, and when a seed comes back thin it fills in with random songs from the seed's genre, then songs by the seed's artist. Songs under a minute and songs you rated one star are left out, and so are the seeds themselves. A mix holds up to 50 songs. Building one can take a few seconds when your server asks Last.fm or Deezer for similar songs, so the row reads *Building…* until it's ready, and pressing it again meanwhile does nothing. If nothing similar turns up, or every song in the mix is already queued, a toast tells you.
+
 ## Discovery shelves
 
-Under the Trawl row sit six shelves. Each shelf is a single row, and one press (`Enter` or a click) plays it:
+Under the Trawl and Instant Mix rows sit six shelves. Each shelf is a single row, and one press (`Enter` or a click) plays it:
 
 | Shelf | One press plays |
 | :---- | :-------------- |
@@ -33,7 +45,7 @@ Under the Trawl row sit six shelves. Each shelf is a single row, and one press (
 
 Each row shows what it plays: the cover on the left, then the pick's name and its facts, such as the artist, when it was played or added, or its play count. The two song shelves' rows end with how many songs a press plays. `Shift + A` adds the same thing to the queue instead of playing it.
 
-The four **Most Played** shelves stay hidden until there's play history to rank, so on a fresh library they simply don't appear. The [Trawl](/guides/trawl/) mix-builder anchor row always leads the list, above Recently Played, and the [Random block](#the-random-block) closes it out below the last shelf.
+The four **Most Played** shelves stay hidden until there's play history to rank, so on a fresh library they simply don't appear. The [Trawl](/guides/trawl/) mix-builder anchor row always leads the list, with the [Instant Mix](#instant-mix) row right below it and Recently Played after that, and the [Random block](#the-random-block) closes it out below the last shelf.
 
 ### Expandable shelves
 
@@ -71,6 +83,7 @@ Harbour borrows the large horizontal [artwork column](/guides/artwork/#the-artwo
 - Center a **shelf** and the panel previews its top pick: the pick's cover under a pill with the shelf's name and the pick's facts. The Most Played Genre shelf shows a cover collage of that genre instead.
 - Center a **playlist or genre** in search results or an expanded shelf and Nokkvi builds a **cover collage** (up to a 3×3 grid) from the items inside. A playlist with its own uploaded cover shows that instead.
 - Center a **Random row** and the panel previews its pre-drawn pick under a quiet pill — `RANDOM`, the entity noun, and the pick's facts. A row with nothing drawn yet shows the pill over a blank square.
+- Center the **Instant Mix row** and the panel shows the cover of what it mixes from, the playing song or the first seed, under an `INSTANT MIX` pill. With a song playing, the pill reminds you that the queue after it gets replaced; with seeds, it says where they came from and names each one.
 - Center the **Trawl row** — where Harbour first opens — and the panel comes alive instead: the nokkvi longship sails a rippling sea, endlessly dragging its anchor behind it. That's *trawling*, the mix-builder's namesake; the crate's current size and blend ride in the pill on top.
 
 So arrowing down the shelves is also a way to flip through cover art, one centered item at a time.
