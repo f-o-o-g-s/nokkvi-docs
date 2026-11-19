@@ -191,13 +191,15 @@ A binding is a string in the form `"Modifiers + Key"`. Modifiers are optional; t
 
 | Part | Values |
 | :--- | :--- |
-| Modifier | `Shift`, `Ctrl` (or `Control`), `Alt` |
+| Modifier | `Shift`, `Ctrl` (or `Control`), `Alt`, `Super` (or `Win`, `Meta`, `Cmd`) |
 | Key | Any single character (`a`–`z`, `0`–`9`, `/`, `-`, `=`, `` ` ``, etc.) |
 | Named key | `Space`, `Enter`, `Escape`, `Backspace`, `Tab`, `Up`, `Down`, `Left`, `Right`, `Page Up`, `Page Down`, `Home`, `End`, `Delete`, `Insert`, `F1`–`F12` |
 | Remote and media key | `Menu`, `Home Page`, `Search`, `Favorites`, `Forward`, `Refresh`, `Play/Pause`, `Media Pause`, `Media Stop`, `Next Track`, `Previous Track`, `Rewind`, `Fast Forward`, `Volume Up`, `Volume Down`, `Mute` |
 | Key with no name | `Key 582` (its Linux key number, as `evtest` shows it) |
 
 Multiple modifiers are combined with `+`: `"Ctrl + Shift + S"`.
+
+`Super` is the Windows key. A Super chord your compositor or desktop already uses never reaches Nokkvi, so pick one it leaves free.
 
 Key names are case-insensitive. `"shift + l"` and `"Shift + L"` are the same.
 
