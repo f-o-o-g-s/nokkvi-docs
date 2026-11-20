@@ -1,0 +1,42 @@
+---
+title: Discord Status
+description: Show what you're playing in Nokkvi on your Discord profile, with the album cover when your server is reachable from the internet.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Nokkvi can show the playing track on your Discord profile as a "Listening to" status. It talks to the Discord desktop app on your machine, or to Vesktop / Equibop, which stand in for it. The browser version of Discord can't receive it.
+
+It's **off by default**. Turn on **Settings → Playback → Discord Status** (config: [`discord_presence`](/reference/config/#discord)). Anyone who can see your Discord profile sees the status.
+
+## What it shows
+
+| While | Your profile shows | The member list reads |
+| :--- | :--- | :--- |
+| A song plays | Title, artist, album cover (album name on hover) and a progress bar | Listening to *artist* |
+| A song is paused | Title, "Paused · *artist*" and the cover, no progress bar | Listening to nokkvi |
+| A radio station plays | The stream's current artist and track, no progress bar, Nokkvi's icon | Listening to *artist* |
+
+Stopping playback or logging out clears the status. So does turning the setting off. Seeks show up within a few seconds.
+
+Discord doesn't have to be running first. Nokkvi looks for it every 15 seconds, and a Discord that restarts gets the status back on reconnect.
+
+## Album covers
+
+Discord loads the cover image itself, from its own servers, so it needs a link that works from the internet. Nokkvi asks Navidrome for the album's public cover link (a `/share/img/…` URL that opens just that cover and carries no login) once a song has played for 3 seconds. Navidrome serves those links even with sharing turned off.
+
+Navidrome builds the link from the address Nokkvi connected with. When that address only works at home (a LAN IP, a Tailscale address or `.ts.net` name, a `.local` / `.lan` / `.home.arpa` / `.internal` name, or a bare machine name like `navidrome`), Nokkvi doesn't send it and the status shows Nokkvi's icon instead. After one such answer it stops asking for the rest of the session.
+
+<Aside type="tip" title="Covers over a LAN or Tailscale connection">
+  If your server also has a public address but Nokkvi connects over your LAN or tailnet, set Navidrome's [`ShareURL`](https://www.navidrome.org/docs/usage/configuration-options/) option (`ND_SHAREURL`) to the public address. Navidrome then builds its cover links from that address, and they show on Discord.
+</Aside>
+
+## Using your own Discord app
+
+By default the status is published under Nokkvi's own Discord application, so it reads "Listening to nokkvi" with Nokkvi's icon, and you don't need to register anything.
+
+To show a different name and icon, create an application at [discord.com/developers](https://discord.com/developers/applications), copy its **Application ID**, and paste it into **Settings → Playback → Discord App ID** (press `Enter` on the row to edit; config: [`discord_app_id`](/reference/config/#discord)). The app's name replaces "nokkvi" and its icon replaces Nokkvi's. Clear the field to go back to Nokkvi's app.
+
+<Aside type="note">
+  If Discord refuses the ID (a typo, say), Nokkvi logs a warning once and the status doesn't show. Check `~/.local/state/nokkvi/nokkvi.log` if the status never appears after you set an ID.
+</Aside>

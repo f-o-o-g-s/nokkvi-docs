@@ -196,6 +196,7 @@ export default defineConfig({
             { label: "MilkDrop", slug: "guides/milkdrop" },
             { label: "Customizing Themes", slug: "guides/theming" },
             { label: "Media Controls (MPRIS)", slug: "guides/mpris" },
+            { label: "Discord Status", slug: "guides/discord" },
             { label: "Command Line (nokkvi CLI)", slug: "guides/cli" },
           ],
         },

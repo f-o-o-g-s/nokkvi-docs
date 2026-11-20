@@ -293,6 +293,15 @@ Theater Mode (`F11`) is covered in the [Theater Mode guide](/guides/theater-mode
   In **AGC** mode, tracks that differ much in loudness may show a brief level mismatch at the crossfade boundary because each stream's AGC has not converged yet — see [Combining crossfade and normalization](/guides/audio/#combining-crossfade-and-normalization). The two **ReplayGain** modes use static, pre-computed gains instead, so both sides of a crossfade are already at target level — no convergence delay, no mismatch.
 </Aside>
 
+### Discord
+
+{/* config-table:start id="discord" */}
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `discord_presence` | `false` | Show the playing track on your Discord profile (title, artist and album, with a progress bar for songs; radio shows the station's current artist and track), through the Discord desktop app or Vesktop / Equibop. The member list reads "Listening to *artist*" while a track plays. Anyone who can see your profile sees it. The album cover shows when your Navidrome server is reachable from the internet, else nokkvi's icon. `false` sends nothing to Discord. See [Discord Status](/guides/discord/). |
+| `discord_app_id` | `""` | Discord application ID to publish the status under. Empty uses nokkvi's own app, so the status reads "Listening to nokkvi" with its icon. Set it to the Application ID of your own app from discord.com/developers to show that app's name and icon instead. |
+{/* config-table:end */}
+
 ### Scrobbling
 
 {/* config-table:start id="scrobbling" */}

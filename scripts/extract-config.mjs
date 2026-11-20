@@ -54,6 +54,9 @@ const WIRE_OVERRIDES = {
 const SECTION_OVERRIDES = {
   sound_effects_enabled: 'AudioEngine',
   sfx_volume: 'AudioEngine',
+  // Settings → Playback → Discord in the app; the docs give them their own table.
+  discord_presence: 'Discord',
+  discord_app_id: 'Discord',
 };
 
 function read(rel) {

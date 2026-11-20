@@ -131,6 +131,12 @@
   "custom_eq_presets": {
     "description": "User-saved EQ presets. Each preset is a `{ name, gains }` object; managed through the in-app EQ panel."
   },
+  "discord_app_id": {
+    "description": "Discord application ID to publish the status under. Empty uses nokkvi's own app, so the status reads \"Listening to nokkvi\" with its icon. Set it to the Application ID of your own app from discord.com/developers to show that app's name and icon instead."
+  },
+  "discord_presence": {
+    "description": "Show the playing track on your Discord profile (title, artist and album, with a progress bar for songs; radio shows the station's current artist and track), through the Discord desktop app or Vesktop / Equibop. The member list reads \"Listening to *artist*\" while a track plays. Anyone who can see your profile sees it. The album cover shows when your Navidrome server is reachable from the internet, else nokkvi's icon. `false` sends nothing to Discord. See [Discord Status](/guides/discord/)."
+  },
   "dynamic_accent": {
     "description": "Take the accent color from the playing cover (or the radio station's logo) instead of the theme. Covers highlights, active buttons, the progress bar, the now-playing row, and rating stars and love hearts; the rest of the theme stays. The color is adjusted to stay readable, and black-and-white covers give a grey accent. Only while something is playing or paused. See [Colors from the album art](/guides/theming/#colors-from-the-album-art)."
   },
