@@ -15,7 +15,7 @@ It's **off by default**. Turn on **Settings → Playback → Discord Status** (c
 | :--- | :--- | :--- |
 | A song plays | Title, artist, album cover (album name on hover) and a progress bar | Listening to *artist* |
 | A song is paused | Title, "Paused · *artist*" and the cover, no progress bar | Listening to nokkvi |
-| A radio station plays | The stream's current artist and track, no progress bar, Nokkvi's icon | Listening to *artist* |
+| A radio station plays | The stream's current artist and track (the station's name when the stream sends no title), no progress bar, Nokkvi's icon | Listening to *artist* |
 
 Stopping playback or logging out clears the status. So does turning the setting off. Seeks show up within a few seconds.
 
@@ -24,6 +24,8 @@ Discord doesn't have to be running first. Nokkvi looks for it every 15 seconds, 
 ## Album covers
 
 Discord loads the cover image itself, from its own servers, so it needs a link that works from the internet. Nokkvi asks Navidrome for the album's public cover link (a `/share/img/…` URL that opens just that cover and carries no login) once a song has played for 3 seconds. Navidrome serves those links even with sharing turned off.
+
+The link includes your server's address, so anyone who can see your status can read that address from the cover image. If you want to keep it to yourself, leave Discord Status off.
 
 Navidrome builds the link from the address Nokkvi connected with. When that address only works at home (a LAN IP, a Tailscale address or `.ts.net` name, a `.local` / `.lan` / `.home.arpa` / `.internal` name, or a bare machine name like `navidrome`), Nokkvi doesn't send it and the status shows Nokkvi's icon instead. After one such answer it stops asking for the rest of the session.
 
