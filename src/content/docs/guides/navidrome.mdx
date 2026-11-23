@@ -23,11 +23,39 @@ When you first launch Nokkvi, you'll be greeted with a login screen.
 
 ## Persistent Sessions
 
-Nokkvi uses Navidrome's native API (JWT tokens) for most operations. The session token is stored locally in the app's state database (`app.redb`) after first login and resumes automatically on subsequent launches. Your password is never written to disk — only the rotating JWT and Subsonic credential are saved, so an expired session simply prompts a fresh login. Navidrome rotates the JWT on every authenticated response (via the `X-ND-Authorization` header), so an active session keeps refreshing itself for as long as you're using the app. To switch servers or users, go to **Settings** and select **Logout**.
+You type your password once. Nokkvi signs in with it and keeps a session instead, so later launches skip the login screen. Your password is never written to disk.
 
-If the `username` field in `config.toml` is blank when a stored session resumes, Nokkvi backfills it from the saved credential automatically — so the value populates on the first auto-login after upgrading from a build that left it empty.
+What's saved, and where:
 
-By default, Navidrome sessions expire after 48 hours, which may drop you back to the login screen with a "Session expired. Please log in again." prompt when the token becomes invalid. The `SessionTimeout` setting in the recommended config below extends this.
+- **`config.toml`**: the server URL and your username. Nokkvi resumes a saved session only while these still name the server and user it belongs to; change either one and you'll get the login screen.
+- **`app.redb`** (`~/.local/state/nokkvi/`): the session. That's a JWT for Navidrome's own API (browsing, playlists) plus a second credential for the Subsonic API, which streaming, artwork, ratings and scrobbles go through.
+
+Each time Nokkvi uses Navidrome's own API, Navidrome hands back a fresh JWT. Nokkvi keeps using the newest one and saves a fresh copy before the saved one gets close to running out, so a session you keep using doesn't expire. To switch servers or users, go to **Settings → General → Account** and select **Logout**.
+
+### The Subsonic credential
+
+On today's Navidrome releases (up to 0.64.x) the Subsonic credential is the token and salt pair that Navidrome returns at login. That pair only works because Navidrome keeps your password stored in a form it can decrypt.
+
+Navidrome's development version adds OpenSubsonic API keys as an alternative. They aren't in a release yet, but Nokkvi already supports them. On a server that offers API keys, Nokkvi:
+
+- creates its own key and registers it on a player named **nokkvi (*your computer's name*)** in Navidrome, then uses that key instead of the token pair;
+- puts a fresh key on that player at every password login, which retires the old one;
+- moves an existing session over to a key in the background the first time it starts on a server that offers them, so you don't have to log in again;
+- removes the key when you select **Logout**. If the server can't be reached then, Nokkvi warns you, and you can remove the key in Navidrome yourself.
+
+If a key can't be set up, Nokkvi carries on with the token pair. Because the key belongs to that player, the player's transcoding, bitrate and scrobbling settings in Navidrome apply to Nokkvi.
+
+<Aside type="caution" title="A password change doesn't revoke an API key">
+  Changing your Navidrome password ends Nokkvi's JWT, but a key keeps working until it's replaced or removed. If you lose a device that was signed in, open **Players & API keys** in Navidrome's web UI and delete that device's **nokkvi (…)** player.
+</Aside>
+
+### When a session ends
+
+At startup Nokkvi checks the saved session with the server before loading anything else. If the server refuses it, you're back at the login screen with "Session expired. Please log in again." That happens when the session has expired, or after a password change on Navidrome 0.64.0 and newer (older versions keep sessions through a password change). If the server can't be reached yet, for example when Nokkvi autostarts before the network is up, it resumes anyway.
+
+Navidrome limits sign-ins: its login allows 5 attempts from one address in 20 seconds, and since 0.64.1 its Subsonic API also blocks a user from one address after 5 failed attempts within 20 seconds. If that block is still running when you log in, for example right after a password change while another device keeps trying the old one, Nokkvi waits it out (up to 30 seconds) instead of failing.
+
+By default, Navidrome sessions expire after 48 hours without use. The `SessionTimeout` setting in the recommended config below extends this.
 
 ## Recommended navidrome.toml for Nokkvi
 
